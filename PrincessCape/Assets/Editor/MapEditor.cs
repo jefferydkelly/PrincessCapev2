@@ -7,7 +7,7 @@ using System.Linq;
 [CustomEditor(typeof(Map))]
 public class MapEditor : Editor {
 	GameObject[] prefabs;
-	GameObject selectedPrefab;
+    MapTile selectedPrefab;
     MapTile selectedGameObject;
 	List<MapTile> spawnedGO = new List<MapTile>();
 	bool makeDown = false;
@@ -80,7 +80,7 @@ public class MapEditor : Editor {
 
 				if (GUILayout.Button(prefabTexture, GUILayout.MaxWidth(50), GUILayout.MaxHeight(50)))
 				{
-					selectedPrefab = prefabs[i];
+                    selectedPrefab = prefabs[i].GetComponent<MapTile>();
 					EditorWindow.FocusWindowIfItsOpen(typeof(SceneView));
 				}
 
@@ -107,7 +107,7 @@ public class MapEditor : Editor {
 			spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
 		}
 
-		if (Event.current.type == EventType.KeyDown)
+        if (Event.current.type == EventType.KeyDown)
 		{
 			if (Event.current.keyCode == KeyCode.E && !makeDown)
 			{
@@ -369,10 +369,34 @@ public class MapEditor : Editor {
 	void Spawn(Vector2 _spawnPosition)
 	{
 		Vector3 pos = new Vector3(Mathf.Round(_spawnPosition.x), Mathf.Round(_spawnPosition.y), 0);
+
+
+        if ((int)selectedPrefab.Bounds.x % 2 == 0)
+		{
+			pos.x += 0.5f;
+
+			if (!IsSpawnPositionOpen(pos))
+			{
+				pos.x -= 1.0f;
+			}
+		}
+
+        if ((int)selectedPrefab.Bounds.y % 2 == 0)
+		{
+			pos.y += 0.5f;
+
+			if (!IsSpawnPositionOpen(pos))
+			{
+				pos.y -= 1.0f;
+			}
+		}
+
 		if (IsSpawnPositionOpen(pos))
 		{
-			GameObject go = (GameObject)Instantiate(selectedPrefab);
+            GameObject go = (GameObject)Instantiate(selectedPrefab.gameObject);
 			SelectedGameObject = go.GetComponent<MapTile>();
+
+			
 			pos.z = SelectedGameObject.ZPos;
 			go.transform.position = pos;
 			go.name = selectedPrefab.name;
@@ -388,10 +412,11 @@ public class MapEditor : Editor {
 	/// <param name="spawnPos">Spawn position.</param>
 	bool IsSpawnPositionOpen(Vector3 spawnPos)
 	{
+        Vector3 prefabBounds = selectedPrefab.Bounds / 2;
 		foreach (MapTile goat in spawnedGO)
 		{
 			Vector3 dif = spawnPos - goat.transform.position;
-			Vector3 bounds = goat.Bounds / 2;
+			Vector3 bounds = prefabBounds + (goat.Bounds / 2);
 			if (dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y))
 			{
 				return false;
