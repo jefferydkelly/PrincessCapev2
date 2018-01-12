@@ -84,7 +84,10 @@ public abstract class ActivatedObject : MapTile {
 	{
 		foreach (ActivatedObject acto in Connections)
 		{
-			Handles.DrawDottedLine(transform.position, acto.transform.position, 8.0f);
+            if (acto)
+            {
+                Handles.DrawDottedLine(transform.position, acto.transform.position, 8.0f);
+            }
 		}
 	}
 }

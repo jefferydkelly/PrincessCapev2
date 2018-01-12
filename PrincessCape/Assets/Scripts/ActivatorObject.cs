@@ -12,7 +12,7 @@ public class ActivatorObject : ActivatedObject {
     /// </summary>
     public override void Activate()
     {
-        foreach(ActivatedObject ao in connected) {
+        foreach(ActivatedObject ao in connections) {
             ao.Activate();
         }
     }
@@ -22,7 +22,7 @@ public class ActivatorObject : ActivatedObject {
     /// </summary>
     public override void Deactivate()
     {
-		foreach (ActivatedObject ao in connected)
+        foreach (ActivatedObject ao in connections)
 		{
 			ao.Deactivate();
 		}

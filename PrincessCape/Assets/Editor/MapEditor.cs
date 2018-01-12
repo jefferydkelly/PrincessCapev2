@@ -231,7 +231,7 @@ public class MapEditor : Editor {
 						Event.current.Use();
 					}
 				}
-				else if (Event.current.keyCode == KeyCode.T)
+                else if (Event.current.keyCode == KeyCode.T && mode == MapEditMode.Connect)
 				{
 					MapTile newsie = GetObjectAtLocation(spawnPosition);
 
@@ -257,7 +257,7 @@ public class MapEditor : Editor {
 
 					}
 				}
-				else if (Event.current.keyCode == KeyCode.Y)
+                else if (Event.current.keyCode == KeyCode.Y && mode == MapEditMode.Connect)
 				{
 					MapTile newsie = GetObjectAtLocation(spawnPosition);
 
