@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 95846220354455340}
   - component: {fileID: 61843689407930726}
   - component: {fileID: 114176459726699928}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6445888c899e449297a768735c13037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: 0
+  layer: 1
   isFirstCheckpoint: 0
 --- !u!212 &212409811325400662
 SpriteRenderer:

@@ -169,6 +169,16 @@ public class Timer {
             }
         }
     }
+
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Timer"/> is running.
+    /// </summary>
+    /// <value><c>true</c> if is running; otherwise, <c>false</c>.</value>
+    public bool IsRunning {
+        get {
+            return state == TimerState.Running;
+        }
+    }
 }
 
 /// <summary>

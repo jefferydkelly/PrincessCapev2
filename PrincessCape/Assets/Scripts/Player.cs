@@ -8,14 +8,26 @@ public class Player : MonoBehaviour {
     Rigidbody2D myRigidbody;
     Timer resetTimer;
     bool isFrozen = false;
+    Cape cape;
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         resetTimer = new Timer(Game.Instance.Reset, 1.0f);
+        cape = gameObject.AddComponent<Cape>();
     }
+
+    private void OnEnable()
+    {
+        EventManager.StartListening("PlayerDied", Die);
+    }
+
+	private void OnDisable()
+	{
+        EventManager.StopListening("PlayerDied", Die);
+	}
     // Use this for initialization
     void Start () {
-        platformLayers = ~(1 << LayerMask.NameToLayer("Player"));
+        platformLayers = ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("Hazard"));
         CameraManager.Instance.Target = gameObject;
 	}
 	
@@ -28,6 +40,10 @@ public class Player : MonoBehaviour {
             if (IsOnGround && Input.GetKeyDown(KeyCode.Space))
             {
                 myRigidbody.AddForce(Vector2.up * 7.5f, ForceMode2D.Impulse);
+            }
+
+            if (!IsOnGround && Input.GetKeyDown(KeyCode.Space)) {
+                cape.Use();
             }
         }
 	}
@@ -58,5 +74,12 @@ public class Player : MonoBehaviour {
         transform.position = Checkpoint.ResetPosition;
         isFrozen = false;
         myRigidbody.velocity = Vector2.zero;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.relativeVelocity.y > 0) {
+            EventManager.TriggerEvent("PlayerLanded");
+        }
     }
 }

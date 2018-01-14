@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114216763050971712}
   - component: {fileID: 50926811297324680}
   - component: {fileID: 61037269078315258}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Elwynn
   m_TagString: Player
   m_Icon: {fileID: 0}

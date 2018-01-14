@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 61415152655907788}
   - component: {fileID: 114385547545426096}
   - component: {fileID: 95758004244584970}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: AirColumn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae35b217b44b14dec9a32be404709c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: 1
 --- !u!212 &212395210936294238
 SpriteRenderer:
   m_ObjectHideFlags: 1

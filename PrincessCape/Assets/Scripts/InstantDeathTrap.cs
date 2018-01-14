@@ -11,14 +11,14 @@ public class InstantDeathTrap : MapTile {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) {
-            Game.Instance.Player.Die();
+            EventManager.TriggerEvent("PlayerDied");
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Player")) {
-            Game.Instance.Player.Die();
+            EventManager.TriggerEvent("PlayerDied");
         }
     }
 }
