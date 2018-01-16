@@ -85,4 +85,14 @@ public class Checkpoint : MapTile {
             return activeCheckpoint.transform.position;
         }
     }
+
+    /// <summary>
+    /// Gets the active checkpoint's gameobject.
+    /// </summary>
+    /// <value>The gameobject of the active checkpoint.</value>
+    public static GameObject Active {
+        get {
+            return activeCheckpoint.gameObject;
+        }
+    }
 }

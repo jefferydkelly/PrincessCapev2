@@ -71,6 +71,7 @@ public class Player : MonoBehaviour {
     /// Reset the player to the last checkpoint.
     /// </summary>
     public void Reset() {
+        EventManager.TriggerEvent("PlayerRespawned");
         transform.position = Checkpoint.ResetPosition;
         isFrozen = false;
         myRigidbody.velocity = Vector2.zero;

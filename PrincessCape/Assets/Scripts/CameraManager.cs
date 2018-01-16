@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraManager : Manager
 {
     static CameraManager instance;
+    CameraState state = CameraState.Following;
     GameObject target;
 
     /// <summary>
@@ -13,8 +14,20 @@ public class CameraManager : Manager
     /// </summary>
     public CameraManager() {
         Game.Instance.AddManager(this);
+        EventManager.StartListening("PlayerDied", ResetCamera);
+        EventManager.StartListening("PlayerRespawned", OnPlayerRespawn);
+
     }
 
+    void ResetCamera() {
+        target = Checkpoint.Active;
+        state = CameraState.Resetting;
+    }
+
+    void OnPlayerRespawn() {
+        state = CameraState.Following;
+        target = Game.Instance.Player.gameObject;
+    }
     /// <summary>
     /// Update the specified dt.
     /// </summary>
@@ -24,7 +37,12 @@ public class CameraManager : Manager
     {
         if (target)
         {
-            Camera.main.transform.position = new Vector3(target.transform.position.x, target.transform.position.y, Camera.main.transform.position.z);
+            if (state == CameraState.Following)
+            {
+                Position = target.transform.position.SetZ(Position.z);//new Vector3(target.transform.position.x, target.transform.position.y, Camera.main.transform.position.z);
+            } else if (state == CameraState.Resetting) {
+                Position = Vector3.Lerp(Position, target.transform.position.SetZ(Position.z), Time.deltaTime);
+            }
         }
     }
 
@@ -54,6 +72,20 @@ public class CameraManager : Manager
             if (value) {
                 target = value;
             }
+        }
+    }
+
+    /// <summary>
+    /// Gets the position of the main camera.
+    /// </summary>
+    /// <value>The position of the main camera.</value>
+    private Vector3 Position {
+        get {
+            return Camera.main.transform.position;
+        }
+
+        set {
+            Camera.main.transform.position = value;
         }
     }
 }
