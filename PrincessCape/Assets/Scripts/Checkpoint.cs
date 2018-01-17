@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.Events;
+
+public class CheckPointActivatedEvent: UnityEvent<Checkpoint> {
+    
+}
 public class Checkpoint : MapTile {
-    static List<Checkpoint> checkpoints;
     static Checkpoint activeCheckpoint;
     bool isActive = false;
     Animator myAnimator;
     [SerializeField]
     bool isFirstCheckpoint;
 
+    static CheckPointActivatedEvent OnCheckpointActivated = new CheckPointActivatedEvent();
     /// <summary>
     /// Awake this instance.
     /// </summary>
@@ -22,15 +27,18 @@ public class Checkpoint : MapTile {
         }
      }
 
-    /// <summary>
-    /// Start this instance.
-    /// </summary>
-    private void Start()
+    private void OnEnable()
     {
-		if (checkpoints == null || !checkpoints.Contains(this))
-		{
-			checkpoints = FindObjectsOfType<Checkpoint>().ToList();
-		}
+        OnCheckpointActivated.AddListener(Activated);
+    }
+
+    private void OnDisable()
+    {
+        OnCheckpointActivated.RemoveListener(Activated);
+    }
+
+    void Activated(Checkpoint c) {
+        IsActive = (c == this);
     }
 
     /// <summary>
@@ -40,7 +48,8 @@ public class Checkpoint : MapTile {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) {
-            IsActive = true;
+            activeCheckpoint = this;
+            OnCheckpointActivated.Invoke(this);
         }
     }
 
@@ -51,7 +60,8 @@ public class Checkpoint : MapTile {
 	private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Player")) {
-            IsActive = true;
+            activeCheckpoint = this;
+            OnCheckpointActivated.Invoke(this);
         }
     }
 
@@ -65,12 +75,6 @@ public class Checkpoint : MapTile {
         }
 
         set {
-            if (value) {
-                foreach(Checkpoint c in checkpoints) {
-                    c.IsActive = false;
-                }
-                activeCheckpoint = this;
-            }
             isActive = value;
             myAnimator.SetBool("isActive", value);
         }
