@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine.Events;
 
-public class CheckPointActivatedEvent: UnityEvent<Checkpoint> {
-    
-}
 public class Checkpoint : MapTile {
     static Checkpoint activeCheckpoint;
     bool isActive = false;
@@ -15,7 +12,6 @@ public class Checkpoint : MapTile {
     [SerializeField]
     bool isFirstCheckpoint;
 
-    static CheckPointActivatedEvent OnCheckpointActivated = new CheckPointActivatedEvent();
     /// <summary>
     /// Awake this instance.
     /// </summary>
@@ -27,18 +23,10 @@ public class Checkpoint : MapTile {
         }
      }
 
-    private void OnEnable()
-    {
-        OnCheckpointActivated.AddListener(Activated);
-    }
 
     private void OnDisable()
     {
-        OnCheckpointActivated.RemoveListener(Activated);
-    }
-
-    void Activated(Checkpoint c) {
-        IsActive = (c == this);
+        EventManager.StopListening("CheckpointActivated", Deactivate);
     }
 
     /// <summary>
@@ -48,8 +36,7 @@ public class Checkpoint : MapTile {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) {
-            activeCheckpoint = this;
-            OnCheckpointActivated.Invoke(this);
+            Activate();
         }
     }
 
@@ -60,8 +47,7 @@ public class Checkpoint : MapTile {
 	private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Player")) {
-            activeCheckpoint = this;
-            OnCheckpointActivated.Invoke(this);
+            Activate();
         }
     }
 
@@ -78,6 +64,21 @@ public class Checkpoint : MapTile {
             isActive = value;
             myAnimator.SetBool("isActive", value);
         }
+    }
+
+    void Activate() {
+        if (!IsActive)
+        {
+            activeCheckpoint = this;
+            IsActive = true;
+            EventManager.TriggerEvent("CheckpointActivated");
+            EventManager.StartListening("CheckpointActivated", Deactivate);
+        }
+    }
+
+    void Deactivate() {
+        IsActive = false;
+        EventManager.StopListening("CheckpointActivated", Deactivate);
     }
 
     /// <summary>
