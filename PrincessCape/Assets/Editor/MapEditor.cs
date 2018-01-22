@@ -8,14 +8,15 @@ using System.Linq;
 public class MapEditor : Editor {
 	GameObject[] prefabs;
     MapTile selectedPrefab;
-    MapTile selectedGameObject;
+    MapTile selectedMapTile;
+    MapTile secondaryMapTile;
 	List<MapTile> spawnedGO = new List<MapTile>();
 	bool makeDown = false;
 
 	Vector3 spawnPosition = Vector3.zero;
 	GameObject targetGameObject;
 
-    string[] tools = { "Translate (Z)", "Rotate (X)", "Scale (C)", "Flip (V)", "Connect (B)" };
+    string[] tools = { "Translate (Z)", "Rotate (X)", "Scale (C)", "Flip (V)", "Duplicate (B)" };
     MapEditMode mode = MapEditMode.Translate;
 
 	/// <summary>
@@ -43,9 +44,9 @@ public class MapEditor : Editor {
 	/// </summary>
 	private void OnDisable()
 	{
-		if (SelectedGameObject)
+		if (SelectedMapTile)
 		{
-			SelectedGameObject.Highlighted = false;
+			SelectedMapTile.Highlighted = false;
 		}
 	}
 
@@ -54,9 +55,9 @@ public class MapEditor : Editor {
 	/// </summary>
 	private void OnDestroy()
 	{
-		if (SelectedGameObject)
+		if (SelectedMapTile)
 		{
-			SelectedGameObject.Highlighted = false;
+			SelectedMapTile.Highlighted = false;
 		}
 	}
 
@@ -102,9 +103,34 @@ public class MapEditor : Editor {
 	/// </summary>
 	private void OnSceneGUI()
 	{
+        HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
 		if (Event.current.isMouse)
 		{
 			spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
+
+            if (Event.current.type == EventType.MouseDown) {
+                MapTile atLoc = GetObjectAtLocation(spawnPosition);
+                if (Event.current.button == 0)
+                {
+                    if (atLoc != null)
+                    {
+                        if (atLoc == SecondaryMapTile) {
+                            SecondaryMapTile = SelectedMapTile;
+                        }
+                        SelectedMapTile = atLoc != selectedMapTile ? atLoc : null;
+                    } else {
+                        //Probably spawn something
+                    }
+                    Event.current.Use();
+                } else if (Event.current.button == 1) {
+                    if (atLoc != null) {
+                        if (atLoc == SelectedMapTile) {
+                            SelectedMapTile = SecondaryMapTile;
+                        }
+                        SecondaryMapTile = atLoc != secondaryMapTile ? atLoc : null; ;
+                    }
+                }
+            }
 		}
 
         if (Event.current.type == EventType.KeyDown)
@@ -116,15 +142,14 @@ public class MapEditor : Editor {
 			}
 			else if (Event.current.keyCode == KeyCode.Delete || Event.current.keyCode == KeyCode.Backspace)
 			{
-				if (SelectedGameObject)
+				if (SelectedMapTile)
 				{
-					//int ind = spawnedGO.IndexOf(selectedGameObject);
-					spawnedGO.Remove(selectedGameObject);
-					selectedGameObject.Delete();
+					spawnedGO.Remove(selectedMapTile);
+					selectedMapTile.Delete();
 
 					if (spawnedGO.Count > 0)
 					{
-						SelectedGameObject = spawnedGO[spawnedGO.Count - 1];
+						SelectedMapTile = spawnedGO[spawnedGO.Count - 1];
 					}
 				}
 
@@ -148,142 +173,104 @@ public class MapEditor : Editor {
                 Repaint();
                 Event.current.Use();
             } else if (Event.current.keyCode == KeyCode.B) {
-                mode = MapEditMode.Connect;
+                mode = MapEditMode.Duplicate;
 				Repaint();
 				Event.current.Use();
             }
-			else if (Event.current.keyCode == KeyCode.R)
-			{
-				SelectedGameObject = GetObjectAtLocation(spawnPosition);
-				Event.current.Use();
-			}
-			else if (SelectedGameObject != null)
+			else if (SelectedMapTile != null)
 			{
                 if (Event.current.keyCode == KeyCode.UpArrow) {
                     if (mode == MapEditMode.Translate) {
-						SelectedGameObject.Translate(new Vector3(0, 1, 0));
+						SelectedMapTile.Translate(new Vector3(0, 1, 0));
 						Event.current.Use();
                     } else if (mode == MapEditMode.Scale) {
-						SelectedGameObject.ScaleY(true);
+						SelectedMapTile.ScaleY(true);
 						Event.current.Use();
                     } else if (mode == MapEditMode.Flip) {
-                        SelectedGameObject.FlipY();
+                        SelectedMapTile.FlipY();
+                        Event.current.Use();
+                    } else if (mode == MapEditMode.Duplicate) {
+                        Duplicate(Direction.Up);
                         Event.current.Use();
                     }
                 } else if (Event.current.keyCode == KeyCode.DownArrow) {
 					if (mode == MapEditMode.Translate)
 					{
-						SelectedGameObject.Translate(new Vector3(0, -1, 0));
+						SelectedMapTile.Translate(new Vector3(0, -1, 0));
 						Event.current.Use();
 					}
 					else if (mode == MapEditMode.Scale)
 					{
-                        SelectedGameObject.ScaleY(false);
+                        SelectedMapTile.ScaleY(false);
 						Event.current.Use();
 					}
 					else if (mode == MapEditMode.Flip)
 					{
-						SelectedGameObject.FlipY();
+						SelectedMapTile.FlipY();
 						Event.current.Use();
+					}
+					else if (mode == MapEditMode.Duplicate)
+					{
+                        Duplicate(Direction.Down);
+                        Event.current.Use();
 					}
 				}
                 else if (Event.current.keyCode == KeyCode.RightArrow)
 				{
 					if (mode == MapEditMode.Translate)
 					{
-						SelectedGameObject.Translate(new Vector3(1, 0, 0));
+						SelectedMapTile.Translate(new Vector3(1, 0, 0));
 						Event.current.Use();
 					}
 					else if (mode == MapEditMode.Scale)
 					{
-						SelectedGameObject.ScaleX(true);
+						SelectedMapTile.ScaleX(true);
 						Event.current.Use();
                     } else if (mode == MapEditMode.Rotate) {
-                        SelectedGameObject.Rotate(90);
+                        SelectedMapTile.Rotate(90);
                         Event.current.Use();
 					}
 					else if (mode == MapEditMode.Flip)
 					{
-						SelectedGameObject.FlipX();
+						SelectedMapTile.FlipX();
 						Event.current.Use();
+					}
+					else if (mode == MapEditMode.Duplicate)
+					{
+                        Duplicate(Direction.Right);
+                        Event.current.Use();
 					}
 				}
 				else if (Event.current.keyCode == KeyCode.LeftArrow)
 				{
 					if (mode == MapEditMode.Translate)
 					{
-						SelectedGameObject.Translate(new Vector3(-1, 0, 0));
+						SelectedMapTile.Translate(new Vector3(-1, 0, 0));
 						Event.current.Use();
 					}
 					else if (mode == MapEditMode.Scale)
 					{
-						SelectedGameObject.ScaleX(false);
+						SelectedMapTile.ScaleX(false);
 						Event.current.Use();
 					}
 					else if (mode == MapEditMode.Rotate)
 					{
-						SelectedGameObject.Rotate(-90);
+						SelectedMapTile.Rotate(-90);
 						Event.current.Use();
 					}
 					else if (mode == MapEditMode.Flip)
 					{
-						SelectedGameObject.FlipX();
+						SelectedMapTile.FlipX();
 						Event.current.Use();
 					}
-				}
-                else if (Event.current.keyCode == KeyCode.T && mode == MapEditMode.Connect)
-				{
-					MapTile newsie = GetObjectAtLocation(spawnPosition);
-
-					if (newsie)
+					else if (mode == MapEditMode.Duplicate)
 					{
-						ActivatedObject connected = null;
-						ActivatorObject connector = selectedGameObject.GetComponent<ActivatorObject>();
-						if (connector != null)
-						{
-							connected = newsie.GetComponent<ActivatedObject>();
-						}
-						else
-						{
-							connected = selectedGameObject.GetComponent<ActivatedObject>();
-							connector = newsie.GetComponent<ActivatorObject>();
-						}
-
-						if (connector != null && connected != null)
-						{
-							connector.AddConnection(connected);
-							Event.current.Use();
-						}
-
+                        Duplicate(Direction.Left);
+                        Event.current.Use();
 					}
-				}
-                else if (Event.current.keyCode == KeyCode.Y && mode == MapEditMode.Connect)
-				{
-					MapTile newsie = GetObjectAtLocation(spawnPosition);
-
-					if (newsie)
-					{
-						ActivatedObject connected = null;
-						ActivatorObject connector = selectedGameObject.GetComponent<ActivatorObject>();
-						if (connector != null)
-						{
-							connected = newsie.GetComponent<ActivatedObject>();
-						}
-						else
-						{
-							connected = selectedGameObject.GetComponent<ActivatedObject>();
-							connector = newsie.GetComponent<ActivatorObject>();
-						}
-
-						if (connector != null && connected != null)
-						{
-							connector.RemoveConnection(connected);
-							Event.current.Use();
-						}
-
-					}
-				}
-
+                } else if (Event.current.keyCode == KeyCode.Space) {
+                    Connect();
+                }
 			}
 
 
@@ -299,49 +286,9 @@ public class MapEditor : Editor {
 			Event.current.Use();
 		}
 
-		if (SelectedGameObject != null)
+		if (SelectedMapTile != null)
 		{
-			Handles.Label(SelectedGameObject.transform.position, "X");
-
-			if (selectedPrefab != null)
-			{
-				SpriteRenderer spSpr = selectedPrefab.GetComponent<SpriteRenderer>();
-				SpriteRenderer sgoSpr = SelectedGameObject.GetComponent<SpriteRenderer>();
-				float selectedGameObjectWidth = sgoSpr.bounds.size.x;
-				float selectedGameObjectHeight = sgoSpr.bounds.size.y;
-				float selectedPrefabWidth = spSpr.bounds.size.x;
-				float selectedPrefabHeight = spSpr.bounds.size.y;
-
-				if (Event.current.type == EventType.KeyDown)
-				{
-					if (Event.current.keyCode == KeyCode.W)
-					{
-						spawnPosition = new Vector3(SelectedGameObject.transform.position.x,
-													SelectedGameObject.transform.position.y + (selectedGameObjectHeight + selectedPrefabHeight) / 2.0f, 0);
-						Spawn(spawnPosition);
-					}
-					else if (Event.current.keyCode == KeyCode.S)
-					{
-						spawnPosition = new Vector3(SelectedGameObject.transform.position.x,
-													SelectedGameObject.transform.position.y - (selectedGameObjectHeight + selectedPrefabHeight) / 2.0f, 0);
-						Spawn(spawnPosition);
-					}
-					else if (Event.current.keyCode == KeyCode.A)
-					{
-						spawnPosition = new Vector3(SelectedGameObject.transform.position.x - (selectedGameObjectWidth + selectedPrefabWidth) / 2.0f,
-												SelectedGameObject.transform.position.y, 0);
-						Spawn(spawnPosition);
-					}
-					else if (Event.current.keyCode == KeyCode.D)
-					{
-						spawnPosition = new Vector3(SelectedGameObject.transform.position.x + (selectedGameObjectWidth + selectedPrefabWidth) / 2.0f,
-													SelectedGameObject.transform.position.y, 0);
-						Spawn(spawnPosition);
-					}
-					Event.current.Use();
-				}
-
-			}
+			Handles.Label(SelectedMapTile.transform.position, "X");
 		}
 
 
@@ -360,6 +307,67 @@ public class MapEditor : Editor {
 			et.RenderInEditor();
 		}
 	}
+
+    void Connect() {
+        if (selectedMapTile != null && secondaryMapTile != null)
+        {
+            ActivatedObject connected = null;
+            ActivatorObject connector = selectedMapTile.GetComponent<ActivatorObject>();
+            if (connector != null)
+            {
+                connected = secondaryMapTile.GetComponent<ActivatedObject>();
+            }
+            else
+            {
+                connected = selectedMapTile.GetComponent<ActivatedObject>();
+                connector = secondaryMapTile.GetComponent<ActivatorObject>();
+            }
+
+            if (connector != null && connected != null)
+            {
+                if (connector.HasConnection(connected))
+                {
+                    connector.RemoveConnection(connected);
+                } else {
+                    connector.AddConnection(connected);
+                }
+                Event.current.Use();
+            }
+        }
+
+    }
+    void Duplicate(Direction dir) {
+        if (selectedPrefab != null && selectedMapTile != null)
+		{
+			SpriteRenderer spSpr = selectedPrefab.GetComponent<SpriteRenderer>();
+			SpriteRenderer sgoSpr = SelectedMapTile.GetComponent<SpriteRenderer>();
+			float selectedGameObjectWidth = sgoSpr.bounds.size.x;
+			float selectedGameObjectHeight = sgoSpr.bounds.size.y;
+			float selectedPrefabWidth = spSpr.bounds.size.x;
+			float selectedPrefabHeight = spSpr.bounds.size.y;
+
+            switch (dir) {
+                case Direction.Up:
+					spawnPosition = new Vector3(SelectedMapTile.transform.position.x,
+												SelectedMapTile.transform.position.y + (selectedGameObjectHeight + selectedPrefabHeight) / 2.0f, 0);
+                    break;
+                case Direction.Down:
+					spawnPosition = new Vector3(SelectedMapTile.transform.position.x,
+												SelectedMapTile.transform.position.y - (selectedGameObjectHeight + selectedPrefabHeight) / 2.0f, 0);
+                    break;
+                case Direction.Left:
+					spawnPosition = new Vector3(SelectedMapTile.transform.position.x - (selectedGameObjectWidth + selectedPrefabWidth) / 2.0f,
+											SelectedMapTile.transform.position.y, 0);
+                    break;
+                case Direction.Right:
+					spawnPosition = new Vector3(SelectedMapTile.transform.position.x + (selectedGameObjectWidth + selectedPrefabWidth) / 2.0f,
+												SelectedMapTile.transform.position.y, 0);
+                    break;
+            }
+
+            Spawn(spawnPosition);
+		}
+    }
 
 	/// <summary>
 	/// Spawns the selected prefab at the specified spawnPosition.
@@ -394,10 +402,10 @@ public class MapEditor : Editor {
 		if (IsSpawnPositionOpen(pos))
 		{
             GameObject go = (GameObject)Instantiate(selectedPrefab.gameObject);
-			SelectedGameObject = go.GetComponent<MapTile>();
+			SelectedMapTile = go.GetComponent<MapTile>();
 
 			
-			pos.z = SelectedGameObject.ZPos;
+			pos.z = SelectedMapTile.ZPos;
 			go.transform.position = pos;
 			go.name = selectedPrefab.name;
 			go.transform.SetParent(targetGameObject.transform);
@@ -452,27 +460,46 @@ public class MapEditor : Editor {
 	/// Gets or sets the selected game object.
 	/// </summary>
 	/// <value>The selected game object.</value>
-	MapTile SelectedGameObject
+    MapTile SelectedMapTile
 	{
 		set
 		{
-			if (selectedGameObject)
+			if (selectedMapTile)
 			{
-				selectedGameObject.Highlighted = false;
+				selectedMapTile.Highlighted = false;
 			}
 
-			selectedGameObject = value;
-            if (selectedGameObject)
+			selectedMapTile = value;
+            if (selectedMapTile)
             {
-                selectedGameObject.Highlighted = true;
+                selectedMapTile.Highlighted = true;
             }
 		}
 
 		get
 		{
-			return selectedGameObject;
+			return selectedMapTile;
 		}
 	}
+
+    MapTile SecondaryMapTile {
+        get {
+            return secondaryMapTile;
+        }
+
+        set {
+            if (secondaryMapTile) {
+                secondaryMapTile.Highlighted = false;
+            }
+
+            secondaryMapTile = value;
+
+			if (secondaryMapTile)
+			{
+				secondaryMapTile.Highlighted = true;
+			}
+        }
+    }
 
 
 }
@@ -482,5 +509,12 @@ public enum MapEditMode {
     Rotate,
     Scale,
     Flip,
-    Connect
+    Duplicate
+}
+
+public enum Direction {
+    Up,
+    Left,
+    Down,
+    Right
 }
