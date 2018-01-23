@@ -124,6 +124,29 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
+    public MapHighlightState HighlightState {
+        get {
+            Color myCol = GetComponent<SpriteRenderer>().color;
+            if (myCol == Color.white) {
+                return MapHighlightState.Normal;
+            } else if (myCol == Color.blue) {
+                return MapHighlightState.Primary;
+            } else {
+                return MapHighlightState.Secondary;
+            }
+        }
+
+        set {
+            if (value == MapHighlightState.Normal) {
+                GetComponent<SpriteRenderer>().color = Color.white;
+            } else if (value == MapHighlightState.Primary) {
+                GetComponent<SpriteRenderer>().color = Color.blue;
+            } else {
+                GetComponent<SpriteRenderer>().color = Color.red;
+            }
+        }
+    }
+
 	/// <summary>
 	/// Gets the ZPos of this <see cref="T:EditorTile"/> .
 	/// </summary>
@@ -151,5 +174,11 @@ public enum EditorLayer
 {
 	Foreground,
 	Background
+}
+
+public enum MapHighlightState {
+    Normal,
+    Primary,
+    Secondary
 }
 

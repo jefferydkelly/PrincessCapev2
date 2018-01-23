@@ -11,12 +11,11 @@ public class MapEditor : Editor {
     MapTile selectedMapTile;
     MapTile secondaryMapTile;
 	List<MapTile> spawnedGO = new List<MapTile>();
-	bool makeDown = false;
 
 	Vector3 spawnPosition = Vector3.zero;
 	GameObject targetGameObject;
 
-    string[] tools = { "Translate (Z)", "Rotate (X)", "Scale (C)", "Flip (V)", "Duplicate (B)" };
+    string[] tools = { "Translate (Z)", "Rotate (X)", "Scale (C)", "Flip (V)", "Align (B)" };
     MapEditMode mode = MapEditMode.Translate;
 
 	/// <summary>
@@ -70,6 +69,14 @@ public class MapEditor : Editor {
         GUILayout.BeginHorizontal();
         mode = (MapEditMode)GUILayout.Toolbar((int)mode, tools);
         GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        if (SelectedMapTile && SecondaryMapTile) {
+            if (GUILayout.Button("Connect")) {
+                Connect();
+            }
+        }
+        GUILayout.EndHorizontal();
 		GUILayout.BeginHorizontal();
 		if (prefabs != null)
 		{
@@ -114,33 +121,51 @@ public class MapEditor : Editor {
                 {
                     if (atLoc != null)
                     {
-                        if (atLoc == SecondaryMapTile) {
-                            SecondaryMapTile = SelectedMapTile;
+                        if (atLoc == SecondaryMapTile)
+                        {
+                            SwapSelectedAndSecondary();
                         }
-                        SelectedMapTile = atLoc != selectedMapTile ? atLoc : null;
+                        else
+                        {
+                            SelectedMapTile = atLoc != selectedMapTile ? atLoc : null;
+                        }
+                        Repaint();
                     } else {
-                        //Probably spawn something
+                        Spawn(spawnPosition);
+                        Event.current.Use();
                     }
                     Event.current.Use();
                 } else if (Event.current.button == 1) {
-                    if (atLoc != null) {
-                        if (atLoc == SelectedMapTile) {
-                            SelectedMapTile = SecondaryMapTile;
-                        }
-                        SecondaryMapTile = atLoc != secondaryMapTile ? atLoc : null; ;
+                    
+                    if (atLoc == SelectedMapTile)
+                    {
+                        SwapSelectedAndSecondary();
                     }
+                    else
+                    {
+                        SecondaryMapTile = atLoc;
+                    }
+                    Repaint();
+
                 }
-            }
+			}
+			else if (Event.current.type == EventType.MouseDrag && Event.current.button == 0)
+			{
+
+				Spawn(spawnPosition);
+				Event.current.Use();
+			}
 		}
 
         if (Event.current.type == EventType.KeyDown)
 		{
+            /*
 			if (Event.current.keyCode == KeyCode.E && !makeDown)
 			{
 				makeDown = true;
 				Event.current.Use();
 			}
-			else if (Event.current.keyCode == KeyCode.Delete || Event.current.keyCode == KeyCode.Backspace)
+			else*/ if (Event.current.keyCode == KeyCode.Delete || Event.current.keyCode == KeyCode.Backspace)
 			{
 				if (SelectedMapTile)
 				{
@@ -173,7 +198,7 @@ public class MapEditor : Editor {
                 Repaint();
                 Event.current.Use();
             } else if (Event.current.keyCode == KeyCode.B) {
-                mode = MapEditMode.Duplicate;
+                mode = MapEditMode.Align;
 				Repaint();
 				Event.current.Use();
             }
@@ -189,8 +214,8 @@ public class MapEditor : Editor {
                     } else if (mode == MapEditMode.Flip) {
                         SelectedMapTile.FlipY();
                         Event.current.Use();
-                    } else if (mode == MapEditMode.Duplicate) {
-                        Duplicate(Direction.Up);
+                    } else if (mode == MapEditMode.Align) {
+                        SpawnAligned(Direction.Up);
                         Event.current.Use();
                     }
                 } else if (Event.current.keyCode == KeyCode.DownArrow) {
@@ -209,9 +234,9 @@ public class MapEditor : Editor {
 						SelectedMapTile.FlipY();
 						Event.current.Use();
 					}
-					else if (mode == MapEditMode.Duplicate)
+					else if (mode == MapEditMode.Align)
 					{
-                        Duplicate(Direction.Down);
+                        SpawnAligned(Direction.Down);
                         Event.current.Use();
 					}
 				}
@@ -235,9 +260,9 @@ public class MapEditor : Editor {
 						SelectedMapTile.FlipX();
 						Event.current.Use();
 					}
-					else if (mode == MapEditMode.Duplicate)
+					else if (mode == MapEditMode.Align)
 					{
-                        Duplicate(Direction.Right);
+                        SpawnAligned(Direction.Right);
                         Event.current.Use();
 					}
 				}
@@ -263,9 +288,9 @@ public class MapEditor : Editor {
 						SelectedMapTile.FlipX();
 						Event.current.Use();
 					}
-					else if (mode == MapEditMode.Duplicate)
+					else if (mode == MapEditMode.Align)
 					{
-                        Duplicate(Direction.Left);
+                        SpawnAligned(Direction.Left);
                         Event.current.Use();
 					}
                 } else if (Event.current.keyCode == KeyCode.Space) {
@@ -274,16 +299,6 @@ public class MapEditor : Editor {
 			}
 
 
-		}
-		else if (Event.current.type == EventType.KeyUp && Event.current.keyCode == KeyCode.E && makeDown)
-		{
-			makeDown = false;
-			Event.current.Use();
-		}
-		else if (Event.current.type == EventType.MouseMove && makeDown)
-		{
-			Spawn(spawnPosition);
-			Event.current.Use();
 		}
 
 		if (SelectedMapTile != null)
@@ -336,7 +351,7 @@ public class MapEditor : Editor {
         }
 
     }
-    void Duplicate(Direction dir) {
+    void SpawnAligned(Direction dir) {
         if (selectedPrefab != null && selectedMapTile != null)
 		{
 			SpriteRenderer spSpr = selectedPrefab.GetComponent<SpriteRenderer>();
@@ -369,6 +384,12 @@ public class MapEditor : Editor {
 		}
     }
 
+    void SwapSelectedAndSecondary() {
+        MapTile temp = SecondaryMapTile;
+        SecondaryMapTile = SelectedMapTile;
+        SelectedMapTile = temp;
+    }
+
 	/// <summary>
 	/// Spawns the selected prefab at the specified spawnPosition.
 	/// </summary>
@@ -376,41 +397,44 @@ public class MapEditor : Editor {
 	/// <param name="_spawnPosition">Spawn position.</param>
 	void Spawn(Vector2 _spawnPosition)
 	{
-		Vector3 pos = new Vector3(Mathf.Round(_spawnPosition.x), Mathf.Round(_spawnPosition.y), 0);
+        if (selectedPrefab != null)
+        {
+            Vector3 pos = new Vector3(Mathf.Round(_spawnPosition.x), Mathf.Round(_spawnPosition.y), 0);
 
 
-        if ((int)selectedPrefab.Bounds.x % 2 == 0)
-		{
-			pos.x += 0.5f;
+            if ((int)selectedPrefab.Bounds.x % 2 == 0)
+            {
+                pos.x += 0.5f;
 
-			if (!IsSpawnPositionOpen(pos))
-			{
-				pos.x -= 1.0f;
-			}
-		}
+                if (!IsSpawnPositionOpen(pos))
+                {
+                    pos.x -= 1.0f;
+                }
+            }
 
-        if ((int)selectedPrefab.Bounds.y % 2 == 0)
-		{
-			pos.y += 0.5f;
+            if ((int)selectedPrefab.Bounds.y % 2 == 0)
+            {
+                pos.y += 0.5f;
 
-			if (!IsSpawnPositionOpen(pos))
-			{
-				pos.y -= 1.0f;
-			}
-		}
+                if (!IsSpawnPositionOpen(pos))
+                {
+                    pos.y -= 1.0f;
+                }
+            }
 
-		if (IsSpawnPositionOpen(pos))
-		{
-            GameObject go = (GameObject)Instantiate(selectedPrefab.gameObject);
-			SelectedMapTile = go.GetComponent<MapTile>();
+            if (IsSpawnPositionOpen(pos))
+            {
+                GameObject go = (GameObject)Instantiate(selectedPrefab.gameObject);
+                SelectedMapTile = go.GetComponent<MapTile>();
 
-			
-			pos.z = SelectedMapTile.ZPos;
-			go.transform.position = pos;
-			go.name = selectedPrefab.name;
-			go.transform.SetParent(targetGameObject.transform);
-			spawnedGO.Add(go.GetComponent<MapTile>());
-		}
+
+                pos.z = SelectedMapTile.ZPos;
+                go.transform.position = pos;
+                go.name = selectedPrefab.name;
+                go.transform.SetParent(targetGameObject.transform);
+                spawnedGO.Add(go.GetComponent<MapTile>());
+            }
+        }
 	}
 
 	/// <summary>
@@ -420,6 +444,9 @@ public class MapEditor : Editor {
 	/// <param name="spawnPos">Spawn position.</param>
 	bool IsSpawnPositionOpen(Vector3 spawnPos)
 	{
+        if (selectedPrefab == null) {
+            return false;
+        }
         Vector3 prefabBounds = selectedPrefab.Bounds / 2;
 		foreach (MapTile goat in spawnedGO)
 		{
@@ -464,15 +491,17 @@ public class MapEditor : Editor {
 	{
 		set
 		{
-			if (selectedMapTile)
+            if (selectedMapTile && selectedMapTile.HighlightState == MapHighlightState.Primary)
 			{
-				selectedMapTile.Highlighted = false;
+                //selectedMapTile.Highlighted = false;
+                selectedMapTile.HighlightState = MapHighlightState.Normal;
 			}
 
 			selectedMapTile = value;
             if (selectedMapTile)
             {
-                selectedMapTile.Highlighted = true;
+                //selectedMapTile.Highlighted = true;
+                selectedMapTile.HighlightState = MapHighlightState.Primary;
             }
 		}
 
@@ -488,15 +517,17 @@ public class MapEditor : Editor {
         }
 
         set {
-            if (secondaryMapTile) {
-                secondaryMapTile.Highlighted = false;
+            if (secondaryMapTile && selectedMapTile.HighlightState == MapHighlightState.Secondary) {
+                //secondaryMapTile.Highlighted = false;
+                secondaryMapTile.HighlightState = MapHighlightState.Normal;
             }
 
             secondaryMapTile = value;
 
 			if (secondaryMapTile)
 			{
-				secondaryMapTile.Highlighted = true;
+				//secondaryMapTile.Highlighted = true;
+                secondaryMapTile.HighlightState = MapHighlightState.Secondary;
 			}
         }
     }
@@ -509,7 +540,7 @@ public enum MapEditMode {
     Rotate,
     Scale,
     Flip,
-    Duplicate
+    Align
 }
 
 public enum Direction {
