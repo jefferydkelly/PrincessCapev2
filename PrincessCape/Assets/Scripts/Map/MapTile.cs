@@ -186,10 +186,10 @@ public class MapTile : MonoBehaviour {
     }
 
     public virtual void FromData(TileStruct tile) {
-        transform.position = JsonParser.ParseVector3(JsonParser.ParseLine(tile.info[0]));
-        Vector3 rot = JsonParser.ParseVector3(JsonParser.ParseLine(tile.info[1]));
+        transform.position = PCLParser.ParseVector3(PCLParser.ParseLine(tile.info[0]));
+        Vector3 rot = PCLParser.ParseVector3(PCLParser.ParseLine(tile.info[1]));
 		transform.rotation.Set(rot.x, rot.y, rot.z, 1);
-		transform.localScale = JsonParser.ParseVector3(JsonParser.ParseLine(tile.info[2]));
+		transform.localScale = PCLParser.ParseVector3(PCLParser.ParseLine(tile.info[2]));
     }
 #endif
 

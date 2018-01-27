@@ -5,7 +5,7 @@ using UnityEngine;
 public class Map : MonoBehaviour {
     [SerializeField]
     string levelName = "Level";
-    public string SaveToJSON() {
+    public string SaveToFile() {
         string info = "{\n";
         info += string.Format("\"MapName\": \"{0}\"", levelName) + ",\n";
         info +="\"Tiles\": [\n";
@@ -15,13 +15,13 @@ public class Map : MonoBehaviour {
         info += "]\n}";
         return info;
     }
-    public List<TileStruct> LoadFromJSON(string json) {
+    public List<TileStruct> LoadFromFile(string json) {
         string[] lines = json.Split('\n');
         string mapName = lines[1].Split(':')[1];
         levelName = mapName.Substring(2, mapName.Length - 4);
         int ind = json.IndexOf(',');
         string tiles = json.Substring(ind);
-        return JsonParser.ParseTiles(tiles);
+        return PCLParser.ParseTiles(tiles);
   
     }
 }

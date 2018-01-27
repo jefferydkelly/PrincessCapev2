@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JsonParser {
+public class PCLParser {
 
-    public static Vector3 ParseVector3(string json) {
-        string firstSub = json.Split('(')[1];
-        firstSub = firstSub.Split(')')[0];
+    public static Vector3 ParseVector3(string pcl) {
+        string firstSub = pcl.Split('(')[1];
+        firstSub = pcl.Split(')')[0];
         string[] xyz = firstSub.Split(',');
         return new Vector3(float.Parse(xyz[0].Trim()), float.Parse(xyz[1].Trim()), float.Parse(xyz[2].Trim()));
     }
 
-    public static List<TileStruct> ParseTiles(string json) {
+    public static List<TileStruct> ParseTiles(string pcl) {
         List<TileStruct> tiles = new List<TileStruct>();
-        int ind = json.IndexOf('[') + 2;
-        int lastInd = json.LastIndexOf(']');
-        json = json.Substring(ind, lastInd - ind);
-        string[] tilesList = json.Split('\n');
+        int ind = pcl.IndexOf('[') + 2;
+        int lastInd = pcl.LastIndexOf(']');
+        pcl = pcl.Substring(ind, lastInd - ind);
+        string[] tilesList = pcl.Split('\n');
 
         for (int i = 0; i < tilesList.Length; i++)
         {

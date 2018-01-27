@@ -548,10 +548,10 @@ public class MapEditor : Editor {
     }
 
     void Save() {
-        string path = EditorUtility.SaveFilePanel("Save Level As JSON", "", "level.json", "json");
+        string path = EditorUtility.SaveFilePanel("Save Level To File", "", "level.pcl", "pcl");
 
         if (path.Length > 0) {
-            string json = map.SaveToJSON();
+            string json = map.SaveToFile();
 
             File.WriteAllText(path, json);
             Debug.Log("Saved");
@@ -559,12 +559,12 @@ public class MapEditor : Editor {
     }
 
     void Load() {
-        string path = EditorUtility.OpenFilePanel("Open a Level File", "", "json");
+        string path = EditorUtility.OpenFilePanel("Open A Level File", "", "pcl");
         if (path.Length > 0)
         {
             string json = File.ReadAllText(path);
             if (json.Length > 0) {
-                List<TileStruct> newTiles = map.LoadFromJSON(json);
+                List<TileStruct> newTiles = map.LoadFromFile(json);
 
                 if (newTiles.Count > 0) {
                     while(map.transform.childCount > 0) {

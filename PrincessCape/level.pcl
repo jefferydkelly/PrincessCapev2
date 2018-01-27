@@ -1,0 +1,44 @@
+{
+"MapName": "",
+"Tiles": [
+{
+"Name": "Platform",
+"Position": "(2.0, -2.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0, 1.0)",
+"Scale": "(11.0, 1.0, 1.0)",
+},
+{
+"Name": "Door",
+"Position": "(6.5, -0.5, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0, 1.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+},
+{
+"Name": "Checkpoint",
+"Position": "(4.0, -1.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0, 1.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+},
+{
+"Name": "Switch",
+"Position": "(-5.0, -2.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0, 1.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Connections": [
+],
+},
+{
+"Name": "Fan",
+"Position": "(-4.0, -2.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0, 1.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Air Scale": "3",
+},
+{
+"Name": "Checkpoint",
+"Position": "(-2.0, -1.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0, 1.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+},
+]
+}
