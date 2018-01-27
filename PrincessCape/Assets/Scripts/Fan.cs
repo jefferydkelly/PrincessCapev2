@@ -34,6 +34,7 @@ public class Fan : ActivatedObject{
     {
 		string info = "{\n";
 		info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
+        info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
 		info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
 		info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
 		info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;

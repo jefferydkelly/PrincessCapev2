@@ -532,15 +532,19 @@ public class MapEditor : Editor {
                 List<TileStruct> newTiles = map.LoadFromFile(json);
 
                 if (newTiles.Count > 0) {
-                    while(map.transform.childCount > 0) {
-                        DestroyImmediate(map.transform.GetChild(0).gameObject, false);
+                    while(map.NumberOfTiles > 0) {
+                        map.RemoveTile(map.GetTile(0));
                     }
 
                     foreach(TileStruct t in newTiles) {
                         MapTile tile = Instantiate(prefabs[t.name]).GetComponent<MapTile>();
-                        tile.transform.SetParent(map.transform);
                         tile.FromData(t);
+                        map.AddTile(tile);
+                        Debug.Log(tile.ID);
+                    }
 
+                    foreach(ActivatedObject ao in map.GetComponentsInChildren<ActivatedObject>()) {
+                        ao.Reconnect();
                     }
                 }
             }

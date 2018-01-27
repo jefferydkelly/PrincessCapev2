@@ -12,6 +12,14 @@ public class PCLParser {
         return new Vector3(float.Parse(xyz[0].Trim()), float.Parse(xyz[1].Trim()), float.Parse(xyz[2].Trim()));
     }
 
+    public static int ParseInt(string pcl) {
+        return int.Parse(ParseLine(pcl));
+    }
+
+    public static float ParseFloat(string pcl) {
+        return float.Parse(ParseLine(pcl));
+    }
+
     public static List<TileStruct> ParseTiles(string pcl) {
         List<TileStruct> tiles = new List<TileStruct>();
         int ind = pcl.IndexOf('[') + 2;
@@ -41,13 +49,16 @@ public class PCLParser {
 
     public static TileStruct ParseTileStruct (List<string> tile) {
         TileStruct ts = new TileStruct();
+        ts.id = -1;
         for (int i = 0; i < tile.Count; i++) {
             string s = tile[i];
-
+         
 			if (s.Contains("\"Name\": "))
 			{
 				ts.name = ParseLine(s);
-			}
+            } else if (s.Contains("\"ID\":")) {
+                ts.id = int.Parse(ParseLine(s));
+            }
 			else if (IsLine(s))
 			{
                 ts.AddInfo(s);
@@ -70,6 +81,7 @@ public class PCLParser {
 
 public struct TileStruct {
     public string name;
+    public int id;
     public List<string> info;
 
     public void AddInfo(string s) {

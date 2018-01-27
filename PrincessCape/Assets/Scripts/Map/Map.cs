@@ -8,7 +8,7 @@ public class Map : MonoBehaviour {
     [SerializeField]
     string levelName = "Level";
     List<MapTile> tiles;
-
+ 
     public void Awake()
     {
         tiles = GetComponentsInChildren<MapTile>().ToList();
@@ -23,7 +23,13 @@ public class Map : MonoBehaviour {
     }
     public void AddTile(MapTile tile) {
         tile.transform.SetParent(transform);
+
         tiles.Add(tile);
+
+		if (tile.ID < 0)
+		{
+			tile.ID = NumberOfTiles;
+		}
     }
 
     public void RemoveTile(MapTile tile) {
@@ -90,6 +96,15 @@ public class Map : MonoBehaviour {
         int ind = json.IndexOf(',');
         string tileData = json.Substring(ind);
         return PCLParser.ParseTiles(tileData);
-  
+    }
+
+    public MapTile GetTileByID(int id) {
+        foreach(MapTile tile in tiles) {
+            if (tile.ID == id) {
+                return tile;
+            }
+        }
+
+        return null;
     }
 }

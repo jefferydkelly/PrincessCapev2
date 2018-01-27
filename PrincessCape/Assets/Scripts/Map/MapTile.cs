@@ -7,6 +7,7 @@ public class MapTile : MonoBehaviour {
     protected string lineEnding = ",\n";
 	[SerializeField]
 	EditorLayer layer = EditorLayer.Foreground;
+    int id = -1;
 
 	/// <summary>
 	/// Dehighlights this instance on awake
@@ -160,6 +161,16 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
+    public int ID {
+        get {
+            return id;
+        }
+
+        set {
+            id = value;
+        }
+    }
+
 	/// <summary>
 	/// Renders the in editor.
 	/// </summary>
@@ -178,6 +189,7 @@ public class MapTile : MonoBehaviour {
         }
         string info = "{\n";
         info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
+        info += string.Format("\"ID\": \"{0}\"", id) + lineEnding;
         info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
         info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
         info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
@@ -186,6 +198,7 @@ public class MapTile : MonoBehaviour {
     }
 
     public virtual void FromData(TileStruct tile) {
+        id = tile.id;
         transform.position = PCLParser.ParseVector3(PCLParser.ParseLine(tile.info[0]));
         Vector3 rot = PCLParser.ParseVector3(PCLParser.ParseLine(tile.info[1]));
 		transform.rotation.Set(rot.x, rot.y, rot.z, 1);
