@@ -90,4 +90,28 @@ public abstract class ActivatedObject : MapTile {
             }
 		}
 	}
+
+    public override string SaveData()
+    {
+		if (transform.parent.name != "Map")
+		{
+			return "";
+		}
+		string info = "{\n";
+		info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
+		info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
+		info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
+		info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
+        info += string.Format("\"Connections\": [\n");
+        foreach(ActivatedObject ao in connections) {
+            if (ao)
+            {
+                info += string.Format("\"ID\": \"{0}\"", ao.GetInstanceID()) + lineEnding;
+            }
+
+        }
+        info += "]" + lineEnding;
+		info += "}" + lineEnding;
+		return info;
+    }
 }

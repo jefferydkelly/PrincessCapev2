@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MapTile : MonoBehaviour {
 
+    protected string lineEnding = ",\n";
 	[SerializeField]
 	EditorLayer layer = EditorLayer.Foreground;
 
@@ -166,6 +167,30 @@ public class MapTile : MonoBehaviour {
 	{
 
 	}
+
+    /// <summary>
+    /// Creates a string of Save Data for the Tile.
+    /// </summary>
+    /// <returns>A string representing the object.</returns>
+    public virtual string SaveData() {
+        if (transform.parent.name  != "Map") {
+            return "";
+        }
+        string info = "{\n";
+        info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
+        info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
+        info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
+        info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
+        info += "}" + lineEnding;
+        return info;
+    }
+
+    public virtual void FromData(TileStruct tile) {
+        transform.position = JsonParser.ParseVector3(JsonParser.ParseLine(tile.info[0]));
+        Vector3 rot = JsonParser.ParseVector3(JsonParser.ParseLine(tile.info[1]));
+		transform.rotation.Set(rot.x, rot.y, rot.z, 1);
+		transform.localScale = JsonParser.ParseVector3(JsonParser.ParseLine(tile.info[2]));
+    }
 #endif
 
 }

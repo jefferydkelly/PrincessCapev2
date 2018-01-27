@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ActivatorObject : ActivatedObject {
     [SerializeField]
-    List<ActivatedObject> connected = new List<ActivatedObject>();
+    //List<ActivatedObject> connected = new List<ActivatedObject>();
 
     /// <summary>
     /// Activate this instance.

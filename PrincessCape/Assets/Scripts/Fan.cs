@@ -29,4 +29,26 @@ public class Fan : ActivatedObject{
     {
         transform.GetChild(0).GetComponent<AirColumn>().ScaleY(up);
     }
+
+    public override string SaveData()
+    {
+		string info = "{\n";
+		info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
+		info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
+		info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
+		info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
+        info += string.Format("\"Air Scale\": \"{0}\"", transform.GetChild(0).localScale.y) + lineEnding;
+		info += "}" + lineEnding;
+		return info;
+    }
+
+    public override void FromData(TileStruct tile)
+    {
+        base.FromData(tile);
+        GameObject air = transform.GetChild(0).gameObject;
+        Debug.Log(tile.info[3]);
+        float airScale = float.Parse(JsonParser.ParseLine(tile.info[3]));
+        Debug.Log(airScale);
+        air.transform.localScale = air.transform.localScale.SetY(airScale);
+    }
 }

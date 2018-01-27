@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using System.IO;
 
 [CustomEditor(typeof(Map))]
 public class MapEditor : Editor {
-	GameObject[] prefabs;
     MapTile selectedPrefab;
     MapTile selectedMapTile;
     MapTile secondaryMapTile;
-	List<MapTile> spawnedGO = new List<MapTile>();
+    List<MapTile> tiles = new List<MapTile>();
+    Dictionary<string, GameObject> prefabs;
 
 	Vector3 spawnPosition = Vector3.zero;
-	GameObject targetGameObject;
+    Map map;
 
     string[] tools = { "Translate (Z)", "Rotate (X)", "Scale (C)", "Flip (V)", "Align (B)" };
     MapEditMode mode = MapEditMode.Translate;
@@ -23,16 +24,19 @@ public class MapEditor : Editor {
 	/// </summary>
 	private void OnEnable()
 	{
-		targetGameObject = (target as Map).gameObject;
+        map = target as Map;
+		
 		Object[] obj = Resources.LoadAll("Tiles", typeof(GameObject));
-		prefabs = new GameObject[obj.Length];
+		
+        prefabs = new Dictionary<string, GameObject>(obj.Length);
 
 		for (int i = 0; i < obj.Length; i++)
 		{
-			prefabs[i] = (GameObject)obj[i];
+            GameObject go = (GameObject)obj[i];
+            prefabs.Add(go.name, go);
 		}
-		spawnedGO = targetGameObject.GetComponentsInChildren<MapTile>().ToList();
-        foreach (MapTile et in spawnedGO)
+        tiles = map.GetComponentsInChildren<MapTile>().ToList();
+        foreach (MapTile et in tiles)
 		{
 			et.Highlighted = false;
 		}
@@ -81,14 +85,13 @@ public class MapEditor : Editor {
 		if (prefabs != null)
 		{
 			int elementsInThisRow = 0;
-			for (int i = 0; i < prefabs.Length; i++)
-			{
+            foreach(KeyValuePair<string, GameObject> pair in prefabs) {
 				elementsInThisRow++;
-				Texture prefabTexture = prefabs[i].GetComponent<SpriteRenderer>().sprite.texture;
+                Texture prefabTexture = pair.Value.GetComponent<SpriteRenderer>().sprite.texture;
 
 				if (GUILayout.Button(prefabTexture, GUILayout.MaxWidth(50), GUILayout.MaxHeight(50)))
 				{
-                    selectedPrefab = prefabs[i].GetComponent<MapTile>();
+                    selectedPrefab = pair.Value.GetComponent<MapTile>();
 					EditorWindow.FocusWindowIfItsOpen(typeof(SceneView));
 				}
 
@@ -102,6 +105,21 @@ public class MapEditor : Editor {
 
 			}
 		}
+
+		GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+		if (GUILayout.Button("Save"))
+		{
+            Save();
+            GUIUtility.ExitGUI();
+		}
+
+		if (GUILayout.Button("Load"))
+		{
+			Load();
+			GUIUtility.ExitGUI();
+		}
 		GUILayout.EndHorizontal();
 	}
 
@@ -110,6 +128,7 @@ public class MapEditor : Editor {
 	/// </summary>
 	private void OnSceneGUI()
 	{
+      
         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
 		if (Event.current.isMouse)
 		{
@@ -169,12 +188,12 @@ public class MapEditor : Editor {
 			{
 				if (SelectedMapTile)
 				{
-					spawnedGO.Remove(selectedMapTile);
+					tiles.Remove(selectedMapTile);
 					selectedMapTile.Delete();
 
-					if (spawnedGO.Count > 0)
+					if (tiles.Count > 0)
 					{
-						SelectedMapTile = spawnedGO[spawnedGO.Count - 1];
+						SelectedMapTile = tiles[tiles.Count - 1];
 					}
 				}
 
@@ -317,7 +336,7 @@ public class MapEditor : Editor {
 
 		Handles.EndGUI();
 
-		foreach (MapTile et in spawnedGO)
+		foreach (MapTile et in tiles)
 		{
 			et.RenderInEditor();
 		}
@@ -431,8 +450,8 @@ public class MapEditor : Editor {
                 pos.z = SelectedMapTile.ZPos;
                 go.transform.position = pos;
                 go.name = selectedPrefab.name;
-                go.transform.SetParent(targetGameObject.transform);
-                spawnedGO.Add(go.GetComponent<MapTile>());
+                go.transform.SetParent(map.transform);
+                tiles.Add(go.GetComponent<MapTile>());
             }
         }
 	}
@@ -448,7 +467,7 @@ public class MapEditor : Editor {
             return false;
         }
         Vector3 prefabBounds = selectedPrefab.Bounds / 2;
-		foreach (MapTile goat in spawnedGO)
+		foreach (MapTile goat in tiles)
 		{
 			Vector3 dif = spawnPos - goat.transform.position;
 			Vector3 bounds = prefabBounds + (goat.Bounds / 2);
@@ -469,7 +488,7 @@ public class MapEditor : Editor {
 	MapTile GetObjectAtLocation(Vector3 spawnPos)
 	{
 
-		foreach (MapTile goat in spawnedGO)
+		foreach (MapTile goat in tiles)
 		{
 			Vector3 dif = spawnPos - goat.transform.position;
 			Vector3 bounds = goat.Bounds / 2;
@@ -493,14 +512,12 @@ public class MapEditor : Editor {
 		{
             if (selectedMapTile && selectedMapTile.HighlightState == MapHighlightState.Primary)
 			{
-                //selectedMapTile.Highlighted = false;
                 selectedMapTile.HighlightState = MapHighlightState.Normal;
 			}
 
 			selectedMapTile = value;
             if (selectedMapTile)
             {
-                //selectedMapTile.Highlighted = true;
                 selectedMapTile.HighlightState = MapHighlightState.Primary;
             }
 		}
@@ -518,7 +535,6 @@ public class MapEditor : Editor {
 
         set {
             if (secondaryMapTile && selectedMapTile.HighlightState == MapHighlightState.Secondary) {
-                //secondaryMapTile.Highlighted = false;
                 secondaryMapTile.HighlightState = MapHighlightState.Normal;
             }
 
@@ -526,12 +542,45 @@ public class MapEditor : Editor {
 
 			if (secondaryMapTile)
 			{
-				//secondaryMapTile.Highlighted = true;
                 secondaryMapTile.HighlightState = MapHighlightState.Secondary;
 			}
         }
     }
 
+    void Save() {
+        string path = EditorUtility.SaveFilePanel("Save Level As JSON", "", "level.json", "json");
+
+        if (path.Length > 0) {
+            string json = map.SaveToJSON();
+
+            File.WriteAllText(path, json);
+            Debug.Log("Saved");
+		}
+    }
+
+    void Load() {
+        string path = EditorUtility.OpenFilePanel("Open a Level File", "", "json");
+        if (path.Length > 0)
+        {
+            string json = File.ReadAllText(path);
+            if (json.Length > 0) {
+                List<TileStruct> newTiles = map.LoadFromJSON(json);
+
+                if (newTiles.Count > 0) {
+                    while(map.transform.childCount > 0) {
+                        DestroyImmediate(map.transform.GetChild(0).gameObject, false);
+                    }
+
+                    foreach(TileStruct t in newTiles) {
+                        MapTile tile = Instantiate(prefabs[t.name]).GetComponent<MapTile>();
+                        tile.transform.SetParent(map.transform);
+                        tile.FromData(t);
+
+                    }
+                }
+            }
+        }
+    }
 
 }
 
