@@ -10,7 +10,6 @@ public class MapEditor : Editor {
     MapTile selectedPrefab;
     MapTile selectedMapTile;
     MapTile secondaryMapTile;
-    List<MapTile> tiles = new List<MapTile>();
     Dictionary<string, GameObject> prefabs;
 
 	Vector3 spawnPosition = Vector3.zero;
@@ -30,16 +29,13 @@ public class MapEditor : Editor {
 		
         prefabs = new Dictionary<string, GameObject>(obj.Length);
 
-		for (int i = 0; i < obj.Length; i++)
-		{
+        for (int i = 0; i < obj.Length; i++)
+        {
             GameObject go = (GameObject)obj[i];
             prefabs.Add(go.name, go);
-		}
-        tiles = map.GetComponentsInChildren<MapTile>().ToList();
-        foreach (MapTile et in tiles)
-		{
-			et.Highlighted = false;
-		}
+        }
+
+        map.Clear();
 	}
 
 	/// <summary>
@@ -121,6 +117,7 @@ public class MapEditor : Editor {
 			GUIUtility.ExitGUI();
 		}
 		GUILayout.EndHorizontal();
+        map.RenderInEditor();
 	}
 
 	/// <summary>
@@ -135,7 +132,7 @@ public class MapEditor : Editor {
 			spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
 
             if (Event.current.type == EventType.MouseDown) {
-                MapTile atLoc = GetObjectAtLocation(spawnPosition);
+                MapTile atLoc = map.GetObjectAtLocation(spawnPosition);
                 if (Event.current.button == 0)
                 {
                     if (atLoc != null)
@@ -162,7 +159,7 @@ public class MapEditor : Editor {
                     }
                     else
                     {
-                        SecondaryMapTile = atLoc;
+                        SecondaryMapTile = atLoc != secondaryMapTile ? atLoc : null;
                     }
                     Repaint();
 
@@ -178,22 +175,15 @@ public class MapEditor : Editor {
 
         if (Event.current.type == EventType.KeyDown)
 		{
-            /*
-			if (Event.current.keyCode == KeyCode.E && !makeDown)
-			{
-				makeDown = true;
-				Event.current.Use();
-			}
-			else*/ if (Event.current.keyCode == KeyCode.Delete || Event.current.keyCode == KeyCode.Backspace)
+			if (Event.current.keyCode == KeyCode.Delete || Event.current.keyCode == KeyCode.Backspace)
 			{
 				if (SelectedMapTile)
 				{
-					tiles.Remove(selectedMapTile);
-					selectedMapTile.Delete();
+                    map.RemoveTile(selectedMapTile);
 
-					if (tiles.Count > 0)
+                    if (map.NumberOfTiles > 0)
 					{
-						SelectedMapTile = tiles[tiles.Count - 1];
+                        SelectedMapTile = map.GetTile(map.NumberOfTiles - 1);
 					}
 				}
 
@@ -336,10 +326,7 @@ public class MapEditor : Editor {
 
 		Handles.EndGUI();
 
-		foreach (MapTile et in tiles)
-		{
-			et.RenderInEditor();
-		}
+        map.RenderInEditor();
 	}
 
     void Connect() {
@@ -450,8 +437,7 @@ public class MapEditor : Editor {
                 pos.z = SelectedMapTile.ZPos;
                 go.transform.position = pos;
                 go.name = selectedPrefab.name;
-                go.transform.SetParent(map.transform);
-                tiles.Add(go.GetComponent<MapTile>());
+                map.AddTile(SelectedMapTile);
             }
         }
 	}
@@ -467,10 +453,11 @@ public class MapEditor : Editor {
             return false;
         }
         Vector3 prefabBounds = selectedPrefab.Bounds / 2;
-		foreach (MapTile goat in tiles)
+        for (int i = 0; i < map.NumberOfTiles; i++)
 		{
-			Vector3 dif = spawnPos - goat.transform.position;
-			Vector3 bounds = prefabBounds + (goat.Bounds / 2);
+            MapTile tile = map.GetTile(i);
+            Vector3 dif = spawnPos - tile.transform.position;
+            Vector3 bounds = prefabBounds + (tile.Bounds / 2);
 			if (dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y))
 			{
 				return false;
@@ -478,28 +465,6 @@ public class MapEditor : Editor {
 		}
 
 		return true;
-	}
-
-	/// <summary>
-	/// Gets the object (if any) at location.
-	/// </summary>
-	/// <returns>The object at location.</returns>
-	/// <param name="spawnPos">Spawn position.</param>
-	MapTile GetObjectAtLocation(Vector3 spawnPos)
-	{
-
-		foreach (MapTile goat in tiles)
-		{
-			Vector3 dif = spawnPos - goat.transform.position;
-			Vector3 bounds = goat.Bounds / 2;
-			if (dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y))
-			{
-				return goat;
-			}
-
-		}
-
-		return null;
 	}
 
 	/// <summary>
@@ -534,7 +499,7 @@ public class MapEditor : Editor {
         }
 
         set {
-            if (secondaryMapTile && selectedMapTile.HighlightState == MapHighlightState.Secondary) {
+            if (secondaryMapTile && secondaryMapTile.HighlightState == MapHighlightState.Secondary) {
                 secondaryMapTile.HighlightState = MapHighlightState.Normal;
             }
 
