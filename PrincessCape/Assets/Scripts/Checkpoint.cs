@@ -100,4 +100,24 @@ public class Checkpoint : MapTile {
             return activeCheckpoint.gameObject;
         }
     }
+
+    public override string SaveData()
+    {
+		string info = "{\n";
+		info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
+		info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
+		info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
+		info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
+		info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
+        info += string.Format("\"Is First?\": \"{0}\"", isFirstCheckpoint) + lineEnding;
+		info += "}" + lineEnding;
+		return info;
+    }
+
+    public override void FromData(TileStruct tile)
+    {
+        base.FromData(tile);
+        isFirstCheckpoint = PCLParser.ParseBool(tile.info[3]);
+
+    }
 }

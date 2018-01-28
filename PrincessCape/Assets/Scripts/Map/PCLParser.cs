@@ -20,6 +20,10 @@ public class PCLParser {
         return float.Parse(ParseLine(pcl));
     }
 
+    public static bool ParseBool(string pcl) {
+        return bool.Parse(ParseLine(pcl));
+    }
+
     public static List<TileStruct> ParseTiles(string pcl) {
         List<TileStruct> tiles = new List<TileStruct>();
         int ind = pcl.IndexOf('[') + 2;
