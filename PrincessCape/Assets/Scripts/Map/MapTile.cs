@@ -14,7 +14,7 @@ public class MapTile : MonoBehaviour {
 	/// </summary>
 	private void Awake()
 	{
-		Highlighted = false;
+        HighlightState = MapHighlightState.Normal;
 	}
 #if UNITY_EDITOR
 	/// <summary>
@@ -101,7 +101,7 @@ public class MapTile : MonoBehaviour {
 	/// Gets the bounds of this instance.
 	/// </summary>
 	/// <value>The bounds.</value>
-	public Vector3 Bounds
+	public virtual Vector3 Bounds
 	{
 		get
 		{
@@ -109,24 +109,30 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
+    public virtual bool Overlaps(Vector3 pos) {
+		Vector3 dif = pos - transform.position;
+		Vector3 bounds = Bounds / 2;
+        return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
+    }
+    public virtual bool Overlaps(MapTile other, Vector3 spawnPos) {
+		Vector3 dif = spawnPos - transform.position;
+        Vector3 bounds = (other.Bounds + Bounds) / 2;
+        return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
+    }
+
 	/// <summary>
 	/// Gets or sets a value indicating whether this <see cref="T:EditorTile"/> is highlighted.
 	/// </summary>
 	/// <value><c>true</c> if highlighted; otherwise, <c>false</c>.</value>
 	public bool Highlighted
 	{
-		set
-		{
-			GetComponent<SpriteRenderer>().color = value ? Color.blue : Color.white;
-		}
-
 		get
 		{
-			return GetComponent<SpriteRenderer>().color == Color.blue;
+            return GetComponent<SpriteRenderer>().color != Color.white;
 		}
 	}
 
-    public MapHighlightState HighlightState {
+    public virtual MapHighlightState HighlightState {
         get {
             Color myCol = GetComponent<SpriteRenderer>().color;
             if (myCol == Color.white) {

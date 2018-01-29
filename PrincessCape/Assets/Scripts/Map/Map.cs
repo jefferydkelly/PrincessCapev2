@@ -58,14 +58,11 @@ public class Map : MonoBehaviour {
 	public MapTile GetObjectAtLocation(Vector3 spawnPos)
 	{
 
-		foreach (MapTile goat in tiles)
+		foreach (MapTile tile in tiles)
 		{
-			Vector3 dif = spawnPos - goat.transform.position;
-			Vector3 bounds = goat.Bounds / 2;
-			if (dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y))
-			{
-				return goat;
-			}
+            if (tile.Overlaps(spawnPos)) {
+                return tile;
+            }
 
 		}
 

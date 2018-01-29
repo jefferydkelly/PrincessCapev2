@@ -45,8 +45,12 @@ public class MapEditor : Editor {
 	{
 		if (SelectedMapTile)
 		{
-			SelectedMapTile.Highlighted = false;
+            SelectedMapTile.HighlightState = MapHighlightState.Normal;
 		}
+
+        if (SecondaryMapTile) {
+            SecondaryMapTile.HighlightState = MapHighlightState.Normal;
+        }
 	}
 
 	/// <summary>
@@ -56,7 +60,12 @@ public class MapEditor : Editor {
 	{
 		if (SelectedMapTile)
 		{
-			SelectedMapTile.Highlighted = false;
+			SelectedMapTile.HighlightState = MapHighlightState.Normal;
+		}
+
+		if (SecondaryMapTile)
+		{
+			SecondaryMapTile.HighlightState = MapHighlightState.Normal;
 		}
 	}
 
@@ -452,16 +461,14 @@ public class MapEditor : Editor {
         if (selectedPrefab == null) {
             return false;
         }
-        Vector3 prefabBounds = selectedPrefab.Bounds / 2;
+     
         for (int i = 0; i < map.NumberOfTiles; i++)
 		{
             MapTile tile = map.GetTile(i);
-            Vector3 dif = spawnPos - tile.transform.position;
-            Vector3 bounds = prefabBounds + (tile.Bounds / 2);
-			if (dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y))
-			{
-				return false;
-			}
+
+            if (tile.Overlaps(selectedPrefab, spawnPosition)) {
+                return false;
+            }
 		}
 
 		return true;
