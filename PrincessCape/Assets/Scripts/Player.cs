@@ -9,6 +9,8 @@ public class Player : MonoBehaviour {
     Timer resetTimer;
     bool isFrozen = false;
     Cape cape;
+    bool onLadder = false;
+    bool aboveLadder = false;
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -35,14 +37,25 @@ public class Player : MonoBehaviour {
 	void Update () {
         if (!isFrozen)
         {
+            bool onGround = IsOnGround;
             myRigidbody.AddForce(new Vector2(Input.GetAxis("Horizontal") * 5, 0));
             myRigidbody.ClampXVelocity(2.0f);
-            if (IsOnGround && Input.GetKeyDown(KeyCode.Space))
+            if (onLadder) {
+                myRigidbody.AddForce(new Vector2(0, Input.GetAxis("Vertical") * 5));
+
+                if (onGround && Input.GetAxis("Vertical") > 0) {
+                    myRigidbody.gravityScale = 0;
+                } else if (aboveLadder && Input.GetAxis("Vertical") < 0) {
+                    myRigidbody.gravityScale = 0;
+                    transform.position += Vector3.down * 0.25f;
+                }           
+            }
+            if (onGround && Input.GetKeyDown(KeyCode.Space))
             {
                 myRigidbody.AddForce(Vector2.up * 7.5f, ForceMode2D.Impulse);
             }
 
-            if (!IsOnGround && Input.GetKeyDown(KeyCode.Space)) {
+            if (!onGround && !onLadder && Input.GetKeyDown(KeyCode.Space)) {
                 cape.Use();
             }
         }
@@ -80,7 +93,40 @@ public class Player : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.relativeVelocity.y > 0) {
+            myRigidbody.gravityScale = 1;
+
+			if (collision.collider.CompareTag("Ladder Top"))
+			{
+				aboveLadder = true;
+			}
+
             EventManager.TriggerEvent("PlayerLanded");
         }
+
+
     }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+		if (collision.collider.CompareTag("Ladder Top"))
+		{
+            aboveLadder = false;
+		}
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ladder")) {
+            onLadder = true;
+        }
+    }
+
+	public void OnTriggerExit2D(Collider2D collision)
+	{
+		if (collision.CompareTag("Ladder"))
+		{
+            onLadder = false;
+            myRigidbody.gravityScale = 1;
+		}
+	}
 }
