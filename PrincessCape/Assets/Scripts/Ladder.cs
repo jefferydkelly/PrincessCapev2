@@ -66,4 +66,31 @@ public class Ladder : MapTile {
 		Vector3 bounds = (other.Bounds + Bounds) / 2;
 		return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
     }
+
+    public override string SaveData()
+    {
+		string info = "{\n";
+		info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
+		info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
+		info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
+		info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
+		info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
+        info += string.Format("\"Links\": \"{0}\"", transform.childCount - 1) + lineEnding;
+		info += "}" + lineEnding;
+		return info;
+    }
+
+    public override void FromData(TileStruct tile)
+    {
+        base.FromData(tile);
+
+        int numLinks = PCLParser.ParseInt(tile.info[3]);
+        for (int i = 0; i < numLinks; i++) {
+			GameObject newChain = Instantiate(plainLadder);
+
+			newChain.transform.SetParent(transform);
+			newChain.transform.position = transform.position + Vector3.down * (transform.childCount - 1);
+			newChain.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
+        }
+    }
 }

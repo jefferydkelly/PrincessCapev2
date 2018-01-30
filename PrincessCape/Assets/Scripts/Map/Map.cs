@@ -15,6 +15,19 @@ public class Map : MonoBehaviour {
         Clear();
     }
 
+    public void AssignIDs() {
+        int id = 0;
+
+        foreach(MapTile tile in tiles) {
+            if (tile.ID <= 0) {
+				while (TileHasID(id))
+				{
+					id++;
+				}
+                tile.ID = id;
+            }
+        }
+    }
     public void Clear() {
 		foreach (MapTile tile in tiles)
 		{
@@ -103,5 +116,17 @@ public class Map : MonoBehaviour {
         }
 
         return null;
+    }
+
+    bool TileHasID(int id) {
+		foreach (MapTile tile in tiles)
+		{
+			if (tile.ID == id)
+			{
+                return true;
+			}
+		}
+
+        return false;
     }
 }

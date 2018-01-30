@@ -36,6 +36,7 @@ public class MapEditor : Editor {
         }
 
         map.Clear();
+        map.AssignIDs();
 	}
 
 	/// <summary>
@@ -547,7 +548,6 @@ public class MapEditor : Editor {
                         MapTile tile = Instantiate(prefabs[t.name]).GetComponent<MapTile>();
                         tile.FromData(t);
                         map.AddTile(tile);
-                        Debug.Log(tile.ID);
                     }
 
                     foreach(ActivatedObject ao in map.GetComponentsInChildren<ActivatedObject>()) {
