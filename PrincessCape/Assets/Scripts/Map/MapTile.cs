@@ -94,7 +94,10 @@ public class MapTile : MonoBehaviour {
 	/// </summary>
 	public virtual void Delete()
 	{
-		DestroyImmediate(gameObject);
+        if (gameObject)
+        {
+            DestroyImmediate(gameObject);
+        }
 	}
 
 	/// <summary>
