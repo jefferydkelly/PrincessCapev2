@@ -527,7 +527,7 @@ public class MapEditor : Editor {
     }
 
     void Save() {
-        string path = EditorUtility.SaveFilePanel("Save Level To File", "", "level.pcl", "pcl");
+        string path = EditorUtility.SaveFilePanel("Save Level To File", "Assets/Resources/Levels", "level.pcl", "pcl");
 
         if (path.Length > 0) {
             string json = map.SaveToFile();
@@ -537,7 +537,7 @@ public class MapEditor : Editor {
     }
 
     void Load() {
-        string path = EditorUtility.OpenFilePanel("Open A Level File", "", "pcl");
+        string path = EditorUtility.OpenFilePanel("Open A Level File", "Assets/Resources/Levels", "pcl");
         if (path.Length > 0)
         {
             string json = File.ReadAllText(path);

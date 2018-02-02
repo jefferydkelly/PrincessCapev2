@@ -1,14 +1,6 @@
 {
-"MapName": "Level",
+"MapName": "Second Level",
 "Tiles": [
-{
-"Name": "Ladder",
-"ID": "10",
-"Position": "(2.0, 2.0, 1.0)",
-"Rotation": "(0.0, 0.0, 0.0, 1.0)",
-"Scale": "(1.0, 1.0, 1.0)",
-"Links": "0",
-},
 {
 "Name": "Platform",
 "ID": "1",
@@ -29,7 +21,6 @@
 "Position": "(4.0, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Is First?": "True",
 },
 {
 "Name": "Switch",
@@ -38,6 +29,8 @@
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Connections": [
+"CI": "5",
+"CI": "7",
 ],
 },
 {
@@ -50,28 +43,20 @@
 },
 {
 "Name": "Checkpoint",
-"ID": "7",
+"ID": "6",
 "Position": "(-2.0, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Is First?": "False",
 },
 {
 "Name": "Gate",
-"ID": "8",
+"ID": "7",
 "Position": "(-7.0, -0.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Connections": [
+"CI": "4",
 ],
-},
-{
-"Name": "Ladder",
-"ID": "9",
-"Position": "(2.0, 2.0, 1.0)",
-"Rotation": "(0.0, 0.0, 0.0, 1.0)",
-"Scale": "(1.0, 1.0, 1.0)",
-"Links": "3",
 },
 ]
 }

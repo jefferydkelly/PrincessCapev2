@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Door : MapTile {
-    [SerializeField]
     string nextScene;
 
     /// <summary>
@@ -14,6 +13,19 @@ public class Door : MapTile {
     {
         if (collision.CompareTag("Player")) {
             Game.Instance.LoadScene(nextScene);
+        }
+    }
+
+    public string NextScene {
+        set {
+            if (value.Length > 0 && Application.isEditor && !Application.isPlaying)
+            {
+                nextScene = value;
+            }
+        }
+
+        get {
+            return nextScene;
         }
     }
 }
