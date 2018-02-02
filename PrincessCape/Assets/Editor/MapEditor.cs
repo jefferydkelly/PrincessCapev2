@@ -35,7 +35,7 @@ public class MapEditor : Editor {
             prefabs.Add(go.name, go);
         }
 
-        map.Clear();
+        map.ClearHighlights();
         map.AssignIDs();
 	}
 
@@ -126,6 +126,12 @@ public class MapEditor : Editor {
 			Load();
 			GUIUtility.ExitGUI();
 		}
+
+        if (GUILayout.Button("Clear")) {
+            SelectedMapTile = null;
+            SecondaryMapTile = null;
+            map.Clear();
+        }
 		GUILayout.EndHorizontal();
         map.RenderInEditor();
 	}
@@ -415,7 +421,7 @@ public class MapEditor : Editor {
 	{
         if (selectedPrefab != null)
         {
-            Vector3 pos = new Vector3(Mathf.Round(_spawnPosition.x), Mathf.Round(_spawnPosition.y), 0);
+            Vector3 pos = new Vector3(Mathf.Round(_spawnPosition.x), Mathf.Round(_spawnPosition.y), selectedPrefab.gameObject.IsOnLayer("Background") ? 1 : 0);
 
 
             if ((int)selectedPrefab.Bounds.x % 2 == 0)
@@ -444,7 +450,7 @@ public class MapEditor : Editor {
                 SelectedMapTile = go.GetComponent<MapTile>();
 
 
-                pos.z = SelectedMapTile.ZPos;
+                //pos.z = SelectedMapTile.ZPos;
                 go.transform.position = pos;
                 go.name = selectedPrefab.name;
                 map.AddTile(SelectedMapTile);
@@ -527,7 +533,6 @@ public class MapEditor : Editor {
             string json = map.SaveToFile();
 
             File.WriteAllText(path, json);
-            Debug.Log("Saved");
 		}
     }
 

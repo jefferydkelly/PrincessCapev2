@@ -5,13 +5,14 @@ using UnityEngine;
 public abstract class MagicItem:MonoBehaviour {
 
     protected Timer cooldownTimer;
-    float cooldownTime = 1.0f;
+    float cooldownTime = 0.25f;
 	// Use this for initialization
     public MagicItem () {
         cooldownTimer = new Timer(Reset, cooldownTime);
 	}
 
-    public abstract void Use();
+    public abstract void Activate();
+    public abstract void Deactivate();
 
     public virtual void Reset() {
         

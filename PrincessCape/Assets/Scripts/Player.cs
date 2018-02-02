@@ -56,7 +56,9 @@ public class Player : MonoBehaviour {
             }
 
             if (!onGround && !onLadder && Input.GetKeyDown(KeyCode.Space)) {
-                cape.Use();
+                cape.Activate();
+            } else if (Input.GetKeyUp(KeyCode.Space)) {
+                cape.Deactivate();
             }
         }
 	}

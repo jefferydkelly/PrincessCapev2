@@ -18,23 +18,29 @@ public class Cape : MagicItem
     {
         EventManager.StopListening("PlayerLanded", listener);
     }
-    public override void Use()
+    public override void Activate()
     {
         if (!cooldownTimer.IsRunning && canUse) {
             Rigidbody2D rb = Game.Instance.Player.GetComponent<Rigidbody2D>();
-            rb.gravityScale = 0f;
+            rb.gravityScale = 0.2f;//0.1f;
             rb.velocity = new Vector2(rb.velocity.x, 0);
-            canUse = false;
-            cooldownTimer.Start();
         }
+    }
+
+    public override void Deactivate() {
+		Rigidbody2D rb = Game.Instance.Player.GetComponent<Rigidbody2D>();
+        rb.gravityScale = 1.0f;
+        cooldownTimer.Start();
+        canUse = false;
     }
 
     public override void Reset()
     {
         Game.Instance.Player.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+        canUse = true;
     }
 
     void OnPlayerLanded() {
-        canUse = true;
+        Deactivate();
     }
 }

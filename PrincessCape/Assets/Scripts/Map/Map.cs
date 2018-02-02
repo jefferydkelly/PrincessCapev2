@@ -12,7 +12,7 @@ public class Map : MonoBehaviour {
     public void Awake()
     {
         tiles = GetComponentsInChildren<MapTile>().ToList();
-        Clear();
+        ClearHighlights();
     }
 
     public void AssignIDs() {
@@ -28,7 +28,17 @@ public class Map : MonoBehaviour {
             }
         }
     }
+
     public void Clear() {
+        foreach (MapTile tile in tiles)
+        {
+            DestroyImmediate(tile.gameObject, false);
+        }
+
+        tiles = new List<MapTile>();
+            
+    }
+    public void ClearHighlights() {
 		foreach (MapTile tile in tiles)
 		{
             tile.HighlightState = MapHighlightState.Normal;

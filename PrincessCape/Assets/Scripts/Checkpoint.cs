@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine.Events;
 
+[ExecuteInEditMode]
 public class Checkpoint : MapTile {
     static Checkpoint activeCheckpoint;
     bool isActive = false;
@@ -17,8 +18,15 @@ public class Checkpoint : MapTile {
     /// </summary>
     private void Awake()
     {
+       
         myAnimator = GetComponent<Animator>();
-        if (isFirstCheckpoint) {
+
+        if (!Application.isPlaying)
+		{
+            if (FindObjectsOfType<Checkpoint>().Length == 1) {
+                isFirstCheckpoint = true;
+            }
+        } else if (isFirstCheckpoint) {
             activeCheckpoint = this;
         }
      }
@@ -87,7 +95,10 @@ public class Checkpoint : MapTile {
     /// <value>The reset position.</value>
     public static Vector3 ResetPosition {
         get {
-            return activeCheckpoint.transform.position;
+            if (!activeCheckpoint) {
+                return Vector3.zero;
+            }
+            return activeCheckpoint.transform.position.SetZ(0);
         }
     }
 
