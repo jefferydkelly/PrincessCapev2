@@ -9,13 +9,18 @@ public class Player : MonoBehaviour {
     Timer resetTimer;
     bool isFrozen = false;
     Cape cape;
+    PullGlove glove;
+    PushGlove otherGlove;
     bool onLadder = false;
     bool aboveLadder = false;
+    PlayerState state = PlayerState.Normal;
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         resetTimer = new Timer(Game.Instance.Reset, 1.0f);
         cape = gameObject.AddComponent<Cape>();
+        glove = gameObject.AddComponent<PullGlove>();
+        otherGlove = gameObject.AddComponent<PushGlove>();
     }
 
     private void OnEnable()
@@ -31,11 +36,12 @@ public class Player : MonoBehaviour {
     void Start () {
         platformLayers = ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("Hazard"));
         CameraManager.Instance.Target = gameObject;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (!isFrozen)
+        if (!isFrozen && !IsPulling)
         {
             bool onGround = IsOnGround;
             myRigidbody.AddForce(new Vector2(Input.GetAxis("Horizontal") * 5, 0));
@@ -61,6 +67,24 @@ public class Player : MonoBehaviour {
                 cape.Deactivate();
             }
         }
+
+		if (Input.GetKey(KeyCode.Mouse0))
+		{
+			glove.Activate();
+		}
+		else if (Input.GetKeyUp(KeyCode.Mouse0))
+		{
+			glove.Deactivate();
+		}
+
+		if (Input.GetKey(KeyCode.Mouse1))
+		{
+            otherGlove.Activate();
+		}
+		else if (Input.GetKeyUp(KeyCode.Mouse1))
+		{
+            otherGlove.Deactivate();
+		}
 	}
 
     /// <summary>
@@ -131,4 +155,59 @@ public class Player : MonoBehaviour {
             myRigidbody.gravityScale = 1;
 		}
 	}
+
+    public Rigidbody2D Rigidbody {
+        get {
+            return myRigidbody;
+        }
+    }
+
+    public bool IsDead {
+        get {
+            return state == PlayerState.Dead;
+        }
+    }
+
+    public bool IsFloating {
+        get {
+            return state == PlayerState.Floating;
+        }
+
+        set {
+            if (value && (!IsDead || isFrozen)) {
+                state = PlayerState.Floating;
+            } else if (!value && IsFloating) {
+                state = PlayerState.Normal;
+            }
+        }
+    }
+
+	public bool IsPulling
+	{
+		get
+		{
+            return state == PlayerState.Pulling;
+		}
+
+		set
+		{
+			if (value && (!IsDead || isFrozen))
+			{
+				state = PlayerState.Floating;
+			}
+            else if (!value && IsPulling)
+			{
+				state = PlayerState.Normal;
+			}
+		}
+	}
+}
+
+public enum PlayerState {
+    Normal,
+    Dead,
+    Floating,
+    Pushing,
+    Pulling,
+    Frozen
 }
