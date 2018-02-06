@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
         resetTimer = new Timer(Game.Instance.Reset, 1.0f);
         cape = new Cape();
         glove = new PullGlove();
-        cape.RegisterItemOne();
+        glove.RegisterItemOne();
         otherGlove = new PushGlove();
         otherGlove.RegisterItemTwo();
         controller = new Controller();

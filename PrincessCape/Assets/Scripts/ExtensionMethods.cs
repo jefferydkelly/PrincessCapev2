@@ -72,6 +72,52 @@ public static class ExtensionMethods {
 	}
 
     /// <summary>
+    /// Converts the angle from radians to degrees and returns it.
+    /// </summary>
+    /// <returns>The angle in radians.</returns>
+    /// <param name="f">The angle in degrees.</param>
+    public static float ToDegrees(this float f) {
+        return f * Mathf.Rad2Deg;
+    }
+
+	/// <summary>
+	/// Converts the angle from degrees to radians and returns it.
+	/// </summary>
+	/// <returns>The angle in degrees.</returns>
+	/// <param name="f">The angle in degrees.</param>
+	public static float ToRadians(this float f) {
+        return f * Mathf.Deg2Rad;
+    }
+
+    /// <summary>
+    /// Rounds to nearest multiple of the given value.
+    /// </summary>
+    /// <returns>The given float rounded to the nearet multiple of val.</returns>
+    /// <param name="f">The float to be rounded.</param>
+    /// <param name="val">The value whose multiple f will be rounded to.</param>
+    public static float RoundToNearest(this float f, float val) {
+        return Mathf.Round(f / val) * val;
+    }
+
+    /// <summary>
+    /// Calculates a Vector2 from the sin and cos of the angle.
+    /// </summary>
+    /// <returns>A unit vector pointing in the direction of the angle.</returns>
+    /// <param name="ang">The angle in radians.</param>
+    public static Vector2 FromRadianToVector(this float ang) {
+        return new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
+    }
+
+	/// <summary>
+	/// Calculates a Vector2 from the sin and cos of the angle.
+	/// </summary>
+	/// <returns>A unit vector pointing in the direction of the angle.</returns>
+	/// <param name="ang">The angle in degrees.</param>
+	public static Vector2 FromDegreesToVector(this float deg) {
+        return deg.ToRadians().FromRadianToVector();
+    }
+
+    /// <summary>
     /// Returns a new Vector3 with the given X value and YZ values that match the Vector3.
     /// </summary>
     /// <returns>The x.</returns>
@@ -124,5 +170,14 @@ public static class ExtensionMethods {
 	{
 		return new Vector2(vec.x, y);
 	}
+
+    /// <summary>
+    /// Calculates the angle of the vector
+    /// </summary>
+    /// <returns>The angle calculated from the x and y of the vector.</returns>
+    /// <param name="vec">The vector.</param>
+    public static float Angle(this Vector2 vec) {
+        return Mathf.Atan2(vec.y, vec.x);
+    }
 
 }

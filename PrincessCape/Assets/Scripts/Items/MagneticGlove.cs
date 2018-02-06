@@ -4,8 +4,12 @@ using UnityEngine;
 
 public abstract class MagneticGlove : MagicItem {
     protected float range = 10;
-    protected float force = 10f;
+    protected float force = 15f;
     protected Metal target = null;
+
+    /// <summary>
+    /// Finds the target.
+    /// </summary>
 	protected void FindTarget()
 	{
 		target = Metal.HighlightedBlock;
@@ -22,6 +26,9 @@ public abstract class MagneticGlove : MagicItem {
 		}
 	}
 
+    /// <summary>
+    /// Clears the target.
+    /// </summary>
     protected void ClearTarget() {
 		if (target)
 		{
@@ -34,6 +41,9 @@ public abstract class MagneticGlove : MagicItem {
 		}
     }
 
+    /// <summary>
+    /// Activate this instance.
+    /// </summary>
     public override void Activate()
     {
         if (state == MagicItemState.Ready)
@@ -43,9 +53,29 @@ public abstract class MagneticGlove : MagicItem {
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether the selected Metal block in range.
+    /// </summary>
+    /// <value><c>true</c> if is target in range; otherwise, <c>false</c>.</value>
     protected bool IsTargetInRange {
         get {
             return Vector2.Distance(target.transform.position, Game.Instance.Player.transform.position) <= range;
+        }
+    }
+
+    /// <summary>
+    /// Returns the direction between the player and the target rounded to the nearest 45 degrees.
+    /// </summary>
+    /// <value>The direction between the player and the selected metal block.</value>
+    protected Vector2 Direction {
+        get {
+            if (target) {
+                Vector2 dif = Game.Instance.Player.transform.position - target.transform.position;
+                float ang = dif.Angle();
+                ang = ang.RoundToNearest(Mathf.PI / 4);
+                return ang.FromRadianToVector();
+            }
+            return Vector2.zero;
         }
     }
 }

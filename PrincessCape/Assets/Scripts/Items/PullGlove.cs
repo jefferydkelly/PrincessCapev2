@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PullGlove : MagneticGlove
 {
+    /// <summary>
+    /// Pulls the Target towards the player or vice versa
+    /// </summary>
     public override void Use()
     {
         if (state == MagicItemState.Activated)
@@ -21,12 +24,12 @@ public class PullGlove : MagneticGlove
                     Game.Instance.Player.IsPulling = true;
                     if (target.IsStatic)
                     {
-                        Game.Instance.Player.Rigidbody.AddForce((target.transform.position - Game.Instance.Player.transform.position).normalized * 10);
+                        Game.Instance.Player.Rigidbody.AddForce(-Direction * force);
                     }
                     else
                     {
 
-                        target.Rigidbody.AddForce((Game.Instance.Player.transform.position - target.transform.position).normalized * 10);
+                        target.Rigidbody.AddForce(Direction * force);
                     }
                 } else {
                     ClearTarget();
@@ -35,8 +38,10 @@ public class PullGlove : MagneticGlove
         }
     }
 
-
-    public override void Deactivate()
+	/// <summary>
+	/// Ends the use of the glove
+	/// </summary>
+	public override void Deactivate()
     {
         if (state == MagicItemState.Activated)
         {

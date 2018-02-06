@@ -12,18 +12,27 @@ public abstract class MagicItem {
         cooldownTimer = new Timer(Reset, cooldownTime);
 	}
 
+    /// <summary>
+    /// Registers the item as the first item and starts listening for the associated events
+    /// </summary>
     public void RegisterItemOne() {
         EventManager.StartListening("ItemOneActivated", Activate);
         EventManager.StartListening("ItemOneHeld", Use);
         EventManager.StartListening("ItemOneDeactivated", Deactivate);
     }
 
-    public void DegristerItemOne() {
+	/// <summary>
+	/// Deregisters the item as the first item and stops listening for the associated events
+	/// </summary>
+	public void DegristerItemOne() {
         EventManager.StopListening("ItemOneActivated", Activate);
         EventManager.StopListening("ItemOneHeld", Use);
         EventManager.StopListening("ItemOneDeactivated", Deactivate);
     }
 
+	/// <summary>
+	/// Registers the item as the second item and starts listening for the associated events
+	/// </summary>
 	public void RegisterItemTwo()
 	{
 		EventManager.StartListening("ItemTwoActivated", Activate);
@@ -31,6 +40,9 @@ public abstract class MagicItem {
 		EventManager.StartListening("ItemTwoDeactivated", Deactivate);
 	}
 
+	/// <summary>
+	/// Deregisters the item as the second item and stops listening for the associated events
+	/// </summary>
 	public void DegristerItemTwo()
 	{
 		EventManager.StopListening("ItemTwoActivated", Activate);
@@ -45,6 +57,9 @@ public abstract class MagicItem {
     }
     public abstract void Deactivate();
 
+    /// <summary>
+    /// Reset this instance to be used again.
+    /// </summary>
     public virtual void Reset() {
 		state = MagicItemState.Ready;
     }

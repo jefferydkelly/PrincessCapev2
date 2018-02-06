@@ -7,11 +7,17 @@ public class Cape : MagicItem
 {
     private UnityAction listener;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Cape"/> class.
+    /// </summary>
     public Cape() {
 		listener = new UnityAction(OnPlayerLanded);
 		EventManager.StartListening("PlayerLanded", OnPlayerLanded);
     }
    
+    /// <summary>
+    /// Activate this instance lessening the gravity scale and setting the Player's y-velocity to 0.
+    /// </summary>
     public override void Activate()
     {
         if (state == MagicItemState.Ready) {
@@ -22,6 +28,9 @@ public class Cape : MagicItem
         }
     }
 
+    /// <summary>
+    /// Deactivates the cape resetting the players gravity scale.
+    /// </summary>
     public override void Deactivate() {
 
         if (state == MagicItemState.Activated)
@@ -33,6 +42,9 @@ public class Cape : MagicItem
         }
     }
 
+    /// <summary>
+    /// Deactivates the cape when the Player land if it they are still using it.
+    /// </summary>
     void OnPlayerLanded() {
         if (state == MagicItemState.Activated)
         {
