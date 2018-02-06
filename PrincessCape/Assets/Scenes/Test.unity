@@ -263,6 +263,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layer: 0
+  editorTextureRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!68 &138698772
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -539,6 +545,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layer: 0
+  editorTextureRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   connections:
   - {fileID: 147479918}
   - {fileID: 285743328}
@@ -652,6 +664,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layer: 0
+  editorTextureRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!61 &1256345850
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -869,6 +887,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layer: 0
+  editorTextureRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!50 &1625214329
 Rigidbody2D:
   serializedVersion: 4
@@ -1090,6 +1114,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layer: 0
+  editorTextureRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!68 &2003792556
 EdgeCollider2D:
   m_ObjectHideFlags: 0

@@ -93,7 +93,7 @@ public class MapEditor : Editor {
 			int elementsInThisRow = 0;
             foreach(KeyValuePair<string, GameObject> pair in prefabs) {
 				elementsInThisRow++;
-                Texture prefabTexture = pair.Value.GetComponent<SpriteRenderer>().sprite.texture;
+                Texture prefabTexture = pair.Value.GetComponent<MapTile>().EditorTexture;
 
 				if (GUILayout.Button(prefabTexture, GUILayout.MaxWidth(50), GUILayout.MaxHeight(50)))
 				{

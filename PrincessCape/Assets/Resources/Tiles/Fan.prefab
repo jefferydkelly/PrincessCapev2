@@ -166,8 +166,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layer: 0
-  connections:
-  - {fileID: 0}
+  editorTextureRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 128
+    height: 128
+  connections: []
 --- !u!114 &114809259648841292
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,6 +184,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae35b217b44b14dec9a32be404709c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: 0
+  editorTextureRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!212 &212449721677556446
 SpriteRenderer:
   m_ObjectHideFlags: 1

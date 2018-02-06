@@ -97,6 +97,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layer: 0
+  editorTextureRect:
+    serializedVersion: 2
+    x: 0
+    y: 256
+    width: 128
+    height: 256
   connections: []
 --- !u!212 &212749504895295756
 SpriteRenderer:

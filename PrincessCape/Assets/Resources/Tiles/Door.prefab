@@ -79,7 +79,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layer: 1
-  nextScene: 
+  editorTextureRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 256
+    height: 256
 --- !u!212 &212798705475550800
 SpriteRenderer:
   m_ObjectHideFlags: 1

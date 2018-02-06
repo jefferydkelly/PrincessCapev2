@@ -7,6 +7,9 @@ public class MapTile : MonoBehaviour {
     protected string lineEnding = ",\n";
 	[SerializeField]
 	EditorLayer layer = EditorLayer.Foreground;
+
+    [SerializeField]
+    Rect editorTextureRect = new Rect(0, 0, 128, 128);
     int id = -1;
 
 	/// <summary>
@@ -212,6 +215,18 @@ public class MapTile : MonoBehaviour {
         Vector3 rot = PCLParser.ParseVector3(PCLParser.ParseLine(tile.info[1]));
 		transform.rotation.Set(rot.x, rot.y, rot.z, 1);
 		transform.localScale = PCLParser.ParseVector3(PCLParser.ParseLine(tile.info[2]));
+    }
+
+    public Texture EditorTexture {
+        get {
+            int wid = (int)editorTextureRect.width;
+            int hite = (int)editorTextureRect.height;
+            Color[] pix = GetComponent<SpriteRenderer>().sprite.texture.GetPixels((int)editorTextureRect.x, (int)editorTextureRect.y, wid, hite);
+            Texture2D editorTexture = new Texture2D(wid, hite);
+            editorTexture.SetPixels(pix);
+            editorTexture.Apply();
+            return editorTexture;
+        }
     }
 #endif
 
