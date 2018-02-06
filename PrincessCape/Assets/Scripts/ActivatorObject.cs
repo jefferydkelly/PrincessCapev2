@@ -13,7 +13,10 @@ public class ActivatorObject : ActivatedObject {
     public override void Activate()
     {
         foreach(ActivatedObject ao in connections) {
-            ao.Activate();
+            if (ao)
+            {
+                ao.Activate();
+            }
         }
     }
 
@@ -24,7 +27,10 @@ public class ActivatorObject : ActivatedObject {
     {
         foreach (ActivatedObject ao in connections)
 		{
-			ao.Deactivate();
+            if (ao)
+            {
+                ao.Deactivate();
+			}
 		}
     }
 }
