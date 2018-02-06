@@ -11,6 +11,8 @@ public class Player : MonoBehaviour {
     Cape cape;
     PullGlove glove;
     PushGlove otherGlove;
+
+    Controller controller;
     bool onLadder = false;
     bool aboveLadder = false;
     PlayerState state = PlayerState.Normal;
@@ -18,9 +20,12 @@ public class Player : MonoBehaviour {
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         resetTimer = new Timer(Game.Instance.Reset, 1.0f);
-        cape = gameObject.AddComponent<Cape>();
-        glove = gameObject.AddComponent<PullGlove>();
-        otherGlove = gameObject.AddComponent<PushGlove>();
+        cape = new Cape();
+        glove = new PullGlove();
+        cape.RegisterItemOne();
+        otherGlove = new PushGlove();
+        otherGlove.RegisterItemTwo();
+        controller = new Controller();
     }
 
     private void OnEnable()
@@ -44,47 +49,25 @@ public class Player : MonoBehaviour {
         if (!isFrozen && !IsPulling)
         {
             bool onGround = IsOnGround;
-            myRigidbody.AddForce(new Vector2(Input.GetAxis("Horizontal") * 5, 0));
+            myRigidbody.AddForce(new Vector2(controller.Horizontal * 5, 0));
             myRigidbody.ClampXVelocity(2.0f);
             if (onLadder) {
-                myRigidbody.AddForce(new Vector2(0, Input.GetAxis("Vertical") * 5));
+                myRigidbody.AddForce(new Vector2(0, controller.Vertical * 5));
 
-                if (onGround && Input.GetAxis("Vertical") > 0) {
+                if (onGround && controller.Vertical > 0) {
                     myRigidbody.gravityScale = 0;
-                } else if (aboveLadder && Input.GetAxis("Vertical") < 0) {
+                } else if (aboveLadder && controller.Vertical < 0) {
                     myRigidbody.gravityScale = 0;
                     transform.position += Vector3.down * 0.25f;
                 }           
             }
-            if (onGround && Input.GetKeyDown(KeyCode.Space))
+            if (onGround && controller.Jump)
             {
                 myRigidbody.AddForce(Vector2.up * 7.5f, ForceMode2D.Impulse);
             }
-
-            if (!onGround && !onLadder && Input.GetKeyDown(KeyCode.Space)) {
-                cape.Activate();
-            } else if (Input.GetKeyUp(KeyCode.Space)) {
-                cape.Deactivate();
-            }
         }
 
-		if (Input.GetKey(KeyCode.Mouse0))
-		{
-			glove.Activate();
-		}
-		else if (Input.GetKeyUp(KeyCode.Mouse0))
-		{
-			glove.Deactivate();
-		}
-
-		if (Input.GetKey(KeyCode.Mouse1))
-		{
-            otherGlove.Activate();
-		}
-		else if (Input.GetKeyUp(KeyCode.Mouse1))
-		{
-            otherGlove.Deactivate();
-		}
+        controller.Update();
 	}
 
     /// <summary>

@@ -2,44 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PushGlove : MagicItem {
+public class PushGlove : MagneticGlove {
 
-	Metal target;
-	public override void Activate()
-	{
-		if (!target)
-		{
-			target = Metal.HighlightedBlock;
-            if (target && !target.IsStatic)
-			{
-                target.Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-			}
-		}
-
-		if (target)
-		{
-			Game.Instance.Player.IsPulling = true;
-			if (target.IsStatic)
-			{
-				Game.Instance.Player.Rigidbody.AddForce((Game.Instance.Player.transform.position - target.transform.position).normalized * 10);
+    public override void Use()
+    {
+        if (state == MagicItemState.Activated)
+        {
+            if (!target)
+            {
+                FindTarget();
             }
-            else
-			{
-                target.Rigidbody.AddForce((target.transform.position - Game.Instance.Player.transform.position).normalized * 10);
-			}
-		}
-	}
 
+            if (target)
+            {
+                if (IsTargetInRange)
+                {
+                    Game.Instance.Player.IsPulling = true;
+                    if (target.IsStatic)
+                    {
+                        Game.Instance.Player.Rigidbody.AddForce((Game.Instance.Player.transform.position - target.transform.position).normalized * 10);
+                    }
+                    else
+                    {
+                        target.Rigidbody.AddForce((target.transform.position - Game.Instance.Player.transform.position).normalized * 10);
+                    }
+                } else {
+                    ClearTarget();
+                }
+            }
+        }
+    }
 	public override void Deactivate()
 	{
-		if (target)
-		{
-            if (!target.IsStatic) {
-			    target.Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
-            }
-            target.Velocity = Vector2.zero;
-			target = null;
-		}
-		Game.Instance.Player.IsPulling = false;
+        if (state == MagicItemState.Activated)
+        {
+            ClearTarget();
+            Game.Instance.Player.IsPulling = false;
+            state = MagicItemState.OnCooldown;
+            cooldownTimer.Start();
+        }
 	}
 }

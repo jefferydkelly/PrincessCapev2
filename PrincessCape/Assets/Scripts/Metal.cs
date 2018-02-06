@@ -15,7 +15,6 @@ public class Metal : MapTile {
     {
         myRenderer.color = Color.red;
         highlighted = this;
-        Debug.Log("Highlighted");
     }
 
     private void OnMouseExit()
