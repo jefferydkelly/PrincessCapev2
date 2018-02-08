@@ -176,8 +176,31 @@ public static class ExtensionMethods {
     /// </summary>
     /// <returns>The angle calculated from the x and y of the vector.</returns>
     /// <param name="vec">The vector.</param>
-    public static float Angle(this Vector2 vec) {
+    public static float Angle(this Vector2 vec)
+    {
         return Mathf.Atan2(vec.y, vec.x);
+    }
+
+	/// <summary>
+	/// Returns a copy of the vector rotated by the angle in radians
+	/// </summary>
+	/// <returns>A copy of the vector rotated by the angle in radians.</returns>
+	/// <param name="v">The vector.</param>
+	/// <param name="ang">The angle in radians.</param>
+	public static Vector2 Rotate(this Vector2 v, float ang) {
+        float cos = Mathf.Cos(ang);
+        float sin = Mathf.Sin(ang);
+        return new Vector2(v.x * cos - v.y * sin, v.x * sin + v.y * cos);
+    }
+
+	/// <summary>
+	/// Returns a copy of the vector rotated by the angle in degrees
+	/// </summary>
+	/// <returns>A copy of the vector rotated by the angle in degrees.</returns>
+	/// <param name="v">The vector.</param>
+	/// <param name="ang">The angle in degrees.</param>
+	public static Vector2 RotateDeg(this Vector2 v, float ang) {
+        return v.Rotate(ang.ToRadians());
     }
 
 }

@@ -7,6 +7,7 @@ public class ConveyorBelt : ActivatedObject
 {
     Animator myAnimator;
     BoxCollider2D theBelt;
+    [SerializeField]
     Vector2 pushDir = Vector2.right;
     float pushForce = 5;
     private void Awake()
@@ -14,10 +15,6 @@ public class ConveyorBelt : ActivatedObject
         myAnimator = GetComponent<Animator>();
         theBelt = GetComponent<BoxCollider2D>();
         theBelt.enabled = false;
-
-        if (GetComponent<SpriteRenderer>().flipX) {
-            pushDir *= -1;
-        }
     }
     public override void Activate()
     {
@@ -34,5 +31,23 @@ public class ConveyorBelt : ActivatedObject
     public void OnTriggerStay2D(Collider2D collision)
     {
         collision.attachedRigidbody.AddForce(pushDir * pushForce);
+    }
+
+    public override void FlipX()
+    {
+        base.FlipX();
+        pushDir = pushDir.SetX(-pushDir.x);
+    }
+
+    public override void FlipY()
+    {
+        base.FlipY();
+        pushDir = pushDir.SetY(-pushDir.y);
+    }
+
+    public override void Rotate(float ang)
+    {
+        base.Rotate(ang);
+        pushDir = pushDir.RotateDeg(ang);
     }
 }
