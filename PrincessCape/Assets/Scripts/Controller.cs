@@ -60,7 +60,7 @@ public class Controller {
 
     public bool Jump {
         get {
-            return Input.GetKeyDown(KeyCode.Space);
+            return Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W);
         }
     }
 

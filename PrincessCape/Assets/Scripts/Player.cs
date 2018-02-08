@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     Cape cape;
     PullGlove glove;
     PushGlove otherGlove;
+    float maxSpeed = 3.0f;
 
     Controller controller;
     bool onLadder = false;
@@ -22,7 +23,7 @@ public class Player : MonoBehaviour {
         resetTimer = new Timer(Game.Instance.Reset, 1.0f);
         cape = new Cape();
         glove = new PullGlove();
-        glove.RegisterItemOne();
+        cape.RegisterItemOne();
         otherGlove = new PushGlove();
         otherGlove.RegisterItemTwo();
         controller = new Controller();
@@ -50,7 +51,7 @@ public class Player : MonoBehaviour {
         {
             bool onGround = IsOnGround;
             myRigidbody.AddForce(new Vector2(controller.Horizontal * 5, 0));
-            myRigidbody.ClampXVelocity(2.0f);
+            myRigidbody.ClampXVelocity(maxSpeed);
             if (onLadder) {
                 myRigidbody.AddForce(new Vector2(0, controller.Vertical * 5));
 
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour {
                     transform.position += Vector3.down * 0.25f;
                 }           
             }
-            if (onGround && controller.Jump)
+            else if (onGround && controller.Jump)
             {
                 myRigidbody.AddForce(Vector2.up * 7.5f, ForceMode2D.Impulse);
             }
