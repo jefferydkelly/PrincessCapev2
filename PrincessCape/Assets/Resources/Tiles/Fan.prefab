@@ -120,6 +120,7 @@ EdgeCollider2D:
   - {x: 0.5, y: 0.5}
   - {x: 0.5, y: -0.5}
   - {x: -0.5, y: -0.5}
+  - {x: -0.5, y: 0.5}
 --- !u!95 &95018137211470590
 Animator:
   serializedVersion: 3

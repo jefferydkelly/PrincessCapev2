@@ -88,6 +88,7 @@ EdgeCollider2D:
   - {x: 0.5, y: 0.5}
   - {x: 0.5, y: -0.5}
   - {x: -0.5, y: -0.5}
+  - {x: -0.5, y: 0.5}
 --- !u!95 &95788667188938714
 Animator:
   serializedVersion: 3
@@ -124,6 +125,7 @@ MonoBehaviour:
     width: 128
     height: 128
   connections: []
+  pushDir: {x: 1, y: 0}
 --- !u!212 &212355005927969946
 SpriteRenderer:
   m_ObjectHideFlags: 1
