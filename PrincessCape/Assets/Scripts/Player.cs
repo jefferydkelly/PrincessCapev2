@@ -64,7 +64,7 @@ public class Player : MonoBehaviour {
             }
             else if (onGround && controller.Jump)
             {
-                myRigidbody.AddForce(Vector2.up * 7.5f, ForceMode2D.Impulse);
+                myRigidbody.AddForce(Vector2.up * 6.5f, ForceMode2D.Impulse);
             }
         }
 
