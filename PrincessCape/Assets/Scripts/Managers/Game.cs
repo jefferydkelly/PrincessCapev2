@@ -7,12 +7,15 @@ public class Game : MonoBehaviour {
     static Game instance;
     List<Manager> managers;
     Player player;
+    bool paused = false;
 	// Use this for initialization
 	void Awake () {
         managers = new List<Manager>();
 
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+        EventManager.StartListening("Pause", ()=> { paused = true; });
+        EventManager.StartListening("Unpause", () => { paused = false; });
     }
 	
 	// Update is called once per frame
@@ -20,6 +23,8 @@ public class Game : MonoBehaviour {
         foreach(Manager m in managers) {
             m.Update(Time.deltaTime);
         }
+
+        Controller.Instance.Update();
 	}
 
     /// <summary>
@@ -81,4 +86,13 @@ public class Game : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Sets a value indicating whether this <see cref="T:Game"/> is paused.
+    /// </summary>
+    /// <value><c>true</c> if is paused; otherwise, <c>false</c>.</value>
+    public bool IsPaused {
+        get {
+            return paused;
+        }
+    }
 }

@@ -8,6 +8,8 @@ public abstract class MagicItem {
     protected float cooldownTime = 0.25f;
     protected MagicItemState state = MagicItemState.Ready;
     protected MagicItemSlot slot = MagicItemSlot.None;
+    protected string itemName;
+    protected Sprite itemSprite;
 	// Use this for initialization
     public MagicItem () {
         cooldownTimer = new Timer(Reset, cooldownTime);
@@ -17,20 +19,34 @@ public abstract class MagicItem {
     /// Registers the item as the first item and starts listening for the associated events
     /// </summary>
     public void RegisterItemOne() {
-        slot = MagicItemSlot.First;
-        EventManager.StartListening("ItemOneActivated", Activate);
-        EventManager.StartListening("ItemOneHeld", Use);
-        EventManager.StartListening("ItemOneDeactivated", Deactivate);
+        if (slot != MagicItemSlot.First)
+        {
+            if (slot == MagicItemSlot.Second) {
+                EventManager.TriggerEvent("UnequipItemTwo");
+            }
+            EventManager.TriggerEvent("UnequipItemOne");
+            slot = MagicItemSlot.First;
+            EventManager.StartListening("ItemOneActivated", Activate);
+            EventManager.StartListening("ItemOneHeld", Use);
+            EventManager.StartListening("ItemOneDeactivated", Deactivate);
+            EventManager.StartListening("UnequipItemOne", DeregisterItemOne);
+            EventManager.TriggerEvent("ItemOneEquipped");
+
+        }
     }
 
 	/// <summary>
 	/// Deregisters the item as the first item and stops listening for the associated events
 	/// </summary>
-	public void DegristerItemOne() {
-        slot = MagicItemSlot.None;
-        EventManager.StopListening("ItemOneActivated", Activate);
-        EventManager.StopListening("ItemOneHeld", Use);
-        EventManager.StopListening("ItemOneDeactivated", Deactivate);
+	public void DeregisterItemOne() {
+        if (slot == MagicItemSlot.First)
+        {
+            slot = MagicItemSlot.None;
+            EventManager.StopListening("ItemOneActivated", Activate);
+            EventManager.StopListening("ItemOneHeld", Use);
+            EventManager.StopListening("ItemOneDeactivated", Deactivate);
+			EventManager.StopListening("UnequipItemOne", DeregisterItemOne);
+        }
     }
 
 	/// <summary>
@@ -38,21 +54,35 @@ public abstract class MagicItem {
 	/// </summary>
 	public void RegisterItemTwo()
 	{
-        slot = MagicItemSlot.Second;
-		EventManager.StartListening("ItemTwoActivated", Activate);
-        EventManager.StartListening("ItemTwoHeld", Use);
-		EventManager.StartListening("ItemTwoDeactivated", Deactivate);
+        if (slot != MagicItemSlot.Second)
+        {
+            if (slot == MagicItemSlot.First)
+			{
+				EventManager.TriggerEvent("UnequipItemOne");
+			}
+            EventManager.TriggerEvent("UnequipItemTwo");
+            slot = MagicItemSlot.Second;
+            EventManager.StartListening("ItemTwoActivated", Activate);
+            EventManager.StartListening("ItemTwoHeld", Use);
+            EventManager.StartListening("ItemTwoDeactivated", Deactivate);
+            EventManager.StartListening("UnequipItemTwo", DeregisterItemTwo);
+            EventManager.TriggerEvent("ItemTwoEquipped");
+        }
 	}
 
 	/// <summary>
 	/// Deregisters the item as the second item and stops listening for the associated events
 	/// </summary>
-	public void DegristerItemTwo()
+	public void DeregisterItemTwo()
 	{
-        slot = MagicItemSlot.None;
-		EventManager.StopListening("ItemTwoActivated", Activate);
-        EventManager.StopListening("ItemTwoHeld", Use);
-		EventManager.StopListening("ItemTwoDeactivated", Deactivate);
+        if (slot == MagicItemSlot.Second)
+        {
+            slot = MagicItemSlot.None;
+            EventManager.StopListening("ItemTwoActivated", Activate);
+            EventManager.StopListening("ItemTwoHeld", Use);
+            EventManager.StopListening("ItemTwoDeactivated", Deactivate);
+            EventManager.StopListening("UnequipItemTwo", DeregisterItemOne);
+        }
 	}
 
     public abstract void Activate();
@@ -75,6 +105,18 @@ public abstract class MagicItem {
             EventManager.TriggerEvent("ItemTwoCooldown");
         }
 		state = MagicItemState.Ready;
+    }
+
+    public Sprite Sprite {
+        get {
+            return itemSprite;
+        }
+    }
+
+    public MagicItemSlot Slot {
+        get {
+            return slot;
+        }
     }
 }
 

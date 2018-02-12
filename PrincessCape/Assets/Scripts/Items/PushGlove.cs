@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PushGlove : MagneticGlove {
-
+	public PushGlove()
+	{
+		itemSprite = Resources.Load<Sprite>("Sprites/PushGauntlet");
+        itemName = "Push Gauntlet";
+	}
     /// <summary>
     /// Use pulls the Metal towards the Player or vice versa.
     /// </summary>

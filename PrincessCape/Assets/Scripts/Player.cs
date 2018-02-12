@@ -13,10 +13,13 @@ public class Player : MonoBehaviour {
     PushGlove otherGlove;
     float maxSpeed = 3.0f;
 
-    Controller controller;
     bool onLadder = false;
     bool aboveLadder = false;
     PlayerState state = PlayerState.Normal;
+
+    Vector2 storedVelocity;
+
+    List<MagicItem> inventory;
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -26,18 +29,35 @@ public class Player : MonoBehaviour {
         cape.RegisterItemOne();
         otherGlove = new PushGlove();
         otherGlove.RegisterItemTwo();
-        controller = new Controller();
+        inventory = new List<MagicItem>();
+        inventory.Add(cape);
+        inventory.Add(glove);
+        inventory.Add(otherGlove);
     }
 
     private void OnEnable()
     {
         EventManager.StartListening("PlayerDied", Die);
+        EventManager.StartListening("Pause", Pause);
+        EventManager.StartListening("Unpause", Unpause);
     }
 
 	private void OnDisable()
 	{
         EventManager.StopListening("PlayerDied", Die);
+		EventManager.StopListening("Pause", Pause);
+        EventManager.StopListening("Unpause", Unpause);
 	}
+
+    void Pause() {
+        storedVelocity = myRigidbody.velocity;
+        myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    void Unpause() {
+        myRigidbody.velocity = storedVelocity;
+        myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
     // Use this for initialization
     void Start () {
         platformLayers = ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("Hazard"));
@@ -47,28 +67,26 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!isFrozen && !IsPulling)
+        if (!Game.Instance.IsPaused && !isFrozen && !IsPulling)
         {
             bool onGround = IsOnGround;
-            myRigidbody.AddForce(new Vector2(controller.Horizontal * 5, 0));
+            myRigidbody.AddForce(new Vector2(Controller.Instance.Horizontal * 5, 0));
             myRigidbody.ClampXVelocity(maxSpeed);
             if (onLadder) {
-                myRigidbody.AddForce(new Vector2(0, controller.Vertical * 5));
+                myRigidbody.AddForce(new Vector2(0, Controller.Instance.Vertical * 5));
 
-                if (onGround && controller.Vertical > 0) {
+                if (onGround && Controller.Instance.Vertical > 0) {
                     myRigidbody.gravityScale = 0;
-                } else if (aboveLadder && controller.Vertical < 0) {
+                } else if (aboveLadder && Controller.Instance.Vertical < 0) {
                     myRigidbody.gravityScale = 0;
                     transform.position += Vector3.down * 0.25f;
                 }           
             }
-            else if (onGround && controller.Jump)
+            else if (onGround && Controller.Instance.Jump)
             {
                 myRigidbody.AddForce(Vector2.up * 6.5f, ForceMode2D.Impulse);
             }
         }
-
-        controller.Update();
 	}
 
     /// <summary>
@@ -185,6 +203,12 @@ public class Player : MonoBehaviour {
 			}
 		}
 	}
+
+    public List<MagicItem> Inventory {
+        get {
+            return inventory;
+        }
+    }
 }
 
 public enum PlayerState {

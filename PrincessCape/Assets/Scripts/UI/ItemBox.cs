@@ -17,17 +17,21 @@ public class ItemBox : MonoBehaviour {
     private void OnEnable()
     {
         string itemName = "Item" + (isFirstItem ? "One" : "Two");
+        EventManager.StartListening(itemName + "Equipped", UpdateItemInfo);
         EventManager.StartListening(itemName + "ActivatedSuccessfully", BlueOut);
         EventManager.StartListening(itemName + "DeactivatedSuccessfully", GrayOut);
         EventManager.StartListening(itemName + "Cooldown", WhiteOut);
+        EventManager.StartListening("Unequip" + itemName, Clear);
     }
 
     private void OnDisable()
     {
         string itemName = "Item" + (isFirstItem ? "One" : "Two");
+        EventManager.StopListening(itemName + "Equipped", UpdateItemInfo);
         EventManager.StopListening(itemName + "ActivatedSuccessfully", BlueOut);
         EventManager.StopListening(itemName + "DeactivatedSuccessfully", GrayOut);
         EventManager.StopListening(itemName + "Cooldown", WhiteOut);
+        EventManager.StopListening("Unequip" + itemName, Clear);
     }
 
     void GrayOut() {
@@ -40,5 +44,17 @@ public class ItemBox : MonoBehaviour {
 
     void BlueOut() {
         background.color = Color.blue;
+    }
+
+    void UpdateItemInfo() {
+        foreach(MagicItem mi in Game.Instance.Player.Inventory) {
+            if ((isFirstItem && mi.Slot == MagicItemSlot.First) || (!isFirstItem && mi.Slot == MagicItemSlot.Second)) {
+                itemImage.sprite = mi.Sprite;
+            }
+        }
+    }
+
+    void Clear() {
+        itemImage.sprite = null;
     }
 }

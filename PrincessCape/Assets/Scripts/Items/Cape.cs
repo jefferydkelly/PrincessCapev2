@@ -13,6 +13,8 @@ public class Cape : MagicItem
     public Cape() {
 		listener = new UnityAction(OnPlayerLanded);
 		EventManager.StartListening("PlayerLanded", OnPlayerLanded);
+        itemSprite = Resources.Load<Sprite>("Sprites/Cape");
+        itemName = "Magic Cape";
     }
    
     /// <summary>
