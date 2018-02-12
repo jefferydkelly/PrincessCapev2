@@ -33,6 +33,7 @@ public class ConveyorBelt : ActivatedObject
         collision.attachedRigidbody.AddForce(pushDir * pushForce);
     }
 
+#if UNITY_EDITOR
     public override void FlipX()
     {
         base.FlipX();
@@ -50,4 +51,5 @@ public class ConveyorBelt : ActivatedObject
         base.Rotate(ang);
         pushDir = pushDir.RotateDeg(ang);
     }
+#endif
 }

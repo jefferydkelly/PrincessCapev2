@@ -45,6 +45,15 @@ public class PullGlove : MagneticGlove
     {
         if (state == MagicItemState.Activated)
         {
+			if (slot == MagicItemSlot.First)
+			{
+				EventManager.TriggerEvent("ItemOneDeactivatedSuccessfully");
+			}
+			else if (slot == MagicItemSlot.Second)
+			{
+                Debug.Log("Deactivated");
+				EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
+			}
             ClearTarget();
             Game.Instance.Player.IsPulling = false;
             state = MagicItemState.OnCooldown;

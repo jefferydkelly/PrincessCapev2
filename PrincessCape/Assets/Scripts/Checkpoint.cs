@@ -6,7 +6,8 @@ using System.Linq;
 using UnityEngine.Events;
 
 [ExecuteInEditMode]
-public class Checkpoint : MapTile {
+public class Checkpoint : MapTile
+{
     static Checkpoint activeCheckpoint;
     bool isActive = false;
     Animator myAnimator;
@@ -18,18 +19,21 @@ public class Checkpoint : MapTile {
     /// </summary>
     private void Awake()
     {
-       
+
         myAnimator = GetComponent<Animator>();
 
         if (!Application.isPlaying)
-		{
-            if (FindObjectsOfType<Checkpoint>().Length == 1) {
+        {
+            if (FindObjectsOfType<Checkpoint>().Length == 1)
+            {
                 isFirstCheckpoint = true;
             }
-        } else if (isFirstCheckpoint) {
+        }
+        else if (isFirstCheckpoint)
+        {
             activeCheckpoint = this;
         }
-     }
+    }
 
 
     private void OnDisable()
@@ -43,18 +47,20 @@ public class Checkpoint : MapTile {
     /// <param name="collision">Collision.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) {
+        if (collision.CompareTag("Player"))
+        {
             Activate();
         }
     }
 
-	/// <summary>
-	/// Set the Checkpoint as the ActiveCheckpoint when the player collides with it.
-	/// </summary>
-	/// <param name="collision">Collision.</param>
-	private void OnCollisionEnter2D(Collision2D collision)
+    /// <summary>
+    /// Set the Checkpoint as the ActiveCheckpoint when the player collides with it.
+    /// </summary>
+    /// <param name="collision">Collision.</param>
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Player")) {
+        if (collision.collider.CompareTag("Player"))
+        {
             Activate();
         }
     }
@@ -63,18 +69,22 @@ public class Checkpoint : MapTile {
     /// Gets or sets a value indicating whether this <see cref="T:Checkpoint"/> is active.
     /// </summary>
     /// <value><c>true</c> if is active; otherwise, <c>false</c>.</value>
-    bool IsActive {
-        get {
+    bool IsActive
+    {
+        get
+        {
             return isActive;
         }
 
-        set {
+        set
+        {
             isActive = value;
             myAnimator.SetBool("isActive", value);
         }
     }
 
-    void Activate() {
+    void Activate()
+    {
         if (!IsActive)
         {
             activeCheckpoint = this;
@@ -84,7 +94,8 @@ public class Checkpoint : MapTile {
         }
     }
 
-    void Deactivate() {
+    void Deactivate()
+    {
         IsActive = false;
         EventManager.StopListening("CheckpointActivated", Deactivate);
     }
@@ -93,9 +104,12 @@ public class Checkpoint : MapTile {
     /// Gets the position of the Active Checkpoint
     /// </summary>
     /// <value>The reset position.</value>
-    public static Vector3 ResetPosition {
-        get {
-            if (!activeCheckpoint) {
+    public static Vector3 ResetPosition
+    {
+        get
+        {
+            if (!activeCheckpoint)
+            {
                 return Vector3.zero;
             }
             return activeCheckpoint.transform.position.SetZ(0);
@@ -106,23 +120,26 @@ public class Checkpoint : MapTile {
     /// Gets the active checkpoint's gameobject.
     /// </summary>
     /// <value>The gameobject of the active checkpoint.</value>
-    public static GameObject Active {
-        get {
+    public static GameObject Active
+    {
+        get
+        {
             return activeCheckpoint.gameObject;
         }
     }
 
+#if UNITY_EDITOR
     public override string SaveData()
     {
-		string info = "{\n";
-		info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
-		info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
-		info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
-		info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
-		info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
+        string info = "{\n";
+        info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
+        info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
+        info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
+        info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
+        info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
         info += string.Format("\"Is First?\": \"{0}\"", isFirstCheckpoint) + lineEnding;
-		info += "}" + lineEnding;
-		return info;
+        info += "}" + lineEnding;
+        return info;
     }
 
     public override void FromData(TileStruct tile)
@@ -131,4 +148,5 @@ public class Checkpoint : MapTile {
         isFirstCheckpoint = PCLParser.ParseBool(tile.info[3]);
 
     }
+#endif
 }

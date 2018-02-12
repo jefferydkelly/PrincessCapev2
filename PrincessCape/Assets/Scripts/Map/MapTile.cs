@@ -19,6 +19,105 @@ public class MapTile : MonoBehaviour {
 	{
         HighlightState = MapHighlightState.Normal;
 	}
+
+	/// <summary>
+	/// Gets the ZPos of this <see cref="T:EditorTile"/> .
+	/// </summary>
+	/// <value>The ZP os.</value>
+	public int ZPos
+	{
+		get
+		{
+			return (int)layer;
+		}
+	}
+
+	public int ID
+	{
+		get
+		{
+			return id;
+		}
+
+		set
+		{
+			id = value;
+		}
+	}
+
+	/// <summary>
+	/// Gets the bounds of this instance.
+	/// </summary>
+	/// <value>The bounds.</value>
+	public virtual Vector3 Bounds
+	{
+		get
+		{
+			return GetComponent<SpriteRenderer>().bounds.size;
+		}
+	}
+
+	public virtual bool Overlaps(Vector3 pos)
+	{
+		Vector3 dif = pos - transform.position;
+		Vector3 bounds = Bounds / 2;
+		return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
+	}
+	public virtual bool Overlaps(MapTile other, Vector3 spawnPos)
+	{
+		Vector3 dif = spawnPos - transform.position;
+		Vector3 bounds = (other.Bounds + Bounds) / 2;
+		return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
+	}
+
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="T:EditorTile"/> is highlighted.
+	/// </summary>
+	/// <value><c>true</c> if highlighted; otherwise, <c>false</c>.</value>
+	public bool Highlighted
+	{
+		get
+		{
+			return GetComponent<SpriteRenderer>().color != Color.white;
+		}
+	}
+
+	public virtual MapHighlightState HighlightState
+	{
+		get
+		{
+			Color myCol = GetComponent<SpriteRenderer>().color;
+			if (myCol == Color.white)
+			{
+				return MapHighlightState.Normal;
+			}
+			else if (myCol == Color.blue)
+			{
+				return MapHighlightState.Primary;
+			}
+			else
+			{
+				return MapHighlightState.Secondary;
+			}
+		}
+
+		set
+		{
+			if (value == MapHighlightState.Normal)
+			{
+				GetComponent<SpriteRenderer>().color = Color.white;
+			}
+			else if (value == MapHighlightState.Primary)
+			{
+				GetComponent<SpriteRenderer>().color = Color.blue;
+			}
+			else
+			{
+				GetComponent<SpriteRenderer>().color = Color.red;
+			}
+		}
+	}
+
 #if UNITY_EDITOR
 	/// <summary>
 	/// Horizontally flips the tile
@@ -103,85 +202,7 @@ public class MapTile : MonoBehaviour {
         }
 	}
 
-	/// <summary>
-	/// Gets the bounds of this instance.
-	/// </summary>
-	/// <value>The bounds.</value>
-	public virtual Vector3 Bounds
-	{
-		get
-		{
-			return GetComponent<SpriteRenderer>().bounds.size;
-		}
-	}
-
-    public virtual bool Overlaps(Vector3 pos) {
-		Vector3 dif = pos - transform.position;
-		Vector3 bounds = Bounds / 2;
-        return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
-    }
-    public virtual bool Overlaps(MapTile other, Vector3 spawnPos) {
-		Vector3 dif = spawnPos - transform.position;
-        Vector3 bounds = (other.Bounds + Bounds) / 2;
-        return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
-    }
-
-	/// <summary>
-	/// Gets or sets a value indicating whether this <see cref="T:EditorTile"/> is highlighted.
-	/// </summary>
-	/// <value><c>true</c> if highlighted; otherwise, <c>false</c>.</value>
-	public bool Highlighted
-	{
-		get
-		{
-            return GetComponent<SpriteRenderer>().color != Color.white;
-		}
-	}
-
-    public virtual MapHighlightState HighlightState {
-        get {
-            Color myCol = GetComponent<SpriteRenderer>().color;
-            if (myCol == Color.white) {
-                return MapHighlightState.Normal;
-            } else if (myCol == Color.blue) {
-                return MapHighlightState.Primary;
-            } else {
-                return MapHighlightState.Secondary;
-            }
-        }
-
-        set {
-            if (value == MapHighlightState.Normal) {
-                GetComponent<SpriteRenderer>().color = Color.white;
-            } else if (value == MapHighlightState.Primary) {
-                GetComponent<SpriteRenderer>().color = Color.blue;
-            } else {
-                GetComponent<SpriteRenderer>().color = Color.red;
-            }
-        }
-    }
-
-	/// <summary>
-	/// Gets the ZPos of this <see cref="T:EditorTile"/> .
-	/// </summary>
-	/// <value>The ZP os.</value>
-	public int ZPos
-	{
-		get
-		{
-			return (int)layer;
-		}
-	}
-
-    public int ID {
-        get {
-            return id;
-        }
-
-        set {
-            id = value;
-        }
-    }
+	
 
 	/// <summary>
 	/// Renders the in editor.

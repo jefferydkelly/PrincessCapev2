@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Door : MapTile {
-    string nextScene;
+    string nextScene = "";
 
     /// <summary>
     /// When the Player collidesr with the Door, load the scene connected with the door.
@@ -11,7 +11,7 @@ public class Door : MapTile {
     /// <param name="collision">Collision.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) {
+        if (collision.CompareTag("Player") && nextScene.Length > 0) {
             Game.Instance.LoadScene(nextScene);
         }
     }

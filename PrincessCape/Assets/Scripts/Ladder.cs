@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class Ladder : MapTile {
+public class Ladder : MapTile
+{
     [SerializeField]
     GameObject plainLadder;
     BoxCollider2D myCollider;
@@ -11,23 +12,28 @@ public class Ladder : MapTile {
     {
         myCollider = GetComponent<BoxCollider2D>();
     }
+
+#if UNITY_EDITOR
     public override void ScaleY(bool up)
     {
-        if (up) {
+        if (up)
+        {
 
             transform.position += Vector3.up;
             GameObject newChain = Instantiate(plainLadder);
-           
+
             newChain.transform.SetParent(transform);
-			newChain.transform.position = transform.position + Vector3.down * (transform.childCount - 1);
+            newChain.transform.position = transform.position + Vector3.down * (transform.childCount - 1);
             newChain.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
-        } else if (transform.childCount > 1) {
+        }
+        else if (transform.childCount > 1)
+        {
             DestroyImmediate(transform.GetChild(transform.childCount - 1).gameObject);
             transform.position += Vector3.down;
         }
 
         myCollider.size = myCollider.size.SetY(transform.childCount);
-        myCollider.offset = new Vector2(0, -(myCollider.size.y - 1)/ 2);
+        myCollider.offset = new Vector2(0, -(myCollider.size.y - 1) / 2);
     }
 
     public override MapHighlightState HighlightState
@@ -40,44 +46,46 @@ public class Ladder : MapTile {
         {
             Color nextColor = Color.white;
             if (value == MapHighlightState.Primary)
-			{
+            {
                 nextColor = Color.blue;
-			}
+            }
             else if (value == MapHighlightState.Secondary)
-			{
+            {
                 nextColor = Color.red;
-			}
+            }
 
-            foreach(SpriteRenderer spr in GetComponentsInChildren<SpriteRenderer>()) {
+            foreach (SpriteRenderer spr in GetComponentsInChildren<SpriteRenderer>())
+            {
                 spr.color = nextColor;
             }
         }
     }
 
+
     public override bool Overlaps(Vector3 pos)
     {
         Vector3 dif = pos - (transform.position + (Vector3)myCollider.offset);
         Vector3 bounds = myCollider.size / 2;
-		return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
+        return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
     }
     public override bool Overlaps(MapTile other, Vector3 spawnPos)
     {
         Vector3 dif = spawnPos - (transform.position + (Vector3)myCollider.offset);
-		Vector3 bounds = (other.Bounds + Bounds) / 2;
-		return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
+        Vector3 bounds = (other.Bounds + Bounds) / 2;
+        return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
     }
 
     public override string SaveData()
     {
-		string info = "{\n";
-		info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
-		info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
-		info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
-		info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
-		info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
+        string info = "{\n";
+        info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
+        info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
+        info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
+        info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
+        info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
         info += string.Format("\"Links\": \"{0}\"", transform.childCount - 1) + lineEnding;
-		info += "}" + lineEnding;
-		return info;
+        info += "}" + lineEnding;
+        return info;
     }
 
     public override void FromData(TileStruct tile)
@@ -85,12 +93,14 @@ public class Ladder : MapTile {
         base.FromData(tile);
 
         int numLinks = PCLParser.ParseInt(tile.info[3]);
-        for (int i = 0; i < numLinks; i++) {
-			GameObject newChain = Instantiate(plainLadder);
+        for (int i = 0; i < numLinks; i++)
+        {
+            GameObject newChain = Instantiate(plainLadder);
 
-			newChain.transform.SetParent(transform);
-			newChain.transform.position = transform.position + Vector3.down * (transform.childCount - 1);
-			newChain.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
+            newChain.transform.SetParent(transform);
+            newChain.transform.position = transform.position + Vector3.down * (transform.childCount - 1);
+            newChain.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
         }
     }
+#endif
 }

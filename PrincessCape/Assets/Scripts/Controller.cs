@@ -81,7 +81,7 @@ public class Controller {
         }
         else if (IsItemTwoUp)
 		{
-			EventManager.TriggerEvent("ItemTwoDectivated");
+			EventManager.TriggerEvent("ItemTwoDeactivated");
 		}
     }
 }

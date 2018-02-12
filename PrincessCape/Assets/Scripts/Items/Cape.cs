@@ -21,6 +21,12 @@ public class Cape : MagicItem
     public override void Activate()
     {
         if (state == MagicItemState.Ready) {
+            if (slot == MagicItemSlot.First)
+            {
+                EventManager.TriggerEvent("ItemOneActivatedSuccessfully");
+            } else {
+                EventManager.TriggerEvent("ItemTwoActivatedSuccessfully");
+            }
             state = MagicItemState.Activated;
             Rigidbody2D rb = Game.Instance.Player.GetComponent<Rigidbody2D>();
             rb.gravityScale = 0.15f;//0.1f;
@@ -35,6 +41,14 @@ public class Cape : MagicItem
 
         if (state == MagicItemState.Activated)
         {
+			if (slot == MagicItemSlot.First)
+			{
+				EventManager.TriggerEvent("ItemOneDeactivatedSuccessfully");
+			}
+			else if (slot == MagicItemSlot.Second)
+			{
+				EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
+			}
             Rigidbody2D rb = Game.Instance.Player.GetComponent<Rigidbody2D>();
             rb.gravityScale = 1.0f;
             cooldownTimer.Start();
@@ -48,6 +62,7 @@ public class Cape : MagicItem
     void OnPlayerLanded() {
         if (state == MagicItemState.Activated)
         {
+            
             Deactivate();
         }
     }
