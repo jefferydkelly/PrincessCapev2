@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using System;
 
-public class ItemSlot : MonoBehaviour, IPointerClickHandler {
+public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler {
     MagicItem item;
     Image image;
 
@@ -43,5 +43,15 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler {
                 item.RegisterItemTwo();
             }
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        image.color = Color.gray;   
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        image.color = Color.white;
     }
 }
