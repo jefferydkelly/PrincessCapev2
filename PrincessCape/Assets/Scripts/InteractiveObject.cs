@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractiveObject : MonoBehaviour {
-
+public class InteractiveObject : ActivatorObject {
+    static InteractiveObject selected;
     [SerializeField]
     Color highlightColor = Color.red;
     SpriteRenderer myRenderer;
@@ -74,6 +74,17 @@ public class InteractiveObject : MonoBehaviour {
 
         protected set {
             myRenderer.color = value ? highlightColor : Color.white;
+            if (value) {
+                selected = this;
+            } else if (selected == this) {
+                selected = null;
+            }
+        }
+    }
+
+    public static InteractiveObject Selected {
+        get {
+            return selected;
         }
     }
 }

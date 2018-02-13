@@ -5,9 +5,13 @@ using UnityEngine;
 public class PushGlove : MagneticGlove {
 	public PushGlove()
 	{
-		itemSprite = Resources.Load<Sprite>("Sprites/PushGauntlet");
         itemName = "Push Gauntlet";
 	}
+
+    private void OnEnable()
+    {
+        itemSprite = Resources.Load<Sprite>("Sprites/PushGauntlet");
+    }
     /// <summary>
     /// Use pulls the Metal towards the Player or vice versa.
     /// </summary>

@@ -8,9 +8,6 @@ public class Player : MonoBehaviour {
     Rigidbody2D myRigidbody;
     Timer resetTimer;
     bool isFrozen = false;
-    Cape cape;
-    PullGlove glove;
-    PushGlove otherGlove;
     float maxSpeed = 3.0f;
 
     bool onLadder = false;
@@ -24,15 +21,8 @@ public class Player : MonoBehaviour {
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         resetTimer = new Timer(Game.Instance.Reset, 1.0f);
-        cape = new Cape();
-        glove = new PullGlove();
-        cape.RegisterItemOne();
-        otherGlove = new PushGlove();
-        otherGlove.RegisterItemTwo();
         inventory = new List<MagicItem>();
-        inventory.Add(cape);
-        inventory.Add(glove);
-        inventory.Add(otherGlove);
+   
     }
 
     private void OnEnable()
@@ -62,7 +52,6 @@ public class Player : MonoBehaviour {
     void Start () {
         platformLayers = ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("Hazard"));
         CameraManager.Instance.Target = gameObject;
-
 	}
 	
 	// Update is called once per frame
@@ -85,6 +74,8 @@ public class Player : MonoBehaviour {
             else if (onGround && Controller.Instance.Jump)
             {
                 myRigidbody.AddForce(Vector2.up * 6.5f, ForceMode2D.Impulse);
+            } else if (Input.GetKeyDown(KeyCode.F) && InteractiveObject.Selected) {
+                InteractiveObject.Selected.Activate();
             }
         }
 	}
@@ -208,6 +199,10 @@ public class Player : MonoBehaviour {
         get {
             return inventory;
         }
+    }
+
+    public void AddItem(MagicItem mi) {
+        inventory.Add(mi);
     }
 }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MagicItem {
+public abstract class MagicItem: ScriptableObject {
 
     protected Timer cooldownTimer;
     protected float cooldownTime = 0.25f;

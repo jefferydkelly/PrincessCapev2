@@ -6,8 +6,12 @@ using UnityEngine;
 public class PullGlove : MagneticGlove
 {
     public PullGlove() {
-        itemSprite = Resources.Load<Sprite>("Sprites/PullGauntlet");
         itemName = "Pull Gauntlet";
+    }
+
+    private void OnEnable()
+    {
+        itemSprite = Resources.Load<Sprite>("Sprites/PullGauntlet");
     }
     /// <summary>
     /// Pulls the Target towards the player or vice versa

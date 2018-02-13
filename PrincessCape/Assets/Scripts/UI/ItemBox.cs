@@ -47,9 +47,11 @@ public class ItemBox : MonoBehaviour {
     }
 
     void UpdateItemInfo() {
+        Debug.Log("Updating");
         foreach(MagicItem mi in Game.Instance.Player.Inventory) {
             if ((isFirstItem && mi.Slot == MagicItemSlot.First) || (!isFirstItem && mi.Slot == MagicItemSlot.Second)) {
                 itemImage.sprite = mi.Sprite;
+                Debug.Log("Got it");
             }
         }
     }

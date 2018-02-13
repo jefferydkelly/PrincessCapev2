@@ -10,10 +10,15 @@ public class Cape : MagicItem
     /// </summary>
     public Cape() {
 		EventManager.StartListening("PlayerLanded", OnPlayerLanded);
-        itemSprite = Resources.Load<Sprite>("Sprites/Cape");
+
         itemName = "Magic Cape";
     }
-   
+
+    private void OnEnable()
+    {
+        itemSprite = Resources.Load<Sprite>("Sprites/Cape");
+    }
+
     /// <summary>
     /// Activate this instance lessening the gravity scale and setting the Player's y-velocity to 0.
     /// </summary>
