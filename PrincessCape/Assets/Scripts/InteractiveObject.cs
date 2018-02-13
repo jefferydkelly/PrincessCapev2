@@ -5,6 +5,8 @@ using UnityEngine;
 public class InteractiveObject : ActivatorObject {
     static InteractiveObject selected;
     [SerializeField]
+    string interaction = "Interact";
+    [SerializeField]
     Color highlightColor = Color.red;
     SpriteRenderer myRenderer;
 
@@ -75,9 +77,9 @@ public class InteractiveObject : ActivatorObject {
         protected set {
             myRenderer.color = value ? highlightColor : Color.white;
             if (value) {
-                selected = this;
+                Selected = this;
             } else if (selected == this) {
-                selected = null;
+                Selected = null;
             }
         }
     }
@@ -85,6 +87,17 @@ public class InteractiveObject : ActivatorObject {
     public static InteractiveObject Selected {
         get {
             return selected;
+        }
+
+        private set {
+            selected = value;
+            EventManager.TriggerEvent("SetInteraction");
+        }
+    }
+
+    public string Interaction {
+        get {
+            return interaction;
         }
     }
 }
