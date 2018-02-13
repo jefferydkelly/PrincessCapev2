@@ -5,13 +5,10 @@ using UnityEngine;
 using UnityEngine.Events;
 public class Cape : MagicItem
 {
-    private UnityAction listener;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Cape"/> class.
     /// </summary>
     public Cape() {
-		listener = new UnityAction(OnPlayerLanded);
 		EventManager.StartListening("PlayerLanded", OnPlayerLanded);
         itemSprite = Resources.Load<Sprite>("Sprites/Cape");
         itemName = "Magic Cape";

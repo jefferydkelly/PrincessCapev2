@@ -21,16 +21,11 @@ public abstract class MagicItem {
     public void RegisterItemOne() {
         if (slot != MagicItemSlot.First)
         {
-            if (slot == MagicItemSlot.Second) {
-                EventManager.TriggerEvent("UnequipItemTwo");
-            }
             EventManager.TriggerEvent("UnequipItemOne");
             slot = MagicItemSlot.First;
-            EventManager.StartListening("ItemOneActivated", Activate);
-            EventManager.StartListening("ItemOneHeld", Use);
-            EventManager.StartListening("ItemOneDeactivated", Deactivate);
-            EventManager.StartListening("UnequipItemOne", DeregisterItemOne);
+            StartListening();
             EventManager.TriggerEvent("ItemOneEquipped");
+            EventManager.StartListening("SwapItems", SwapItems);
 
         }
     }
@@ -41,11 +36,9 @@ public abstract class MagicItem {
 	public void DeregisterItemOne() {
         if (slot == MagicItemSlot.First)
         {
+            StopListening();
+            EventManager.StopListening("SwapItems", SwapItems);
             slot = MagicItemSlot.None;
-            EventManager.StopListening("ItemOneActivated", Activate);
-            EventManager.StopListening("ItemOneHeld", Use);
-            EventManager.StopListening("ItemOneDeactivated", Deactivate);
-			EventManager.StopListening("UnequipItemOne", DeregisterItemOne);
         }
     }
 
@@ -56,16 +49,9 @@ public abstract class MagicItem {
 	{
         if (slot != MagicItemSlot.Second)
         {
-            if (slot == MagicItemSlot.First)
-			{
-				EventManager.TriggerEvent("UnequipItemOne");
-			}
             EventManager.TriggerEvent("UnequipItemTwo");
             slot = MagicItemSlot.Second;
-            EventManager.StartListening("ItemTwoActivated", Activate);
-            EventManager.StartListening("ItemTwoHeld", Use);
-            EventManager.StartListening("ItemTwoDeactivated", Deactivate);
-            EventManager.StartListening("UnequipItemTwo", DeregisterItemTwo);
+            StartListening();
             EventManager.TriggerEvent("ItemTwoEquipped");
         }
 	}
@@ -77,13 +63,56 @@ public abstract class MagicItem {
 	{
         if (slot == MagicItemSlot.Second)
         {
+            StopListening();
             slot = MagicItemSlot.None;
-            EventManager.StopListening("ItemTwoActivated", Activate);
-            EventManager.StopListening("ItemTwoHeld", Use);
-            EventManager.StopListening("ItemTwoDeactivated", Deactivate);
-            EventManager.StopListening("UnequipItemTwo", DeregisterItemOne);
         }
 	}
+
+    void SwapItems() {
+        MagicItem other = null;
+
+        foreach(MagicItem mi in Game.Instance.Player.Inventory) {
+            if (mi.slot == MagicItemSlot.Second) {
+                other = mi;
+                break;
+            }
+        }
+        StopListening();
+        EventManager.StopListening("SwapItems", SwapItems);
+        if (other != null) {
+            other.StopListening();
+            other.RegisterItemOne();
+        }
+        RegisterItemTwo();
+    }
+
+    void StartListening() {
+        string itemSlot = "Item" + (slot == MagicItemSlot.First ? "One" : "Two");
+       
+        EventManager.StartListening(itemSlot + "Activated", Activate);
+        EventManager.StartListening(itemSlot + "Held", Use);
+        EventManager.StartListening(itemSlot + "Deactivated", Deactivate);
+        if (slot == MagicItemSlot.First) {
+            EventManager.StartListening("UnequipItemOne", DeregisterItemOne);
+        } else {
+            EventManager.StartListening("UnequipItemTwo", DeregisterItemTwo);
+        }
+    }
+
+    void StopListening() {
+		string itemSlot = "Item" + (slot == MagicItemSlot.First ? "One" : "Two");
+        EventManager.StopListening(itemSlot + "Activated", Activate);
+        EventManager.StopListening(itemSlot + "Held", Use);
+        EventManager.StopListening(itemSlot + "Deactivated", Deactivate);
+		if (slot == MagicItemSlot.First)
+		{
+            EventManager.StopListening("UnequipItemOne", DeregisterItemOne);
+		}
+		else
+		{
+            EventManager.StopListening("UnequipItemTwo", DeregisterItemTwo);
+		}
+    }
 
     public abstract void Activate();
     public virtual void Use()

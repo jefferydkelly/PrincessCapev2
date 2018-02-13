@@ -25,9 +25,23 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler {
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left) {
-            item.RegisterItemOne();
-        } else {
-            item.RegisterItemTwo();
+            if (item.Slot == MagicItemSlot.Second)
+            {
+                EventManager.TriggerEvent("SwapItems");
+            }
+            else
+            {
+                item.RegisterItemOne();
+            }
+        } else if (eventData.button == PointerEventData.InputButton.Right){
+            if (item.Slot == MagicItemSlot.First)
+            {
+                EventManager.TriggerEvent("SwapItems");
+            }
+            else
+            {
+                item.RegisterItemTwo();
+            }
         }
     }
 }

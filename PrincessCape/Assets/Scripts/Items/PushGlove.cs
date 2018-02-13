@@ -52,7 +52,6 @@ public class PushGlove : MagneticGlove {
 			}
 			else if (slot == MagicItemSlot.Second)
 			{
-                Debug.Log("Deactivate");
 				EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
 			}
             ClearTarget();
