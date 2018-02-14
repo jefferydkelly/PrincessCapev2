@@ -10,9 +10,12 @@ public abstract class MagicItem: ScriptableObject {
     protected MagicItemSlot slot = MagicItemSlot.None;
     protected string itemName;
     protected Sprite itemSprite;
+    protected List<string> itemGetMessage;
+    protected string itemDescritpion = "This is an item";
 	// Use this for initialization
     public MagicItem () {
-        cooldownTimer = new Timer(Reset, cooldownTime);
+        cooldownTimer = new Timer(cooldownTime);
+        cooldownTimer.OnComplete.AddListener(Reset);
 	}
 
     /// <summary>
@@ -145,6 +148,18 @@ public abstract class MagicItem: ScriptableObject {
     public MagicItemSlot Slot {
         get {
             return slot;
+        }
+    }
+
+    public List<string> ItemGetMessage {
+        get {
+            return itemGetMessage;
+        }
+    }
+
+    public string Description {
+        get {
+            return itemDescritpion;
         }
     }
 }

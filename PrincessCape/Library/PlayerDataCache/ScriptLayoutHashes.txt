@@ -111,7 +111,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
 29aa73b57b13f577a208e8a431d95390 Assembly-CSharp.dll:.Ladder
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
-450511f6b0a79d70e282ef8ca88b2833 Assembly-CSharp.dll:.InteractiveObject
+151d5b3605dbcafc31590ad444fe5385 Assembly-CSharp.dll:.InteractiveObject
 9b8e9654058b252e200c769a973d03fc Assembly-CSharp.dll:.MagnetTile
 322cb40e1e282f28af980cbef7922a90 UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsEventTracker
 dc07d7ad69b399a46e92c483bf1c04ca UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsTracker
@@ -120,6 +120,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
+151d5b3605dbcafc31590ad444fe5385 Assembly-CSharp.dll:.Block
 d4ceabb9bffb7f0b6794cc43bd58d9c2 Assembly-CSharp.dll:.SpikePlatform
 e7ced6492e9c57ea2d06cc2694771449 Assembly-CSharp.dll:.Map
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Player
@@ -162,9 +163,9 @@ d4ceabb9bffb7f0b6794cc43bd58d9c2 Assembly-CSharp.dll:.Gate
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ItemSlot
 d4ceabb9bffb7f0b6794cc43bd58d9c2 Assembly-CSharp.dll:.Fan
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.InteractionBox
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Cape
-3a5990b81c184dd30228f743be93e20a Assembly-CSharp.dll:.KnightRemains
+237189b781fe7552c89ae2540b74a7a6 Assembly-CSharp.dll:.KnightRemains
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ItemMenu
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PushGlove
-450511f6b0a79d70e282ef8ca88b2833 Assembly-CSharp.dll:.Block
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.InteractionBox
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MessageBox

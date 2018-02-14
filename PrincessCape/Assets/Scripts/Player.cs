@@ -20,7 +20,8 @@ public class Player : MonoBehaviour {
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
-        resetTimer = new Timer(Game.Instance.Reset, 1.0f);
+        resetTimer = new Timer(1.0f);
+        resetTimer.OnComplete.AddListener(Game.Instance.Reset);
         inventory = new List<MagicItem>();
    
     }
@@ -203,6 +204,19 @@ public class Player : MonoBehaviour {
 
     public void AddItem(MagicItem mi) {
         inventory.Add(mi);
+
+        if (Inventory.Count == 1) {
+            mi.RegisterItemOne();
+        }
+        MessageBox.SetMessage(mi.ItemGetMessage);
+        EventManager.TriggerEvent("ShowMessage");
+        EventManager.StartListening("EndOfMessage", EndCutscene);
+    }
+
+    void EndCutscene() {
+        EventManager.StopListening("EndOfMessage", EndCutscene);
+        EventManager.TriggerEvent("HideMessage");
+        EventManager.TriggerEvent("Unpause");
     }
 }
 

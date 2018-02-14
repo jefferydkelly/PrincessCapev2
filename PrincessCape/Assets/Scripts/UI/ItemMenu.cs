@@ -10,8 +10,8 @@ public class ItemMenu : MonoBehaviour {
 	void Awake () {
         boxes = GetComponentsInChildren<ItemSlot>().ToList();
 
-        EventManager.StartListening("Pause", Reveal);
-        EventManager.StartListening("Unpause", Hide);
+        EventManager.StartListening("ShowItemMenu", Reveal);
+        EventManager.StartListening("HideItemMenu", Hide);
         Hide();
 
 	}

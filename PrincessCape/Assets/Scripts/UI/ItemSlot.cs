@@ -47,7 +47,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        image.color = Color.gray;   
+        if (item != null)
+        {
+            MessageBox.SetLine(item.Description);
+            EventManager.TriggerEvent("ShowLine");
+            image.color = Color.gray;
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

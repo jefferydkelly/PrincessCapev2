@@ -17,28 +17,33 @@ public class PushGlove : MagneticGlove {
     /// </summary>
     public override void Use()
     {
-        if (state == MagicItemState.Activated)
+        if (!Game.Instance.IsPaused)
         {
-            if (!target)
+            if (state == MagicItemState.Activated)
             {
-                FindTarget();
-            }
-
-            if (target)
-            {
-                if (IsTargetInRange)
+                if (!target)
                 {
-                    Game.Instance.Player.IsPulling = true;
-                    if (target.IsStatic)
+                    FindTarget();
+                }
+
+                if (target)
+                {
+                    if (IsTargetInRange)
                     {
-                        Game.Instance.Player.Rigidbody.AddForce(Direction * force);
+                        Game.Instance.Player.IsPulling = true;
+                        if (target.IsStatic)
+                        {
+                            Game.Instance.Player.Rigidbody.AddForce(Direction * force);
+                        }
+                        else
+                        {
+                            target.Rigidbody.AddForce(-Direction * force);
+                        }
                     }
                     else
                     {
-                        target.Rigidbody.AddForce(-Direction * force);
+                        ClearTarget();
                     }
-                } else {
-                    ClearTarget();
                 }
             }
         }
@@ -48,20 +53,23 @@ public class PushGlove : MagneticGlove {
     /// </summary>
 	public override void Deactivate()
 	{
-        if (state == MagicItemState.Activated)
+        if (!Game.Instance.IsPaused)
         {
-			if (slot == MagicItemSlot.First)
-			{
-				EventManager.TriggerEvent("ItemOneDeactivatedSuccessfully");
-			}
-			else if (slot == MagicItemSlot.Second)
-			{
-				EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
-			}
-            ClearTarget();
-            Game.Instance.Player.IsPulling = false;
-            state = MagicItemState.OnCooldown;
-            cooldownTimer.Start();
+            if (state == MagicItemState.Activated)
+            {
+                if (slot == MagicItemSlot.First)
+                {
+                    EventManager.TriggerEvent("ItemOneDeactivatedSuccessfully");
+                }
+                else if (slot == MagicItemSlot.Second)
+                {
+                    EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
+                }
+                ClearTarget();
+                Game.Instance.Player.IsPulling = false;
+                state = MagicItemState.OnCooldown;
+                cooldownTimer.Start();
+            }
         }
 	}
 }

@@ -23,8 +23,6 @@ public class Game : MonoBehaviour {
         foreach(Manager m in managers) {
             m.Update(Time.deltaTime);
         }
-
-        Controller.Instance.Update();
 	}
 
     /// <summary>

@@ -12,6 +12,11 @@ public class Cape : MagicItem
 		EventManager.StartListening("PlayerLanded", OnPlayerLanded);
 
         itemName = "Magic Cape";
+        itemGetMessage = new List<string>() {
+            "You got the Magic Cape!",
+            "As you put it on, you feel yourself getting lighter",
+            "Press and hold the Left Mouse Button to float gently down"
+        };
     }
 
     private void OnEnable()
@@ -24,17 +29,23 @@ public class Cape : MagicItem
     /// </summary>
     public override void Activate()
     {
-        if (state == MagicItemState.Ready) {
-            if (slot == MagicItemSlot.First)
+        if (!Game.Instance.IsPaused)
+        {
+            if (state == MagicItemState.Ready)
             {
-                EventManager.TriggerEvent("ItemOneActivatedSuccessfully");
-            } else {
-                EventManager.TriggerEvent("ItemTwoActivatedSuccessfully");
+                if (slot == MagicItemSlot.First)
+                {
+                    EventManager.TriggerEvent("ItemOneActivatedSuccessfully");
+                }
+                else
+                {
+                    EventManager.TriggerEvent("ItemTwoActivatedSuccessfully");
+                }
+                state = MagicItemState.Activated;
+                Rigidbody2D rb = Game.Instance.Player.GetComponent<Rigidbody2D>();
+                rb.gravityScale = 0.15f;//0.1f;
+                rb.velocity = new Vector2(rb.velocity.x, 0);
             }
-            state = MagicItemState.Activated;
-            Rigidbody2D rb = Game.Instance.Player.GetComponent<Rigidbody2D>();
-            rb.gravityScale = 0.15f;//0.1f;
-            rb.velocity = new Vector2(rb.velocity.x, 0);
         }
     }
 
@@ -42,21 +53,23 @@ public class Cape : MagicItem
     /// Deactivates the cape resetting the players gravity scale.
     /// </summary>
     public override void Deactivate() {
-
-        if (state == MagicItemState.Activated)
+        if (!Game.Instance.IsPaused)
         {
-			if (slot == MagicItemSlot.First)
-			{
-				EventManager.TriggerEvent("ItemOneDeactivatedSuccessfully");
-			}
-			else if (slot == MagicItemSlot.Second)
-			{
-				EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
-			}
-            Rigidbody2D rb = Game.Instance.Player.GetComponent<Rigidbody2D>();
-            rb.gravityScale = 1.0f;
-            cooldownTimer.Start();
-            state = MagicItemState.OnCooldown;
+            if (state == MagicItemState.Activated)
+            {
+                if (slot == MagicItemSlot.First)
+                {
+                    EventManager.TriggerEvent("ItemOneDeactivatedSuccessfully");
+                }
+                else if (slot == MagicItemSlot.Second)
+                {
+                    EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
+                }
+                Rigidbody2D rb = Game.Instance.Player.GetComponent<Rigidbody2D>();
+                rb.gravityScale = 1.0f;
+                cooldownTimer.Start();
+                state = MagicItemState.OnCooldown;
+            }
         }
     }
 

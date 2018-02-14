@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Controller {
+public class Controller:Manager {
     static Controller instance;
 
     Controller() {
@@ -13,6 +14,7 @@ public class Controller {
         get {
             if (instance == null) {
                 instance = new Controller();
+                Game.Instance.AddManager(instance);
             }
             return instance;
         }
@@ -83,39 +85,46 @@ public class Controller {
         }
     }
 
-    public void Update() {
+    public void Update(float dt)
+    {
 		if (Pause)
 		{
-            EventManager.TriggerEvent(Game.Instance.IsPaused ? "Unpause" : "Pause");
+			EventManager.TriggerEvent(Game.Instance.IsPaused ? "Unpause" : "Pause");
+
+			if (Game.Instance.IsPaused)
+			{
+				EventManager.TriggerEvent("ShowItemMenu");
+			}
+			else
+			{
+				EventManager.TriggerEvent("HideItemMenu");
+			}
+		}
+        else if (IsItemOneDown)
+		{
+			EventManager.TriggerEvent("ItemOneActivated");
+		}
+		else if (IsItemOneHeld)
+		{
+			EventManager.TriggerEvent("ItemOneHeld");
+		}
+		else if (IsItemOneUp)
+		{
+			EventManager.TriggerEvent("ItemOneDeactivated");
 		}
 
-        if (!Game.Instance.IsPaused)
-        {
-            if (IsItemOneDown)
-            {
-                EventManager.TriggerEvent("ItemOneActivated");
-            }
-            else if (IsItemOneHeld)
-            {
-                EventManager.TriggerEvent("ItemOneHeld");
-            }
-            else if (IsItemOneUp)
-            {
-                EventManager.TriggerEvent("ItemOneDeactivated");
-            }
-
-            if (IsItemTwoDown)
-            {
-                EventManager.TriggerEvent("ItemTwoActivated");
-            }
-            else if (IsItemTwoHeld)
-            {
-                EventManager.TriggerEvent("ItemTwoHeld");
-            }
-            else if (IsItemTwoUp)
-            {
-                EventManager.TriggerEvent("ItemTwoDeactivated");
-            }
-        }
+		if (IsItemTwoDown)
+		{
+			EventManager.TriggerEvent("ItemTwoActivated");
+		}
+		else if (IsItemTwoHeld)
+		{
+			EventManager.TriggerEvent("ItemTwoHeld");
+		}
+		else if (IsItemTwoUp)
+		{
+			EventManager.TriggerEvent("ItemTwoDeactivated");
+		}
+		
     }
 }
