@@ -1872,6 +1872,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1062303646}
     m_Modifications:
+    - target: {fileID: 114831487382202428, guid: afa1b72ce1b1f4c7da317f941450fad0,
+        type: 2}
+      propertyPath: message.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4774771676830800, guid: afa1b72ce1b1f4c7da317f941450fad0, type: 2}
       propertyPath: m_LocalPosition.x
       value: 11.032787
@@ -1922,6 +1927,22 @@ Prefab:
         type: 2}
       propertyPath: m_Color.b
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114831487382202428, guid: afa1b72ce1b1f4c7da317f941450fad0,
+        type: 2}
+      propertyPath: message.Array.data[0]
+      value: Princess?...You're alive but it seems I am not.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114831487382202428, guid: afa1b72ce1b1f4c7da317f941450fad0,
+        type: 2}
+      propertyPath: message.Array.data[1]
+      value: Your father sent me to rescue you from that blasted dragon but it seems
+        he got the best of me.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114831487382202428, guid: afa1b72ce1b1f4c7da317f941450fad0,
+        type: 2}
+      propertyPath: message.Array.data[2]
+      value: Please take my Magic Cape and use it to escape this castle.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: afa1b72ce1b1f4c7da317f941450fad0, type: 2}
