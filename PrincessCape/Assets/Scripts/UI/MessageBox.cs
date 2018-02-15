@@ -14,6 +14,7 @@ public class MessageBox : MonoBehaviour {
     private void Awake()
     {
         gameObject.SetActive(false);
+        EventManager.StartListening("ShowDialog", DisplayMessage);
         EventManager.StartListening("ShowMessage", DisplayMessage);
         EventManager.StartListening("ShowLine", DisplayLine);
         text = GetComponentInChildren<Text>();

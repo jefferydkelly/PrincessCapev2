@@ -7,6 +7,8 @@ public class KnightRemains : InteractiveObject
 
     [SerializeField]
     MagicItemType itemOnRemains = MagicItemType.Cape;
+    [SerializeField]
+    string knightName = "Sir Matthew";
     bool itemGiven = false;
 
     public override void Activate()
@@ -15,9 +17,10 @@ public class KnightRemains : InteractiveObject
         {
             //Add item to the player's inventory
             MessageBox.SetMessage(new List<string>() { "Now this is a story all about how...", "My life got flipped turned upside down", "And I'd like to take a minute, just sit right there", "I'll tell you all about how I became the prince of a town called Bel-Air" });
+            SpeakerBox.SetSpeaker(knightName);
             EventManager.StartListening("EndOfMessage", GiveItem);
             EventManager.TriggerEvent("Pause");
-            EventManager.TriggerEvent("ShowMessage");
+            EventManager.TriggerEvent("ShowDialog");
 
         }
     }
