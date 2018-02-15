@@ -31,6 +31,7 @@ public class Player : MonoBehaviour {
         EventManager.StartListening("PlayerDied", Die);
         EventManager.StartListening("Pause", Pause);
         EventManager.StartListening("Unpause", Unpause);
+        EventManager.StartListening("StartPush", StartPush);
     }
 
 	private void OnDisable()
@@ -59,9 +60,9 @@ public class Player : MonoBehaviour {
 	void Update () {
         if (!Game.Instance.IsPaused && !isFrozen && !IsPulling)
         {
+            float xForce = Controller.Instance.Horizontal * 5;
             bool onGround = IsOnGround;
-            myRigidbody.AddForce(new Vector2(Controller.Instance.Horizontal * 5, 0));
-            myRigidbody.ClampXVelocity(maxSpeed);
+
             if (onLadder) {
                 myRigidbody.AddForce(new Vector2(0, Controller.Instance.Vertical * 5));
 
@@ -71,13 +72,22 @@ public class Player : MonoBehaviour {
                     myRigidbody.gravityScale = 0;
                     transform.position += Vector3.down * 0.25f;
                 }           
+            } else if (state == PlayerState.MovingBlock) {
+                myRigidbody.velocity = Vector3.right * Controller.Instance.Horizontal * maxSpeed / 4.0f;
+                xForce = 0;
+
             }
             else if (onGround && Controller.Instance.Jump)
             {
                 myRigidbody.AddForce(Vector2.up * 6.5f, ForceMode2D.Impulse);
-            } else if (Input.GetKeyDown(KeyCode.F) && InteractiveObject.Selected) {
+            } 
+
+            if (Input.GetKeyDown(KeyCode.F) && InteractiveObject.Selected) {
                 InteractiveObject.Selected.Activate();
             }
+
+            myRigidbody.AddForce(new Vector2(xForce, 0));
+			myRigidbody.ClampXVelocity(maxSpeed);
         }
 	}
 
@@ -218,6 +228,20 @@ public class Player : MonoBehaviour {
         EventManager.TriggerEvent("HideMessage");
         EventManager.TriggerEvent("Unpause");
     }
+
+    void StartPush() {
+        if (IsOnGround) {
+            state = PlayerState.MovingBlock;
+            EventManager.StopListening("StartPush", StartPush);
+            EventManager.StartListening("StopPush", StopPush);
+        }
+    }
+
+    void StopPush() {
+        state = PlayerState.Normal;
+        EventManager.StopListening("StopPush", StopPush);
+        EventManager.StartListening("StartPush", Start);
+    }
 }
 
 public enum PlayerState {
@@ -226,5 +250,6 @@ public enum PlayerState {
     Floating,
     Pushing,
     Pulling,
+    MovingBlock,
     Frozen
 }

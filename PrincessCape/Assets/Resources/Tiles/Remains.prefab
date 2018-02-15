@@ -107,8 +107,11 @@ MonoBehaviour:
     width: 128
     height: 128
   connections: []
+  interaction: Loot
   highlightColor: {r: 1, g: 0, b: 0, a: 1}
   itemOnRemains: 0
+  knightName: Sir Matthew
+  message: []
 --- !u!212 &212449643259902196
 SpriteRenderer:
   m_ObjectHideFlags: 1

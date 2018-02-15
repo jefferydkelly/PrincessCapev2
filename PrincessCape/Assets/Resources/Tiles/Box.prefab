@@ -107,7 +107,7 @@ MonoBehaviour:
     width: 128
     height: 128
   connections: []
-  intearction: Push
+  interaction: Push
   highlightColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!212 &212400330585295274
 SpriteRenderer:
