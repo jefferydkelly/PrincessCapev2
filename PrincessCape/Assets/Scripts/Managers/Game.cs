@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 public class Game : MonoBehaviour {
 
     static Game instance;
     List<Manager> managers;
     Player player;
     bool paused = false;
+    Map map;
 	// Use this for initialization
 	void Awake () {
         managers = new List<Manager>();
@@ -16,6 +18,7 @@ public class Game : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
         EventManager.StartListening("Pause", ()=> { paused = true; });
         EventManager.StartListening("Unpause", () => { paused = false; });
+        map = FindObjectOfType<Map>();
     }
 	
 	// Update is called once per frame
@@ -46,7 +49,18 @@ public class Game : MonoBehaviour {
     /// </summary>
     /// <param name="sceneName">Scene name.</param>
     public void LoadScene(string sceneName) {
-        SceneManager.LoadScene(sceneName);
+        if (sceneName.Substring(sceneName.Length - 4) == ".pcl")
+        {
+            //Debug.Log("Load the next level");
+            //Clear the map and load the next scene before starting the next level
+            //map.Clear();
+            //string pcl = File.ReadAllText(sceneName);
+            //map.LoadFromFile(pcl);
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneName);
+        }
     }
 
     /// <summary>

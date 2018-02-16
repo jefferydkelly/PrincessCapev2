@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Door : MapTile {
+    [SerializeField]
     string nextScene = "";
 
     /// <summary>
@@ -12,6 +13,7 @@ public class Door : MapTile {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && nextScene.Length > 0) {
+            
             Game.Instance.LoadScene(nextScene);
         }
     }
@@ -27,5 +29,18 @@ public class Door : MapTile {
         get {
             return nextScene;
         }
+    }
+
+    protected override string GenerateSaveData()
+    {
+        string data = base.GenerateSaveData();
+        data += PCLParser.CreateAttribute("Next Level", nextScene);
+        return data;
+    }
+
+    public override void FromData(TileStruct tile)
+    {
+        base.FromData(tile);
+        nextScene = PCLParser.ParseLine(tile.info[3]);
     }
 }

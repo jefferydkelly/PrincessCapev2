@@ -35,9 +35,22 @@ public class Map : MonoBehaviour
 
     public void Clear()
     {
-        foreach (MapTile tile in tiles)
+        if (Application.isPlaying)
         {
-            DestroyImmediate(tile.gameObject, false);
+			foreach (MapTile tile in tiles)
+			{
+                if (tile)
+                {
+                    Destroy(tile.gameObject);
+                }
+			}
+        }
+        else
+        {
+            foreach (MapTile tile in tiles)
+            {
+                DestroyImmediate(tile.gameObject, false);
+            }
         }
 
         tiles = new List<MapTile>();
