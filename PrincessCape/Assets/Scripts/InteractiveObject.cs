@@ -8,7 +8,7 @@ public class InteractiveObject : ActivatorObject {
     string interaction = "Interact";
     [SerializeField]
     Color highlightColor = Color.red;
-    SpriteRenderer myRenderer;
+    protected SpriteRenderer myRenderer;
 
     /// <summary>
     /// Awake this instance.

@@ -203,4 +203,22 @@ public static class ExtensionMethods {
         return v.Rotate(ang.ToRadians());
     }
 
+    public static Color SetRed(this Color col, float r) {
+        return new Color(r, col.g, col.b);
+    }
+
+	public static Color SetGreen(this Color col, float g)
+	{
+		return new Color(col.r, g, col.b);
+	}
+
+	public static Color SetBlue(this Color col, float b)
+	{
+		return new Color(col.r, col.g, b);
+	}
+
+	public static Color SetAlpha(this Color col, float a)
+	{
+		return new Color(col.r, col.g, col.b, a);
+	}
 }
