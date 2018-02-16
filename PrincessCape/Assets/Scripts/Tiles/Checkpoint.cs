@@ -129,24 +129,17 @@ public class Checkpoint : MapTile
     }
 
 #if UNITY_EDITOR
-    public override string SaveData()
+    protected override string GenerateSaveData()
     {
-        string info = "{\n";
-        info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
-        info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
-        info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
-        info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
-        info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
-        info += string.Format("\"Is First?\": \"{0}\"", isFirstCheckpoint) + lineEnding;
-        info += "}" + lineEnding;
-        return info;
+        string data =  base.GenerateSaveData();
+        data += PCLParser.CreateAttribute("Is First?", isFirstCheckpoint);
+        return data;
     }
 
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);
         isFirstCheckpoint = PCLParser.ParseBool(tile.info[3]);
-
     }
 #endif
 }

@@ -555,7 +555,7 @@ public class MapEditor : Editor {
                         map.AddTile(tile);
                     }
 
-                    foreach(ActivatedObject ao in map.GetComponentsInChildren<ActivatedObject>()) {
+                    foreach(ActivatorObject ao in map.GetComponentsInChildren<ActivatorObject>()) {
                         ao.Reconnect();
                     }
                 }

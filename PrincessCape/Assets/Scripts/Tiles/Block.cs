@@ -12,7 +12,7 @@ public class Block : InteractiveObject{
         startPosition = transform.position;
         EventManager.StartListening("PlayerRespawned", Reset);
     }
-    public override void Activate()
+    public override void Interact()
     {
         //Let the player push
         isBeingPushed = !isBeingPushed;

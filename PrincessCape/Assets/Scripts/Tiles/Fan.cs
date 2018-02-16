@@ -33,17 +33,11 @@ public class Fan : ActivatedObject
         transform.GetChild(0).GetComponent<AirColumn>().ScaleY(up);
     }
 
-    public override string SaveData()
+    protected override string GenerateSaveData()
     {
-        string info = "{\n";
-        info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
-        info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
-        info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
-        info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
-        info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
-        info += string.Format("\"Air Scale\": \"{0}\"", transform.GetChild(0).localScale.y) + lineEnding;
-        info += "}" + lineEnding;
-        return info;
+        string data = base.GenerateSaveData();
+        data += PCLParser.CreateAttribute("Air Scale", transform.GetChild(0).localScale.y);
+        return data;
     }
 
     public override void FromData(TileStruct tile)

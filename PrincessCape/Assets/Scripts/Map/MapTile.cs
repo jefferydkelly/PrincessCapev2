@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapTile : MonoBehaviour {
-
-    protected string lineEnding = ",\n";
 	[SerializeField]
 	EditorLayer layer = EditorLayer.Foreground;
 
@@ -216,17 +214,23 @@ public class MapTile : MonoBehaviour {
     /// Creates a string of Save Data for the Tile.
     /// </summary>
     /// <returns>A string representing the object.</returns>
-    public virtual string SaveData() {
+    public string SaveData() {
         if (transform.parent.name  != "Map") {
             return "";
         }
-        string info = "{\n";
-        info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
-        info += string.Format("\"ID\": \"{0}\"", id) + lineEnding;
-        info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
-        info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
-        info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
-        info += "}" + lineEnding;
+        string info = PCLParser.StructStart;
+        info += GenerateSaveData();
+        info += PCLParser.StructEnd;
+        return info;
+    }
+
+    protected virtual string GenerateSaveData() {
+        string info = "";
+		info += PCLParser.CreateAttribute("Name", name.Split('(')[0]);
+		info += PCLParser.CreateAttribute("ID", ID);
+		info += PCLParser.CreateAttribute("Position", transform.position);
+		info += PCLParser.CreateAttribute("Rotation", transform.rotation);
+		info += PCLParser.CreateAttribute("Scale", transform.localScale);
         return info;
     }
 

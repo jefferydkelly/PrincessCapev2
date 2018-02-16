@@ -3,6 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PCLParser {
+    static string structStart = "{\n";
+    static string structEnd = "},\n";
+    static string lineEnding = ",\n";
+
+    public static string CreateAttribute<T>(string atrName, T val) {
+       return string.Format("\"{0}\": \"{1}\"", atrName, val) + lineEnding;
+    }
+
+    public static string CreateArray(string atrName) {
+        return string.Format("\"{0}\": [\n", atrName);
+    }
+
+	public static string CreateArray<T>(string atrName, List<T> data)
+	{
+		string info = string.Format("\"{0}\": [\n", atrName);
+        foreach(T s in data) {
+            info += s + lineEnding;
+        }
+        info += ArrayEnding;
+        return info;
+	}
+
+    public static string ArrayEnding {
+        get {
+            return "]" + lineEnding;
+        }
+    }
 
     public static Vector3 ParseVector3(string pcl) {
      
@@ -80,6 +107,24 @@ public class PCLParser {
 
     static bool IsLine(string s) {
         return !(s.Contains("{") || s.Contains("}"));
+    }
+
+    public static string StructStart {
+        get {
+            return structStart;
+        }
+    }
+
+    public static string StructEnd {
+        get {
+            return structEnd;
+        }
+    }
+
+    public static string LineEnd {
+        get {
+            return lineEnding;
+        }
     }
 }
 

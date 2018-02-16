@@ -83,7 +83,7 @@ public class Player : MonoBehaviour {
             } 
 
             if (Input.GetKeyDown(KeyCode.F) && InteractiveObject.Selected) {
-                InteractiveObject.Selected.Activate();
+                InteractiveObject.Selected.Interact();
             }
 
             myRigidbody.AddForce(new Vector2(xForce, 0));

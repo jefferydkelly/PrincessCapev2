@@ -12,7 +12,7 @@ public class KnightRemains : InteractiveObject
     [SerializeField]
     List<string> message;
     bool itemGiven = false;
-    public override void Activate()
+    public override void Interact()
     {
         if (!itemGiven)
         {
@@ -56,27 +56,12 @@ public class KnightRemains : InteractiveObject
         }
     }
 
-    public override string SaveData()
+    protected override string GenerateSaveData()
     {
-		if (transform.parent.name != "Map")
-		{
-			return "";
-		}
-		string info = "{\n";
-		info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
-		info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
-		info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
-		info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
-		info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
-        info += string.Format("\"Knight\": \"{0}\"", knightName) + lineEnding;
-        info += "\"Lines\": [\n";
-        foreach(string s in message) {
-            info += s + lineEnding;
-        }
-        info += "]" + lineEnding;
-
-		info += "}" + lineEnding;
-		return info;
+        string data = base.GenerateSaveData();
+        data += PCLParser.CreateAttribute("Knight", knightName);
+        data += PCLParser.CreateArray("Message", message);
+        return data;
     }
 
     public override void FromData(TileStruct tile)
@@ -85,7 +70,7 @@ public class KnightRemains : InteractiveObject
         knightName = PCLParser.ParseLine(tile.info[3]);
         message = new List<string>();
         for (int i = 5; i < tile.info.Count - 1; i++) {
-            message.Add(tile.info[i].Substring(0, tile.info[i].Length - lineEnding.Length));
+            message.Add(tile.info[i].Substring(0, tile.info[i].Length - PCLParser.LineEnd.Length));
         }
     }
 }

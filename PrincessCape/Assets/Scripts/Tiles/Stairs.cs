@@ -14,21 +14,11 @@ public class Stairs : MapTile {
         }
     }
 
-    public override string SaveData()
+    protected override string GenerateSaveData()
     {
-		if (transform.parent.name != "Map")
-		{
-			return "";
-		}
-		string info = "{\n";
-		info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
-		info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
-		info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
-		info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
-		info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
-        info += string.Format("\"Children\": \"{0}\"", transform.childCount) + lineEnding;
-		info += "}" + lineEnding;
-		return info;
+        string info = base.GenerateSaveData();
+        info += PCLParser.CreateAttribute("Children", transform.childCount);
+        return info;
     }
 
     public override void FromData(TileStruct tile)

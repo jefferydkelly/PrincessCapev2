@@ -70,27 +70,17 @@ public class Bridge : ActivatedObject
         tile.transform.localPosition = dir * transform.childCount + Vector3.down * 0.5f;
     }
 
-    public override string SaveData()
+    protected override string GenerateSaveData()
     {
-		if (transform.parent.name != "Map")
-		{
-			return "";
-		}
-		string info = "{\n";
-		info += string.Format("\"Name\": \"{0}\"", name.Split('(')[0]) + lineEnding;
-		info += string.Format("\"ID\": \"{0}\"", ID) + lineEnding;
-		info += string.Format("\"Position\": \"{0}\"", transform.position) + lineEnding;
-		info += string.Format("\"Rotation\": \"{0}\"", transform.rotation) + lineEnding;
-		info += string.Format("\"Scale\": \"{0}\"", transform.localScale) + lineEnding;
-		info += string.Format("\"Children\": \"{0}\"", transform.childCount) + lineEnding;
-		info += "}" + lineEnding;
-		return info;
+        string data = base.GenerateSaveData();
+        data += PCLParser.CreateAttribute("Children", transform.childCount);
+        return data;
     }
 
 	public override void FromData(TileStruct tile)
 	{
 		base.FromData(tile);
-		int numChildren = PCLParser.ParseInt(tile.info[3]);
+        int numChildren = PCLParser.ParseInt(tile.info[3]);
 
 		for (int i = 0; i < numChildren; i++)
 		{

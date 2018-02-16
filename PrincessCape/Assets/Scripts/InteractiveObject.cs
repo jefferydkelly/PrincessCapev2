@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class InteractiveObject : ActivatorObject {
+public abstract class InteractiveObject : MapTile {
     static InteractiveObject selected;
     [SerializeField]
     string interaction = "Interact";
@@ -29,6 +28,7 @@ public class InteractiveObject : ActivatorObject {
         }
     }
 
+    public abstract void Interact();
 
     /// <summary>
     /// Remove the highlight when the player is not colliding with it.
@@ -100,4 +100,5 @@ public class InteractiveObject : ActivatorObject {
             return interaction;
         }
     }
+
 }
