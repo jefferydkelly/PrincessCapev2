@@ -140,6 +140,10 @@ public class Checkpoint : MapTile
     {
         base.FromData(tile);
         isFirstCheckpoint = PCLParser.ParseBool(tile.info[3]);
+
+        if (isFirstCheckpoint && Application.isPlaying) {
+            activeCheckpoint = this;
+        }
     }
 #endif
 }

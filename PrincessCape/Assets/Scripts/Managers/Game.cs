@@ -53,9 +53,9 @@ public class Game : MonoBehaviour {
         {
             //Debug.Log("Load the next level");
             //Clear the map and load the next scene before starting the next level
-            //map.Clear();
-            //string pcl = File.ReadAllText(sceneName);
-            //map.LoadFromFile(pcl);
+            map.Clear();
+
+            map.Load(sceneName);
         }
         else
         {

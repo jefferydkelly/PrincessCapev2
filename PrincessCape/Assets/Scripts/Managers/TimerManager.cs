@@ -121,6 +121,7 @@ public class Timer
 		{
 			state = TimerState.Running;
 			curTime = 0;
+            timesRun = 0;
 			TimerManager.Instance.AddTimer(this);
 		}
 
@@ -195,6 +196,12 @@ public class Timer
 			return state == TimerState.Running;
 		}
 	}
+
+    public int TicksCompleted {
+        get {
+            return timesRun;
+        }
+    }
 }
 
 /// <summary>

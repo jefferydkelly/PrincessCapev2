@@ -11,38 +11,36 @@ public class Bridge : ActivatedObject
     bool startActive = false;
     [SerializeField]
     Vector3 dir = Vector3.right;
+    Timer revealTimer;
+    float revealTime = 0.1f;
 
     private void Start()
     {
+		revealTimer = new Timer(revealTime, transform.childCount - 1);
+		revealTimer.OnTick.AddListener(RevealTile);
         if (!startActive)
         {
             Deactivate();
         }
+
     }
     public override void Activate()
     {
-        StartCoroutine(RevealTiles());
+        revealTimer.Start();
     }
 
-    IEnumerator RevealTiles()
+    void RevealTile()
     {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            GameObject go = transform.GetChild(i).gameObject;
-            go.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
-        }
+        transform.GetChild(revealTimer.TicksCompleted).gameObject.SetActive(true);
 
-        yield return null;
     }
 
     public override void Deactivate()
     {
+        revealTimer.Stop();
         for (int i = 0; i < transform.childCount; i++)
         {
-            GameObject go = transform.GetChild(i).gameObject;
-            go.SetActive(false);
-
+            transform.GetChild(i).gameObject.SetActive(false);
         }
     }
 

@@ -70,7 +70,7 @@ public class KnightRemains : InteractiveObject
         knightName = PCLParser.ParseLine(tile.info[3]);
         message = new List<string>();
         for (int i = 5; i < tile.info.Count - 1; i++) {
-            message.Add(tile.info[i].Substring(0, tile.info[i].Length - PCLParser.LineEnd.Length));
+            message.Add(PCLParser.ParseLine(tile.info[i]));
         }
     }
 }

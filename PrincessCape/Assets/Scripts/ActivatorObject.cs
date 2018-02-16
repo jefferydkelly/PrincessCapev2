@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ActivatorObject : ActivatedObject {
-	List<int> connectionIDs;
+    List<int> connectionIDs = new List<int>();
     /// <summary>
     /// Activate this instance.
     /// </summary>
@@ -36,16 +36,17 @@ public class ActivatorObject : ActivatedObject {
 	{
 		string info = base.GenerateSaveData();
 
-		info += PCLParser.CreateArray("Connections");
+		
+        List<int> ids = new List<int>();
 		foreach (ActivatedObject ao in connections)
 		{
 			if (ao)
 			{
-				info += PCLParser.CreateAttribute("CI", ao.ID);
+                ids.Add(ao.ID);
 			}
 
 		}
-		info += PCLParser.ArrayEnding;
+        info += PCLParser.CreateArray("Connections", ids);
 		return info;
 	}
 

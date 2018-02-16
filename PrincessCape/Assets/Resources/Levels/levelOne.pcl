@@ -1,9 +1,9 @@
 {
-"MapName": "The Princess Escapes",
+"MapName": "Test Room",
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "0",
+"ID": "42",
 "Position": "(1.5, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(18.0, 1.0, 1.0)",
@@ -58,7 +58,7 @@
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Connections": [
-"CI": "8",
+"El": "8",
 ],
 },
 {
@@ -237,7 +237,7 @@
 "Position": "(50.5, 7.5, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Next Level": "/Users/jefferykelly/PrincessCapev2/PrincessCape/Assets/Resources/Levels/level.pcl",
+"Next Level": "/Users/jefferykelly/PrincessCapev2/PrincessCape/Assets/Resources/Levels/testRoom.pcl",
 },
 {
 "Name": "Switch",
@@ -246,7 +246,7 @@
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Connections": [
-"CI": "37",
+"El": "37",
 ],
 },
 {
@@ -264,8 +264,8 @@
 "Scale": "(1.0, 1.0, 1.0)",
 "Knight": "Sir Matthew",
 "Message": [
-Princess?  You're alive,
-But it seems I am not,
+"El": "Princess?  You're alive.",
+"El": "But it seems I am not.",
 ],
 },
 {

@@ -23,6 +23,7 @@ public class Player : MonoBehaviour {
         resetTimer = new Timer(1.0f);
         resetTimer.OnComplete.AddListener(Game.Instance.Reset);
         inventory = new List<MagicItem>();
+        EventManager.StartListening("LevelLoaded", Reset);
    
     }
 

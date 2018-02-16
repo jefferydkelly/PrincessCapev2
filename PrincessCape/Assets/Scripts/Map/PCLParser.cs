@@ -19,7 +19,7 @@ public class PCLParser {
 	{
 		string info = string.Format("\"{0}\": [\n", atrName);
         foreach(T s in data) {
-            info += s + lineEnding;
+            info += CreateAttribute("El", s);
         }
         info += ArrayEnding;
         return info;

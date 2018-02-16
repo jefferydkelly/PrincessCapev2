@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 392}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -106,8 +106,8 @@ MonoBehaviour:
     y: 30
     width: 1498
     height: 891
-  m_MinSize: {x: 681, y: 342}
-  m_MaxSize: {x: 12006, y: 8042}
+  m_MinSize: {x: 683, y: 342}
+  m_MaxSize: {x: 12008, y: 8042}
   vertical: 0
   controlID: 52
 --- !u!114 &6
@@ -255,8 +255,8 @@ MonoBehaviour:
     y: 0
     width: 399
     height: 891
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 71}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -532,14 +532,14 @@ MonoBehaviour:
     height: 580
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneLighting: 1
-  lastFramingTime: 197.96711790561676
+  lastFramingTime: 3381.128902077675
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 34.588062, y: 8.758724, z: 0.5123596}
+    m_Target: {x: 5.3583317, y: 3.3771544, z: -0.22021428}
     speed: 2
-    m_Value: {x: 34.588062, y: 8.758724, z: 0.5123596}
+    m_Value: {x: 5.3583317, y: 3.3771544, z: -0.22021428}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -567,9 +567,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 21.386875
+    m_Target: 25.385077
     speed: 2
-    m_Value: 21.386875
+    m_Value: 25.385077
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -661,7 +661,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 104}
     m_SelectedIDs: e6280000
     m_LastClickedID: 10470
-    m_ExpandedIDs: 0000000098270000a2280000cc28000000ca9a3bffffff7f
+    m_ExpandedIDs: 0000000098270000a4280000cc280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -689,7 +689,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000098270000a2280000cc280000
+    m_ExpandedIDs: 0000000098270000a4280000cc280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
