@@ -2,6 +2,8 @@ OSXStandalone
 SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/Test.unity
+Assets/Scenes/LevelSelect.unity
+Assets/Scenes/Credits.unity
 SceneListEnd?
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MainMenu
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
@@ -172,3 +174,5 @@ d4ceabb9bffb7f0b6794cc43bd58d9c2 Assembly-CSharp.dll:.Fan
 bd2237995ff789ee97230b4df90c9205 Assembly-CSharp.dll:.KnightRemains
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ItemMenu
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PushGlove
+faf9beb21d9a38ac455680c8dd817952 Assembly-CSharp.dll:.LevelSelect
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Credits
