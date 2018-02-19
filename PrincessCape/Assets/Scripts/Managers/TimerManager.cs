@@ -197,6 +197,34 @@ public class Timer
 		}
 	}
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Timer"/> is done.
+    /// </summary>
+    /// <value><c>true</c> if is done; otherwise, <c>false</c>.</value>
+	public bool IsDone
+	{
+		get
+		{
+			return state == TimerState.Done;
+		}
+	}
+
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Timer"/> is stopped.
+    /// </summary>
+    /// <value><c>true</c> if is stopped; otherwise, <c>false</c>.</value>
+	public bool IsStopped
+	{
+		get
+		{
+			return state == TimerState.Stopped;
+		}
+	}
+
+    /// <summary>
+    /// Gets the ticks completed.
+    /// </summary>
+    /// <value>The ticks completed.</value>
     public int TicksCompleted {
         get {
             return timesRun;
