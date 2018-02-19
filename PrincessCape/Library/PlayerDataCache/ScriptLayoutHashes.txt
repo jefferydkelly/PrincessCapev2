@@ -3,6 +3,7 @@ SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/Test.unity
 SceneListEnd?
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MainMenu
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 970a95104359198fe1a98ef48655de8c UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
 8144169769d51429c4aedc8b0f92d47b UnityEngine.Timeline.dll:UnityEngine.Timeline.AnimationPlayableAsset
@@ -171,4 +172,3 @@ d4ceabb9bffb7f0b6794cc43bd58d9c2 Assembly-CSharp.dll:.Fan
 bd2237995ff789ee97230b4df90c9205 Assembly-CSharp.dll:.KnightRemains
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ItemMenu
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PushGlove
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MainMenu

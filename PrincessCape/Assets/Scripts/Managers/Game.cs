@@ -15,8 +15,8 @@ public class Game : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
         managers = new List<Manager>();
-
-
+        instance = this;
+        DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
         EventManager.StartListening("Pause", ()=> { paused = true; });
         EventManager.StartListening("Unpause", () => { paused = false; });
@@ -24,11 +24,17 @@ public class Game : MonoBehaviour {
             levelText.text = map.LevelName;
         });
         map = FindObjectOfType<Map>();
+
         levelText = GameObject.Find("LevelName").GetComponent<Text>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void Start()
+    {
+        map.Load("levelOne.json");
+    }
+
+    // Update is called once per frame
+    void Update () {
         foreach(Manager m in managers) {
             m.Update(Time.deltaTime);
         }
@@ -77,8 +83,7 @@ public class Game : MonoBehaviour {
         get {
             if (instance == null) {
                 GameObject go = new GameObject("GameManager");
-                instance = go.AddComponent<Game>();
-                DontDestroyOnLoad(go);
+                go.AddComponent<Game>();
             }
             return instance;
         }

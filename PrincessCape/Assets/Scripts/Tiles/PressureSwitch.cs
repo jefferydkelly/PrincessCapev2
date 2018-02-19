@@ -9,7 +9,7 @@ public class PressureSwitch : ActivatorObject {
     /// <summary>
     /// Start this instance.
     /// </summary>
-    private void Start()
+    private void Awake()
     {
         myAnimator = GetComponent<Animator>();
     }

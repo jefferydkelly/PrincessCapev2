@@ -13,7 +13,6 @@ public class Ladder : MapTile
         myCollider = GetComponent<BoxCollider2D>();
     }
 
-#if UNITY_EDITOR
     public override void ScaleY(bool up)
     {
         if (up)
@@ -95,5 +94,4 @@ public class Ladder : MapTile
             newChain.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
         }
     }
-#endif
 }

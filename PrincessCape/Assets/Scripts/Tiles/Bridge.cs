@@ -44,7 +44,6 @@ public class Bridge : ActivatedObject
         }
     }
 
-#if UNITY_EDITOR
     public override void ScaleY(bool up)
     {
 
@@ -85,5 +84,4 @@ public class Bridge : ActivatedObject
 			SpawnChild();
 		}
 	}
-#endif
 }

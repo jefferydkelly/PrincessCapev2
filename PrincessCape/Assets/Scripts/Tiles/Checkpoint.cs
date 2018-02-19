@@ -22,7 +22,7 @@ public class Checkpoint : MapTile
 
         myAnimator = GetComponent<Animator>();
 
-        if (!Application.isPlaying)
+        if (Application.isEditor && !Application.isPlaying)
         {
             if (FindObjectsOfType<Checkpoint>().Length == 1)
             {
@@ -128,7 +128,6 @@ public class Checkpoint : MapTile
         }
     }
 
-#if UNITY_EDITOR
     protected override string GenerateSaveData()
     {
         string data =  base.GenerateSaveData();
@@ -145,5 +144,4 @@ public class Checkpoint : MapTile
             activeCheckpoint = this;
         }
     }
-#endif
 }

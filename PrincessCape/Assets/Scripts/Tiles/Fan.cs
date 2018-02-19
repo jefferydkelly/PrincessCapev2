@@ -27,7 +27,6 @@ public class Fan : ActivatedObject
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
-#if UNITY_EDITOR
     public override void ScaleY(bool up)
     {
         transform.GetChild(0).GetComponent<AirColumn>().ScaleY(up);
@@ -47,5 +46,4 @@ public class Fan : ActivatedObject
         float airScale = float.Parse(PCLParser.ParseLine(tile.info[3]));
         air.transform.localScale = air.transform.localScale.SetY(airScale);
     }
-#endif
 }

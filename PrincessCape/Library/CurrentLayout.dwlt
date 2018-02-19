@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 392}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -106,8 +106,8 @@ MonoBehaviour:
     y: 30
     width: 1498
     height: 891
-  m_MinSize: {x: 683, y: 342}
-  m_MaxSize: {x: 12008, y: 8042}
+  m_MinSize: {x: 681, y: 342}
+  m_MaxSize: {x: 12006, y: 8042}
   vertical: 0
   controlID: 52
 --- !u!114 &6
@@ -229,8 +229,8 @@ MonoBehaviour:
     y: 601
     width: 1099
     height: 290
-  m_MinSize: {x: 102, y: 121}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 17}
@@ -255,8 +255,8 @@ MonoBehaviour:
     y: 0
     width: 399
     height: 891
-  m_MinSize: {x: 277, y: 71}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -479,23 +479,23 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 88cb0000
-    m_LastClickedID: 52104
-    m_ExpandedIDs: 3461fcffb261fcffec62fcfff862fcffcc6afcff3c6bfcff6a6cfcff766cfcff30b5fdff96b5fdffc4b6fdffd0b6fdff601efeffe01efeff0e20feff1a20feff0823feff8623feffb424feffc024feff1892feff7899fefff099feff909bfeff989bfeff22a3feff9ca3feff3ca5feff44a5feffb82effff2a2fffffca30ffffd230ffff5aeefffffeeeffff9efbfffff4ffffff0000000042330000a84300008e490000b86500008076000088cb0000
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: a008ffff1409ffff520affff5e0affff9c11ffff0412ffff4213ffff4e13fffff41affff621bffffa01cffffac1cffff0c20ffff7420ffffb221ffffbe21ffff4c29ffffb429fffff22afffffe2affff4437ffffb437fffff238fffffe38ffff763effffe43effff2240ffff2e40ffffd043ffff3844ffff7645ffff8245ffffe48affff4c8bffff7a8cffff868cffff6af7ffffd8f7ffff06f9ffff12f9ffff98fbffff000000000433000018400000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Canvas
-      m_OriginalName: Canvas
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 18830
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 8}
     m_SearchString: 
@@ -537,9 +537,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 48.280132, y: 4.932216, z: 0.90995336}
+    m_Target: {x: 46.682644, y: 5.2596107, z: 0.85215026}
     speed: 2
-    m_Value: {x: 48.280132, y: 4.932216, z: 0.90995336}
+    m_Value: {x: 46.682644, y: 5.2596107, z: 0.85215026}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -567,9 +567,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 13.695233
+    m_Target: 19.47101
     speed: 2
-    m_Value: 13.695233
+    m_Value: 19.47101
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -649,19 +649,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scripts/Managers
+    - Assets/Resources/Levels
   m_ViewMode: 1
   m_StartGridSize: 67
   m_LastFolders:
-  - Assets/Scripts/Managers
+  - Assets/Resources/Levels
   m_LastFoldersGridSize: 67
   m_LastProjectPath: /Users/jefferykelly/PrincessCapev2/PrincessCape
   m_IsLocked: 1
   m_FolderTreeState:
     scrollPos: {x: 0, y: 36}
-    m_SelectedIDs: 32280000
-    m_LastClickedID: 10290
-    m_ExpandedIDs: 0000000098270000a4280000cc28000000ca9a3bffffff7f
+    m_SelectedIDs: de280000
+    m_LastClickedID: 10462
+    m_ExpandedIDs: 00000000a0270000ac280000d428000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -689,7 +689,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000098270000a4280000cc280000
+    m_ExpandedIDs: 00000000a0270000ac280000d4280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

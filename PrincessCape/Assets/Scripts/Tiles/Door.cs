@@ -5,8 +5,7 @@ using UnityEngine;
 public class Door : MapTile {
     [SerializeField]
     string nextScene = "";
-    [SerializeField]
-    TextAsset sceneText;
+
     /// <summary>
     /// When the Player collidesr with the Door, load the scene connected with the door.
     /// </summary>

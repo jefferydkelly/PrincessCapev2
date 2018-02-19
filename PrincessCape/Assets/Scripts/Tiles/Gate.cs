@@ -24,7 +24,7 @@ public class Gate : ActivatedObject {
     }
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         myAnimator = GetComponent<Animator>();
 	}
 }
