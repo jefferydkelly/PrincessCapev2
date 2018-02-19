@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.IO;
+using UnityEngine.UI;
 public class Game : MonoBehaviour {
 
     static Game instance;
@@ -10,6 +10,8 @@ public class Game : MonoBehaviour {
     Player player;
     bool paused = false;
     Map map;
+    Text levelText;
+
 	// Use this for initialization
 	void Awake () {
         managers = new List<Manager>();
@@ -18,7 +20,11 @@ public class Game : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
         EventManager.StartListening("Pause", ()=> { paused = true; });
         EventManager.StartListening("Unpause", () => { paused = false; });
+        EventManager.StartListening("LevelLoaded", () => {
+            levelText.text = map.LevelName;
+        });
         map = FindObjectOfType<Map>();
+        levelText = GameObject.Find("LevelName").GetComponent<Text>();
     }
 	
 	// Update is called once per frame
@@ -49,7 +55,7 @@ public class Game : MonoBehaviour {
     /// </summary>
     /// <param name="sceneName">Scene name.</param>
     public void LoadScene(string sceneName) {
-        if (sceneName.Substring(sceneName.Length - 4) == ".pcl")
+        if (sceneName.Substring(sceneName.Length - 5) == ".json")
         {
             //Debug.Log("Load the next level");
             //Clear the map and load the next scene before starting the next level

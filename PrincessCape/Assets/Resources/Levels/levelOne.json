@@ -1,5 +1,5 @@
 {
-"MapName": "Test Room",
+"MapName": "The Princess Escapes",
 "Tiles": [
 {
 "Name": "Platform",
@@ -237,7 +237,7 @@
 "Position": "(50.5, 7.5, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Next Level": "/Users/jefferykelly/PrincessCapev2/PrincessCape/Assets/Resources/Levels/testRoom.pcl",
+"Next Level": "testRoom.json",
 },
 {
 "Name": "Switch",

@@ -10,22 +10,26 @@ public class DoorEditor : Editor {
     Dictionary<string, string> mapsAndFiles;
     Door theDoor;
     int selectedOption = 0;
+
     private void OnEnable()
     {
+        
         theDoor = target as Door;
         mapNames = new List<string>();
         DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Levels");
         mapsAndFiles = new Dictionary<string, string>();
-        foreach (FileInfo f in dir.GetFiles("*.pcl")){
-            if (f.Extension != ".pcl.meta")
+        foreach (FileInfo f in dir.GetFiles("*.json")){
+            if (f.Extension != ".json.meta")
             {
                 string json = File.ReadAllText(f.FullName);
 				string[] lines = json.Split('\n');
                 string mapName = PCLParser.ParseLine(lines[1]);
-                mapsAndFiles.Add(mapName, f.FullName);
+                mapsAndFiles.Add(mapName, f.Name);
                 mapNames.Add(mapName);
             }
         }
+
+        selectedOption = Mathf.Max(0, mapNames.IndexOf(theDoor.NextScene));
     }
 
     public override void OnInspectorGUI() {

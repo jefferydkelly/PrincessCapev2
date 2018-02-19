@@ -2,6 +2,14 @@
 "MapName": "Test Room",
 "Tiles": [
 {
+"Name": "Checkpoint",
+"ID": "0",
+"Position": "(-3.0, 0.0, 1.0)",
+"Rotation": "(0.0, 0.0, 0.0, 1.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Is First?": "True",
+},
+{
 "Name": "Platform",
 "ID": "1",
 "Position": "(-6.0, 2.0, 0.0)",
@@ -11,31 +19,23 @@
 {
 "Name": "Platform",
 "ID": "2",
-"Position": "(-2.5, -1.0, 0.0)",
-"Rotation": "(0.0, 0.0, 0.0, 1.0)",
-"Scale": "(8.0, 1.0, 1.0)",
-},
-{
-"Name": "Platform",
-"ID": "3",
-"Position": "(1.0, 2.0, 0.0)",
+"Position": "(0.0, 2.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 5.0, 1.0)",
 },
 {
 "Name": "Platform",
-"ID": "4",
-"Position": "(-2.5, 5.0, 0.0)",
+"ID": "3",
+"Position": "(-3.0, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
-"Scale": "(8.0, 1.0, 1.0)",
+"Scale": "(7.0, 1.0, 1.0)",
 },
 {
-"Name": "Checkpoint",
-"ID": "5",
-"Position": "(-2.0, 0.0, 1.0)",
+"Name": "Platform",
+"ID": "4",
+"Position": "(-3.0, 5.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
-"Scale": "(1.0, 1.0, 1.0)",
-"Is First?": "True",
+"Scale": "(7.0, 1.0, 1.0)",
 },
 ]
 }

@@ -140,6 +140,7 @@ public class Map : MonoBehaviour
 			tile.RenderInEditor();
 		}
     }
+#endif
 	public string SaveToFile() {
         string info = "{\n";
         info += string.Format("\"MapName\": \"{0}\"", levelName) + ",\n";
@@ -150,7 +151,7 @@ public class Map : MonoBehaviour
         info += "]\n}";
         return info;
     }
-#endif
+
 
 	public List<TileStruct> LoadFromFile(string json) {
         string[] lines = json.Split('\n');
@@ -185,29 +186,40 @@ public class Map : MonoBehaviour
     }
 
     public void Load(string file) {
-		if (file.Length > 0)
-		{
-            string json = File.ReadAllText(file);
-            if (json.Length > 0)
+        if (file.Length > 0)
+        {
+            string scenePath = "Levels/" + file.Substring(0, file.Length - 5);
+            TextAsset text = Resources.Load<TextAsset>(scenePath);
+            if (text)
             {
-                List<TileStruct> newTiles = LoadFromFile(json);
-
-
-                foreach (TileStruct t in newTiles)
+                string json = text.text;
+                if (json.Length > 0)
                 {
-                    MapTile tile = Instantiate(prefabs[t.name]).GetComponent<MapTile>();
-                    tile.FromData(t);
-                    AddTile(tile);
+                    List<TileStruct> newTiles = LoadFromFile(json);
+
+
+                    foreach (TileStruct t in newTiles)
+                    {
+                        MapTile tile = Instantiate(prefabs[t.name]).GetComponent<MapTile>();
+                        tile.FromData(t);
+                        AddTile(tile);
+                    }
+
+                    foreach (ActivatorObject ao in GetComponentsInChildren<ActivatorObject>())
+                    {
+                        ao.Reconnect();
+                    }
+                    EventManager.TriggerEvent("LevelLoaded");
                 }
 
-                foreach (ActivatorObject ao in GetComponentsInChildren<ActivatorObject>())
-                {
-                    ao.Reconnect();
-                }
-            
-			}
 
-            EventManager.TriggerEvent("LevelLoaded");
-		}
+            }
+        }
+    }
+
+    public string LevelName {
+        get {
+            return levelName;
+        }
     }
 }

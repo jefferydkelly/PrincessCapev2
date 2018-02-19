@@ -116,7 +116,6 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
-#if UNITY_EDITOR
 	/// <summary>
 	/// Horizontally flips the tile
 	/// </summary>
@@ -253,7 +252,6 @@ public class MapTile : MonoBehaviour {
             return editorTexture;
         }
     }
-#endif
 
 }
 

@@ -5,7 +5,8 @@ using UnityEngine;
 public class Door : MapTile {
     [SerializeField]
     string nextScene = "";
-
+    [SerializeField]
+    TextAsset sceneText;
     /// <summary>
     /// When the Player collidesr with the Door, load the scene connected with the door.
     /// </summary>
@@ -22,7 +23,7 @@ public class Door : MapTile {
         set {
             if (value.Length > 0 && Application.isEditor && !Application.isPlaying)
             {
-                nextScene = value;
+                nextScene = ParseScene(value);
             }
         }
 
@@ -41,6 +42,20 @@ public class Door : MapTile {
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);
-        nextScene = PCLParser.ParseLine(tile.info[3]);
+        nextScene = ParseScene(PCLParser.ParseLine(tile.info[3]));
+    }
+
+    string ParseScene(string scenePath) {
+		int rind = scenePath.IndexOf("Resources", System.StringComparison.Ordinal);
+        return scenePath;
+        /*
+		if (rind > 0)
+		{
+			return scenePath.Substring(rind + 10);
+		}
+		else
+		{
+			return nextScene = scenePath;
+		}*/
     }
 }
