@@ -18,6 +18,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 6af7378a45ad6da4992a71ef50ddc2eb UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 6af7378a45ad6da4992a71ef50ddc2eb UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 9ca6347af5ceb6b0d1c105af31b6722e UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Credits
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.SpeakerBox
 17fd68498525b2ae20045792b7adcc62 Assembly-CSharp.dll:.ConveyorBelt
 a35dc9cca2faebc5f5f1aeb9e8e47bbe UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
@@ -150,6 +151,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 3f32f08a64daf40b09ed864d96fe3840 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransform
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
+faf9beb21d9a38ac455680c8dd817952 Assembly-CSharp.dll:.LevelSelect
 841df02bc4e62e64ebc1b4418fdbd463 Assembly-CSharp.dll:.InstantDeathTrap
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 96d0fbde9fd209878a0a291f82c9bcdd UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
@@ -174,5 +176,3 @@ d4ceabb9bffb7f0b6794cc43bd58d9c2 Assembly-CSharp.dll:.Fan
 bd2237995ff789ee97230b4df90c9205 Assembly-CSharp.dll:.KnightRemains
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ItemMenu
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PushGlove
-faf9beb21d9a38ac455680c8dd817952 Assembly-CSharp.dll:.LevelSelect
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Credits

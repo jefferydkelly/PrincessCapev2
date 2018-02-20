@@ -13,20 +13,18 @@ public class LevelSelect : MainMenu {
     int topIndex = 0;
 	// Use this for initialization
 	void Start () {
-		mapNames = new List<string>();
-		DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Levels");
+        mapNames = new List<string>();
 		mapsAndFiles = new Dictionary<string, string>();
-		foreach (FileInfo f in dir.GetFiles("*.json"))
+        TextAsset[] texts = Resources.LoadAll<TextAsset>("Levels");
+
+        foreach(TextAsset t in texts)
 		{
-			if (f.Extension != ".json.meta")
-			{
-				string json = File.ReadAllText(f.FullName);
-				string[] lines = json.Split('\n');
-				string mapName = PCLParser.ParseLine(lines[1]);
-				mapsAndFiles.Add(mapName, f.Name);
-				mapNames.Add(mapName);
-			
-			}
+			string json = t.text;
+			string[] lines = json.Split('\n');
+			string mapName = PCLParser.ParseLine(lines[1]);
+            mapsAndFiles.Add(mapName, t.name);
+			mapNames.Add(mapName);
+        
 
 		}
 
