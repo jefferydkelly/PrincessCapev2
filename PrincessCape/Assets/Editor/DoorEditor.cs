@@ -18,25 +18,21 @@ public class DoorEditor : Editor {
         mapNames = new List<string>();
         DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Levels");
         mapsAndFiles = new Dictionary<string, string>();
-        int index = 0;
+
         int i = 0;
-        foreach (FileInfo f in dir.GetFiles("*.json")){
-            if (f.Extension != ".json.meta")
-            {
-                string json = File.ReadAllText(f.FullName);
-				string[] lines = json.Split('\n');
-                string mapName = PCLParser.ParseLine(lines[1]);
-                if (f.Name == theDoor.NextScene) {
-                    index = i;
-                }
-                mapsAndFiles.Add(mapName, f.Name);
-                mapNames.Add(mapName);
-                i++;
+        TextAsset[] textFiles = Resources.LoadAll<TextAsset>("Levels");
+        foreach (TextAsset text in textFiles){
+            string[] lines = text.text.Split('\n');
+            string mapName = PCLParser.ParseLine(lines[1]);
+            if (text.name + ".json" == theDoor.NextScene) {
+                selectedOption = i;
             }
+            mapsAndFiles.Add(mapName, text.name + ".json");
+            mapNames.Add(mapName);
+            i++;
+
 
         }
-
-        selectedOption = index;
     }
 
     public override void OnInspectorGUI() {
