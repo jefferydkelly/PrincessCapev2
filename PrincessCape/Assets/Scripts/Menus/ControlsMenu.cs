@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using System.IO;
 
 public class ControlsMenu : MainMenu {
     Dictionary<string, KeyCode> keyCodes;
@@ -20,14 +20,9 @@ public class ControlsMenu : MainMenu {
         keyCodes.Add("Interact", KeyCode.F);
         keyCodes.Add("First Item", KeyCode.Mouse0);
         keyCodes.Add("Second Item", KeyCode.Mouse1);
+        keyCodes.Add("Pause", KeyCode.P);
 
-        int i = 0;
-
-        foreach(KeyValuePair<string, KeyCode> kp in keyCodes) {
-            EventManager.StartListening("Assign " + kp.Key, ()=> { inputToAssign = kp.Key; });
-            buttons[i].SetText(kp.Key, kp.Value.ToString());
-            i++;
-        }
+        UpdateKeys();
 
 	}
 
@@ -64,5 +59,29 @@ public class ControlsMenu : MainMenu {
 
     public void SaveControls() {
         Controller.Instance.SetKeys(keyCodes);
+    }
+
+    public void RestoreDefaults() {
+		keyCodes["Forward"] = KeyCode.D;
+		keyCodes["Backward"] = KeyCode.A;
+		keyCodes["Up"] = KeyCode.W;
+		keyCodes["Down"] = KeyCode.S;
+		keyCodes["Jump"] = KeyCode.Space;
+		keyCodes["Interact"] = KeyCode.F;
+		keyCodes["First Item"] = KeyCode.Mouse0;
+		keyCodes["Second Item"] = KeyCode.Mouse1;
+		keyCodes["Pause"] = KeyCode.P;
+        UpdateKeys();
+    }
+
+    void UpdateKeys() {
+		int i = 0;
+
+		foreach (KeyValuePair<string, KeyCode> kp in keyCodes)
+		{
+			EventManager.StartListening("Assign " + kp.Key, () => { inputToAssign = kp.Key; });
+			buttons[i].SetText(kp.Key, kp.Value.ToString());
+			i++;
+		}
     }
 }

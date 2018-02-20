@@ -14,6 +14,7 @@ public class Controller:Manager {
     KeyCode interact = KeyCode.F;
     KeyCode itemOne = KeyCode.Mouse0;
     KeyCode itemTwo = KeyCode.Mouse1;
+    KeyCode pause = KeyCode.P;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Controller"/> class.
@@ -30,6 +31,7 @@ public class Controller:Manager {
         jump = keys["Jump"];
         interact = keys["Interact"];
         itemOne = keys["First Item"];
+        pause = keys["Pause"];
 
     }
     /// <summary>
@@ -149,7 +151,7 @@ public class Controller:Manager {
     /// <value><c>true</c> if the Pause key has been pressed; otherwise, <c>false</c>.</value>
     public bool Pause {
         get {
-            return Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape);
+            return Input.GetKeyDown(pause) || Input.GetKeyDown(KeyCode.Escape);
         }
     }
 
