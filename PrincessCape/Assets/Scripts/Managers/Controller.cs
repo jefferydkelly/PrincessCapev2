@@ -6,6 +6,15 @@ using UnityEngine;
 public class Controller:Manager {
     static Controller instance;
 
+    KeyCode forward = KeyCode.D;
+    KeyCode backward = KeyCode.A;
+    KeyCode up = KeyCode.W;
+    KeyCode down = KeyCode.S;
+    KeyCode jump = KeyCode.Space;
+    KeyCode interact = KeyCode.F;
+    KeyCode itemOne = KeyCode.Mouse0;
+    KeyCode itemTwo = KeyCode.Mouse1;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Controller"/> class.
     /// </summary>
@@ -13,6 +22,16 @@ public class Controller:Manager {
         instance = this;
     }
 
+    public void SetKeys(Dictionary<string, KeyCode> keys) {
+        forward = keys["Forward"];
+        backward = keys["Backward"];
+        up = keys["Up"];
+        down = keys["Down"];
+        jump = keys["Jump"];
+        interact = keys["Interact"];
+        itemOne = keys["First Item"];
+
+    }
     /// <summary>
     /// Gets the instance.
     /// </summary>
@@ -33,7 +52,8 @@ public class Controller:Manager {
     /// <value>The horizontal input.</value>
     public float Horizontal {
         get {
-            return Input.GetAxis("Horizontal");
+            return (Input.GetKey(forward) ? 1 : 0) - (Input.GetKey(backward) ? 1 : 0);
+            //return Input.GetAxis("Horizontal");
         }
     }
 
@@ -43,7 +63,7 @@ public class Controller:Manager {
     /// <value>The vertical input.</value>
     public float Vertical {
         get {
-            return Input.GetAxis("Vertical");
+            return (Input.GetKey(up) ? 1 : 0) - (Input.GetKey(down) ? 1 : 0);
         }
     }
 
@@ -53,7 +73,7 @@ public class Controller:Manager {
     /// <value><c>true</c> if the item one has been pressed in the last frame; otherwise, <c>false</c>.</value>
     bool IsItemOneDown {
         get {
-            return Input.GetKeyDown(KeyCode.Mouse0);
+            return Input.GetKeyDown(itemOne);
         }
     }
 
@@ -63,7 +83,7 @@ public class Controller:Manager {
 	/// <value><c>true</c> if the item one is being held down; otherwise, <c>false</c>.</value>
 	bool IsItemOneHeld {
         get {
-            return Input.GetKey(KeyCode.Mouse0);
+            return Input.GetKey(itemOne);
         }
     }
 
@@ -75,7 +95,7 @@ public class Controller:Manager {
 	{
 		get
 		{
-			return Input.GetKeyUp(KeyCode.Mouse0);
+            return Input.GetKeyUp(itemOne);
 		}
 	}
 
@@ -85,7 +105,7 @@ public class Controller:Manager {
 	/// <value><c>true</c> if the item two has been pressed in the last frame; otherwise, <c>false</c>.</value>
 	bool IsItemTwoDown {
         get {
-            return Input.GetKeyDown(KeyCode.Mouse1);
+            return Input.GetKeyDown(itemTwo);
         }
     }
 
@@ -97,7 +117,7 @@ public class Controller:Manager {
 	{
 		get
 		{
-			return Input.GetKey(KeyCode.Mouse1);
+            return Input.GetKey(itemTwo);
 		}
 	}
 
@@ -109,7 +129,7 @@ public class Controller:Manager {
 	{
 		get
 		{
-			return Input.GetKeyUp(KeyCode.Mouse1);
+            return Input.GetKeyUp(itemTwo);
 		}
 	}
 
@@ -119,7 +139,7 @@ public class Controller:Manager {
     /// <value><c>true</c> if the Jump has been pressed; otherwise, <c>false</c>.</value>
     public bool Jump {
         get {
-            return Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow);
+            return Input.GetKeyDown(jump) || Input.GetKeyDown(up);// || Input.GetKeyDown(KeyCode.UpArrow);
         }
     }
 
