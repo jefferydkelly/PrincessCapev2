@@ -51,4 +51,27 @@ public class LevelSelect : MainMenu {
             buttonText[i].text = mapNames[(topIndex + i) % mapNames.Count];
 		}
     }
+
+    public void LoadFirstLevel() {
+        string lName = mapsAndFiles[mapNames[topIndex]] + ".json";
+        Game.Instance.LoadScene(lName);
+    }
+
+	public void LoadSecondLevel()
+	{
+        string lName = mapsAndFiles[mapNames[(topIndex + 1) % mapNames.Count]] + ".json";
+		Game.Instance.LoadScene(lName);
+	}
+
+	public void LoadThirdLevel()
+	{
+		string lName = mapsAndFiles[mapNames[(topIndex + 2) % mapNames.Count]] + ".json";
+		Game.Instance.LoadScene(lName);
+	}
+
+	public void LoadFourthLevel()
+	{
+		string lName = mapsAndFiles[mapNames[(topIndex + 3) % mapNames.Count]] + ".json";
+		Game.Instance.LoadScene(lName);
+	}
 }

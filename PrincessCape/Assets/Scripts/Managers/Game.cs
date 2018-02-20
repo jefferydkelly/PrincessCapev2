@@ -10,8 +10,7 @@ public class Game : MonoBehaviour {
     Player player;
     bool paused = false;
     Map map;
-    Text levelText;
-
+    string levelToLoad = "levelOne.json";
 	// Use this for initialization
 	void Awake () {
         managers = new List<Manager>();
@@ -20,17 +19,13 @@ public class Game : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
         EventManager.StartListening("Pause", ()=> { paused = true; });
         EventManager.StartListening("Unpause", () => { paused = false; });
-        EventManager.StartListening("LevelLoaded", () => {
-            levelText.text = map.LevelName;
-        });
-        map = FindObjectOfType<Map>();
 
-        levelText = GameObject.Find("LevelName").GetComponent<Text>();
     }
 
-    private void Start()
+    public void StartGame()
     {
-        map.Load("levelOne.json");
+        SceneManager.LoadScene("Test");
+        levelToLoad = "levelOne.json";
     }
 
     // Update is called once per frame
@@ -61,13 +56,21 @@ public class Game : MonoBehaviour {
     /// </summary>
     /// <param name="sceneName">Scene name.</param>
     public void LoadScene(string sceneName) {
-        if (sceneName.Substring(sceneName.Length - 5) == ".json")
+        if (sceneName.Length > 6 && sceneName.Substring(sceneName.Length - 5) == ".json")
         {
-            //Debug.Log("Load the next level");
-            //Clear the map and load the next scene before starting the next level
-            map.Clear();
+            if (SceneManager.GetActiveScene().name != "Test")
+            {
+                levelToLoad = sceneName;
+                SceneManager.LoadScene("Test");
+            }
+            else
+            {
+                //Debug.Log("Load the next level");
+                //Clear the map and load the next scene before starting the next level
+                map.Clear();
 
-            map.Load(sceneName);
+                map.Load(sceneName);
+            }
         }
         else
         {
@@ -95,8 +98,13 @@ public class Game : MonoBehaviour {
     /// <param name="newScene">New scene.</param>
     /// <param name="lsm">Lsm.</param>
     void OnSceneLoaded(Scene newScene, LoadSceneMode lsm) {
-        player = FindObjectOfType<Player>();
-        player.transform.position = Checkpoint.ResetPosition;
+        if (newScene.name == "Test")
+        {
+            player = FindObjectOfType<Player>();
+            map = FindObjectOfType<Map>();
+            //player.transform.position = Checkpoint.ResetPosition;
+            LoadScene(levelToLoad);
+        }
     }
 
     /// <summary>
