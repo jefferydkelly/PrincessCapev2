@@ -35,20 +35,8 @@ public class LevelSelect : MainMenu {
                 Game.Instance.LoadScene(mapsAndFiles[t.text] + ".json");
 			});
         }
-        TextAsset[] texts = Resources.LoadAll<TextAsset>("Levels");
 
-        foreach(TextAsset t in texts)
-		{
-			string json = t.text;
-			string[] lines = json.Split('\n');
-			string mapName = PCLParser.ParseLine(lines[1]);
-            mapsAndFiles.Add(mapName, t.name);
-			mapNames.Add(mapName);
-        
-
-		}
-
-        UpdateText();
+        ShowLevels(true);
 	}
 
 	public void Decrement()
@@ -69,5 +57,43 @@ public class LevelSelect : MainMenu {
 		{
             buttonText[i].text = mapNames[(topIndex + i) % mapNames.Count];
 		}
+    }
+
+    public void ShowLevels(bool showBase) {
+        mapNames.Clear();
+        mapsAndFiles.Clear();
+        if (showBase) {
+			TextAsset[] texts = Resources.LoadAll<TextAsset>("Levels");
+
+			foreach (TextAsset t in texts)
+			{
+                AddMap(t.name, t.text);
+
+
+			}
+		} else {
+			string inputPath = Application.persistentDataPath + "/CustomLevels";
+			if (!Directory.Exists(inputPath))
+			{
+				Directory.CreateDirectory(inputPath);
+			}
+			DirectoryInfo dir = new DirectoryInfo(inputPath);
+			foreach (FileInfo f in dir.GetFiles())
+			{
+				if (f.Extension == ".json" && f.Extension != ".json.meta")
+				{
+                    AddMap(f.FullName, File.ReadAllText(f.FullName));
+				}
+			}
+
+		}
+        UpdateText();
+    }
+
+    void AddMap(string fileName, string json) {
+		string[] lines = json.Split('\n');
+		string mapName = PCLParser.ParseLine(lines[1]);
+		mapsAndFiles.Add(mapName,fileName);
+		mapNames.Add(mapName);
     }
 }
