@@ -31,6 +31,7 @@ public class Controller:Manager {
         jump = keys["Jump"];
         interact = keys["Interact"];
         itemOne = keys["First Item"];
+        itemTwo = keys["Second Item"];
         pause = keys["Pause"];
 
     }
@@ -200,5 +201,38 @@ public class Controller:Manager {
 			EventManager.TriggerEvent("ItemTwoDeactivated");
 		}
 		
+    }
+
+    public string Info {
+        get {
+            string info = PCLParser.StructStart;
+            info += PCLParser.CreateAttribute("Forward", forward);
+            info += PCLParser.CreateAttribute("Backward", backward);
+            info += PCLParser.CreateAttribute("Up", up);
+            info += PCLParser.CreateAttribute("Down", down);
+            info += PCLParser.CreateAttribute("Jump", jump);
+            info += PCLParser.CreateAttribute("Interact", interact);
+            info += PCLParser.CreateAttribute("First Item", itemOne);
+            info += PCLParser.CreateAttribute("Second Item", itemTwo);
+            info += PCLParser.CreateAttribute("Pause", pause);
+            info += PCLParser.StructEnd;
+            return info;
+        }
+    }
+
+    public Dictionary<string, KeyCode> KeyDict {
+        get {
+            Dictionary<string, KeyCode> dict = new Dictionary<string, KeyCode>();
+            dict.Add("Forward", forward);
+			dict.Add("Backward", backward);
+			dict.Add("Up", up);
+			dict.Add("Down", down);
+            dict.Add("Jump", jump);
+			dict.Add("Interact", interact);
+			dict.Add("First Item", itemOne);
+			dict.Add("Second Item", itemTwo);
+			dict.Add("Pause", pause);
+            return dict;
+        }
     }
 }

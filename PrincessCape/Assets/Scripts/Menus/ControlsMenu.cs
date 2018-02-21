@@ -21,7 +21,7 @@ public class ControlsMenu : MainMenu {
         keyCodes.Add("First Item", KeyCode.Mouse0);
         keyCodes.Add("Second Item", KeyCode.Mouse1);
         keyCodes.Add("Pause", KeyCode.P);
-
+        EventManager.StartListening("UpdateKeys", UpdateKeys);
         UpdateKeys();
 
 	}
@@ -59,6 +59,11 @@ public class ControlsMenu : MainMenu {
 
     public void SaveControls() {
         Controller.Instance.SetKeys(keyCodes);
+        EventManager.TriggerEvent("OpenBrowserSave");
+    }
+
+    public void LoadControls() {
+        EventManager.TriggerEvent("OpenBrowserLoad");
     }
 
     public void RestoreDefaults() {
@@ -77,7 +82,7 @@ public class ControlsMenu : MainMenu {
     void UpdateKeys() {
 		int i = 0;
 
-		foreach (KeyValuePair<string, KeyCode> kp in keyCodes)
+        foreach (KeyValuePair<string, KeyCode> kp in Controller.Instance.KeyDict)
 		{
 			EventManager.StartListening("Assign " + kp.Key, () => { inputToAssign = kp.Key; });
 			buttons[i].SetText(kp.Key, kp.Value.ToString());

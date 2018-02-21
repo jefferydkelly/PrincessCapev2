@@ -51,6 +51,24 @@ public class PCLParser {
         return bool.Parse(ParseLine(pcl));
     }
 
+    public static Dictionary<string, string> ParseDictionary(string pcl) {
+        Dictionary<string, string> dict = new Dictionary<string, string>();
+        string[] lines = pcl.Split('\n');
+        for (int i = 1; i < lines.Length - 2; i++) {
+            KeyValuePair<string, string> kvp = ParseKVP(lines[i]);
+            dict.Add(kvp.Key, kvp.Value);
+        }
+        return dict;
+    }
+
+    static KeyValuePair<string, string> ParseKVP(string pcl) {
+        string[] splits = pcl.Split(':');
+        string key = pcl.Substring(1, pcl.IndexOf(':') - 2);
+		string val = pcl.Substring(pcl.IndexOf(':') + 3);
+		val = val.Substring(0, val.Length - 2);
+
+        return new KeyValuePair<string, string>(key, val);
+    }
     public static List<TileStruct> ParseTiles(string pcl) {
         List<TileStruct> tiles = new List<TileStruct>();
         int ind = pcl.IndexOf('[') + 2;
