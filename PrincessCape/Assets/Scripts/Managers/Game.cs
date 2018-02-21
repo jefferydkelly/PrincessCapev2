@@ -13,12 +13,17 @@ public class Game : MonoBehaviour {
     string levelToLoad = "levelOne.json";
 	// Use this for initialization
 	void Awake () {
-        managers = new List<Manager>();
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        EventManager.StartListening("Pause", ()=> { paused = true; });
-        EventManager.StartListening("Unpause", () => { paused = false; });
+        if (!instance)
+        {
+            managers = new List<Manager>();
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            EventManager.StartListening("Pause", () => { paused = true; });
+            EventManager.StartListening("Unpause", () => { paused = false; });
+        } else {
+            Destroy(gameObject);
+        }
 
     }
 

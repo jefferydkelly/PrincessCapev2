@@ -5,6 +5,11 @@ using UnityEngine.UI;
 using System.IO;
 public class LevelSelect : MainMenu {
     [SerializeField]
+    GameObject baseButton;
+
+    [SerializeField]
+    int numButtons;
+
     List<Text> buttonText;
 
     List<string> mapNames;
@@ -15,6 +20,21 @@ public class LevelSelect : MainMenu {
 	void Start () {
         mapNames = new List<string>();
 		mapsAndFiles = new Dictionary<string, string>();
+        buttonText = new List<Text>();
+
+        for (int i = 0; i < numButtons; i++) {
+            Button b = Instantiate(baseButton).GetComponent<Button>();
+            b.transform.SetParent(transform);
+            b.transform.localScale = Vector3.one;
+            b.transform.localPosition = new Vector3(0, -150 + (i * 100));
+           
+            Text t = b.GetComponentInChildren<Text>();
+            buttonText.Add(t);
+
+			b.onClick.AddListener(() => {
+                Game.Instance.LoadScene(mapsAndFiles[t.text] + ".json");
+			});
+        }
         TextAsset[] texts = Resources.LoadAll<TextAsset>("Levels");
 
         foreach(TextAsset t in texts)
@@ -30,48 +50,24 @@ public class LevelSelect : MainMenu {
 
         UpdateText();
 	}
-	
-    public void Increment() {
-        topIndex = (topIndex + 1) % mapNames.Count;
-        UpdateText();
-    }
 
-    public void Decrement() {
-        topIndex--;
-        if (topIndex < 0) {
-            topIndex += mapNames.Count;
-        }
-        topIndex = topIndex % mapNames.Count;
+	public void Decrement()
+	{
+		topIndex = Mathf.Max(0, topIndex - 1);
         UpdateText();
-    }
+	}
 
-    void UpdateText() {
+	public void Increment()
+	{
+        topIndex = Mathf.Min(mapNames.Count - numButtons, topIndex + 1);
+        UpdateText();
+	}
+
+
+	void UpdateText() {
 		for (int i = 0; i < buttonText.Count; i++)
 		{
             buttonText[i].text = mapNames[(topIndex + i) % mapNames.Count];
 		}
     }
-
-    public void LoadFirstLevel() {
-        string lName = mapsAndFiles[mapNames[topIndex]] + ".json";
-        Game.Instance.LoadScene(lName);
-    }
-
-	public void LoadSecondLevel()
-	{
-        string lName = mapsAndFiles[mapNames[(topIndex + 1) % mapNames.Count]] + ".json";
-		Game.Instance.LoadScene(lName);
-	}
-
-	public void LoadThirdLevel()
-	{
-		string lName = mapsAndFiles[mapNames[(topIndex + 2) % mapNames.Count]] + ".json";
-		Game.Instance.LoadScene(lName);
-	}
-
-	public void LoadFourthLevel()
-	{
-		string lName = mapsAndFiles[mapNames[(topIndex + 3) % mapNames.Count]] + ".json";
-		Game.Instance.LoadScene(lName);
-	}
 }
