@@ -1,9 +1,10 @@
 {
 "MapName": "The Princess Escapes",
+"Items": "None",
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "42",
+"ID": "0",
 "Position": "(1.5, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(18.0, 1.0, 1.0)",
@@ -263,6 +264,7 @@
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Knight": "Sir Matthew",
+"Item": "MagicCape",
 "Message": [
 "El": "Princess?  You're alive.",
 "El": "But it seems I am not.",

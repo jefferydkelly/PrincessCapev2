@@ -31,6 +31,10 @@ public class PCLParser {
         }
     }
 
+    public static T ParseEnum<T>(string pcl) {
+        string enu = ParseLine(pcl);
+        return (T)(System.Enum.Parse(typeof(T), enu));
+    }
     public static Vector3 ParseVector3(string pcl) {
      
         string firstSub = pcl.Split('(')[1];

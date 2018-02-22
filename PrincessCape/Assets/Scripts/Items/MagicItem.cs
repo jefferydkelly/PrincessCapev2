@@ -71,6 +71,9 @@ public abstract class MagicItem: ScriptableObject {
         }
 	}
 
+    /// <summary>
+    /// Swaps the items in the equipped slots.
+    /// </summary>
     void SwapItems() {
         MagicItem other = null;
 
@@ -89,6 +92,9 @@ public abstract class MagicItem: ScriptableObject {
         RegisterItemTwo();
     }
 
+    /// <summary>
+    /// Start listening to the events associated with Activation, Deactivation and removing items.
+    /// </summary>
     void StartListening() {
         string itemSlot = "Item" + (slot == MagicItemSlot.First ? "One" : "Two");
        
@@ -102,7 +108,10 @@ public abstract class MagicItem: ScriptableObject {
         }
     }
 
-    void StopListening() {
+	/// <summary>
+	/// Stop listening to the events associated with Activation, Deactivation and removing items.
+	/// </summary>
+	void StopListening() {
 		string itemSlot = "Item" + (slot == MagicItemSlot.First ? "One" : "Two");
         EventManager.StopListening(itemSlot + "Activated", Activate);
         EventManager.StopListening(itemSlot + "Held", Use);
@@ -139,27 +148,53 @@ public abstract class MagicItem: ScriptableObject {
 		state = MagicItemState.Ready;
     }
 
+    /// <summary>
+    /// Gets the sprite.
+    /// </summary>
+    /// <value>The sprite.</value>
     public Sprite Sprite {
         get {
             return itemSprite;
         }
     }
 
+    /// <summary>
+    /// Gets the slot to which the item is assigned.
+    /// </summary>
+    /// <value>The slot to which the item is assigned.</value>
     public MagicItemSlot Slot {
         get {
             return slot;
         }
     }
 
+    /// <summary>
+    /// Gets the item message the player sees upon obtaining the item.
+    /// </summary>
+    /// <value>The item get message.</value>
     public List<string> ItemGetMessage {
         get {
             return itemGetMessage;
         }
     }
 
+    /// <summary>
+    /// Gets the description of the item.
+    /// </summary>
+    /// <value>The description.</value>
     public string Description {
         get {
             return itemDescritpion;
+        }
+    }
+
+    /// <summary>
+    /// Gets the name of the item.
+    /// </summary>
+    /// <value>The name of the item.</value>
+    public string ItemName {
+        get {
+            return itemName;
         }
     }
 }

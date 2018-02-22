@@ -7,6 +7,7 @@ public class Game : MonoBehaviour {
 
     static Game instance;
     List<Manager> managers;
+    List<Manager> toAdd;
     Player player;
     bool paused = false;
     Map map;
@@ -16,6 +17,7 @@ public class Game : MonoBehaviour {
         if (!instance)
         {
             managers = new List<Manager>();
+            toAdd = new List<Manager>();
             instance = this;
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -35,7 +37,11 @@ public class Game : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        foreach(Manager m in managers) {
+        foreach(Manager m in toAdd) {
+            managers.Add(m);
+        }
+        toAdd.Clear();
+         foreach(Manager m in managers) {
             m.Update(Time.deltaTime);
         }
 	}
@@ -45,7 +51,7 @@ public class Game : MonoBehaviour {
     /// </summary>
     /// <param name="m">M.</param>
     public void AddManager(Manager m) {
-        managers.Add(m);
+        toAdd.Add(m);
     }
 
     /// <summary>
@@ -78,13 +84,25 @@ public class Game : MonoBehaviour {
                     map.Clear();
 
                     map.Load(sceneName);
+                    AddItems();
+
                 }
             }
             else
             {
                 SceneManager.LoadScene(sceneName);
             }
+        } else {
+            AddItems();
         }
+    }
+
+    void AddItems() {
+		for (int i = (int)player.Items + 1; i <= (int)map.Items; i++)
+		{
+			string itemName = ((ItemLevel)(i)).ToString();
+			player.AddItem(ScriptableObject.CreateInstance(itemName) as MagicItem);
+		}
     }
 
     /// <summary>

@@ -17,6 +17,7 @@ public class Player : MonoBehaviour {
     Vector2 storedVelocity;
 
     List<MagicItem> inventory;
+    ItemLevel items = ItemLevel.None;
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour {
         resetTimer.OnComplete.AddListener(Game.Instance.Reset);
         inventory = new List<MagicItem>();
         EventManager.StartListening("LevelLoaded", Reset);
+        DontDestroyOnLoad(gameObject);
    
     }
 
@@ -42,11 +44,17 @@ public class Player : MonoBehaviour {
         EventManager.StopListening("Unpause", Unpause);
 	}
 
+    /// <summary>
+    /// Pause this instance.
+    /// </summary>
     void Pause() {
         storedVelocity = myRigidbody.velocity;
         myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
+    /// <summary>
+    /// Unpause this instance.
+    /// </summary>
     void Unpause() {
         myRigidbody.velocity = storedVelocity;
         myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -98,6 +106,9 @@ public class Player : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Makes the Player jump.
+    /// </summary>
     void Jump() {
         state = PlayerState.Jumping;
         myRigidbody.gravityScale = 1.0f;
@@ -176,18 +187,30 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// Gets the rigidbody.
+    /// </summary>
+    /// <value>The rigidbody.</value>
     public Rigidbody2D Rigidbody {
         get {
             return myRigidbody;
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Player"/> is dead.
+    /// </summary>
+    /// <value><c>true</c> if is dead; otherwise, <c>false</c>.</value>
     public bool IsDead {
         get {
             return state == PlayerState.Dead;
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:Player"/> is floating.
+    /// </summary>
+    /// <value><c>true</c> if is floating; otherwise, <c>false</c>.</value>
     public bool IsFloating {
         get {
             return state == PlayerState.Floating;
@@ -202,6 +225,10 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:Player"/> is pulling.
+    /// </summary>
+    /// <value><c>true</c> if is pulling; otherwise, <c>false</c>.</value>
 	public bool IsPulling
 	{
 		get
@@ -222,29 +249,48 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Player"/> is jumping.
+    /// </summary>
+    /// <value><c>true</c> if is jumping; otherwise, <c>false</c>.</value>
     public bool IsJumping {
         get {
             return state == PlayerState.Jumping;
         }
     }
 
+    /// <summary>
+    /// Gets the inventory.
+    /// </summary>
+    /// <value>The inventory.</value>
     public List<MagicItem> Inventory {
         get {
             return inventory;
         }
     }
 
-    public void AddItem(MagicItem mi) {
+    /// <summary>
+    /// Adds the item to the Player's inventory
+    /// </summary>
+    /// <param name="mi">Mi.</param>
+    public void AddItem(MagicItem mi, bool showMessage = false) {
         inventory.Add(mi);
 
         if (Inventory.Count == 1) {
             mi.RegisterItemOne();
         }
-        MessageBox.SetMessage(mi.ItemGetMessage);
-        EventManager.TriggerEvent("ShowMessage");
-        EventManager.StartListening("EndOfMessage", EndCutscene);
+        items = (ItemLevel)System.Enum.Parse(typeof(ItemLevel), mi.ItemName.Replace(" ", string.Empty));
+        if (showMessage)
+        {
+            MessageBox.SetMessage(mi.ItemGetMessage);
+            EventManager.TriggerEvent("ShowMessage");
+            EventManager.StartListening("EndOfMessage", EndCutscene);
+        }
     }
 
+    /// <summary>
+    /// Event Handler for the end of a cutscene
+    /// </summary>
     void EndCutscene() {
         EventManager.StopListening("EndOfMessage", EndCutscene);
         EventManager.TriggerEvent("HideMessage");
@@ -263,6 +309,16 @@ public class Player : MonoBehaviour {
         state = PlayerState.Normal;
         EventManager.StopListening("StopPush", StopPush);
         EventManager.StartListening("StartPush", Start);
+    }
+
+    /// <summary>
+    /// Gets the items.
+    /// </summary>
+    /// <value>The items.</value>
+    public ItemLevel Items {
+        get {
+            return items;
+        }
     }
 }
 

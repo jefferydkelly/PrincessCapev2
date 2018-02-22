@@ -9,7 +9,7 @@ public class ItemBox : MonoBehaviour {
     [SerializeField]
     bool isFirstItem = true;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         background = GetComponent<Image>();
         itemImage = GetComponentsInChildren<Image>()[1];
 	}

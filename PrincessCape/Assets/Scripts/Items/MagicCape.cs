@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-public class Cape : MagicItem
+public class MagicCape : MagicItem
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Cape"/> class.
     /// </summary>
-    public Cape() {
+    public MagicCape() {
 		EventManager.StartListening("PlayerLanded", OnPlayerLanded);
 
         itemName = "Magic Cape";

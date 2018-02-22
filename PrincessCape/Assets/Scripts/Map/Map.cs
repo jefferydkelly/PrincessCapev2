@@ -9,6 +9,8 @@ public class Map : MonoBehaviour
 {
     [SerializeField]
     string levelName = "Level";
+    [SerializeField]
+    ItemLevel items = ItemLevel.None;
     List<MapTile> tiles;
     Dictionary<string, GameObject> prefabs;
     public void Awake()
@@ -143,8 +145,9 @@ public class Map : MonoBehaviour
 #endif
 	public string SaveToFile() {
         string info = "{\n";
-        info += string.Format("\"MapName\": \"{0}\"", levelName) + ",\n";
-        info +="\"Tiles\": [\n";
+        info += PCLParser.CreateAttribute("MapName", levelName);
+        info += PCLParser.CreateAttribute("Items", items);//string.Format("\"MapName\": \"{0}\"", levelName) + ",\n";
+        info += PCLParser.CreateArray("Tiles");
         foreach(MapTile tile in tiles) {
             info += tile.SaveData();
         }
@@ -155,9 +158,14 @@ public class Map : MonoBehaviour
 
 	public List<TileStruct> LoadFromFile(string json) {
         string[] lines = json.Split('\n');
-        string mapName = lines[1].Split(':')[1];
 
-        levelName = mapName.Substring(2, mapName.Length - 4);
+        levelName = PCLParser.ParseLine(lines[1]);
+
+        if (lines[2].Contains("Items")) {
+            items = PCLParser.ParseEnum<ItemLevel>(lines[2]);
+        } else {
+            items = ItemLevel.None;
+        }
         int ind = json.IndexOf(',');
         string tileData = json.Substring(ind);
         return PCLParser.ParseTiles(tileData);
@@ -217,9 +225,32 @@ public class Map : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the name of the level.
+    /// </summary>
+    /// <value>The name of the level.</value>
     public string LevelName {
         get {
             return levelName;
         }
     }
+
+    /// <summary>
+    /// Gets the level of items the player should have in this level.
+    /// </summary>
+    /// <value>The items.</value>
+    public ItemLevel Items {
+        get {
+            return items;
+        }
+    }
+}
+
+//Represents the last item the player received
+public enum ItemLevel {
+    None,
+    MagicCape,
+    Shield,
+    PullGlove,
+    PushGlove
 }

@@ -6,7 +6,7 @@ public class KnightRemains : InteractiveObject
 {
 
     [SerializeField]
-    MagicItemType itemOnRemains = MagicItemType.Cape;
+    ItemLevel itemOnRemains = ItemLevel.MagicCape;
     [SerializeField]
     string knightName = "Sir Matthew";
     [SerializeField]
@@ -31,7 +31,7 @@ public class KnightRemains : InteractiveObject
         itemGiven = true;
         IsHighlighted = false;
         EventManager.StopListening("EndOfMessage", GiveItem);
-        Game.Instance.Player.AddItem(ScriptableObject.CreateInstance(itemOnRemains.ToString()) as MagicItem);
+        Game.Instance.Player.AddItem(ScriptableObject.CreateInstance(itemOnRemains.ToString()) as MagicItem, true);
         Timer fadeOutTimer = new Timer(0.05f, 20);
         fadeOutTimer.OnTick.AddListener(()=>{
             myRenderer.color = myRenderer.color.SetAlpha(myRenderer.color.a - 0.05f);
@@ -60,6 +60,7 @@ public class KnightRemains : InteractiveObject
     {
         string data = base.GenerateSaveData();
         data += PCLParser.CreateAttribute("Knight", knightName);
+        data += PCLParser.CreateAttribute("Item", itemOnRemains);
         data += PCLParser.CreateArray("Message", message);
         return data;
     }
@@ -68,16 +69,10 @@ public class KnightRemains : InteractiveObject
     {
         base.FromData(tile);
         knightName = PCLParser.ParseLine(tile.info[3]);
+        itemOnRemains = PCLParser.ParseEnum<ItemLevel>(tile.info[4]);
         message = new List<string>();
-        for (int i = 5; i < tile.info.Count - 1; i++) {
+        for (int i = 6; i < tile.info.Count - 1; i++) {
             message.Add(PCLParser.ParseLine(tile.info[i]));
         }
     }
-}
-
-public enum MagicItemType
-{
-    Cape,
-    PullGlove,
-    PushGlove
 }
