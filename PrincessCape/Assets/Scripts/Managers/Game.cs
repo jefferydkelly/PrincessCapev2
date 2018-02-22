@@ -60,26 +60,30 @@ public class Game : MonoBehaviour {
     /// Loads the scene.
     /// </summary>
     /// <param name="sceneName">Scene name.</param>
-    public void LoadScene(string sceneName) {
-        if (sceneName.Length > 6 && sceneName.Substring(sceneName.Length - 5) == ".json")
+    public void LoadScene(string sceneName)
+    {
+        if (!Application.isEditor)
         {
-            if (SceneManager.GetActiveScene().name != "Test")
+            if (sceneName.Length > 6 && sceneName.Substring(sceneName.Length - 5) == ".json")
             {
-                levelToLoad = sceneName;
-                SceneManager.LoadScene("Test");
+                if (SceneManager.GetActiveScene().name != "Test")
+                {
+                    levelToLoad = sceneName;
+                    SceneManager.LoadScene("Test");
+                }
+                else
+                {
+                    //Debug.Log("Load the next level");
+                    //Clear the map and load the next scene before starting the next level
+                    map.Clear();
+
+                    map.Load(sceneName);
+                }
             }
             else
             {
-                //Debug.Log("Load the next level");
-                //Clear the map and load the next scene before starting the next level
-                map.Clear();
-
-                map.Load(sceneName);
+                SceneManager.LoadScene(sceneName);
             }
-        }
-        else
-        {
-            SceneManager.LoadScene(sceneName);
         }
     }
 

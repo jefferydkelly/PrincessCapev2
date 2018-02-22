@@ -65,14 +65,20 @@ public class Player : MonoBehaviour {
             bool onGround = IsOnGround;
 
             if (onLadder) {
-                myRigidbody.AddForce(new Vector2(0, Controller.Instance.Vertical * 5));
-
+                //myRigidbody.AddForce(new Vector2(0, Controller.Instance.Vertical * 5));
+                if (!aboveLadder)
+                {
+                    myRigidbody.velocity = myRigidbody.velocity.SetY(Controller.Instance.Vertical * maxSpeed / 1.5f);
+                }
                 if (onGround && Controller.Instance.Vertical > 0) {
                     myRigidbody.gravityScale = 0;
                 } else if (aboveLadder && Controller.Instance.Vertical < 0) {
                     myRigidbody.gravityScale = 0;
                     transform.position += Vector3.down * 0.25f;
-                }           
+                }   else if (Controller.Instance.Jump) {
+                    onLadder = false;
+                    Jump();
+                }         
             } else if (state == PlayerState.MovingBlock) {
                 myRigidbody.velocity = Vector3.right * Controller.Instance.Horizontal * maxSpeed / 4.0f;
                 xForce = 0;
@@ -80,7 +86,7 @@ public class Player : MonoBehaviour {
             }
             else if (onGround && Controller.Instance.Jump)
             {
-                myRigidbody.AddForce(Vector2.up * 6.5f, ForceMode2D.Impulse);
+                Jump();
             } 
 
             if (Input.GetKeyDown(KeyCode.F) && InteractiveObject.Selected) {
@@ -92,6 +98,11 @@ public class Player : MonoBehaviour {
         }
 	}
 
+    void Jump() {
+        state = PlayerState.Jumping;
+        myRigidbody.gravityScale = 1.0f;
+        myRigidbody.AddForce(Vector2.up * 6.5f, ForceMode2D.Impulse);
+    }
     /// <summary>
     /// Gets a value indicating whether this <see cref="T:Player"/> is on ground.
     /// </summary>
@@ -158,6 +169,10 @@ public class Player : MonoBehaviour {
 		{
             onLadder = false;
             myRigidbody.gravityScale = 1;
+            if (!IsJumping)
+            {
+                myRigidbody.velocity = myRigidbody.velocity.SetY(0);
+            }
 		}
 	}
 
@@ -207,6 +222,12 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+    public bool IsJumping {
+        get {
+            return state == PlayerState.Jumping;
+        }
+    }
+
     public List<MagicItem> Inventory {
         get {
             return inventory;
@@ -248,6 +269,7 @@ public class Player : MonoBehaviour {
 public enum PlayerState {
     Normal,
     Dead,
+    Jumping,
     Floating,
     Pushing,
     Pulling,
