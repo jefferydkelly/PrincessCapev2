@@ -130,7 +130,7 @@ public class Player : MonoBehaviour {
     bool IsOnGround {
         get
         {
-            return Physics2D.BoxCast(transform.position, new Vector2(1.0f, 0.1f), 0, Vector2.down, 0.5f, platformLayers);
+            return Physics2D.BoxCast(transform.position, new Vector2(1.0f, 0.1f), 0, Vector2.down, 1.0f, platformLayers);
         }
     }
 

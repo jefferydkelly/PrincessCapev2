@@ -27,4 +27,15 @@ public class Gate : ActivatedObject {
     void Awake () {
         myAnimator = GetComponent<Animator>();
 	}
+
+    public override void ScaleY(bool up)
+    {
+        if (up) {
+            transform.localScale += Vector3.up / 2;
+            transform.localPosition += Vector3.up / 2;
+        } else if (transform.localScale.y > 0.5f){
+			transform.localScale -= Vector3.up / 2;
+			transform.localPosition -= Vector3.up / 2;
+        }
+    }
 }

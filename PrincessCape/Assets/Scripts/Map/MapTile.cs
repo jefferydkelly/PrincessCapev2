@@ -178,13 +178,14 @@ public class MapTile : MonoBehaviour {
 	{
 		if (up)
 		{
-			transform.localScale += Vector3.up;
-			transform.position += Vector3.up / 2.0f;
+            Debug.Log("Scale");
+            transform.localScale += transform.up;
+            transform.position += transform.up / 2.0f;
 		}
 		else if (transform.localScale.y > 1)
 		{
-			transform.localScale += Vector3.down;
-			transform.position += Vector3.down / 2.0f;
+            transform.localScale -= transform.up;
+            transform.position -= transform.up / 2.0f;
 		}
 	}
 
