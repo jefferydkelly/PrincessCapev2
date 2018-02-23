@@ -68,32 +68,28 @@ public class Game : MonoBehaviour {
     /// <param name="sceneName">Scene name.</param>
     public void LoadScene(string sceneName)
     {
-        if (!Application.isEditor)
+     
+        if (sceneName.Length > 6 && sceneName.Substring(sceneName.Length - 5) == ".json")
         {
-            if (sceneName.Length > 6 && sceneName.Substring(sceneName.Length - 5) == ".json")
+            if (SceneManager.GetActiveScene().name != "Test")
             {
-                if (SceneManager.GetActiveScene().name != "Test")
-                {
-                    levelToLoad = sceneName;
-                    SceneManager.LoadScene("Test");
-                }
-                else
-                {
-                    //Debug.Log("Load the next level");
-                    //Clear the map and load the next scene before starting the next level
-                    map.Clear();
-
-                    map.Load(sceneName);
-                    AddItems();
-
-                }
+                levelToLoad = sceneName;
+                SceneManager.LoadScene("Test");
             }
             else
             {
-                SceneManager.LoadScene(sceneName);
+                //Debug.Log("Load the next level");
+                //Clear the map and load the next scene before starting the next level
+                map.Clear();
+
+                map.Load(sceneName);
+                AddItems();
+
             }
-        } else {
-            AddItems();
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneName);
         }
 
         EventManager.TriggerEvent("LevelLoaded");
@@ -132,7 +128,10 @@ public class Game : MonoBehaviour {
             player = FindObjectOfType<Player>();
             map = FindObjectOfType<Map>();
             //player.transform.position = Checkpoint.ResetPosition;
-            LoadScene(levelToLoad);
+            if (!Application.isEditor)
+            {
+                LoadScene(levelToLoad);
+            }
         }
     }
 
