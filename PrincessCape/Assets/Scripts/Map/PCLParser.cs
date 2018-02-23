@@ -66,7 +66,6 @@ public class PCLParser {
     }
 
     static KeyValuePair<string, string> ParseKVP(string pcl) {
-        string[] splits = pcl.Split(':');
         string key = pcl.Substring(1, pcl.IndexOf(':') - 2);
 		string val = pcl.Substring(pcl.IndexOf(':') + 3);
 		val = val.Substring(0, val.Length - 2);

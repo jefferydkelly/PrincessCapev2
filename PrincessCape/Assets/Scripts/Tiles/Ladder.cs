@@ -93,5 +93,8 @@ public class Ladder : MapTile
             newChain.transform.position = transform.position + Vector3.down * (transform.childCount - 1);
             newChain.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
         }
+
+		myCollider.size = myCollider.size.SetY(transform.childCount);
+		myCollider.offset = new Vector2(0, -(myCollider.size.y - 1) / 2);
     }
 }
