@@ -95,6 +95,8 @@ public class Game : MonoBehaviour {
         } else {
             AddItems();
         }
+
+        EventManager.TriggerEvent("LevelLoaded");
     }
 
     void AddItems() {

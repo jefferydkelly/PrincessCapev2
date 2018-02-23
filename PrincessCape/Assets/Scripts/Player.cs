@@ -70,23 +70,33 @@ public class Player : MonoBehaviour {
         if (!Game.Instance.IsPaused && !isFrozen && !IsPulling)
         {
             float xForce = Controller.Instance.Horizontal * 5;
+			myRigidbody.AddForce(new Vector2(xForce, 0));
+			myRigidbody.ClampXVelocity(maxSpeed);
             bool onGround = IsOnGround;
 
             if (onLadder) {
                 //myRigidbody.AddForce(new Vector2(0, Controller.Instance.Vertical * 5));
-                if (!aboveLadder)
-                {
-                    myRigidbody.velocity = myRigidbody.velocity.SetY(Controller.Instance.Vertical * maxSpeed / 1.5f);
-                }
-                if (onGround && Controller.Instance.Vertical > 0) {
+
+                bool jump = Controller.Instance.Jump;
+           
+                if (onGround && !(jump && aboveLadder) && Controller.Instance.Vertical > 0) {
                     myRigidbody.gravityScale = 0;
-                } else if (aboveLadder && Controller.Instance.Vertical < 0) {
+				}
+                else if (jump)
+				{
+					onLadder = false;
+					Jump();
+                    return;
+				}
+				else if (aboveLadder && Controller.Instance.Vertical < 0) {
                     myRigidbody.gravityScale = 0;
                     transform.position += Vector3.down * 0.25f;
-                }   else if (Controller.Instance.Jump) {
-                    onLadder = false;
-                    Jump();
-                }         
+                }
+
+                if (!aboveLadder)
+				{
+					myRigidbody.velocity = myRigidbody.velocity.SetY(Controller.Instance.Vertical * maxSpeed / 1.5f);
+				}
             } else if (state == PlayerState.MovingBlock) {
                 myRigidbody.velocity = Vector3.right * Controller.Instance.Horizontal * maxSpeed / 4.0f;
                 xForce = 0;
@@ -101,8 +111,7 @@ public class Player : MonoBehaviour {
                 InteractiveObject.Selected.Interact();
             }
 
-            myRigidbody.AddForce(new Vector2(xForce, 0));
-			myRigidbody.ClampXVelocity(maxSpeed);
+
         }
 	}
 
@@ -148,13 +157,15 @@ public class Player : MonoBehaviour {
         if (collision.relativeVelocity.y > 0) {
             myRigidbody.gravityScale = 1;
 
-			if (collision.collider.CompareTag("Ladder Top"))
-			{
-				aboveLadder = true;
-			}
+			
 
             EventManager.TriggerEvent("PlayerLanded");
         }
+
+		if (collision.collider.CompareTag("Ladder Top"))
+		{
+			aboveLadder = true;
+		}
 
 
     }
