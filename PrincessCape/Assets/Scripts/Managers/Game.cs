@@ -12,6 +12,7 @@ public class Game : MonoBehaviour {
     bool paused = false;
     Map map;
     string levelToLoad = "levelOne.json";
+    string lastScene = "Test";
 	// Use this for initialization
 	void Awake () {
         if (!instance)
@@ -92,7 +93,7 @@ public class Game : MonoBehaviour {
             SceneManager.LoadScene(sceneName);
         }
 
-        EventManager.TriggerEvent("LevelLoaded");
+       
     }
 
     void AddItems() {
@@ -123,16 +124,21 @@ public class Game : MonoBehaviour {
     /// <param name="newScene">New scene.</param>
     /// <param name="lsm">Lsm.</param>
     void OnSceneLoaded(Scene newScene, LoadSceneMode lsm) {
+       
         if (newScene.name == "Test")
         {
             player = FindObjectOfType<Player>();
             map = FindObjectOfType<Map>();
             //player.transform.position = Checkpoint.ResetPosition;
-            if (!Application.isEditor)
+            if (lastScene != "Test")
             {
                 LoadScene(levelToLoad);
+            } else {
+				EventManager.TriggerEvent("LevelLoaded");
             }
         }
+
+        lastScene = SceneManager.GetActiveScene().name;
     }
 
     /// <summary>
