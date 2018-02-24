@@ -5,7 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     int platformLayers = -1;
+    int fwd = 1;
     Rigidbody2D myRigidbody;
+    SpriteRenderer myRenderer;
     Timer resetTimer;
     bool isFrozen = false;
     float maxSpeed = 3.0f;
@@ -21,6 +23,7 @@ public class Player : MonoBehaviour {
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
+        myRenderer = GetComponent<SpriteRenderer>();
         resetTimer = new Timer(1.0f);
         resetTimer.OnComplete.AddListener(Game.Instance.Reset);
         inventory = new List<MagicItem>();
@@ -72,6 +75,11 @@ public class Player : MonoBehaviour {
             float xForce = Controller.Instance.Horizontal * 5;
 			myRigidbody.AddForce(new Vector2(xForce, 0));
 			myRigidbody.ClampXVelocity(maxSpeed);
+
+            if (myRigidbody.velocity.x / fwd < 0) {
+                fwd *= -1;
+                myRenderer.flipX = !myRenderer.flipX;
+            }
             bool onGround = IsOnGround;
 
             if (onLadder) {
