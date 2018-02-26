@@ -31,8 +31,9 @@ public class InputSaveLoadMenu : MonoBehaviour {
 
     void OpenLoad()
     {
-        saver.gameObject.SetActive(false);
         gameObject.SetActive(true);
+        saver.gameObject.SetActive(false);
+        loader.gameObject.SetActive(true);
         title.text = "Load";
 
     }
