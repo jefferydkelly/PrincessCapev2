@@ -138,7 +138,7 @@ public class Checkpoint : MapTile
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);
-        isFirstCheckpoint = PCLParser.ParseBool(tile.info[3]);
+        isFirstCheckpoint = PCLParser.ParseBool(tile.NextLine);
 
         if (isFirstCheckpoint && Application.isPlaying) {
             activeCheckpoint = this;

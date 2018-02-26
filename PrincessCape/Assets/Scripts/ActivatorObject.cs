@@ -55,12 +55,12 @@ public class ActivatorObject : ActivatedObject {
 		base.FromData(tile);
 		connectionIDs = new List<int>();
 
-		if (tile.info[3].Contains("Connections"))
+        if (tile.Peek.Contains("Connections"))
 		{
-			for (int i = 4; i < tile.info.Count && tile.info[i] != "],"; i++)
-			{
-				connectionIDs.Add(PCLParser.ParseInt(tile.info[i]));
-			}
+            tile.TossLine();
+            while (!tile.FullyRead && !tile.Peek.Contains("]")) {
+                connectionIDs.Add(PCLParser.ParseInt(tile.NextLine));
+            }
 		}
 	}
 

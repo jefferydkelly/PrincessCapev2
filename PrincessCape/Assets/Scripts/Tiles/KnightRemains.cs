@@ -68,11 +68,12 @@ public class KnightRemains : InteractiveObject
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);
-        knightName = PCLParser.ParseLine(tile.info[3]);
-        itemOnRemains = PCLParser.ParseEnum<ItemLevel>(tile.info[4]);
+        knightName = PCLParser.ParseLine(tile.NextLine);
+        itemOnRemains = PCLParser.ParseEnum<ItemLevel>(tile.NextLine);
         message = new List<string>();
-        for (int i = 6; i < tile.info.Count - 1; i++) {
-            message.Add(PCLParser.ParseLine(tile.info[i]));
+        tile.TossLine();
+        while (!tile.FullyRead && !tile.Peek.Contains("]")) {
+            message.Add(PCLParser.ParseLine(tile.NextLine));
         }
     }
 }

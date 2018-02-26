@@ -84,7 +84,7 @@ public class Ladder : MapTile
     {
         base.FromData(tile);
 
-        int numLinks = PCLParser.ParseInt(tile.info[3]);
+        int numLinks = PCLParser.ParseInt(tile.NextLine);
         for (int i = 0; i < numLinks; i++)
         {
             GameObject newChain = Instantiate(plainLadder);

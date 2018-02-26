@@ -43,7 +43,7 @@ public class Door : MapTile {
         base.FromData(tile);
         if (tile.info.Count > 3)
         {
-            nextScene = PCLParser.ParseLine(tile.info[3]);
+            nextScene = PCLParser.ParseLine(tile.NextLine);
         }
     }
 }

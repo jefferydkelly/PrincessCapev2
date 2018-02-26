@@ -4,7 +4,7 @@
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "0",
+"ID": "42",
 "Position": "(1.5, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(18.0, 1.0, 1.0)",
@@ -27,9 +27,9 @@
 {
 "Name": "Platform",
 "ID": "3",
-"Position": "(6.0, 7.0, 0.0)",
+"Position": "(6.0, 6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
-"Scale": "(1.0, 1.0, 1.0)",
+"Scale": "(1.0, 3.0, 1.0)",
 },
 {
 "Name": "Platform",
@@ -58,6 +58,7 @@
 "Position": "(10.0, 2.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
+"Starts Active": "False",
 "Connections": [
 "El": "8",
 ],
@@ -65,9 +66,10 @@
 {
 "Name": "Gate",
 "ID": "8",
-"Position": "(6.0, 4.5, 0.0)",
+"Position": "(6.0, 3.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
-"Scale": "(1.0, 2.0, 1.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Starts Active": "False",
 },
 {
 "Name": "Platform",
@@ -132,6 +134,7 @@
 "Position": "(41.0, 6.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
+"Starts Active": "False",
 "Children": "0",
 },
 {
@@ -217,6 +220,7 @@
 "Position": "(45.0, 9.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
+"Starts Active": "False",
 },
 {
 "Name": "Platform",
@@ -246,6 +250,7 @@
 "Position": "(43.0, 6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
+"Starts Active": "False",
 "Connections": [
 "El": "37",
 ],
@@ -284,6 +289,7 @@
 "Position": "(33.0, 6.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0, 1.0)",
 "Scale": "(1.0, 1.0, 1.0)",
+"Starts Active": "False",
 "Children": "7",
 },
 {

@@ -9,8 +9,17 @@ public abstract class ActivatedObject : MapTile
 
     [SerializeField]
     protected List<ActivatedObject> connections = new List<ActivatedObject>();
+    [SerializeField]
+    protected bool startActive = false;
     protected bool isActivated = false;
 
+    private void Awake()
+    {
+        if (startActive)
+        {
+            EventManager.StartListening("LevelLoaded", Activate);
+        }
+    }
     /// <summary>
     /// Gets or sets a value indicating whether this <see cref="T:ActivatedObject"/> is activated.
     /// </summary>
@@ -87,6 +96,23 @@ public abstract class ActivatedObject : MapTile
         return connections.Contains(ao);
     }
 
+    protected override string GenerateSaveData()
+    {
+        string data = base.GenerateSaveData();
+        data += PCLParser.CreateAttribute("Starts Active", startActive);
+        return data;
+    }
+
+    public override void FromData(TileStruct tile)
+    {
+        base.FromData(tile);
+        if (!tile.FullyRead)
+        {
+            startActive = PCLParser.ParseBool(tile.NextLine);
+        } else {
+            startActive = false;
+        }
+    }
 #if UNITY_EDITOR
     public override void RenderInEditor()
     {
@@ -97,6 +123,15 @@ public abstract class ActivatedObject : MapTile
                 Handles.DrawDottedLine(transform.position, acto.transform.position, 8.0f);
             }
         }
+
+        if (startActive) {
+            Handles.color = Color.green;
+
+        } else {
+            Handles.color = Color.red;
+        }
+        Handles.DrawSolidArc(transform.position, -Vector3.forward, Vector3.up, 360, 0.5f);
+        Handles.color = Color.white;
     }
 #endif
 }

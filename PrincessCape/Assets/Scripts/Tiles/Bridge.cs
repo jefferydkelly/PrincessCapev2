@@ -8,8 +8,6 @@ public class Bridge : ActivatedObject
     [SerializeField]
     GameObject bridgeTile;
     [SerializeField]
-    bool startActive = false;
-    [SerializeField]
     Vector3 dir = Vector3.right;
     Timer revealTimer;
     float revealTime = 0.1f;
@@ -77,7 +75,7 @@ public class Bridge : ActivatedObject
 	public override void FromData(TileStruct tile)
 	{
 		base.FromData(tile);
-        int numChildren = PCLParser.ParseInt(tile.info[3]);
+        int numChildren = PCLParser.ParseInt(tile.NextLine);
 
 		for (int i = 0; i < numChildren; i++)
 		{

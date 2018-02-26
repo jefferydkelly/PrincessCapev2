@@ -43,7 +43,7 @@ public class Fan : ActivatedObject
     {
         base.FromData(tile);
         GameObject air = transform.GetChild(0).gameObject;
-        float airScale = float.Parse(PCLParser.ParseLine(tile.info[3]));
+        float airScale = float.Parse(PCLParser.ParseLine(tile.NextLine));
         air.transform.localScale = air.transform.localScale.SetY(airScale);
     }
 }

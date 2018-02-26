@@ -149,7 +149,8 @@ public class MapTile : MonoBehaviour {
 	/// <param name="ang">Ang.</param>
 	public virtual void Rotate(float ang)
 	{
-		transform.Rotate(0, 0, ang);
+        transform.rotation *= Quaternion.AngleAxis(ang, Vector3.forward);
+		//transform.Rotate(0, 0, ang);
 	}
 
 	/// <summary>
@@ -178,7 +179,6 @@ public class MapTile : MonoBehaviour {
 	{
 		if (up)
 		{
-            Debug.Log("Scale");
             transform.localScale += transform.up;
             transform.position += transform.up / 2.0f;
 		}
@@ -229,17 +229,21 @@ public class MapTile : MonoBehaviour {
 		info += PCLParser.CreateAttribute("Name", name.Split('(')[0]);
 		info += PCLParser.CreateAttribute("ID", ID);
 		info += PCLParser.CreateAttribute("Position", transform.position);
-		info += PCLParser.CreateAttribute("Rotation", transform.rotation);
+        float ang = 0;
+        Vector3 ax = Vector3.zero;
+        transform.rotation.ToAngleAxis(out ang, out ax);
+        ax = new Vector3(0, 0, ang);
+        info += PCLParser.CreateAttribute("Rotation", ax);
 		info += PCLParser.CreateAttribute("Scale", transform.localScale);
         return info;
     }
 
     public virtual void FromData(TileStruct tile) {
         id = tile.id;
-        transform.position = PCLParser.ParseVector3(PCLParser.ParseLine(tile.info[0]));
-        Vector3 rot = PCLParser.ParseVector3(PCLParser.ParseLine(tile.info[1]));
-		transform.rotation.Set(rot.x, rot.y, rot.z, 1);
-		transform.localScale = PCLParser.ParseVector3(PCLParser.ParseLine(tile.info[2]));
+        transform.position = PCLParser.ParseVector3(PCLParser.ParseLine(tile.NextLine));
+        Vector3 rot = PCLParser.ParseVector3(PCLParser.ParseLine(tile.NextLine));
+        Rotate(rot.z);
+        transform.localScale = PCLParser.ParseVector3(PCLParser.ParseLine(tile.NextLine));
     }
 
     public Texture EditorTexture {

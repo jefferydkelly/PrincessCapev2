@@ -10,7 +10,7 @@ public class Player : MonoBehaviour {
     SpriteRenderer myRenderer;
     Timer resetTimer;
     bool isFrozen = false;
-    float maxSpeed = 3.0f;
+    float maxSpeed = 4.0f;
 
     bool onLadder = false;
     bool aboveLadder = false;
@@ -129,7 +129,7 @@ public class Player : MonoBehaviour {
     void Jump() {
         state = PlayerState.Jumping;
         myRigidbody.gravityScale = 1.0f;
-        myRigidbody.AddForce(Vector2.up * 6.5f, ForceMode2D.Impulse);
+        myRigidbody.AddForce(Vector2.up * 7.0f, ForceMode2D.Impulse);
     }
     /// <summary>
     /// Gets a value indicating whether this <see cref="T:Player"/> is on ground.

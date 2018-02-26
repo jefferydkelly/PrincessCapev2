@@ -24,7 +24,7 @@ public class Stairs : MapTile {
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);
-        int numChildren = PCLParser.ParseInt(tile.info[3]);
+        int numChildren = PCLParser.ParseInt(tile.NextLine);
 
         for (int i = 0; i < numChildren; i++) {
             SpawnChild();

@@ -101,6 +101,7 @@ public class PCLParser {
 
     public static TileStruct ParseTileStruct (List<string> tile) {
         TileStruct ts = new TileStruct();
+     
         ts.id = -1;
         for (int i = 0; i < tile.Count; i++) {
             string s = tile[i];
@@ -109,7 +110,7 @@ public class PCLParser {
 			{
 				ts.name = ParseLine(s);
             } else if (s.Contains("\"ID\":")) {
-                ts.id = int.Parse(ParseLine(s));
+                ts.id = ParseInt(s);
             }
 			else if (IsLine(s))
 			{
@@ -149,15 +150,56 @@ public class PCLParser {
     }
 }
 
-public struct TileStruct {
+public class TileStruct {
     public string name;
     public int id;
     public List<string> info;
+    private int currentIndex;
 
+    public TileStruct() {
+        currentIndex = 0;
+        info = new List<string>();
+    }
     public void AddInfo(string s) {
-        if (info == null) {
-            info = new List<string>();
-        }
         info.Add(s);
+    }
+
+    public string NextLine {
+        get {
+            if (currentIndex < info.Count)
+            {
+                string line = info[currentIndex];
+                currentIndex++;
+                return line;
+
+            } else {
+                return null;
+            }
+        }
+    }
+
+	public string Peek
+	{
+		get
+		{
+			if (currentIndex < info.Count)
+			{
+                return info[currentIndex];
+			}
+			else
+			{
+				return null;
+			}
+		}
+	}
+
+    public void TossLine() {
+        currentIndex++;
+    }
+
+    public bool FullyRead {
+        get {
+            return currentIndex >= info.Count;
+        }
     }
 }

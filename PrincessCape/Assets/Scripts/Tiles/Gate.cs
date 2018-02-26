@@ -26,6 +26,10 @@ public class Gate : ActivatedObject {
     // Use this for initialization
     void Awake () {
         myAnimator = GetComponent<Animator>();
+
+        if (startActive) {
+            EventManager.StartListening("LevelLoaded", Activate);
+        }
 	}
 
     public override void ScaleY(bool up)
