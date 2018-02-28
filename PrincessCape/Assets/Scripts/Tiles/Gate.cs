@@ -36,10 +36,19 @@ public class Gate : ActivatedObject {
     {
         if (up) {
             transform.localScale += Vector3.up / 2;
-            transform.localPosition += Vector3.up / 2;
+            transform.localPosition += transform.up / 2;
         } else if (transform.localScale.y > 0.5f){
 			transform.localScale -= Vector3.up / 2;
-			transform.localPosition -= Vector3.up / 2;
+            transform.localPosition -= transform.up / 2;
+        }
+    }
+
+    public override void Rotate(float ang)
+    {
+        base.Rotate(ang);
+        if (transform.localScale.y == (int)transform.localScale.y) {
+            transform.position += Vector3.up / 2;
+            transform.position += Vector3.right / ((int)transform.localScale.y * 2);
         }
     }
 }

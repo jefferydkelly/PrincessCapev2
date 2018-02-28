@@ -77,8 +77,12 @@ public class Player : MonoBehaviour {
 			myRigidbody.ClampXVelocity(maxSpeed);
 
             if (myRigidbody.velocity.x / fwd < 0) {
-                fwd *= -1;
-                myRenderer.flipX = !myRenderer.flipX;
+                
+                if (state != PlayerState.MovingBlock)
+                {
+                    fwd *= -1;
+                    myRenderer.flipX = !myRenderer.flipX;
+                }
             }
             bool onGround = IsOnGround;
 
@@ -98,19 +102,17 @@ public class Player : MonoBehaviour {
 				}
 				else if (aboveLadder && Controller.Instance.Vertical < 0) {
                     myRigidbody.gravityScale = 0;
-                    transform.position += Vector3.down * 0.25f;
+                    myRigidbody.velocity = myRigidbody.velocity.SetX(0);
+
+                    transform.position += Vector3.down * 0.5f;
                 }
 
                 if (!aboveLadder)
 				{
 					myRigidbody.velocity = myRigidbody.velocity.SetY(Controller.Instance.Vertical * maxSpeed / 1.5f);
 				}
-            } else if (state == PlayerState.MovingBlock) {
-                myRigidbody.velocity = Vector3.right * Controller.Instance.Horizontal * maxSpeed / 4.0f;
-                xForce = 0;
-
             }
-            else if (onGround && Controller.Instance.Jump)
+            else if (CanJump && Controller.Instance.Jump)
             {
                 Jump();
             } 
@@ -122,6 +124,13 @@ public class Player : MonoBehaviour {
 
         }
 	}
+
+    private void LateUpdate()
+    {
+        if (state == PlayerState.MovingBlock) {
+            myRigidbody.velocity = Vector3.right * Controller.Instance.Horizontal * maxSpeed / 4.0f;
+        }
+    }
 
     /// <summary>
     /// Makes the Player jump.
@@ -139,6 +148,12 @@ public class Player : MonoBehaviour {
         get
         {
             return Physics2D.BoxCast(transform.position, new Vector2(1.0f, 0.1f), 0, Vector2.down, 1.0f, platformLayers);
+        }
+    }
+
+    bool CanJump {
+        get {
+            return IsOnGround && state != PlayerState.MovingBlock;
         }
     }
 
@@ -213,6 +228,26 @@ public class Player : MonoBehaviour {
     public Rigidbody2D Rigidbody {
         get {
             return myRigidbody;
+        }
+    }
+
+    /// <summary>
+    /// Gets the velocity.
+    /// </summary>
+    /// <value>The velocity.</value>
+    public Vector2 Velocity {
+        get {
+            return myRigidbody.velocity;
+        }
+    }
+
+    /// <summary>
+    /// Gets the forward.
+    /// </summary>
+    /// <value>The forward.</value>
+    public Vector3 Forward {
+        get {
+            return new Vector3(fwd, 0);
         }
     }
 
@@ -327,7 +362,7 @@ public class Player : MonoBehaviour {
     void StopPush() {
         state = PlayerState.Normal;
         EventManager.StopListening("StopPush", StopPush);
-        EventManager.StartListening("StartPush", Start);
+        EventManager.StartListening("StartPush", StartPush);
     }
 
     /// <summary>

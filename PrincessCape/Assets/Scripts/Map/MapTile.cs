@@ -162,12 +162,12 @@ public class MapTile : MonoBehaviour {
 		if (right)
 		{
 			transform.localScale += Vector3.right;
-			transform.position += Vector3.right * 0.5f;
+            transform.position += transform.right * 0.5f;
 		}
 		else if (transform.localScale.x > 1)
 		{
 			transform.localScale += Vector3.left;
-			transform.position += Vector3.left * 0.5f;
+            transform.position += transform.right * -0.5f;
 		}
 	}
 
@@ -242,8 +242,9 @@ public class MapTile : MonoBehaviour {
         id = tile.id;
         transform.position = PCLParser.ParseVector3(PCLParser.ParseLine(tile.NextLine));
         Vector3 rot = PCLParser.ParseVector3(PCLParser.ParseLine(tile.NextLine));
-        Rotate(rot.z);
+
         transform.localScale = PCLParser.ParseVector3(PCLParser.ParseLine(tile.NextLine));
+        transform.rotation *= Quaternion.AngleAxis(rot.z, Vector3.forward);
     }
 
     public Texture EditorTexture {

@@ -135,6 +135,7 @@ public class Game : MonoBehaviour {
                 LoadScene(levelToLoad);
             } else {
 				EventManager.TriggerEvent("LevelLoaded");
+                AddItems();
             }
         }
 
