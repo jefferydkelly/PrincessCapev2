@@ -250,7 +250,7 @@ public class Map : MonoBehaviour
 public enum ItemLevel {
     None,
     MagicCape,
-    Shield,
+    StarShield,
     PullGlove,
     PushGlove
 }

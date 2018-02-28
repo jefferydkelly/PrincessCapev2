@@ -3,22 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shield : MagicItem
+public class StarShield : MagicItem
 {
-    public Shield() {
+    public StarShield() {
 		itemName = "Star Shield";
 		itemGetMessage = new List<string>() {
 			"You got the Star Shield!",
 			"Press and hold the item button to reflect projectiles away from you"
 		};
     }
+
+    private void OnEnable()
+    {
+        itemSprite = Resources.Load<Sprite>("Sprites/Shield");
+    }
     public override void Activate()
     {
-        throw new NotImplementedException();
+        Game.Instance.Player.IsUsingShield = true;
     }
 
     public override void Deactivate()
     {
-        throw new NotImplementedException();
+        Game.Instance.Player.IsUsingShield = false;
     }
 }
