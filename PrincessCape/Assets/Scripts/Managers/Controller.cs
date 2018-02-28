@@ -71,6 +71,16 @@ public class Controller:Manager {
     }
 
     /// <summary>
+    /// Gets the directional input.
+    /// </summary>
+    /// <value>The directional input.</value>
+    public Vector2 DirectionalInput {
+        get {
+            return new Vector2(Horizontal, Vertical);
+        }
+    }
+
+    /// <summary>
     /// Gets a value indicating whether the item one key has been pressed down on the last frame.
     /// </summary>
     /// <value><c>true</c> if the item one has been pressed in the last frame; otherwise, <c>false</c>.</value>

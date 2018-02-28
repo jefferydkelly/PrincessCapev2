@@ -174,7 +174,7 @@ public class Timer
 				OnTick.Invoke();
 				timesRun++;
 
-				if (timesRun > numRepeats || infinite)
+				if (timesRun > numRepeats && !infinite)
 				{
 					OnComplete.Invoke();
 					state = TimerState.Done;

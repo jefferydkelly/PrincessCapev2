@@ -188,7 +188,14 @@ public class Player : MonoBehaviour {
 		if (collision.collider.CompareTag("Ladder Top"))
 		{
 			aboveLadder = true;
-		}
+        } else if (collision.collider.CompareTag("Projectile")) {
+            Projectile projectile = collision.gameObject.GetComponent<Projectile>();
+            if (IsUsingShield) {
+                projectile.Fwd = Controller.Instance.DirectionalInput;
+            } else {
+                Die();
+            }
+        }
 
 
     }
@@ -275,6 +282,22 @@ public class Player : MonoBehaviour {
                 state = PlayerState.Floating;
             } else if (!value && IsFloating) {
                 state = PlayerState.Normal;
+            }
+        }
+    }
+
+    public bool IsUsingShield {
+        get {
+            return state == PlayerState.UsingShield;
+        }
+
+        set {
+            if (value && !(IsDead || isFrozen)) {
+                state = PlayerState.UsingShield;
+                isFrozen = true;
+            } else if (!value && IsUsingShield) {
+                state = PlayerState.Normal;
+                isFrozen = false;
             }
         }
     }
@@ -384,5 +407,6 @@ public enum PlayerState {
     Pushing,
     Pulling,
     MovingBlock,
+    UsingShield,
     Frozen
 }
