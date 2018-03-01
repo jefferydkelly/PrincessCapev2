@@ -320,7 +320,7 @@ public class Player : MonoBehaviour {
 		{
 			if (value && (!IsDead || isFrozen))
 			{
-				state = PlayerState.Floating;
+                state = PlayerState.Pulling;
 			}
             else if (!value && IsPulling)
 			{
@@ -328,6 +328,36 @@ public class Player : MonoBehaviour {
 			}
 		}
 	}
+
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="T:Player"/> is pushing.
+	/// </summary>
+	/// <value><c>true</c> if is pushing; otherwise, <c>false</c>.</value>
+	public bool IsPushing
+	{
+		get
+		{
+            return state == PlayerState.Pushing;
+		}
+
+		set
+		{
+			if (value && (!IsDead || isFrozen))
+			{
+				state = PlayerState.Pushing;
+			}
+			else if (!value && IsPushing)
+			{
+				state = PlayerState.Normal;
+			}
+		}
+	}
+
+    public bool IsUsingMagneticGloves {
+        get {
+            return state == PlayerState.Pulling || state == PlayerState.Pushing;
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether this <see cref="T:Player"/> is jumping.

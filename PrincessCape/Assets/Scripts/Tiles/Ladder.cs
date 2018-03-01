@@ -42,10 +42,11 @@ public class Ladder : ActivatedObject
         {
             DestroyImmediate(transform.GetChild(transform.childCount - 1).gameObject);
             transform.position += Vector3.down;
+			myCollider.size = myCollider.size.SetY(transform.childCount);
+			myCollider.offset = new Vector2(0, -(myCollider.size.y - 1) / 2);
         }
 
-        myCollider.size = myCollider.size.SetY(transform.childCount);
-        myCollider.offset = new Vector2(0, -(myCollider.size.y - 1) / 2);
+
     }
 
     public override MapHighlightState HighlightState
@@ -111,8 +112,7 @@ public class Ladder : ActivatedObject
         }
 
 
-		myCollider.size = myCollider.size.SetY(transform.childCount);
-		myCollider.offset = new Vector2(0, -(myCollider.size.y - 1) / 2);
+		
     }
 
     public override void Activate()
@@ -128,6 +128,8 @@ public class Ladder : ActivatedObject
 		{
 			transform.GetChild(i).gameObject.SetActive(false);
 		}
+        myCollider.size = Vector2.one;
+        myCollider.offset = Vector2.zero;
     }
 
 	void SpawnChild()
@@ -136,11 +138,14 @@ public class Ladder : ActivatedObject
 		tile.transform.SetParent(transform);
         tile.transform.localPosition = (transform.childCount - 1) * Vector3.down;
         tile.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
+		myCollider.size = myCollider.size.SetY(transform.childCount);
+		myCollider.offset = new Vector2(0, -(myCollider.size.y - 1) / 2);
 	}
 
 	void RevealTile()
 	{
 		transform.GetChild(revealTimer.TicksCompleted).gameObject.SetActive(true);
-
+        myCollider.size = myCollider.size.SetY(revealTimer.TicksCompleted);
+        myCollider.offset = new Vector2(0, -revealTimer.TicksCompleted / 2);
 	}
 }

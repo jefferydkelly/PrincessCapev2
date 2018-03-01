@@ -17,6 +17,13 @@ public class Metal : MapTile {
         }
     }
 
+    private void Update()
+    {
+        if (myRigidbody.velocity.magnitude > 0 && myRenderer.color == Color.white) {
+            Debug.Log(myRigidbody.velocity);
+        }
+    }
+
     /// <summary>
     /// Reset this instance to its starting position
     /// </summary>
@@ -34,15 +41,36 @@ public class Metal : MapTile {
         highlighted = this;
     }
 
+    private void OnMouseOver()
+    {
+        if (highlighted == null && myRenderer.color == Color.white) {
+            myRenderer.color = Color.red;
+            highlighted = this;
+        }
+    }
+
     /// <summary>
     /// When the mouse leaves the metal, remove the highlight
     /// </summary>
     private void OnMouseExit()
     {
-        myRenderer.color = Color.white;
-        if (highlighted == this) {
-            highlighted = null;
+        if (!Game.Instance.Player.IsUsingMagneticGloves)
+        {
+            Clear();
         }
+    }
+
+    private void OnMouseUp()
+    {
+        Clear();
+    }
+
+    public void Clear() {
+		myRenderer.color = Color.white;
+		if (highlighted == this)
+		{
+			highlighted = null;
+		}
     }
 
     /// <summary>

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class MagneticGlove : MagicItem {
     protected float range = 10;
-    protected float force = 15f;
+    protected float force = 25f;
     protected Metal target = null;
 
     /// <summary>
@@ -12,7 +12,10 @@ public abstract class MagneticGlove : MagicItem {
     /// </summary>
 	protected void FindTarget()
 	{
-		target = Metal.HighlightedBlock;
+        if (!target)
+        {
+            target = Metal.HighlightedBlock;
+        }
 
         if (target)
 		{
@@ -36,7 +39,8 @@ public abstract class MagneticGlove : MagicItem {
 			{
 				target.Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
 			}
-			target.Velocity = Vector2.zero;
+			//target.Velocity = Vector2.zero;
+            target.Clear();
 			target = null;
 		}
     }
@@ -83,7 +87,7 @@ public abstract class MagneticGlove : MagicItem {
             if (target) {
                 Vector2 dif = Game.Instance.Player.transform.position - target.transform.position;
                 float ang = dif.Angle();
-                ang = ang.RoundToNearest(Mathf.PI / 4);
+                ang = ang.RoundToNearest(Mathf.PI / 8);
                 return ang.FromRadianToVector();
             }
             return Vector2.zero;
