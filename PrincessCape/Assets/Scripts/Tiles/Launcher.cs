@@ -8,7 +8,7 @@ public class Launcher : ActivatedObject
     [SerializeField]
     Projectile projectile;
     Timer launchTimer;
-    float launchTime = 1.0f;
+    float launchTime = 2.0f;
     Animator myAnimator;
     // Use this for initialization
     void Awake()
@@ -16,6 +16,11 @@ public class Launcher : ActivatedObject
         myAnimator = GetComponent<Animator>();
         launchTimer = new Timer(launchTime, true);
         launchTimer.OnTick.AddListener(Launch);
+
+		if (startActive)
+		{
+			EventManager.StartListening("LevelLoaded", Activate);
+		}
     }
 
     void Launch() {

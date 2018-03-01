@@ -58,14 +58,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
+    oldSize: {x: 2, y: 3}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 2, y: 3}
   m_EdgeRadius: 0
 --- !u!114 &114353232223176764
 MonoBehaviour:
@@ -84,7 +84,8 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 256
-    height: 256
+    height: 384
+  nextScene: classicLevelOne.json
 --- !u!212 &212798705475550800
 SpriteRenderer:
   m_ObjectHideFlags: 1

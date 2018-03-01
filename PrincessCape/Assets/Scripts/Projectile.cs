@@ -17,7 +17,6 @@ public class Projectile : MonoBehaviour {
         set {
             
             myRigidbody.velocity = value * speed;
-            Debug.Log(myRigidbody.velocity);
         }
 
         get {

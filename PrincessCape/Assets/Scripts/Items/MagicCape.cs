@@ -42,9 +42,8 @@ public class MagicCape : MagicItem
                     EventManager.TriggerEvent("ItemTwoActivatedSuccessfully");
                 }
                 state = MagicItemState.Activated;
-                Rigidbody2D rb = Game.Instance.Player.GetComponent<Rigidbody2D>();
-                rb.gravityScale = 0.15f;//0.1f;
-                rb.velocity = new Vector2(rb.velocity.x, 0);
+                Game.Instance.Player.Rigidbody.gravityScale = 0.15f;
+                Game.Instance.Player.Rigidbody.velocity = Game.Instance.Player.Velocity.SetY(0);
             }
         }
     }
@@ -65,8 +64,8 @@ public class MagicCape : MagicItem
                 {
                     EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
                 }
-                Rigidbody2D rb = Game.Instance.Player.GetComponent<Rigidbody2D>();
-                rb.gravityScale = 1.0f;
+                Game.Instance.Player.Rigidbody.gravityScale = 1.0f;
+
                 cooldownTimer.Start();
                 state = MagicItemState.OnCooldown;
             }

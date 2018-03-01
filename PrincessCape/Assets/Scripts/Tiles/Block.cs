@@ -20,9 +20,11 @@ public class Block : InteractiveObject{
         isBeingPushed = !isBeingPushed;
         if (isBeingPushed) {
             EventManager.TriggerEvent("StartPush");
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             playerDif = transform.position - Game.Instance.Player.transform.position;
         } else {
             EventManager.TriggerEvent("StopPush");
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
         }
 
     }

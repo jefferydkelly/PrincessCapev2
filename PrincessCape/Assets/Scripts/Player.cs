@@ -162,6 +162,9 @@ public class Player : MonoBehaviour {
     /// </summary>
     public void Die() {
         isFrozen = true;
+        if (state == PlayerState.MovingBlock) {
+            InteractiveObject.Selected.Interact();
+        }
         resetTimer.Start();
     }
 
@@ -355,6 +358,12 @@ public class Player : MonoBehaviour {
 
         if (Inventory.Count == 1) {
             mi.RegisterItemOne();
+        } else if (Inventory.Count == 2) {
+            if (inventory[0].Slot == MagicItemSlot.First) {
+                mi.RegisterItemTwo();
+            } else {
+                mi.RegisterItemOne();
+            }
         }
         items = (ItemLevel)System.Enum.Parse(typeof(ItemLevel), mi.ItemName.Replace(" ", string.Empty));
         if (showMessage)
