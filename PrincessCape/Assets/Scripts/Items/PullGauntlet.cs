@@ -3,10 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PullGlove : MagneticGlove
+public class PullGauntlet : MagneticGlove
 {
-    public PullGlove() {
+    public PullGauntlet() {
         itemName = "Pull Gauntlet";
+
+		itemGetMessage = new List<string>() {
+			"You got the Pull Gaunlet!",
+			"Slipping it on your hand, you feel the power flowing through your hands",
+			"Press and hold the item button to pull metal blocks towards you",
+            "But beware, if they block can't be move.  You will."
+		};
     }
 
     private void OnEnable()

@@ -1,16 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class Ladder : MapTile
+public class Ladder : ActivatedObject
 {
     [SerializeField]
     GameObject plainLadder;
     BoxCollider2D myCollider;
+    Timer revealTimer;
+    float revealTime = 0.25f;
     public void Awake()
     {
         myCollider = GetComponent<BoxCollider2D>();
+
+		revealTimer = new Timer(revealTime, transform.childCount - 1);
+		revealTimer.OnTick.AddListener(RevealTile);
+		if (!startActive)
+		{
+			Deactivate();
+		}
     }
 
     public override void ScaleY(bool up)
@@ -19,11 +29,14 @@ public class Ladder : MapTile
         {
 
             transform.position += Vector3.up;
+            /*
             GameObject newChain = Instantiate(plainLadder);
 
             newChain.transform.SetParent(transform);
             newChain.transform.position = transform.position + Vector3.down * (transform.childCount - 1);
             newChain.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
+            */
+            SpawnChild();
         }
         else if (transform.childCount > 1)
         {
@@ -87,14 +100,47 @@ public class Ladder : MapTile
         int numLinks = PCLParser.ParseInt(tile.NextLine);
         for (int i = 0; i < numLinks; i++)
         {
+            /*
             GameObject newChain = Instantiate(plainLadder);
 
             newChain.transform.SetParent(transform);
             newChain.transform.position = transform.position + Vector3.down * (transform.childCount - 1);
             newChain.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
+            */
+            SpawnChild();
         }
+
 
 		myCollider.size = myCollider.size.SetY(transform.childCount);
 		myCollider.offset = new Vector2(0, -(myCollider.size.y - 1) / 2);
     }
+
+    public override void Activate()
+    {
+        revealTimer.Start();
+    }
+
+    public override void Deactivate()
+    {
+        revealTimer.Stop();
+
+		for (int i = 1; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).gameObject.SetActive(false);
+		}
+    }
+
+	void SpawnChild()
+	{
+        GameObject tile = Instantiate(plainLadder);
+		tile.transform.SetParent(transform);
+        tile.transform.localPosition = (transform.childCount - 1) * Vector3.down;
+        tile.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
+	}
+
+	void RevealTile()
+	{
+		transform.GetChild(revealTimer.TicksCompleted).gameObject.SetActive(true);
+
+	}
 }
