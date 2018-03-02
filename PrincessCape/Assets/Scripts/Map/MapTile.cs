@@ -18,11 +18,11 @@ public class MapTile : MonoBehaviour {
         HighlightState = MapHighlightState.Normal;
 	}
 
-	/// <summary>
-	/// Gets the ZPos of this <see cref="T:EditorTile"/> .
-	/// </summary>
-	/// <value>The ZP os.</value>
-	public int ZPos
+    /// <summary>
+    /// Gets the ZPos of this <see cref="T:EditorTile"/> .
+    /// </summary>
+    /// <value>The ZP os.</value>
+    public int ZPos
 	{
 		get
 		{
@@ -256,6 +256,12 @@ public class MapTile : MonoBehaviour {
             editorTexture.SetPixels(pix);
             editorTexture.Apply();
             return editorTexture;
+        }
+    }
+
+    protected EditorLayer Layer {
+        get {
+            return layer;
         }
     }
 

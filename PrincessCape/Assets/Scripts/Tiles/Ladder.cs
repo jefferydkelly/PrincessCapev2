@@ -15,12 +15,20 @@ public class Ladder : ActivatedObject
     {
         myCollider = GetComponent<BoxCollider2D>();
 
-		revealTimer = new Timer(revealTime, transform.childCount - 1);
-		revealTimer.OnTick.AddListener(RevealTile);
-		if (!startActive)
-		{
-			Deactivate();
-		}
+        if (Application.isPlaying)
+        {
+            revealTimer = new Timer(revealTime, transform.childCount - 1);
+            revealTimer.OnTick.AddListener(RevealTile);
+            if (!startActive)
+            {
+                Deactivate();
+            }
+        } else {
+			for (int i = 1; i < transform.childCount; i++)
+			{
+				transform.GetChild(i).gameObject.SetActive(true);
+			}
+        }
     }
 
     public override void ScaleY(bool up)

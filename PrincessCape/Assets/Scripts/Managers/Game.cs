@@ -52,6 +52,10 @@ public class Game : MonoBehaviour {
     /// </summary>
     /// <param name="m">M.</param>
     public void AddManager(Manager m) {
+        if (toAdd == null)
+        {
+            toAdd = new List<Manager>();
+        }
         toAdd.Add(m);
     }
 
@@ -59,8 +63,10 @@ public class Game : MonoBehaviour {
     /// Reset this game.
     /// </summary>
     public void Reset() {
-      
-        player.Reset();
+        if (player)
+        {
+            player.Reset();
+        }
     }
 
     /// <summary>
@@ -110,9 +116,10 @@ public class Game : MonoBehaviour {
     /// <value>The instance.</value>
     public static Game Instance {
         get {
-            if (instance == null) {
-                GameObject go = new GameObject("GameManager");
-                go.AddComponent<Game>();
+            if (!instance) {
+				GameObject go = new GameObject("GameManager");
+				instance = go.AddComponent<Game>();
+               
             }
             return instance;
         }
