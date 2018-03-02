@@ -153,7 +153,7 @@ public class Player : MonoBehaviour {
 
     bool CanJump {
         get {
-            return IsOnGround && state != PlayerState.MovingBlock;
+            return IsOnGround && !IsUsingMagneticGloves && state != PlayerState.MovingBlock;
         }
     }
 

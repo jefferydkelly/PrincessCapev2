@@ -119,6 +119,9 @@ public class Ladder : ActivatedObject
             SpawnChild();
         }
 
+        if (!startActive && Application.isPlaying) {
+            Deactivate();
+        }
 
 		
     }

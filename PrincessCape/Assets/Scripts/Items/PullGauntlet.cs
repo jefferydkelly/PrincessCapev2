@@ -10,9 +10,9 @@ public class PullGauntlet : MagneticGlove
 
 		itemGetMessage = new List<string>() {
 			"You got the Pull Gaunlet!",
-			"Slipping it on your hand, you feel the power flowing through your hands",
+			"Slipping it on, you feel the power flowing through your hands",
 			"Press and hold the item button to pull metal blocks towards you",
-            "But beware, if they block can't be move.  You will."
+            "But beware, if the block can't be moved.  You will be."
 		};
     }
 
@@ -46,7 +46,7 @@ public class PullGauntlet : MagneticGlove
                         else
                         {
 
-                            target.Rigidbody.AddForce((Direction + Vector2.up * Controller.Instance.Vertical).normalized * force);
+                            target.Rigidbody.AddForce((Direction + Vector2.up * Controller.Instance.Vertical) * force);
                         }
                     }
                     else

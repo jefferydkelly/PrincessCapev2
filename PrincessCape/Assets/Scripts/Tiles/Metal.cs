@@ -111,4 +111,14 @@ public class Metal : MapTile {
             return myRigidbody ? myRigidbody.velocity : Vector2.zero;
         }
     }
+
+    public override void FromData(TileStruct tile)
+    {
+        base.FromData(tile);
+
+        if (!IsStatic)
+        {
+            startPosition = transform.position;
+        }
+    }
 }

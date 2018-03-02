@@ -109,9 +109,9 @@
 {
 "Name": "Platform",
 "ID": "13",
-"Position": "(-10.0, 10.0, 0.0)",
+"Position": "(-10.0, 9.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 5.0, 1.0)",
+"Scale": "(1.0, 4.0, 1.0)",
 },
 {
 "Name": "MetalBlock",
@@ -128,15 +128,15 @@
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
 "Connections": [
-"El": "20",
+"El": "21",
 ],
 },
 {
 "Name": "Platform",
 "ID": "16",
-"Position": "(-4.0, 9.5, 0.0)",
+"Position": "(-4.0, 9.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 6.0, 1.0)",
+"Scale": "(1.0, 5.0, 1.0)",
 },
 {
 "Name": "Platform",
@@ -148,25 +148,38 @@
 {
 "Name": "Platform",
 "ID": "18",
-"Position": "(-7.0, 13.5, 0.0)",
-"Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(7.0, 2.0, 1.0)",
-},
-{
-"Name": "Platform",
-"ID": "19",
 "Position": "(-1.5, 7.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(4.0, 1.0, 1.0)",
 },
 {
-"Name": "Ladder",
-"ID": "20",
-"Position": "(-3.0, 14.0, 0.0)",
+"Name": "Platform",
+"ID": "19",
+"Position": "(4.5, 15.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 1.0, 1.0)",
+"Scale": "(8.0, 7.0, 1.0)",
+},
+{
+"Name": "Platform",
+"ID": "20",
+"Position": "(-7.0, 12.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(7.0, 1.0, 1.0)",
+},
+{
+"Name": "Gate",
+"ID": "21",
+"Position": "(-1.5, 12.0, 0.0)",
+"Rotation": "(0.0, 0.0, 90.0)",
+"Scale": "(1.0, 2.0, 1.0)",
 "Starts Active": "False",
-"Lines": "6",
+},
+{
+"Name": "MetalPlatform",
+"ID": "22",
+"Position": "(-1.5, 16.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(4.0, 1.0, 1.0)",
 },
 ]
 }
