@@ -17,13 +17,6 @@ public class Metal : MapTile {
         }
     }
 
-    private void Update()
-    {
-        if (myRigidbody.velocity.magnitude > 0 && myRenderer.color == Color.white) {
-            Debug.Log(myRigidbody.velocity);
-        }
-    }
-
     /// <summary>
     /// Reset this instance to its starting position
     /// </summary>

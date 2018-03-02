@@ -46,7 +46,7 @@ public class PullGauntlet : MagneticGlove
                         else
                         {
 
-                            target.Rigidbody.AddForce(Direction * force);
+                            target.Rigidbody.AddForce((Direction + Vector2.up * Controller.Instance.Vertical).normalized * force);
                         }
                     }
                     else

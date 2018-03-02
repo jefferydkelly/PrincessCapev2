@@ -39,7 +39,7 @@ public abstract class MagneticGlove : MagicItem {
 			{
 				target.Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
 			}
-			//target.Velocity = Vector2.zero;
+			
             target.Clear();
 			target = null;
 		}

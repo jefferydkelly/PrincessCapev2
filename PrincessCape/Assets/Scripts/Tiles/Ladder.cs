@@ -97,7 +97,7 @@ public class Ladder : ActivatedObject
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);
-
+       
         int numLinks = PCLParser.ParseInt(tile.NextLine);
         for (int i = 0; i < numLinks; i++)
         {

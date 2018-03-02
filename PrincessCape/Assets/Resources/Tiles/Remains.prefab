@@ -99,14 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c0ad7eb7c6d4aedb75637600bfa51c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: 0
+  layer: 1
   editorTextureRect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 128
     height: 128
-  connections: []
   interaction: Loot
   highlightColor: {r: 1, g: 0, b: 0, a: 1}
   itemOnRemains: 0

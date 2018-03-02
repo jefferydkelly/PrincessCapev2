@@ -240,7 +240,7 @@ public class MapTile : MonoBehaviour {
 
     public virtual void FromData(TileStruct tile) {
         id = tile.id;
-        transform.position = PCLParser.ParseVector3(PCLParser.ParseLine(tile.NextLine));
+        transform.position = PCLParser.ParseVector3(PCLParser.ParseLine(tile.NextLine)).SetZ((float)layer);
         Vector3 rot = PCLParser.ParseVector3(PCLParser.ParseLine(tile.NextLine));
 
         transform.localScale = PCLParser.ParseVector3(PCLParser.ParseLine(tile.NextLine));
