@@ -4,7 +4,7 @@
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "0",
+"ID": "70",
 "Position": "(-6.0, 3.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 7.0, 1.0)",
@@ -162,7 +162,7 @@
 {
 "Name": "Ladder",
 "ID": "20",
-"Position": "(-3.0, 13.0, 0.0)",
+"Position": "(-3.0, 13.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
@@ -171,7 +171,7 @@
 {
 "Name": "Ladder",
 "ID": "21",
-"Position": "(-3.0, 19.0, 0.0)",
+"Position": "(-3.0, 19.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",

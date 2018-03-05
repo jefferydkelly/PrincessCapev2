@@ -10,6 +10,8 @@ public class Map : MonoBehaviour
     [SerializeField]
     string levelName = "Level";
     [SerializeField]
+    string fileName = "level.json";
+    [SerializeField]
     ItemLevel items = ItemLevel.None;
     List<MapTile> tiles;
     Dictionary<string, GameObject> prefabs;
@@ -196,7 +198,16 @@ public class Map : MonoBehaviour
     public void Load(string file) {
         if (file.Length > 0)
         {
-            string scenePath = "Levels/" + file.Substring(0, file.Length - 5);
+            Clear();
+            string scenePath = "";
+            if (file.Contains("Assets")) {
+                scenePath = file;
+            } else {
+                scenePath = "Levels/" + file.Substring(0, file.Length - 5);;
+            }
+
+            fileName = file.Split('/').Last();
+
             TextAsset text = Resources.Load<TextAsset>(scenePath);
             if (text)
             {
@@ -217,7 +228,11 @@ public class Map : MonoBehaviour
                     {
                         ao.Reconnect();
                     }
-                    EventManager.TriggerEvent("LevelLoaded");
+
+                    if (Application.isPlaying)
+                    {
+                        EventManager.TriggerEvent("LevelLoaded");
+                    }
                 }
 
 
@@ -242,6 +257,12 @@ public class Map : MonoBehaviour
     public ItemLevel Items {
         get {
             return items;
+        }
+    }
+
+    public string FileName {
+        get {
+            return fileName;
         }
     }
 }

@@ -527,7 +527,7 @@ public class MapEditor : Editor {
     }
 
     void Save() {
-        string path = EditorUtility.SaveFilePanel("Save Level To File", "Assets/Resources/Levels", "level.json", "json");
+        string path = EditorUtility.SaveFilePanel("Save Level To File", "Assets/Resources/Levels", map.FileName, "json");
 
         if (path.Length > 0) {
             string json = map.SaveToFile();
@@ -540,7 +540,9 @@ public class MapEditor : Editor {
         string path = EditorUtility.OpenFilePanel("Open A Level File", "Assets/Resources/Levels", "json");
         if (path.Length > 0)
         {
-            string json = File.ReadAllText(path);
+            //string json = File.ReadAllText(path);
+            map.Load(path);
+            /*
             if (json.Length > 0) {
                 List<TileStruct> newTiles = map.LoadFromFile(json);
 
@@ -559,7 +561,7 @@ public class MapEditor : Editor {
                         ao.Reconnect();
                     }
                 }
-            }
+            }*/
         }
     }
 
