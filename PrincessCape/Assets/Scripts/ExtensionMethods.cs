@@ -11,7 +11,26 @@ public static class ExtensionMethods {
     /// <param name="maxX">The maximum X speed (regardless of direction) for the object.</param>
     public static void ClampXVelocity(this Rigidbody2D rb, float maxX) {
         if (Mathf.Abs(rb.velocity.x) > maxX) {
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxX, rb.velocity.y);
+            rb.velocity = rb.velocity.SetX(Mathf.Sign(rb.velocity.x) * maxX);
+        }
+    }
+
+	/// <summary>
+	/// Clamps the Y Velocity of the given Rigidbody2D to the value given if it is greater.
+	/// </summary>
+	/// <param name="rb">The Rigidbody2D that will have its velocity checked.</param>
+	/// <param name="maxY">The maximum Y speed (regardless of direction) for the object.</param>
+	public static void ClampYVelocity(this Rigidbody2D rb, float maxY)
+	{
+		if (Mathf.Abs(rb.velocity.y) > maxY)
+		{
+            rb.velocity = rb.velocity.SetY(Mathf.Sign(rb.velocity.y) * maxY);
+		}
+	}
+
+    public static void ClampVelocity(this Rigidbody2D rb, float maxSpeed) {
+        if (rb.velocity.sqrMagnitude > maxSpeed * maxSpeed) {
+            rb.velocity = rb.velocity.normalized * maxSpeed;
         }
     }
 

@@ -5,6 +5,8 @@ using UnityEngine;
 public class Stairs : MapTile {
     [SerializeField]
     GameObject stair;
+    [SerializeField]
+    int dir = 1;
 	public override void ScaleX(bool right)
     {
         if (right) {
@@ -35,6 +37,15 @@ public class Stairs : MapTile {
 		GameObject child = Instantiate(stair);
 		child.transform.SetParent(transform);
 		child.transform.localScale = stair.transform.localScale.SetY(1 + transform.childCount / 2.0f);
-		child.transform.localPosition = transform.right * transform.childCount + (transform.up * (transform.childCount) / 4.0f);
+		child.transform.localPosition = transform.right * dir * transform.childCount + (transform.up * (transform.childCount) / 4.0f);
+    }
+
+    public override void FlipX()
+    {
+        dir *= -1;
+        for (int i = 0; i < transform.childCount; i++) {
+            Transform child = transform.GetChild(i);
+            child.localPosition = child.localPosition.SetX(dir * i);
+        }
     }
 }

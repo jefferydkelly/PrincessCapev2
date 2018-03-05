@@ -14,11 +14,11 @@ public class Ladder : ActivatedObject
     public void Awake()
     {
         myCollider = GetComponent<BoxCollider2D>();
-
+		revealTimer = new Timer(revealTime, transform.childCount - 1);
+		revealTimer.OnTick.AddListener(RevealTile);
         if (Application.isPlaying)
         {
-            revealTimer = new Timer(revealTime, transform.childCount - 1);
-            revealTimer.OnTick.AddListener(RevealTile);
+            
             if (!startActive)
             {
                 Deactivate();
@@ -123,6 +123,9 @@ public class Ladder : ActivatedObject
             Deactivate();
         }
 
+		myCollider = GetComponent<BoxCollider2D>();
+		revealTimer = new Timer(revealTime, transform.childCount - 1);
+		revealTimer.OnTick.AddListener(RevealTile);
 		
     }
 
