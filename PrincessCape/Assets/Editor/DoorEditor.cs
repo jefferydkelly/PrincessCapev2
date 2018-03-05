@@ -16,7 +16,6 @@ public class DoorEditor : Editor {
         
         theDoor = target as Door;
         mapNames = new List<string>();
-        DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Levels");
         mapsAndFiles = new Dictionary<string, string>();
 
         int i = 0;

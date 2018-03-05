@@ -41,13 +41,15 @@ public class PullGauntlet : MagneticGlove
                         Game.Instance.Player.IsPulling = true;
                         if (target.IsStatic)
                         {
-                            Game.Instance.Player.Rigidbody.AddForce((-Direction + (Controller.Instance.Horizontal * Vector2.right)) * force);
+                            Vector2 inputForce = Vector2.up * Controller.Instance.Vertical + Vector2.right * Controller.Instance.Horizontal;
+                            Game.Instance.Player.Rigidbody.AddForce((-Direction + inputForce.normalized) * force);
                             Game.Instance.Player.Rigidbody.ClampVelocity(5.0f);
                         }
                         else
                         {
-
-                            target.Rigidbody.AddForce((Direction + Vector2.up * Controller.Instance.Vertical) * force);
+                            Vector2 inputForce = Vector2.up * Controller.Instance.Vertical + Vector2.right * Controller.Instance.Horizontal;
+                            target.Rigidbody.AddForce((Direction + inputForce.normalized) * force);
+                            target.Rigidbody.ClampVelocity(5.0f);
                         }
                     }
                     else

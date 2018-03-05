@@ -83,12 +83,14 @@ public abstract class MagicItem: ScriptableObject {
                 break;
             }
         }
+        slot = MagicItemSlot.None;
         StopListening();
         EventManager.StopListening("SwapItems", SwapItems);
         if (other != null) {
             other.StopListening();
             other.RegisterItemOne();
         }
+
         RegisterItemTwo();
     }
 

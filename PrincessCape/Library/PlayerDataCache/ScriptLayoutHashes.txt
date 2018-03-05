@@ -167,7 +167,7 @@ dc70e65ce89d0a9d045eec4652c8b043 Assembly-CSharp.dll:.LevelSelect
 e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
 8cb6f0bcab68086412011dcdcdb5f492 Assembly-CSharp.dll:.PressureSwitch
 e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
-16c134e37f778eaddad0e61249a9daad Assembly-CSharp.dll:.Stairs
+badd96fc2b4025c10b2eadb20bd4c29e Assembly-CSharp.dll:.Stairs
 841df02bc4e62e64ebc1b4418fdbd463 Assembly-CSharp.dll:.Metal
 bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInput

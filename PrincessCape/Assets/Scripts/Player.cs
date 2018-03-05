@@ -28,6 +28,9 @@ public class Player : MonoBehaviour {
         resetTimer.OnComplete.AddListener(Game.Instance.Reset);
         inventory = new List<MagicItem>();
         EventManager.StartListening("LevelLoaded", Reset);
+        EventManager.StartListening("ShowMessage", () => { state = PlayerState.ReadingMessage; });
+        EventManager.StartListening("ShowDialog", () => { state = PlayerState.ReadingMessage; });
+        EventManager.StartListening("EndOfMessage", () => { state = PlayerState.Normal; });
         DontDestroyOnLoad(gameObject);
    
     }
@@ -59,8 +62,11 @@ public class Player : MonoBehaviour {
     /// Unpause this instance.
     /// </summary>
     void Unpause() {
-        myRigidbody.velocity = storedVelocity;
-        myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        if (state != PlayerState.ReadingMessage)
+        {
+            myRigidbody.velocity = storedVelocity;
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
     }
     // Use this for initialization
     void Start () {
@@ -138,7 +144,8 @@ public class Player : MonoBehaviour {
     void Jump() {
         state = PlayerState.Jumping;
         myRigidbody.gravityScale = 1.0f;
-        myRigidbody.AddForce(Vector2.up * 7.0f, ForceMode2D.Impulse);
+        myRigidbody.velocity = myRigidbody.velocity.SetY(7.0f);
+        //myRigidbody.AddForce(Vector2.up * 7.0f, ForceMode2D.Impulse);
     }
     /// <summary>
     /// Gets a value indicating whether this <see cref="T:Player"/> is on ground.
@@ -213,22 +220,29 @@ public class Player : MonoBehaviour {
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ladder")) {
-            onLadder = true;
+        if (!IsUsingMagneticGloves)
+        {
+            if (collision.CompareTag("Ladder"))
+            {
+                onLadder = true;
+            }
         }
     }
 
 	public void OnTriggerExit2D(Collider2D collision)
 	{
-		if (collision.CompareTag("Ladder"))
-		{
-            onLadder = false;
-            myRigidbody.gravityScale = 1;
-            if (!IsJumping)
+        if (!IsUsingMagneticGloves)
+        {
+            if (collision.CompareTag("Ladder"))
             {
-                myRigidbody.velocity = myRigidbody.velocity.SetY(0);
+                onLadder = false;
+                myRigidbody.gravityScale = 1;
+                if (!IsJumping)
+                {
+                    myRigidbody.velocity = myRigidbody.velocity.SetY(0);
+                }
             }
-		}
+        }
 	}
 
     /// <summary>
@@ -400,6 +414,7 @@ public class Player : MonoBehaviour {
         {
             MessageBox.SetMessage(mi.ItemGetMessage);
             EventManager.TriggerEvent("ShowMessage");
+            EventManager.TriggerEvent("Pause");
             EventManager.StartListening("EndOfMessage", EndCutscene);
         }
     }
@@ -447,5 +462,6 @@ public enum PlayerState {
     Pulling,
     MovingBlock,
     UsingShield,
-    Frozen
+    Frozen,
+    ReadingMessage
 }

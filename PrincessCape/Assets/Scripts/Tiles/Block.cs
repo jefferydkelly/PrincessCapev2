@@ -6,7 +6,7 @@ public class Block : InteractiveObject{
 
     Vector3 startPosition;
     bool isBeingPushed = false;
-    Vector3 playerDif;
+
     Rigidbody2D myRigidbody;
     private void Start()
     {
@@ -21,7 +21,6 @@ public class Block : InteractiveObject{
         if (isBeingPushed) {
             EventManager.TriggerEvent("StartPush");
             myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-            playerDif = transform.position - Game.Instance.Player.transform.position;
         } else {
             EventManager.TriggerEvent("StopPush");
             myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;

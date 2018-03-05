@@ -10,12 +10,23 @@ public class ItemMenu : MonoBehaviour {
 	void Awake () {
         boxes = GetComponentsInChildren<ItemSlot>().ToList();
 
-        EventManager.StartListening("ShowItemMenu", Reveal);
+        StartListening();
         EventManager.StartListening("HideItemMenu", Hide);
+		EventManager.StartListening("ShowDialog", StopListening);
+		EventManager.StartListening("ShowMessage", StopListening);
+        EventManager.StartListening("EndOfMessage", StartListening);
         Hide();
 
 	}
 
+    void StopListening() {
+        EventManager.StopListening("ShowItemMenu", Reveal);
+    }
+
+    void StartListening() {
+        EventManager.StartListening("ShowItemMenu", Reveal);
+
+    }
     void Reveal() {
         gameObject.SetActive(true);
 
