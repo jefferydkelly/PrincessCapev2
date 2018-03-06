@@ -17,6 +17,12 @@ public class Map : MonoBehaviour
     Dictionary<string, GameObject> prefabs;
     public void Awake()
     {
+		
+		tiles = GetComponentsInChildren<MapTile>().ToList();
+        ClearHighlights();
+    }
+
+    void LoadPrefabs() {
 		Object[] obj = Resources.LoadAll("Tiles", typeof(GameObject));
 
 		prefabs = new Dictionary<string, GameObject>(obj.Length);
@@ -26,10 +32,7 @@ public class Map : MonoBehaviour
 			GameObject go = (GameObject)obj[i];
 			prefabs.Add(go.name, go);
 		}
-
-		tiles = GetComponentsInChildren<MapTile>().ToList();
-        ClearHighlights();
-    }
+	}
 
     public void AssignIDs()
     {
@@ -196,19 +199,19 @@ public class Map : MonoBehaviour
     }
 
     public void Load(string file) {
+
+        if (prefabs == null) {
+            LoadPrefabs();
+        }
         if (file.Length > 0)
         {
             Clear();
-            string scenePath = "";
-            if (file.Contains("Assets")) {
-                scenePath = file;
-            } else {
-                scenePath = "Levels/" + file.Substring(0, file.Length - 5);;
-            }
 
             fileName = file.Split('/').Last();
+            string scenePath = "Levels/" + fileName.Substring(0, fileName.Length - 5);
 
             TextAsset text = Resources.Load<TextAsset>(scenePath);
+
             if (text)
             {
                 string json = text.text;
@@ -221,6 +224,7 @@ public class Map : MonoBehaviour
                     {
                         MapTile tile = Instantiate(prefabs[t.name]).GetComponent<MapTile>();
                         tile.FromData(t);
+                        tile.Init();
                         AddTile(tile);
                     }
 
@@ -229,8 +233,7 @@ public class Map : MonoBehaviour
                         ao.Reconnect();
                     }
 
-                    if (Application.isPlaying)
-                    {
+                    if (Application.isPlaying) {                       
                         EventManager.TriggerEvent("LevelLoaded");
                     }
                 }

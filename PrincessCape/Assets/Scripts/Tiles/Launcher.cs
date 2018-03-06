@@ -13,16 +13,19 @@ public class Launcher : ActivatedObject
     // Use this for initialization
     void Awake()
     {
-        myAnimator = GetComponent<Animator>();
-        launchTimer = new Timer(launchTime, true);
-        launchTimer.OnTick.AddListener(Launch);
+        Init();
+    }
+
+    public override void Init() {
+		myAnimator = GetComponent<Animator>();
+		launchTimer = new Timer(launchTime, true);
+		launchTimer.OnTick.AddListener(Launch);
 
 		if (startActive)
 		{
 			EventManager.StartListening("LevelLoaded", Activate);
 		}
     }
-
     void Launch() {
         Projectile proj = Instantiate(projectile.gameObject).GetComponent<Projectile>();
         proj.transform.position = transform.position + transform.right;

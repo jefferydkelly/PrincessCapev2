@@ -6,14 +6,9 @@ public class PressureSwitch : ActivatorObject {
     Animator myAnimator;
     int itemsOnTop = 0;
 
-    /// <summary>
-    /// Start this instance.
-    /// </summary>
-    private void Awake()
-    {
+    public override void Init() {
         myAnimator = GetComponent<Animator>();
     }
-
     /// <summary>
     /// When a Rigidbody with a great enough mass collides with the switch, increment ItemsOnTop.
     /// </summary>

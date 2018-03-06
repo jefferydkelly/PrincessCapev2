@@ -16,8 +16,12 @@ public class MapTile : MonoBehaviour {
 	private void Awake()
 	{
         HighlightState = MapHighlightState.Normal;
+        Init();
 	}
 
+    public virtual void Init() {
+		HighlightState = MapHighlightState.Normal;
+    }
     /// <summary>
     /// Gets the ZPos of this <see cref="T:EditorTile"/> .
     /// </summary>

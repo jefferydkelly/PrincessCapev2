@@ -33,7 +33,7 @@ public class SpikePlatform : ActivatedObject {
         Deactivate();
     }
 
-    private void Awake()
+    public override void Init()
     {
         myAnimator = GetComponent<Animator>();
     }

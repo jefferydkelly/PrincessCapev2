@@ -14,14 +14,19 @@ public class Bridge : ActivatedObject
 
     private void Start()
     {
+        Init();
+    }
+
+    public override void Init()
+    {
 		revealTimer = new Timer(revealTime, transform.childCount - 1);
 		revealTimer.OnTick.AddListener(RevealTile);
-        if (!startActive)
-        {
-            Deactivate();
-        }
+		if (!startActive)
+		{
+			Deactivate();
+		}
 
-    }
+	}
     public override void Activate()
     {
         revealTimer.Start();

@@ -4,7 +4,7 @@
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "0",
+"ID": "64",
 "Position": "(-5.5, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(10.0, 1.0, 1.0)",
@@ -117,7 +117,7 @@
 {
 "Name": "Ladder",
 "ID": "15",
-"Position": "(-19.0, -1.0, 0.0)",
+"Position": "(-19.0, -1.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -160,7 +160,7 @@
 {
 "Name": "Ladder",
 "ID": "20",
-"Position": "(0.0, -9.0, 0.0)",
+"Position": "(0.0, -9.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -312,7 +312,7 @@
 {
 "Name": "Ladder",
 "ID": "41",
-"Position": "(-21.0, -16.0, 0.0)",
+"Position": "(-21.0, -16.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -467,7 +467,7 @@
 "Position": "(-4.5, -21.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Next Level": "",
+"Next Level": "classicLevelThree.json",
 },
 {
 "Name": "Platform",

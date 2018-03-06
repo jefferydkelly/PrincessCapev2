@@ -19,22 +19,24 @@ public class Checkpoint : MapTile
     /// </summary>
     private void Awake()
     {
-
-        myAnimator = GetComponent<Animator>();
-
-        if (Application.isEditor && !Application.isPlaying)
-        {
-            if (FindObjectsOfType<Checkpoint>().Length == 1)
-            {
-                isFirstCheckpoint = true;
-            }
-        }
-        else if (isFirstCheckpoint)
-        {
-            activeCheckpoint = this;
-        }
+        Init();
     }
 
+    public override void Init() {
+		myAnimator = GetComponent<Animator>();
+
+		if (Application.isEditor && !Application.isPlaying)
+		{
+			if (FindObjectsOfType<Checkpoint>().Length == 1)
+			{
+				isFirstCheckpoint = true;
+			}
+		}
+		else if (isFirstCheckpoint)
+		{
+			activeCheckpoint = this;
+		}
+    }
 
     private void OnDisable()
     {

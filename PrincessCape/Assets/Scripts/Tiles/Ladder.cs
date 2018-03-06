@@ -13,38 +13,43 @@ public class Ladder : ActivatedObject
     float revealTime = 0.25f;
     public void Awake()
     {
-        myCollider = GetComponent<BoxCollider2D>();
-		revealTimer = new Timer(revealTime, transform.childCount - 1);
-		revealTimer.OnTick.AddListener(RevealTile);
-        if (Application.isPlaying)
-        {
-            
-            if (!startActive)
-            {
-                gameObject.SetActive(false);
-                Deactivate();
-            }
-        } else {
-			for (int i = 1; i < transform.childCount; i++)
-			{
-				transform.GetChild(i).gameObject.SetActive(true);
-			}
-        }
+        Init();
     }
 
+    public override void Init() {
+		myCollider = GetComponent<BoxCollider2D>();
+		revealTimer = new Timer(revealTime, transform.childCount - 1);
+		revealTimer.OnTick.AddListener(RevealTile);
+		if (Application.isPlaying)
+		{
+            
+			if (!startActive)
+			{
+				gameObject.SetActive(false);
+				Deactivate();
+            } else {
+                RevealEverything();
+            }
+		}
+		else
+		{
+            RevealEverything();
+		}
+    }
+
+    void RevealEverything() {
+        gameObject.SetActive(true);
+		for (int i = 1; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).gameObject.SetActive(true);
+		}
+    }
     public override void ScaleY(bool up)
     {
         if (up)
         {
 
             transform.position += Vector3.up;
-            /*
-            GameObject newChain = Instantiate(plainLadder);
-
-            newChain.transform.SetParent(transform);
-            newChain.transform.position = transform.position + Vector3.down * (transform.childCount - 1);
-            newChain.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
-            */
             SpawnChild();
         }
         else if (transform.childCount > 1)
@@ -110,13 +115,6 @@ public class Ladder : ActivatedObject
         int numLinks = PCLParser.ParseInt(tile.NextLine);
         for (int i = 0; i < numLinks; i++)
         {
-            /*
-            GameObject newChain = Instantiate(plainLadder);
-
-            newChain.transform.SetParent(transform);
-            newChain.transform.position = transform.position + Vector3.down * (transform.childCount - 1);
-            newChain.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
-            */
             SpawnChild();
         }
 

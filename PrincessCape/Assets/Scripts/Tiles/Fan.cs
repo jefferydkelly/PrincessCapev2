@@ -23,10 +23,17 @@ public class Fan : ActivatedObject
     // Use this for initialization
     void Start()
     {
-        myAnimator = GetComponent<Animator>();
-        transform.GetChild(0).gameObject.SetActive(false);
+        Init();
     }
 
+    public override void Init() {
+		myAnimator = GetComponent<Animator>();
+		transform.GetChild(0).gameObject.SetActive(false);
+
+        if (startActive) {
+            Activate();
+        }
+    }
     public override void ScaleY(bool up)
     {
         transform.GetChild(0).GetComponent<AirColumn>().ScaleY(up);

@@ -4,7 +4,7 @@
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "0",
+"ID": "24",
 "Position": "(-1.0, 3.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 8.0, 1.0)",
@@ -245,7 +245,7 @@
 "Position": "(-49.5, -19.5, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Next Level": "",
+"Next Level": "classicLevelTwo.json",
 },
 {
 "Name": "Platform",

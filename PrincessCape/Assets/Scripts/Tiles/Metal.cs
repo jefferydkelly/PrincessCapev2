@@ -9,12 +9,17 @@ public class Metal : MapTile {
     static Metal highlighted;
     public void Awake()
     {
-        myRenderer = GetComponent<SpriteRenderer>();
-        myRigidbody = GetComponent<Rigidbody2D>();
-        if (!IsStatic) {
-            startPosition = transform.position;
-            EventManager.StartListening("PlayerRespawned", Reset);
-        }
+        Init();
+    }
+
+    public override void Init() {
+		myRenderer = GetComponent<SpriteRenderer>();
+		myRigidbody = GetComponent<Rigidbody2D>();
+		if (!IsStatic)
+		{
+			startPosition = transform.position;
+			EventManager.StartListening("PlayerRespawned", Reset);
+		}
     }
 
     /// <summary>

@@ -12,9 +12,20 @@ public class ConveyorBelt : ActivatedObject
     float pushForce = 5;
     private void Awake()
     {
-        myAnimator = GetComponent<Animator>();
-        theBelt = GetComponent<BoxCollider2D>();
-        theBelt.enabled = false;
+        Init();
+    }
+
+    public override void Init() {
+		myAnimator = GetComponent<Animator>();
+		theBelt = GetComponent<BoxCollider2D>();
+        if (startActive)
+        {
+            Activate();
+        }
+        else
+        {
+            theBelt.enabled = false;
+        }
     }
     public override void Activate()
     {

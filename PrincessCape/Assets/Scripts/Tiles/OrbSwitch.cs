@@ -10,9 +10,12 @@ public class OrbSwitch : ActivatorObject
 
     Animator myAnimatior;
 
-    private void Awake()
-    {
-        myAnimatior = GetComponent<Animator>();
+    public override void Init() {
+		myAnimatior = GetComponent<Animator>();
+
+        if (startActive) {
+            Activate();
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

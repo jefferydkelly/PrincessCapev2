@@ -10,9 +10,14 @@ public class Block : InteractiveObject{
     Rigidbody2D myRigidbody;
     private void Start()
     {
-        startPosition = transform.position;
-        myRigidbody = GetComponent<Rigidbody2D>();
-        EventManager.StartListening("PlayerRespawned", Reset);
+        Init();
+    }
+
+    public override void Init()
+    {
+		startPosition = transform.position;
+		myRigidbody = GetComponent<Rigidbody2D>();
+		EventManager.StartListening("PlayerRespawned", Reset);
     }
     public override void Interact()
     {

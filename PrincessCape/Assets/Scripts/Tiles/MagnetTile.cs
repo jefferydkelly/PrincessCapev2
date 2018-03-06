@@ -23,10 +23,14 @@ public class MagnetTile : ActivatedObject {
 
     // Use this for initialization
     void Awake () {
-        myAnimator = GetComponent<Animator>();
-        magField = GetComponent<BoxCollider2D>();
-        magField.enabled = false;
+        Init();
 	}
+
+    public override void Init() {
+		myAnimator = GetComponent<Animator>();
+		magField = GetComponent<BoxCollider2D>();
+		magField.enabled = false;
+    }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
