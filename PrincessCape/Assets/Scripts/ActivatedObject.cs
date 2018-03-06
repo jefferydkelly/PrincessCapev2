@@ -133,5 +133,15 @@ public abstract class ActivatedObject : MapTile
         Handles.DrawSolidArc(transform.position, -Vector3.forward, Vector3.up, 360, 0.5f);
         Handles.color = Color.white;
     }
+
+    public bool StartsActive {
+        get {
+            return startActive;
+        }
+
+        set {
+            startActive = value;
+        }
+    }
 #endif
 }

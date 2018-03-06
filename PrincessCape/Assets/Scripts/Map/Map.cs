@@ -273,5 +273,5 @@ public enum ItemLevel {
     MagicCape,
     StarShield,
     PullGauntlet,
-    PushGlove
+    PushGauntlet
 }

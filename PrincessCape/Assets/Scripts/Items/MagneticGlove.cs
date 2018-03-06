@@ -6,6 +6,9 @@ public abstract class MagneticGlove : MagicItem {
     protected float range = 10;
     protected float force = 25f;
     protected Metal target = null;
+    protected float gloveForceWeight = 1.0f;
+    protected float inputForceWeight = 1.0f;
+    protected float maxSpeed = 5.0f;
 
     /// <summary>
     /// Finds the target.

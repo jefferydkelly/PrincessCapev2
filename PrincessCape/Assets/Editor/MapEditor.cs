@@ -81,12 +81,25 @@ public class MapEditor : Editor {
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        if (SelectedMapTile && SecondaryMapTile) {
-            if (GUILayout.Button("Connect")) {
-                Connect();
+        if (SelectedMapTile) {
+            if (SecondaryMapTile)
+            {
+                if (GUILayout.Button("Connect"))
+                {
+                    Connect();
+                }
+            }
+
+            ActivatedObject ao = SelectedMapTile.GetComponent<ActivatedObject>();
+            if (ao) {
+                string butText = ao.StartsActive ? "Deactivate" : "Activate";
+                if (GUILayout.Button(butText)) {
+                    ao.StartsActive = !ao.StartsActive;
+                }
             }
         }
         GUILayout.EndHorizontal();
+
 		GUILayout.BeginHorizontal();
 		if (prefabs != null)
 		{

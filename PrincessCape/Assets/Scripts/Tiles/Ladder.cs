@@ -21,6 +21,7 @@ public class Ladder : ActivatedObject
             
             if (!startActive)
             {
+                gameObject.SetActive(false);
                 Deactivate();
             }
         } else {
@@ -131,11 +132,13 @@ public class Ladder : ActivatedObject
 
     public override void Activate()
     {
+        gameObject.SetActive(true);
         revealTimer.Start();
     }
 
     public override void Deactivate()
     {
+        gameObject.SetActive(false);
         revealTimer.Stop();
 
 		for (int i = 1; i < transform.childCount; i++)

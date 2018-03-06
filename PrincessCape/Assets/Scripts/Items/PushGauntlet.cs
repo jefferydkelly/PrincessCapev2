@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PushGlove : MagneticGlove {
-	public PushGlove()
+public class PushGauntlet : MagneticGlove {
+    public PushGauntlet()
 	{
         itemName = "Push Gauntlet";
+
+		itemGetMessage = new List<string>() {
+			"You got the Push Gaunlet!",
+			"Slipping it on, you feel the power flowing through your hands",
+			"Press and hold the item button to push metal blocks away from you",
+			"But beware, just like the Push Gauntlet, if the block can't be moved.  You will be."
+		};
 	}
 
     private void OnEnable()
@@ -31,13 +38,17 @@ public class PushGlove : MagneticGlove {
                     if (IsTargetInRange)
                     {
                         Game.Instance.Player.IsPulling = true;
+                        Vector2 gloveForce = Direction * gloveForceWeight;
+                        Vector2 inputForce = Controller.Instance.DirectionalInput * inputForceWeight;
                         if (target.IsStatic)
                         {
-                            Game.Instance.Player.Rigidbody.AddForce(Direction * force);
+                            Game.Instance.Player.Rigidbody.AddForce((gloveForce + inputForce).normalized * force);
+							Game.Instance.Player.Rigidbody.ClampVelocity(maxSpeed);
                         }
                         else
                         {
-                            target.Rigidbody.AddForce(-Direction * force);
+                            target.Rigidbody.AddForce((inputForce - gloveForce).normalized * force);
+                            target.Rigidbody.ClampVelocity(maxSpeed);
                         }
                     }
                     else

@@ -43,13 +43,13 @@ public class PullGauntlet : MagneticGlove
                         {
                             Vector2 inputForce = Vector2.up * Controller.Instance.Vertical + Vector2.right * Controller.Instance.Horizontal;
                             Game.Instance.Player.Rigidbody.AddForce((-Direction + inputForce.normalized) * force);
-                            Game.Instance.Player.Rigidbody.ClampVelocity(5.0f);
+                            Game.Instance.Player.Rigidbody.ClampVelocity(maxSpeed);
                         }
                         else
                         {
                             Vector2 inputForce = Vector2.up * Controller.Instance.Vertical + Vector2.right * Controller.Instance.Horizontal;
                             target.Rigidbody.AddForce((Direction + inputForce.normalized) * force);
-                            target.Rigidbody.ClampVelocity(5.0f);
+                            target.Rigidbody.ClampVelocity(maxSpeed);
                         }
                     }
                     else
