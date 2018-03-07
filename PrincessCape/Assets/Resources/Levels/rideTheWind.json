@@ -4,7 +4,7 @@
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "54",
+"ID": "0",
 "Position": "(-5.0, 5.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 11.0, 1.0)",
@@ -218,7 +218,7 @@
 {
 "Name": "Ladder",
 "ID": "30",
-"Position": "(38.0, 1.0, 0.0)",
+"Position": "(38.0, 1.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -255,16 +255,16 @@
 {
 "Name": "AirColumn",
 "ID": "35",
-"Position": "(50.0, 12.5, 1.0)",
+"Position": "(48.0, 12.5, 1.0)",
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 12.0, 1.0)",
 },
 {
 "Name": "Platform",
 "ID": "36",
-"Position": "(42.0, 12.5, 0.0)",
+"Position": "(41.5, 12.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(13.0, 2.0, 1.0)",
+"Scale": "(12.0, 2.0, 1.0)",
 },
 {
 "Name": "Platform",
@@ -304,9 +304,9 @@
 {
 "Name": "Platform",
 "ID": "42",
-"Position": "(55.5, 12.5, 0.0)",
+"Position": "(55.0, 12.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(10.0, 2.0, 1.0)",
+"Scale": "(11.0, 2.0, 1.0)",
 },
 {
 "Name": "Spike",
@@ -378,7 +378,7 @@
 "Position": "(57.5, 6.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Next Level": "classicLevelOne.json",
+"Next Level": "WinScreen",
 },
 {
 "Name": "AirColumn",
@@ -386,6 +386,20 @@
 "Position": "(34.0, 8.0, 1.0)",
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 11.0, 1.0)",
+},
+{
+"Name": "Spike",
+"ID": "54",
+"Position": "(53.0, -6.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+},
+{
+"Name": "Spike",
+"ID": "55",
+"Position": "(52.0, -6.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
 },
 ]
 }

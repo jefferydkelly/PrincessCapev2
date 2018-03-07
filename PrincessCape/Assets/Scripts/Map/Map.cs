@@ -19,6 +19,7 @@ public class Map : MonoBehaviour
     {
 		
 		tiles = GetComponentsInChildren<MapTile>().ToList();
+        Init();
         ClearHighlights();
     }
 
@@ -266,6 +267,12 @@ public class Map : MonoBehaviour
     public string FileName {
         get {
             return fileName;
+        }
+    }
+
+    public void Init() {
+        foreach(MapTile mt in tiles) {
+            mt.Init();
         }
     }
 }

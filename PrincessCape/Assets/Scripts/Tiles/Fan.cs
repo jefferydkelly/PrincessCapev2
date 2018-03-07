@@ -28,10 +28,16 @@ public class Fan : ActivatedObject
 
     public override void Init() {
 		myAnimator = GetComponent<Animator>();
-		transform.GetChild(0).gameObject.SetActive(false);
+        if (Application.isPlaying)
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
 
-        if (startActive) {
-            Activate();
+            if (startActive)
+            {
+                Activate();
+            }
+        } else {
+            transform.GetChild(0).gameObject.SetActive(true);
         }
     }
     public override void ScaleY(bool up)
