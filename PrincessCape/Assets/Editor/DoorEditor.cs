@@ -17,6 +17,8 @@ public class DoorEditor : Editor {
         theDoor = target as Door;
         mapNames = new List<string>();
         mapsAndFiles = new Dictionary<string, string>();
+        mapsAndFiles.Add("GameOver", "WinScreen");
+        mapNames.Add("GameOver");
 
         int i = 0;
         TextAsset[] textFiles = Resources.LoadAll<TextAsset>("Levels");

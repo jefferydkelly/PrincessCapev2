@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class Game : MonoBehaviour {
 
     static Game instance;
+
+    [SerializeField]
+    GameObject canvas;
     List<Manager> managers;
     List<Manager> toAdd;
     Player player;
@@ -15,7 +18,7 @@ public class Game : MonoBehaviour {
     string lastScene = "Test";
 	// Use this for initialization
 	void Awake () {
-        if (!instance)
+        if (!instance || instance == this)
         {
             managers = new List<Manager>();
             toAdd = new List<Manager>();
@@ -24,6 +27,11 @@ public class Game : MonoBehaviour {
             SceneManager.sceneLoaded += OnSceneLoaded;
             EventManager.StartListening("Pause", () => { paused = true; });
             EventManager.StartListening("Unpause", () => { paused = false; });
+
+            if (canvas)
+            {
+                canvas.SetActive(true);
+            }
         } else {
             Destroy(gameObject);
         }
