@@ -27,7 +27,13 @@ public class Game : MonoBehaviour {
             SceneManager.sceneLoaded += OnSceneLoaded;
             EventManager.StartListening("Pause", () => { IsPaused = true; });
             EventManager.StartListening("Unpause", () => { IsPaused = false; });
+            EventManager.StartListening("StartCutscene", ()=>{
+                state = GameState.Cutscene;
+            });
 
+			EventManager.StartListening("EndCutscene", () => {
+                state = GameState.Playing;
+			});
             if (canvas)
             {
                 canvas.SetActive(true);

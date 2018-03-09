@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CutsceneActor : MonoBehaviour
 {
 	private SpriteRenderer mySpriteRenderer;
+    Sprite[] sprites;
 	private CutsceneCharacter myInfo;
 	bool isHidden = true;
 	public Cutscene parentCutscene;
@@ -24,7 +26,8 @@ public class CutsceneActor : MonoBehaviour
 		set
 		{
 			myInfo = value;
-			mySpriteRenderer.sprite = myInfo.sprite;
+            sprites = Resources.LoadAll<Sprite>(myInfo.sprite);
+            mySpriteRenderer.sprite = sprites[0];
 		}
 	}
 
@@ -281,6 +284,14 @@ public class CutsceneActor : MonoBehaviour
 			mySpriteRenderer.sprite = value;
 		}
 	}
+
+    public int SpriteIndex {
+        set {
+            if (value < sprites.Length && value > 0) {
+                mySpriteRenderer.sprite = sprites[value];
+            }
+        }
+    }
 
 	public Vector3 Position
 	{

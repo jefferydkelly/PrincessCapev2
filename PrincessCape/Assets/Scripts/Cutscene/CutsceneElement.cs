@@ -187,6 +187,7 @@ public class CameraFollow : CutsceneElement
 	public override void Run()
 	{
 		CameraManager.Instance.Target = GameObject.Find(targetName);
+        CameraManager.Instance.IsFollowing = true;
 	}
 }
 
@@ -607,12 +608,12 @@ public enum CutsceneElements
 public class CutsceneSpriteChange : CutsceneElement
 {
 	string affected = "Character";
-	string newSprite = "Character";
+	int newSprite = -1;
 
-	public CutsceneSpriteChange(string target, string spriteName)
+	public CutsceneSpriteChange(string target, int spriteIndex)
 	{
 		affected = target;
-		newSprite = spriteName.Trim();
+        newSprite = spriteIndex;
 		autoAdvance = true;
 	}
 
@@ -622,7 +623,7 @@ public class CutsceneSpriteChange : CutsceneElement
 
 		if (ca)
 		{
-			ca.MySprite = Resources.Load<Sprite>(newSprite);
+            ca.SpriteIndex = newSprite;
 		}
 	}
 }

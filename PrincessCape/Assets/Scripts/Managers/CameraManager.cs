@@ -37,23 +37,39 @@ public class CameraManager : Manager
     /// <param name="dt">Dt.</param>
     public void Update(float dt)
     {
-        if (target)
+		if (Game.Instance.IsInCutscene)
+		{
+
+			if (state == CameraState.Panning)
+			{
+				;
+				if (Follow())
+				{
+					Position = targetPos;
+					Cutscene.Instance.NextElement();
+                    state = CameraState.Following;
+				}
+            } else if (target && state == CameraState.Following) {
+                Position = target.transform.position.SetZ(Position.z);
+            }
+		} else if (target)
         {
             if (state == CameraState.Following)
             {
                 Position = target.transform.position.SetZ(Position.z);//new Vector3(target.transform.position.x, target.transform.position.y, Camera.main.transform.position.z);
-            } else if (state == CameraState.Resetting || state == CameraState.Panning) {
-                Position = Vector3.Lerp(Position, targetPos, Time.deltaTime);
+            } else if (state == CameraState.Resetting) {
 
-                if (Vector3.Distance(Position, targetPos) < 0.05f) {
+                if (Follow()) {
                     Position = targetPos;
-                    if (state == CameraState.Panning) {
-                        Cutscene.Instance.NextElement();
-                    }
                     state = CameraState.Following;
                 }
             }
         }
+    }
+
+    bool Follow() {
+        Position = Vector3.Lerp(Position, targetPos, Time.deltaTime);
+        return Vector3.Distance(Position, targetPos) < 0.05f;
     }
 
     /// <summary>
@@ -100,6 +116,7 @@ public class CameraManager : Manager
     }
 
     public void Pan(GameObject tar) {
+        target = tar;
         targetPos = tar.transform.position.SetZ(Position.z);
         state = CameraState.Panning;
     }
@@ -113,6 +130,20 @@ public class CameraManager : Manager
         targetPos = new Vector3(tar.x, tar.y, Position.z);
         state = CameraState.Panning;
 
+    }
+
+    public bool IsFollowing {
+        get {
+            return state == CameraState.Following;
+        }
+
+        set {
+            if (value) {
+                state = CameraState.Following;
+            } else {
+                state = CameraState.Frozen;
+            }
+        }
     }
 }
 

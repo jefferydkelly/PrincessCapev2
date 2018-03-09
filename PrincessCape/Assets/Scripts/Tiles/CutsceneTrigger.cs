@@ -18,4 +18,19 @@ public class CutsceneTrigger : MapTile{
     {
         GetComponent<SpriteRenderer>().enabled = !Application.isPlaying;
     }
+
+    protected override string GenerateSaveData()
+    {
+        string data = base.GenerateSaveData();
+        data += PCLParser.CreateAttribute<string>("Cutscene", cutscene.name);
+        return data;
+    }
+
+    public override void FromData(TileStruct tile)
+    {
+        base.FromData(tile);
+        string sceneName = PCLParser.ParseLine(tile.NextLine);
+        Debug.Log(sceneName);
+        cutscene = Resources.Load<TextAsset>("Cutscenes/" + sceneName);
+    }
 }

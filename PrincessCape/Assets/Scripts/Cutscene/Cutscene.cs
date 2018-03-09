@@ -115,7 +115,7 @@ public class Cutscene
 			}
 			else if (p == "swap-sprite")
 			{
-				c = new CutsceneSpriteChange(parts[1], parts[2]);
+                c = new CutsceneSpriteChange(parts[1], int.Parse(parts[2]));
 			}
 			else if (p == "pan")
 			{
@@ -324,7 +324,7 @@ public class Cutscene
 		Sprite s = Resources.Load<Sprite>(charName);
 		if (s)
 		{
-			CutsceneCharacter cc = new CutsceneCharacter(charName, s);
+            CutsceneCharacter cc = new CutsceneCharacter(charName, "Sprites/" + charName);
 			characters.Add(cc);
 		}
 	}
@@ -339,7 +339,7 @@ public class Cutscene
 		Sprite s = Resources.Load<Sprite>(spriteName.Trim());
 		if (s)
 		{
-			CutsceneCharacter cc = new CutsceneCharacter(charName, s);
+            CutsceneCharacter cc = new CutsceneCharacter(charName, spriteName);
 			characters.Add(cc);
 		}
 	}
@@ -433,17 +433,17 @@ public class Cutscene
 public struct CutsceneCharacter
 {
 	public string characterName;
-	public Sprite sprite;
+	public string sprite;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="T:CutsceneCharacter"/> struct.
 	/// </summary>
-	/// <param name="n">The character's name.</param>
-	/// <param name="s">The sprite that represents the character.</param>
-	public CutsceneCharacter(string n, Sprite s)
+	/// <param name="name">The character's name.</param>
+    /// <param name="spriteName">The name of the sprite(s) for the character.</param>
+	public CutsceneCharacter(string name, string spriteName)
 	{
-		characterName = n;
-		sprite = s;
+		characterName = name;
+		sprite = spriteName;
 	}
 }
 
