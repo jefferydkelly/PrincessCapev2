@@ -47,7 +47,7 @@ public class CameraManager : Manager
 				{
 					Position = targetPos;
 					Cutscene.Instance.NextElement();
-                    state = CameraState.Following;
+                    state = target ? CameraState.Following : CameraState.Frozen;
 				}
             } else if (target && state == CameraState.Following) {
                 Position = target.transform.position.SetZ(Position.z);
@@ -124,11 +124,13 @@ public class CameraManager : Manager
     public void Pan(Vector2 tar) {
         targetPos = Position + (Vector3)tar;
         state = CameraState.Panning;
+        target = null;
     }
 
     public void PanTo(Vector2 tar) {
         targetPos = new Vector3(tar.x, tar.y, Position.z);
         state = CameraState.Panning;
+        target = null;
 
     }
 

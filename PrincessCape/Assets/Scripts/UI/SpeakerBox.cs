@@ -14,7 +14,7 @@ public class SpeakerBox : MonoBehaviour {
 	}
 	
     void Show() {
-        EventManager.StopListening("ShowDialog", Show);
+        //EventManager.StopListening("ShowDialog", Show);
         gameObject.SetActive(true);
         text.text = speaker;
         EventManager.StartListening("EndOfDialog", Hide);
