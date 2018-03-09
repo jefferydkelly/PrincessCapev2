@@ -8,6 +8,7 @@ public class CameraManager : Manager
     static CameraManager instance;
     CameraState state = CameraState.Following;
     GameObject target;
+    Vector3 targetPos;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:CameraManager"/> class.
@@ -22,6 +23,7 @@ public class CameraManager : Manager
     void ResetCamera() {
         target = Checkpoint.Active;
         state = CameraState.Resetting;
+        targetPos = target.transform.position.SetZ(Position.z);
     }
 
     void OnPlayerRespawn() {
@@ -40,8 +42,16 @@ public class CameraManager : Manager
             if (state == CameraState.Following)
             {
                 Position = target.transform.position.SetZ(Position.z);//new Vector3(target.transform.position.x, target.transform.position.y, Camera.main.transform.position.z);
-            } else if (state == CameraState.Resetting) {
-                Position = Vector3.Lerp(Position, target.transform.position.SetZ(Position.z), Time.deltaTime);
+            } else if (state == CameraState.Resetting || state == CameraState.Panning) {
+                Position = Vector3.Lerp(Position, targetPos, Time.deltaTime);
+
+                if (Vector3.Distance(Position, targetPos) < 0.05f) {
+                    Position = targetPos;
+                    if (state == CameraState.Panning) {
+                        Cutscene.Instance.NextElement();
+                    }
+                    state = CameraState.Following;
+                }
             }
         }
     }
@@ -87,6 +97,22 @@ public class CameraManager : Manager
         set {
             Camera.main.transform.position = value;
         }
+    }
+
+    public void Pan(GameObject tar) {
+        targetPos = tar.transform.position.SetZ(Position.z);
+        state = CameraState.Panning;
+    }
+
+    public void Pan(Vector2 tar) {
+        targetPos = Position + (Vector3)tar;
+        state = CameraState.Panning;
+    }
+
+    public void PanTo(Vector2 tar) {
+        targetPos = new Vector3(tar.x, tar.y, Position.z);
+        state = CameraState.Panning;
+
     }
 }
 

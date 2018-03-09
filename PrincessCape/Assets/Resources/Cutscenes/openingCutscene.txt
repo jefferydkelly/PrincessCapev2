@@ -1,0 +1,14 @@
+character Elwynn Sprites/Elwynn
+pan to Player
+disable Player
+align right
+show Elwynn -1 1.5
+Elwynn: Kidnapped by another dragon?
+move-x Elwynn -3 1.5
+Elwynn: How many times does that make it this year?
+flip-x Elwynn
+move-x Elwynn 0 1.5
+Elwynn: No matter.  I'm sure Father will send some brave knights to rescue me.
+hide Elwynn
+enable Player -1 1.25
+wait 2

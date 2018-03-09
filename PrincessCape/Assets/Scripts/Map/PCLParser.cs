@@ -36,8 +36,9 @@ public class PCLParser {
         return (T)(System.Enum.Parse(typeof(T), enu));
     }
     public static Vector3 ParseVector3(string pcl) {
-     
-        string firstSub = pcl.Split('(')[1];
+
+        string line = ParseLine(pcl);
+        string firstSub = line.Split('(')[1];
         firstSub = firstSub.Split(')')[0];
         string[] xyz = firstSub.Split(',');
         return new Vector3(float.Parse(xyz[0].Trim()), float.Parse(xyz[1].Trim()), float.Parse(xyz[2].Trim()));

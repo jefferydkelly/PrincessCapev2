@@ -12,10 +12,10 @@ public class Game : MonoBehaviour {
     List<Manager> managers;
     List<Manager> toAdd;
     Player player;
-    bool paused = false;
     Map map;
     string levelToLoad = "levelOne.json";
     string lastScene = "Test";
+    GameState state = GameState.Menu;
 	// Use this for initialization
 	void Awake () {
         if (!instance || instance == this)
@@ -25,13 +25,14 @@ public class Game : MonoBehaviour {
             instance = this;
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
-            EventManager.StartListening("Pause", () => { paused = true; });
-            EventManager.StartListening("Unpause", () => { paused = false; });
+            EventManager.StartListening("Pause", () => { IsPaused = true; });
+            EventManager.StartListening("Unpause", () => { IsPaused = false; });
 
             if (canvas)
             {
                 canvas.SetActive(true);
             }
+
         } else {
             Destroy(gameObject);
         }
@@ -110,7 +111,7 @@ public class Game : MonoBehaviour {
        
     }
 
-    void AddItems() {
+    public void AddItems() {
 		for (int i = (int)player.Items + 1; i <= (int)map.Items; i++)
 		{
 			string itemName = ((ItemLevel)(i)).ToString();
@@ -173,7 +174,36 @@ public class Game : MonoBehaviour {
     /// <value><c>true</c> if is paused; otherwise, <c>false</c>.</value>
     public bool IsPaused {
         get {
-            return paused;
+            return state == GameState.Paused;
+        }
+
+        set {
+            if (value && state == GameState.Playing) {
+                state = GameState.Paused;
+            } else if (!value && state == GameState.Paused) {
+                state = GameState.Playing;
+            }
         }
     }
+
+    public bool IsInCutscene {
+        get {
+            return state == GameState.Cutscene;
+        }
+    }
+
+    public void StartCutscene() {
+        
+    }
+
+    void EndCutscene() {
+        state = GameState.Playing;
+    }
+}
+
+public enum GameState {
+    Menu,
+    Playing,
+    Paused,
+    Cutscene
 }

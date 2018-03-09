@@ -17,6 +17,9 @@ public class MessageBox : MonoBehaviour {
         EventManager.StartListening("ShowDialog", DisplayMessage);
         EventManager.StartListening("ShowMessage", DisplayMessage);
         EventManager.StartListening("ShowLine", DisplayLine);
+        EventManager.StartListening("AlignLeft", ()=>{
+            
+        });
         text = GetComponentInChildren<Text>();
     }
 
@@ -24,6 +27,7 @@ public class MessageBox : MonoBehaviour {
         if (!gameObject.activeSelf)
         {
             EventManager.StartListening("HideItemMenu", Hide);
+			EventManager.StartListening("EndCutscene", Hide);
             gameObject.SetActive(true);
         }
         text.text = message[0];
@@ -32,6 +36,7 @@ public class MessageBox : MonoBehaviour {
     void Hide() {
         EventManager.StopListening("HideItemMenu", Hide);
         EventManager.StopListening("HideMessage", Hide);
+        EventManager.StopListening("EndCutscene", Hide);
         gameObject.SetActive(false);
     }
     void DisplayMessage() {
@@ -39,6 +44,7 @@ public class MessageBox : MonoBehaviour {
         {
             gameObject.SetActive(true);
             EventManager.StartListening("HideMessage", Hide);
+			EventManager.StartListening("EndCutscene", Hide);
         }
         curLine = 0;
         StartReveal();
