@@ -564,7 +564,11 @@ public class CutsceneAlign : CutsceneElement
 
 	public override void Run()
 	{
-		//UIManager.Instance.LeftAligned = left;
+        if (left) {
+            EventManager.TriggerEvent("AlignLeft");
+        } else {
+            EventManager.TriggerEvent("AlignRight");
+        }
 	}
 }
 

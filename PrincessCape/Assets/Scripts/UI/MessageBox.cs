@@ -18,7 +18,11 @@ public class MessageBox : MonoBehaviour {
         EventManager.StartListening("ShowMessage", DisplayMessage);
         EventManager.StartListening("ShowLine", DisplayLine);
         EventManager.StartListening("AlignLeft", ()=>{
-            
+            text.alignment = TextAnchor.UpperLeft;
+        });
+
+        EventManager.StartListening("AlignRight", () => {
+            text.alignment = TextAnchor.UpperRight;
         });
         text = GetComponentInChildren<Text>();
     }
@@ -31,6 +35,7 @@ public class MessageBox : MonoBehaviour {
             gameObject.SetActive(true);
         }
         text.text = message[0];
+        curLine = 0;
     }
 
     void Hide() {

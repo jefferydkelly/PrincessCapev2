@@ -16,6 +16,6 @@ public class CutsceneTrigger : MapTile{
 
     public override void Init()
     {
-        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = !Application.isPlaying;
     }
 }

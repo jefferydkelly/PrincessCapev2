@@ -3,6 +3,7 @@ pan to Player
 disable Player
 align right
 show Elwynn -1 1.5
+align right
 Elwynn: Kidnapped by another dragon?
 move-x Elwynn -3 1.5
 Elwynn: How many times does that make it this year?
