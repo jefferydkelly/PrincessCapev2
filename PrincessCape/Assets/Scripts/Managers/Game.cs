@@ -43,6 +43,10 @@ public class Game : MonoBehaviour {
             Destroy(gameObject);
         }
 
+        if (SceneManager.GetActiveScene().name == "Test") {
+            state = GameState.Playing;
+        }
+
     }
 
     public void StartGame()
@@ -111,6 +115,7 @@ public class Game : MonoBehaviour {
         }
         else
         {
+            state = GameState.Playing;
             SceneManager.LoadScene(sceneName);
         }
 

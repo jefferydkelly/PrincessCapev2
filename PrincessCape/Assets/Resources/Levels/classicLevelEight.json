@@ -1,10 +1,10 @@
 {
-"MapName": "Classic Level Eight",
+"MapName": "Class Level Eight",
 "Items": "PullGauntlet",
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "0",
+"ID": "49",
 "Position": "(1.5, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(18.0, 1.0, 1.0)",
@@ -27,7 +27,7 @@
 {
 "Name": "Remains",
 "ID": "3",
-"Position": "(1.0, 0.0, 0.0)",
+"Position": "(1.0, 0.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Knight": "Sir Travis",
@@ -72,7 +72,7 @@
 {
 "Name": "Ladder",
 "ID": "8",
-"Position": "(6.0, 5.0, 0.0)",
+"Position": "(6.0, 5.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
@@ -95,7 +95,7 @@
 {
 "Name": "Ladder",
 "ID": "11",
-"Position": "(13.0, 5.0, 0.0)",
+"Position": "(13.0, 5.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -150,7 +150,7 @@
 {
 "Name": "Ladder",
 "ID": "18",
-"Position": "(27.0, 6.0, 0.0)",
+"Position": "(27.0, 6.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",

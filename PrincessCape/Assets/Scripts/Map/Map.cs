@@ -17,8 +17,7 @@ public class Map : MonoBehaviour
     Dictionary<string, GameObject> prefabs;
     public void Awake()
     {
-		
-		tiles = GetComponentsInChildren<MapTile>().ToList();
+        tiles = GetComponentsInChildren<MapTile>().ToList();
         Init();
         ClearHighlights();
     }
@@ -77,6 +76,7 @@ public class Map : MonoBehaviour
     }
     public void ClearHighlights()
     {
+       
         foreach (MapTile tile in tiles)
         {
             tile.HighlightState = MapHighlightState.Normal;
