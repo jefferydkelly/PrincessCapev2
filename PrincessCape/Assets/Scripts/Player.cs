@@ -14,6 +14,7 @@ public class Player : MonoBehaviour {
 
     bool onLadder = false;
     bool aboveLadder = false;
+    Ladder theLadder;
     PlayerState state = PlayerState.Normal;
 
     Vector2 storedVelocity;
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour {
 				else if (aboveLadder && Controller.Instance.Vertical < 0) {
                     myRigidbody.gravityScale = 0;
                     myRigidbody.velocity = myRigidbody.velocity.SetX(0);
-
+                    transform.position = transform.position.SetX(theLadder.transform.position.x);
                     transform.position += Vector3.down * 0.5f;
                 }
 
@@ -204,6 +205,7 @@ public class Player : MonoBehaviour {
 		if (collision.collider.CompareTag("Ladder Top"))
 		{
 			aboveLadder = true;
+            theLadder = collision.gameObject.GetComponentInParent<Ladder>();
         } else if (collision.collider.CompareTag("Projectile")) {
             Projectile projectile = collision.gameObject.GetComponent<Projectile>();
             if (IsUsingShield) {
@@ -231,6 +233,7 @@ public class Player : MonoBehaviour {
             if (collision.CompareTag("Ladder"))
             {
                 onLadder = true;
+                theLadder = collision.GetComponent<Ladder>();
             }
         }
     }
