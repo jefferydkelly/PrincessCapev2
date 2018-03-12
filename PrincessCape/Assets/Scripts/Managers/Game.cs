@@ -67,6 +67,7 @@ public class Game : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+      
         foreach(Manager m in toAdd) {
             managers.Add(m);
         }
@@ -133,9 +134,11 @@ public class Game : MonoBehaviour {
     }
 
     public void AddItems() {
+
 		for (int i = (int)player.Items + 1; i <= (int)map.Items; i++)
 		{
 			string itemName = ((ItemLevel)(i)).ToString();
+
 			player.AddItem(ScriptableObject.CreateInstance(itemName) as MagicItem);
 		}
     }

@@ -186,7 +186,7 @@ public class Controller:Manager {
 			{
 				EventManager.TriggerEvent("ShowItemMenu");
 			}
-			else
+            else
 			{
 				EventManager.TriggerEvent("HideItemMenu");
 			}

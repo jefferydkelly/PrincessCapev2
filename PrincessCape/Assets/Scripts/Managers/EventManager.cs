@@ -55,7 +55,7 @@ public class EventManager
 	{
 		UnityEvent thisEvent = null;
 
-        if (instance == null) {
+        if (Game.isClosing) {
             return;
         }
 		if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
@@ -77,14 +77,14 @@ public class EventManager
     /// <param name="listener">The action to be removed.</param>
 	public static void StopListening(string eventName, UnityAction listener)
 	{
-		if (instance == null)
+        if (Game.isClosing)
 		{
 			return;
 		}
 
 		UnityEvent thisEvent = null;
 
-		if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
+		if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
 		{
 			thisEvent.RemoveListener(listener);
 		}
@@ -98,10 +98,11 @@ public class EventManager
 	{
 		UnityEvent thisEvent = null;
 
-        if (instance == null) {
-            return;
-        }
-		if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
+		if (Game.isClosing)
+		{
+			return;
+		}
+		if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
 		{
 			thisEvent.Invoke();
 		}
