@@ -14,7 +14,7 @@ public class Game : MonoBehaviour {
     List<Manager> toAdd;
     Player player;
     Map map;
-    string levelToLoad = "levelOne.json";
+    string levelToLoad = "classicLevelOne.json";
     string lastScene = "Test";
     GameState state = GameState.Menu;
 	// Use this for initialization
@@ -62,7 +62,7 @@ public class Game : MonoBehaviour {
     public void StartGame()
     {
         SceneManager.LoadScene("Test");
-        levelToLoad = "levelOne.json";
+        levelToLoad = "classicLevelOne.json";
     }
 
     // Update is called once per frame

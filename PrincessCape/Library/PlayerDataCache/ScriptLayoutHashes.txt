@@ -187,6 +187,7 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MagicCape
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CutsceneActor
 bd2237995ff789ee97230b4df90c9205 Assembly-CSharp.dll:.KnightRemains
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.AimArrow
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ItemMenu
 a36bf14675bf2d4952cdf2deebcbf0f3 Assembly-CSharp.dll:.ControlsMenu
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PushGauntlet
