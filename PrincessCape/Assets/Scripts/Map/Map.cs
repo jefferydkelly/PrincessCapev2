@@ -2,24 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System.IO;
 
-[ExecuteInEditMode]
+
 public class Map : MonoBehaviour
 {
     [SerializeField]
-    string levelName = "Level";
+    string levelName;
     [SerializeField]
-    string fileName = "level.json";
+    string fileName;
     [SerializeField]
     ItemLevel items = ItemLevel.None;
     List<MapTile> tiles;
     Dictionary<string, GameObject> prefabs;
     public void Awake()
     {
-        tiles = GetComponentsInChildren<MapTile>().ToList();
         Init();
-        ClearHighlights();
     }
 
     void LoadPrefabs() {
@@ -210,7 +207,6 @@ public class Map : MonoBehaviour
 
             fileName = file.Split('/').Last();
             string scenePath = "Levels/" + fileName.Substring(0, fileName.Length - 5);
-
             TextAsset text = Resources.Load<TextAsset>(scenePath);
 
             if (text)
@@ -244,6 +240,7 @@ public class Map : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// Gets the name of the level.
     /// </summary>
@@ -271,9 +268,16 @@ public class Map : MonoBehaviour
     }
 
     public void Init() {
-        foreach(MapTile mt in tiles) {
+
+        transform.position = Vector3.zero;
+        tiles = GetComponentsInChildren<MapTile>().ToList();
+		foreach(MapTile mt in tiles) {
             mt.Init();
         }
+
+        ClearHighlights();
+
+        AssignIDs();
     }
 }
 

@@ -42,11 +42,17 @@ public class TimerManager: Manager
     /// <value>The instance.</value>
     public static TimerManager Instance {
         get {
-            if (instance == null) {
-                instance = new TimerManager();
-                Game.Instance.AddManager(instance);
+            if (!Game.isClosing)
+            {
+                if (instance == null)
+                {
+                    instance = new TimerManager();
+                    Game.Instance.AddManager(instance);
+                }
+                return instance;
             }
-            return instance;
+
+            return null;
         }
     }
 

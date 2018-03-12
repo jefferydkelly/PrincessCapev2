@@ -78,10 +78,16 @@ public class CameraManager : Manager
     /// <value>The instance.</value>
     public static CameraManager Instance {
         get {
-            if (instance == null) {
-                instance = new CameraManager();
+            if (!Game.isClosing)
+            {
+                if (instance == null)
+                {
+                    instance = new CameraManager();
+                }
+                return instance;
             }
-            return instance;
+
+            return null;
         }
     }
 

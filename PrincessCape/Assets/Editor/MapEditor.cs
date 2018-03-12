@@ -14,6 +14,7 @@ public class MapEditor : Editor {
 
 	Vector3 spawnPosition = Vector3.zero;
     Map map;
+    SerializedObject serialMap;
 
     string[] tools = { "Translate (Z)", "Rotate (X)", "Scale (C)", "Flip (V)", "Align (B)" };
     MapEditMode mode = MapEditMode.Translate;
@@ -35,8 +36,8 @@ public class MapEditor : Editor {
             prefabs.Add(go.name, go);
         }
 
-        map.ClearHighlights();
-        map.AssignIDs();
+        map.Init();
+        serialMap = new SerializedObject(map);
 	}
 
 	/// <summary>
@@ -59,6 +60,7 @@ public class MapEditor : Editor {
 	/// </summary>
 	private void OnDestroy()
 	{
+        
 		if (SelectedMapTile)
 		{
 			SelectedMapTile.HighlightState = MapHighlightState.Normal;
@@ -553,28 +555,14 @@ public class MapEditor : Editor {
         string path = EditorUtility.OpenFilePanel("Open A Level File", "Assets/Resources/Levels", "json");
         if (path.Length > 0)
         {
-            //string json = File.ReadAllText(path);
+            
             map.Load(path);
-            /*
-            if (json.Length > 0) {
-                List<TileStruct> newTiles = map.LoadFromFile(json);
-
-                if (newTiles.Count > 0) {
-                    while(map.NumberOfTiles > 0) {
-                        map.RemoveTile(map.GetTile(0));
-                    }
-
-                    foreach(TileStruct t in newTiles) {
-                        MapTile tile = Instantiate(prefabs[t.name]).GetComponent<MapTile>();
-                        tile.FromData(t);
-                        map.AddTile(tile);
-                    }
-
-                    foreach(ActivatorObject ao in map.GetComponentsInChildren<ActivatorObject>()) {
-                        ao.Reconnect();
-                    }
-                }
-            }*/
+           
+			serialMap.FindProperty("levelName").stringValue = map.LevelName;
+			serialMap.FindProperty("fileName").stringValue = map.FileName;
+            serialMap.FindProperty("items").enumValueIndex = (int)map.Items;
+            serialMap.ApplyModifiedProperties();
+            serialMap.Update();
         }
     }
 

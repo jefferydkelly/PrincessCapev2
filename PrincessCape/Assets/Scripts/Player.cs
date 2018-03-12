@@ -69,10 +69,16 @@ public class Player : MonoBehaviour {
         }
     }
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
+
         platformLayers = ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("Hazard"));
-        CameraManager.Instance.Target = gameObject;
-	}
+        if (CameraManager.Instance != null)
+        {
+            CameraManager.Instance.Target = gameObject;
+        }
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

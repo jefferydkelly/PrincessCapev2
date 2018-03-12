@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class Game : MonoBehaviour {
 
-    static Game instance;
+    public static bool isClosing = false;
+    static Game instance = null;
 
     [SerializeField]
     GameObject canvas;
@@ -18,8 +19,10 @@ public class Game : MonoBehaviour {
     GameState state = GameState.Menu;
 	// Use this for initialization
 	void Awake () {
+        
         if (!instance || instance == this)
         {
+            isClosing = false;
             managers = new List<Manager>();
             toAdd = new List<Manager>();
             instance = this;
@@ -39,14 +42,21 @@ public class Game : MonoBehaviour {
                 canvas.SetActive(true);
             }
 
+			if (SceneManager.GetActiveScene().name == "Test")
+			{
+				state = GameState.Playing;
+			}
+
         } else {
             Destroy(gameObject);
         }
+    }
 
-        if (SceneManager.GetActiveScene().name == "Test") {
-            state = GameState.Playing;
-        }
-
+    private void OnApplicationQuit()
+    {
+        EventManager.Instance.Clear();
+        isClosing = true;
+        instance = null;
     }
 
     public void StartGame()
@@ -136,12 +146,18 @@ public class Game : MonoBehaviour {
     /// <value>The instance.</value>
     public static Game Instance {
         get {
-            if (!instance) {
-				GameObject go = new GameObject("GameManager");
-				instance = go.AddComponent<Game>();
-               
+            if (!isClosing)
+            {
+                if (!instance)
+                {
+                    GameObject go = new GameObject("GameManager");
+                    instance = go.AddComponent<Game>();
+
+                }
+                return instance;
             }
-            return instance;
+
+            return null;
         }
     }
 

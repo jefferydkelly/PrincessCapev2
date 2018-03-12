@@ -41,11 +41,17 @@ public class Controller:Manager {
     /// <value>The instance.</value>
     public static Controller Instance {
         get {
-            if (instance == null) {
-                instance = new Controller();
-                Game.Instance.AddManager(instance);
+            if (!Game.isClosing)
+            {
+                if (instance == null)
+                {
+                    instance = new Controller();
+                    Game.Instance.AddManager(instance);
+                }
+                return instance;
             }
-            return instance;
+
+            return null;
         }
     }
 

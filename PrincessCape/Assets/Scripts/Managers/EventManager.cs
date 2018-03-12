@@ -16,11 +16,16 @@ public class EventManager
 	{
 		get
 		{
-			if (instance == null)
-			{
-				instance = new EventManager();
-			}
-			return instance;
+            if (!Game.isClosing)
+            {
+                if (instance == null)
+                {
+                    instance = new EventManager();
+                }
+                return instance;
+            }
+
+            return null;
 		}
 	}
 
@@ -36,6 +41,11 @@ public class EventManager
 		}
 	}
 
+    public void Clear() {
+        eventDictionary.Clear();
+        instance = null;
+    }
+
     /// <summary>
     /// Starts adds a listener to the event if there is one or creates an event if there is none.
     /// </summary>
@@ -45,6 +55,9 @@ public class EventManager
 	{
 		UnityEvent thisEvent = null;
 
+        if (instance == null) {
+            return;
+        }
 		if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
 		{
 			thisEvent.AddListener(listener);
@@ -85,6 +98,9 @@ public class EventManager
 	{
 		UnityEvent thisEvent = null;
 
+        if (instance == null) {
+            return;
+        }
 		if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
 		{
 			thisEvent.Invoke();

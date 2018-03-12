@@ -19,8 +19,11 @@ public class Bridge : ActivatedObject
 
     public override void Init()
     {
-		revealTimer = new Timer(revealTime, transform.childCount - 1);
-		revealTimer.OnTick.AddListener(RevealTile);
+        if (Application.isPlaying)
+        {
+            revealTimer = new Timer(revealTime, transform.childCount - 1);
+            revealTimer.OnTick.AddListener(RevealTile);
+        }
 		if (!startActive)
 		{
 			Deactivate();
@@ -40,7 +43,10 @@ public class Bridge : ActivatedObject
 
     public override void Deactivate()
     {
-        revealTimer.Stop();
+        if (Application.isPlaying)
+        {
+            revealTimer.Stop();
+        }
         for (int i = 0; i < transform.childCount; i++)
         {
             transform.GetChild(i).gameObject.SetActive(false);
