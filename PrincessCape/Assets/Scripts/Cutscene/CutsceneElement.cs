@@ -265,7 +265,7 @@ public class CutsceneMovement : CutsceneElement
 		{
 			if (moveType == MoveTypes.Rotate)
 			{
-				myActor.StartRotation(ang, time);
+                myActor.Rotate(ang, time);
 			}
 			else
 			{
@@ -310,29 +310,13 @@ public class CutsceneEffect : CutsceneElement
 
 	public override void Run()
 	{
-        Cutscene cutscene = Cutscene.Instance;
-		CutsceneActor myActor = cutscene.FindActor(affected);
+        CutsceneActor myActor = Cutscene.Instance.FindActor(affected);
 
 		if (type == EffectType.Show)
 		{
-
-			if (myActor == null)
+            if (myActor)
 			{
-				CutsceneCharacter myCharacter = cutscene.FindCharacter(affected);
-				if (myCharacter.characterName == affected)
-				{
-					GameObject go = new GameObject(myCharacter.characterName);
-					go.AddComponent<SpriteRenderer>();
-					myActor = go.AddComponent<CutsceneActor>();
-					myActor.MyInfo = myCharacter;
-					myActor.parentCutscene = cutscene;
-					cutscene.AddActorToStage(myActor);
-					//myActor.transform.parent;// = UIManager.Instance.transform;
-				}
-			}
-			if (myActor && myActor.IsHidden)
-			{
-
+                
 				Vector3 aPosition = new Vector3(x, y);
 
 				myActor.Position = aPosition;
@@ -342,8 +326,6 @@ public class CutsceneEffect : CutsceneElement
 		}
 		else if (type == EffectType.Hide)
 		{
-			myActor = cutscene.FindActor(affected);
-
 			if (myActor && !myActor.IsHidden)
 			{
 				myActor.IsHidden = true;
@@ -393,19 +375,19 @@ public class CutsceneScale : CutsceneElement
         CutsceneActor actor = Cutscene.Instance.FindActor(actorName);
 		if (type == ScaleType.All)
 		{
-			actor.StartScale(scale, time);
+			actor.Scale(scale, time);
 		}
 		else if (type == ScaleType.X)
 		{
-			actor.StartScaleX(scale, time);
+			actor.ScaleX(scale, time);
 		}
 		else if (type == ScaleType.Y)
 		{
-			actor.StartScaleY(scale, time);
+			actor.ScaleY(scale, time);
 		}
 		else if (type == ScaleType.Ind)
 		{
-			actor.StartScaleXY(new Vector3(scale, scale2, 1), time);
+			actor.ScaleXY(new Vector3(scale, scale2, 1), time);
 		}
 	}
 }
@@ -428,7 +410,7 @@ public class CutsceneFade : CutsceneElement
         CutsceneActor actor = Cutscene.Instance.FindActor(actorName);
 		if (actor)
 		{
-			actor.StartCoroutine(actor.Fade(alpha, time));
+			actor.Fade(alpha, time);
 		}
 	}
 }
@@ -623,7 +605,7 @@ public class CutsceneSpriteChange : CutsceneElement
 
 		if (ca)
 		{
-            ca.SpriteIndex = newSprite;
+            //ca.SpriteIndex = newSprite;
 		}
 	}
 }

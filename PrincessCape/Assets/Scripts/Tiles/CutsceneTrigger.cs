@@ -30,7 +30,6 @@ public class CutsceneTrigger : MapTile{
     {
         base.FromData(tile);
         string sceneName = PCLParser.ParseLine(tile.NextLine);
-        Debug.Log(sceneName);
         cutscene = Resources.Load<TextAsset>("Cutscenes/" + sceneName);
     }
 }

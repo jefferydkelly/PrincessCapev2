@@ -236,6 +236,21 @@ public class Timer
             return timesRun;
         }
     }
+
+    /// <summary>
+    /// Gets the total ticks.
+    /// </summary>
+    /// <value>The total ticks.</value>
+    public int TotalTicks {
+        get {
+            return numRepeats;
+        }
+    }
+    public float RunPercent {
+        get {
+            return (float)timesRun / numRepeats;
+        }
+    }
 }
 
 /// <summary>

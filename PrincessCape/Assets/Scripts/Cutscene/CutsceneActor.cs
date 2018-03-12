@@ -5,271 +5,208 @@ using System.Collections.Generic;
 public class CutsceneActor : MonoBehaviour
 {
 	private SpriteRenderer mySpriteRenderer;
-    Sprite[] sprites;
-	private CutsceneCharacter myInfo;
 	bool isHidden = true;
-	public Cutscene parentCutscene;
+    string characterName = "Character";
 
 	// Use this for initialization
-	void Awake()
+    public void Init() {
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
+        IsHidden = true;
+    }
+
+    Timer CreateTimer(float time) {
+		int totalTicks = Mathf.FloorToInt(time / 0.03f);
+		Timer timer = new Timer(0.03f, totalTicks);
+        timer.OnComplete.AddListener(Cutscene.Instance.NextElement);
+        return timer;
+    }
+	
+	public void FadeIn(float time)
 	{
-		mySpriteRenderer = GetComponent<SpriteRenderer>();
+        Timer fadeTimer = CreateTimer(time);
+        fadeTimer.OnTick.AddListener(()=> {
+            mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(fadeTimer.RunPercent);
+        });
+
+        fadeTimer.OnComplete.AddListener(() => {
+            isHidden = false;
+        });
+
+        fadeTimer.Start();
 	}
 
-	public CutsceneCharacter MyInfo
+	public void FadeOut(float time)
 	{
-		get
-		{
-			return myInfo;
-		}
 
-		set
-		{
-			myInfo = value;
-            sprites = Resources.LoadAll<Sprite>(myInfo.sprite);
-            mySpriteRenderer.sprite = sprites[0];
-		}
+		Timer fadeTimer = CreateTimer(time);
+		fadeTimer.OnTick.AddListener(() => {
+			mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(1 - fadeTimer.RunPercent);
+		});
+
+		fadeTimer.OnComplete.AddListener(() => {
+			isHidden = true;
+		});
+
+        fadeTimer.Start();
 	}
 
-	public void StartFadeIn(float time)
+	public void Fade(float fa, float time)
 	{
-		StartCoroutine(FadeIn(time));
-	}
-
-	public IEnumerator FadeIn(float time)
-	{
-		float curTime = 0;
-		Color col = mySpriteRenderer.color;
-		col.a = 0;
-		mySpriteRenderer.color = col;
-		do
-		{
-			curTime += Time.deltaTime;
-			col.a = curTime / time;
-			mySpriteRenderer.color = col;
-			yield return null;
-		} while (curTime < time);
-		isHidden = false;
-		parentCutscene.NextElement();
-		yield return null;
-	}
-
-	public void StartFadeOut(float time)
-	{
-		StartCoroutine(FadeOut(time));
-	}
-
-	public IEnumerator FadeOut(float time)
-	{
-		float curTime = 0;
-		Color col = mySpriteRenderer.color;
-		col.a = 1;
-		mySpriteRenderer.color = col;
-		do
-		{
-			curTime += Time.deltaTime;
-			col.a = 1 - (curTime / time);
-			mySpriteRenderer.color = col;
-			yield return null;
-		} while (curTime < time);
-		isHidden = true;
-		parentCutscene.NextElement();
-		yield return null;
-	}
-
-	public void StartFade(float finalAlpha, float fadeTime)
-	{
-
-	}
-
-	public IEnumerator Fade(float fa, float time)
-	{
+        Timer fadeTimer = CreateTimer(time);
 		Color col = mySpriteRenderer.color;
 		float startAlpha = col.a;
 		float alphaDelta = fa - col.a;
-		float curTime = 0.0f;
+        fadeTimer.OnTick.AddListener(()=> {
+            mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(startAlpha + alphaDelta * fadeTimer.RunPercent);
+        });
 
-		do
-		{
-			curTime += Time.deltaTime;
-			col.a = startAlpha + alphaDelta * curTime / time;
-			mySpriteRenderer.color = col;
-			yield return null;
-		} while (curTime < time);
+        fadeTimer.OnComplete.AddListener(()=> {
+            mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(fa);
+            isHidden = (mySpriteRenderer.color.a < float.Epsilon);
+        });
 
-		col.a = fa;
-		mySpriteRenderer.color = col;
-        isHidden = (col.a < float.Epsilon);
-		parentCutscene.NextElement();
-		yield return null;
-
+        fadeTimer.Start();
 	}
 
 	public void MoveTo(Vector2 p, float time)
 	{
-		Vector2 dif = p - (Vector2)(transform.position);
-		StartCoroutine(MoveBy(dif, time));
+        Vector3 startPosition = transform.position;
+        Vector3 endPosition = new Vector3(p.x, p.y, transform.position.z);
+        Vector3 dif = endPosition - startPosition;
+
+        Timer moveTimer = CreateTimer(time);
+        moveTimer.OnTick.AddListener(() => {
+            transform.position = startPosition + dif * moveTimer.RunPercent;
+        });
+
+        moveTimer.OnComplete.AddListener(()=> {
+            transform.position = endPosition;
+        });
+
+        moveTimer.Start();
 	}
 
-	public IEnumerator MoveBy(Vector2 p, float time)
+	public void MoveBy(Vector2 p, float time)
 	{
-		Vector2 startPosition = transform.position;
-		if (time > 0)
-		{
-			float curTime = 0;
+		Vector3 startPosition = transform.position;
+        Vector3 dif = new Vector3(p.x, p.y, 0);
 
-			do
-			{
-				curTime += Time.deltaTime;
-				transform.position = startPosition + (p * curTime / time);
-				yield return null;
-			} while (curTime < time);
+        Timer moveTimer = CreateTimer(time);
+		moveTimer.OnTick.AddListener(() => {
+            transform.position = startPosition + dif * moveTimer.RunPercent;
+		});
 
-		}
-		transform.position = startPosition + p;
-		parentCutscene.NextElement();
-		yield return null;
+		moveTimer.OnComplete.AddListener(() => {
+            transform.position = startPosition + dif;
+		});
+
+        moveTimer.Start();
 	}
 
-	public void StartRotation(float ang, float time)
-	{
-		StartCoroutine(Rotate(ang, time));
-	}
-	public IEnumerator Rotate(float ang, float time)
-	{
-		float curRotation = 0;
-		if (time > 0)
-		{
+	public void Rotate(float ang, float time)
+    {
+        Timer rotateTimer = CreateTimer(time);
+        float curRotation = 0;
+        rotateTimer.OnTick.AddListener(()=> {
+            transform.Rotate(Vector3.forward, -curRotation);
+            curRotation = ang * rotateTimer.RunPercent;
+            transform.Rotate(Vector3.forward, curRotation);
+        });
 
-			float curTime = 0;
-			do
-			{
-				transform.Rotate(Vector3.forward, -curRotation);
-				curTime += Time.deltaTime;
-				curRotation = ang * curTime / time;
-				transform.Rotate(Vector3.forward, curRotation);
-				yield return null;
-			} while (curTime < time);
-		}
-		transform.Rotate(Vector3.forward, -curRotation);
-		transform.Rotate(Vector3.forward, ang);
-		parentCutscene.NextElement();
-		yield return null;
+        rotateTimer.OnComplete.AddListener(()=> {
+			transform.Rotate(Vector3.forward, -curRotation);
+			transform.Rotate(Vector3.forward, ang);
+        });
+		
+        rotateTimer.Start();
 	}
 
-	public void StartScale(float sc, float time)
+	public void Scale(float sc, float time)
 	{
-		StartCoroutine(Scale(sc, time));
-	}
-	public IEnumerator Scale(float sc, float time)
-	{
+        Timer scaleTimer = CreateTimer(time);
+
+        float startScale = transform.localScale.x;
 		float scaleDif = sc - transform.localScale.x;
-		float curScale = transform.localScale.x;
+		
+        scaleTimer.OnTick.AddListener(()=> {
+            float curScale = startScale + scaleDif * scaleTimer.RunPercent;
+			transform.localScale = new Vector3(curScale, curScale, 1);
+        });
+		
+        scaleTimer.OnComplete.AddListener(()=> {
+            transform.localScale = new Vector3(sc, sc, 1);
+        });
 
-
-		if (time > 0)
-		{
-			float curTime = 0;
-			do
-			{
-				curTime += Time.deltaTime;
-				curScale += scaleDif * Time.deltaTime / time;
-				transform.localScale = new Vector3(curScale, curScale, 1);
-				yield return null;
-			} while (curTime < time);
-		}
-		transform.localScale = new Vector3(sc, sc, 1);
-		parentCutscene.NextElement();
-		yield return null;
+        scaleTimer.Start();
 	}
 
-	public void StartScaleX(float sc, float time)
+	public void ScaleX(float sc, float time)
 	{
-		StartCoroutine(ScaleX(sc, time));
-	}
+		Timer scaleTimer = CreateTimer(time);
 
-	public IEnumerator ScaleX(float sc, float time)
-	{
+		float startScale = transform.localScale.x;
 		float scaleDif = sc - transform.localScale.x;
-		float curScale = transform.localScale.x;
+
+		scaleTimer.OnTick.AddListener(() => {
+            transform.localScale = transform.localScale.SetX(startScale + scaleDif * scaleTimer.RunPercent);
+		});
+
+		scaleTimer.OnComplete.AddListener(() => {
+            transform.localScale = transform.localScale.SetX(sc);
+		});
 
 
-		if (time > 0)
-		{
-			float curTime = 0;
-			do
-			{
-				curTime += Time.deltaTime;
-				curScale += scaleDif * Time.deltaTime / time;
-				transform.localScale = new Vector3(curScale, transform.localScale.y, 1);
-				yield return null;
-			} while (curTime < time);
-		}
-		transform.localScale = new Vector3(sc, transform.localScale.y, 1);
-		parentCutscene.NextElement();
-		yield return null;
+        scaleTimer.Start();
 	}
 
-	public void StartScaleY(float sc, float time)
+	public void ScaleY(float sc, float time)
 	{
-		StartCoroutine(ScaleY(sc, time));
+		Timer scaleTimer = CreateTimer(time);
+
+		float startScale = transform.localScale.y;
+		float scaleDif = sc - transform.localScale.y;
+
+		scaleTimer.OnTick.AddListener(() => {
+			transform.localScale = transform.localScale.SetY(startScale + scaleDif * scaleTimer.RunPercent);
+		});
+
+		scaleTimer.OnComplete.AddListener(() => {
+			transform.localScale = transform.localScale.SetY(sc);
+		});
+
+        scaleTimer.Start();
 	}
 
-	public IEnumerator ScaleY(float sc, float time)
-	{
-		float scaleDif = sc - transform.localScale.x;
-		float curScale = transform.localScale.x;
 
-
-		if (time > 0)
-		{
-			float curTime = 0;
-			do
-			{
-				curTime += Time.deltaTime;
-				curScale += scaleDif * Time.deltaTime / time;
-				transform.localScale = new Vector3(transform.localScale.x, curScale, 1);
-				yield return null;
-			} while (curTime < time);
-		}
-		transform.localScale = new Vector3(transform.localScale.x, sc, 1);
-		parentCutscene.NextElement();
-		yield return null;
-	}
-
-	public void StartScaleXY(Vector3 sc, float time)
-	{
-		StartCoroutine(ScaleXY(sc, time));
-	}
-
-	public IEnumerator ScaleXY(Vector3 sc, float time)
+	public void ScaleXY(Vector3 sc, float time)
 	{
 		Vector3 scaleDif = sc - transform.localScale;
 		scaleDif.z = 0;
 
-		if (time > 0)
-		{
-			float curTime = 0;
-			do
-			{
-				curTime += Time.deltaTime;
-				transform.localScale += scaleDif * Time.deltaTime / time;
-				yield return null;
-			} while (curTime < time);
-		}
+		Timer scaleTimer = CreateTimer(time);
 
-		transform.localScale = sc;
-		parentCutscene.NextElement();
-		yield return null;
+        Vector3 startScale = transform.localScale;
 
+		scaleTimer.OnTick.AddListener(() => {
+            transform.localScale = startScale + scaleDif * scaleTimer.RunPercent;
+		});
 
+		scaleTimer.OnComplete.AddListener(() => {
+            transform.localScale = sc;
+		});
+
+        scaleTimer.Start();
 	}
 	public string CharacterName
 	{
 		get
 		{
-			return myInfo.characterName;
+			return characterName;
 		}
+
+        set {
+            characterName = value;
+        }
 	}
 
 	public Sprite MySprite
@@ -284,14 +221,6 @@ public class CutsceneActor : MonoBehaviour
 			mySpriteRenderer.sprite = value;
 		}
 	}
-
-    public int SpriteIndex {
-        set {
-            if (value < sprites.Length && value > 0) {
-                mySpriteRenderer.sprite = sprites[value];
-            }
-        }
-    }
 
 	public Vector3 Position
 	{
@@ -326,9 +255,7 @@ public class CutsceneActor : MonoBehaviour
 		{
 			isHidden = value;
 
-			Color myColor = mySpriteRenderer.color;
-			myColor.a = value ? 0 : 1;
-			mySpriteRenderer.color = myColor;
+            mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(value ? 0 : 1);
 		}
 	}
 

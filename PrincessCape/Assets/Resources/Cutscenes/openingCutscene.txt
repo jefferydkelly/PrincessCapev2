@@ -1,6 +1,6 @@
-character SirMatthew Sprites/SirMatthew
-character Elwynn Sprites/Elwynn
-Character Slog Sprites/DragonHead
+character SirMatthew Matthew
+character Elwynn
+Character DragonHead Slog
 disable Remains(Clone)
 pan to Player
 disable Player
@@ -12,35 +12,35 @@ Elwynn: How many times does that make it this year?
 flip-x Elwynn
 move-x Elwynn -5 1.5
 Elwynn: No matter.  I'm sure Father will send some brave knights to rescue me.
-show SirMatthew -22 1.5
-pan to SirMatthew
-move SirMatthew -21.25 0.5 0.5
+show Matthew -22 1.5
+pan to Matthew
+move Matthew -21.25 0.5 0.5
 align left
-swap-sprite SirMatthew 2
+swap-sprite Matthew 2
 Sir Matthew: Princess Elwynn, I'm here to save you from that dragon.
 flip-x Elwynn
-move-x SirMatthew -12 1
+move-x Matthew -12 1
 pan 2.5 0
 show Slog -2 5.5 0
 Slog: Raaaaaaaaaaaaaaaw!
 Sir Matthew: There you are!
 Sir Matthew: Have at me, foul beast!
 wait 1
-swap-sprite SirMatthew 1
+swap-sprite Matthew 1
 wait 1
 hide Slog
 Sir Matthew: Help!  I'm on fire!
-move-x SirMatthew -14 2.0
-flip-x SirMatthew
+move-x Matthew -14 1.0
+flip-x Matthew
 Sir Matthew: Hot!
-move-x SirMatthew -7 2.0
-flip-x SirMatthew
-move-x SirMatthew -10 1
-move-x SirMatthew -12 0.25
-rotate SirMatthew -90 0.25
-move SirMatthew -12 0.25 0.25
+move-x Matthew -7 1.0
+flip-x Matthew
+move-x Matthew -10 1
+move-x Matthew -12 0.25
+rotate Matthew -90 0.25
+move Matthew -12 0.25 0.25
 Sir Matthew: I'm....so...sorry!
-fade-out SirMatthew 0.5
+fade-out Matthew 0.5
 enable Remains(Clone)
 flip-x Elwynn
 Elwynn: What do I do now?

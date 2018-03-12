@@ -5,9 +5,9 @@ using System.IO;
 public class Cutscene
 {
 	List<CutsceneElement> elements = new List<CutsceneElement>();
-	public List<CutsceneCharacter> characters = new List<CutsceneCharacter>();
+    public List<CutsceneActor> characters = new List<CutsceneActor>();
 	private List<CutsceneActor> charactersOnStage;
-	public GameObject characterPrefab;
+	
 	CutsceneElement head = null;
 	CutsceneElement currentNode = null;
 	bool isBeingSkipped = false;
@@ -321,11 +321,13 @@ public class Cutscene
 	/// <param name="charName">The name of the character and the sprite.</param>
 	public void CreateCharacter(string charName)
 	{
-		Sprite s = Resources.Load<Sprite>(charName);
-		if (s)
+        GameObject character = Resources.Load<GameObject>("Characters/" + charName);
+        if (character)
 		{
-            CutsceneCharacter cc = new CutsceneCharacter(charName, "Sprites/" + charName);
-			characters.Add(cc);
+			CutsceneActor actor = GameObject.Instantiate(character).GetComponent<CutsceneActor>();
+			actor.Init();
+            actor.CharacterName = charName;
+			characters.Add(actor);
 		}
 	}
 
@@ -336,11 +338,13 @@ public class Cutscene
 	/// <param name="spriteName">Sprite name.</param>
 	public void CreateCharacter(string charName, string spriteName)
 	{
-		Sprite s = Resources.Load<Sprite>(spriteName.Trim());
-		if (s)
+        GameObject character = Resources.Load<GameObject>("Characters/" + charName);
+		if (character)
 		{
-            CutsceneCharacter cc = new CutsceneCharacter(charName, spriteName);
-			characters.Add(cc);
+            CutsceneActor actor = GameObject.Instantiate(character).GetComponent<CutsceneActor>();
+            actor.Init();
+            actor.CharacterName = spriteName;
+            characters.Add(actor);
 		}
 	}
 
@@ -352,31 +356,14 @@ public class Cutscene
 
 	public CutsceneActor FindActor(string actorName)
 	{
-		foreach (CutsceneActor ca in charactersOnStage)
+		foreach (CutsceneActor ca in characters)
 		{
-			if (ca.CharacterName.Trim().Equals(actorName.Trim()))
+			if (ca.CharacterName.Trim() == actorName.Trim())
 			{
 				return ca;
 			}
 		}
 		return null;
-	}
-
-	/// <summary>
-	/// Finds the character with the given name.
-	/// </summary>
-	/// <returns>The character.</returns>
-	/// <param name="characterName">The Character's name.</param>
-	public CutsceneCharacter FindCharacter(string characterName)
-	{
-		foreach (CutsceneCharacter cc in characters)
-		{
-			if (cc.characterName == characterName)
-			{
-				return cc;
-			}
-		}
-		return new CutsceneCharacter();
 	}
 
 	/// <summary>
@@ -424,26 +411,5 @@ public class Cutscene
             return instance;
         }
     }
-}
-
-/// <summary>
-/// A struct for holding the information for CutsceneCharacters
-/// </summary>
-[System.Serializable]
-public struct CutsceneCharacter
-{
-	public string characterName;
-	public string sprite;
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="T:CutsceneCharacter"/> struct.
-	/// </summary>
-	/// <param name="name">The character's name.</param>
-    /// <param name="spriteName">The name of the sprite(s) for the character.</param>
-	public CutsceneCharacter(string name, string spriteName)
-	{
-		characterName = name;
-		sprite = spriteName;
-	}
 }
 
