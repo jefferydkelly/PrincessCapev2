@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System;
 
-public class Cutscene
+public class Cutscene:Manager
 {
-	List<CutsceneElement> elements = new List<CutsceneElement>();
-    public List<CutsceneActor> characters = new List<CutsceneActor>();
-	private List<CutsceneActor> charactersOnStage;
-	
-	CutsceneElement head = null;
-	CutsceneElement currentNode = null;
-	bool isBeingSkipped = false;
+	List<List<CutsceneElement>> elements = new List<List<CutsceneElement>>();
+	private List<CutsceneActor> characters;
 
+    int currentIndex = 0;
+    int currentCompleted = 0;
+	bool isBeingSkipped = false;
+   
     private static Cutscene instance;
 
     public Cutscene() {
-		charactersOnStage = new List<CutsceneActor>();
-		elements = new List<CutsceneElement>(); 
+		characters = new List<CutsceneActor>();
+        elements = new List<List<CutsceneElement>>();
+        Game.Instance.AddManager(this);
+        EventManager.StartListening("ElementCompleted", ElementCompleted);
     }
 
     public void Load(string cutscenePath) {
@@ -26,250 +29,301 @@ public class Cutscene
         }
     }
 
+    CutsceneElement Parse(string line) {
+        string[] parts = line.Split(' ');
+		string p = parts[0].ToLower();
+		if (p == "show")
+		{
+			return new CutsceneEffect(parts[1], EffectType.Show, float.Parse(parts[2]), float.Parse(parts[3]));
+		}
+		else if (p == "hide")
+		{
+			return new CutsceneEffect(parts[1], EffectType.Hide);
+		}
+		else if (p == "fade-in")
+		{
+			return new CutsceneFade(parts[1], 1.0f, float.Parse(parts[2]));
+		}
+		else if (p == "fade-out")
+		{
+			return new CutsceneFade(parts[1], 0.0f, float.Parse(parts[2]));
+		}
+		else if (p == "fade")
+		{
+			return new CutsceneFade(parts[1], float.Parse(parts[2]), float.Parse(parts[3]));
+		}
+		else if (p == "alpha")
+		{
+			return new CutsceneFade(parts[1], float.Parse(parts[2]), 0);
+		}
+		else if (p == "flip-x")
+		{
+			return new CutsceneEffect(parts[1], EffectType.FlipHorizontal);
+		}
+		else if (p == "flip-y")
+		{
+			return new CutsceneEffect(parts[1], EffectType.FlipVertical);
+		}
+		else if (p == "scale")
+		{
+			return new CutsceneScale(ScaleType.All, parts[1], float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
+		}
+		else if (p == "scalex")
+		{
+			return new CutsceneScale(ScaleType.X, parts[1], float.Parse(parts[2]), float.Parse(parts[3]));
+		}
+		else if (p == "scaley")
+		{
+			return new CutsceneScale(ScaleType.Y, parts[1], float.Parse(parts[2]), float.Parse(parts[3]));
+		}
+		else if (p == "scalexy")
+		{
+			return new CutsceneScale(parts[1], float.Parse(parts[2]), float.Parse(parts[3]), float.Parse(parts[4]));
+		}
+		else if (p == "rotate")
+		{
+			return new CutsceneMovement(parts[1], MoveTypes.Rotate, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
+		}
+		else if (p == "move")
+		{
+			return new CutsceneMovement(parts[1], MoveTypes.XY, float.Parse(parts[2]), float.Parse(parts[3]), parts.Length == 5 ? float.Parse(parts[4]) : 0);
+		}
+		else if (p == "move-x")
+		{
+			return new CutsceneMovement(parts[1], MoveTypes.X, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
+		}
+		else if (p == "move-y")
+		{
+            return new CutsceneMovement(parts[1], MoveTypes.Y, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
+		}
+		else if (p == "swap-sprite")
+		{
+			return new CutsceneSpriteChange(parts[1], int.Parse(parts[2]));
+		}
+		else if (p == "pan")
+		{
+			if (parts[1] == "to")
+			{
+				if (parts.Length >= 3)
+				{
+					GameObject go = GameObject.Find(parts[2]);
+                    float panTime = 1.0f;
+                    if (parts.Length == 4) {
+                        panTime = float.Parse(parts[3]);
+                    }
+					if (go)
+					{
+                        return new CameraPan(go.transform.position, panTime);
+					}
+					else
+					{
+                        return new CameraPan(parts[2], panTime);
+					}
+				}
+				else
+				{
+                    return new CameraPan(new Vector3(float.Parse(parts[2]), float.Parse(parts[3]), Camera.main.transform.position.z));
+				}
+			}
+			else
+			{
+				return new CameraPan(new Vector2(float.Parse(parts[1]), float.Parse(parts[2])));
+			}
+		}
+		else if (p == "wait")
+		{
+            return new CutsceneWait(float.Parse(parts[1]));
+		}
+		else if (p == "create")
+		{
+			return new CutsceneCreation(parts[1], parts[2], parts[3], parts[4]);
+		}
+		else if (p == "destroy")
+		{
+            return new CutsceneCreation(parts[1].Trim());
+		}
+		else if (p == "add")
+		{
+			return new CutsceneAdd(parts[1].Trim());
+		}
+		else if (p == "disable")
+		{
+			GameObject go;
+			CutsceneActor ca = FindActor(parts[1].Trim());
+			if (ca == null)
+			{
+				go = GameObject.Find(parts[1].Trim());
+			}
+			else
+			{
+				go = ca.gameObject;
+			}
+			return new CutsceneEnable(go, false);
+		}
+		else if (p == "enable")
+		{
+			GameObject go;
+			CutsceneActor ca = FindActor(parts[1].Trim());
+			if (ca == null)
+			{
+				go = GameObject.Find(parts[1].Trim());
+			}
+			else
+			{
+				go = ca.gameObject;
+			}
+			if (parts.Length == 4)
+			{
+				return new CutsceneEnable(go, float.Parse(parts[2]), float.Parse(parts[3]));
+			}
+			else
+			{
+				return new CutsceneEnable(go, true);
+			}
+		}
+		else if (p == "activate")
+		{
+			GameObject go = GameObject.Find(parts[1].Trim());
+			if (go != null)
+			{
+				ActivatedObject ao = go.GetComponent<ActivatedObject>();
+				if (ao != null)
+				{
+					return new CutsceneActivate(ao, parts[2].Trim() == "true");
+				}
+			}
+		}
+		else if (p == "align")
+		{
+			return new CutsceneAlign(parts[1].Trim() == "left");
+		}
+		else if (p == "play")
+		{
+			//c = new CutscenePlay(parts[1].Trim());
+		}
+		else if (p == "bold")
+		{
+			return new CutsceneFontEffect(FontEffects.Bold, parts[1].Trim() == "true");
+		}
+		else if (p == "italics")
+		{
+			return new CutsceneFontEffect(FontEffects.Italics, parts[1].Trim() == "true");
+		}
+		else if (p == "follow")
+		{
+			return new CameraFollow(parts[1].Trim());
+		}
+		else if (p == "goto")
+		{
+			return new SceneChange(parts[1].Trim());
+        } else if (p == "animate") {
+            return new CutsceneAnimation(FindActor(parts[1].Trim()), parts[2].Trim());
+        }
+		else if (p == "character")
+		{
+			if (parts.Length == 2)
+			{
+				CreateCharacter(parts[1].Trim());
+			}
+			else
+			{
+				CreateCharacter(parts[1].Trim(), parts[2]);
+			}
+        } else if (line.Contains(":")) {
+            parts = line.Split(':');
+           
+			if (parts.Length == 2)
+			{
+				return new CutsceneDialog(parts[0], parts[1].Trim());
+			}
+			else
+			{
+				return new CutsceneDialog(parts[0].Trim());
+			}
+        }
+
+        return null;
+
+	}
 	// Use this for initialization
 	public void Load(TextAsset text)
 	{
-		charactersOnStage = new List<CutsceneActor>();
-		elements = new List<CutsceneElement>();
-		foreach (string line in text.text.Split('\n'))
-		{
-			string[] parts = line.Split(' ');
-			CutsceneElement c = null;
-			string p = parts[0].ToLower();
-			if (p == "show")
-			{
-				c = new CutsceneEffect(parts[1], EffectType.Show, float.Parse(parts[2]), float.Parse(parts[3]));
-			}
-			else if (p == "hide")
-			{
-				c = new CutsceneEffect(parts[1], EffectType.Hide);
-			}
-			else if (p == "fade-in")
-			{
-				c = new CutsceneFade(parts[1], 1.0f, float.Parse(parts[2]));
-			}
-			else if (p == "fade-out")
-			{
-				//c = new CutsceneEffect (parts [1], EffectType.FadeOut, float.Parse (parts [2]));
-				c = new CutsceneFade(parts[1], 0.0f, float.Parse(parts[2]));
-			}
-			else if (p == "fade")
-			{
-				c = new CutsceneFade(parts[1], float.Parse(parts[2]), float.Parse(parts[3]));
-			}
-			else if (p == "alpha")
-			{
-				c = new CutsceneFade(parts[1], float.Parse(parts[2]), 0);
-			}
-			else if (p == "flip-x")
-			{
-				c = new CutsceneEffect(parts[1], EffectType.FlipHorizontal);
-			}
-			else if (p == "flip-y")
-			{
-				c = new CutsceneEffect(parts[1], EffectType.FlipVertical);
-			}
-			else if (p == "scale")
-			{
-				c = new CutsceneScale(ScaleType.All, parts[1], float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
-			}
-			else if (p == "scalex")
-			{
-				c = new CutsceneScale(ScaleType.X, parts[1], float.Parse(parts[2]), float.Parse(parts[3]));
-			}
-			else if (p == "scaley")
-			{
-				c = new CutsceneScale(ScaleType.Y, parts[1], float.Parse(parts[2]), float.Parse(parts[3]));
-			}
-			else if (p == "scalexy")
-			{
-				c = new CutsceneScale(parts[1], float.Parse(parts[2]), float.Parse(parts[3]), float.Parse(parts[4]));
-			}
-			else if (p == "rotate")
-			{
-				c = new CutsceneMovement(parts[1], MoveTypes.Rotate, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
-			}
-			else if (p == "move")
-			{
-				c = new CutsceneMovement(parts[1], MoveTypes.XY, float.Parse(parts[2]), float.Parse(parts[3]), parts.Length == 5 ? float.Parse(parts[4]) : 0);
-			}
-			else if (p == "move-x")
-			{
-				c = new CutsceneMovement(parts[1], MoveTypes.X, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
-			}
-			else if (p == "move-y")
-			{
-				c = new CutsceneMovement(parts[1], MoveTypes.Y, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
-			}
-			else if (p == "character")
-			{
-				if (parts.Length == 2)
-				{
-					CreateCharacter(parts[1].Trim());
-				}
-				else
-				{
-					CreateCharacter(parts[1].Trim(), parts[2]);
-				}
-				continue;
-			}
-			else if (p == "swap-sprite")
-			{
-                c = new CutsceneSpriteChange(parts[1], int.Parse(parts[2]));
-			}
-			else if (p == "pan")
-			{
-				if (parts[1] == "to")
-				{
-                    if (parts.Length == 3)
-                    {
-                        GameObject go = GameObject.Find(parts[2]);
-                        if (go)
-                        {
-                            c = new CameraPan(go.transform.position);
-                        }
-                        else
-                        {
-                            c = new CameraPan(parts[2]);
-                        }
-                    }
-					else
-					{
-						c = new CameraPan(new Vector3(float.Parse(parts[2]), float.Parse(parts[3]), Camera.main.transform.position.z));
-					}
-				}
-				else
-				{
-					c = new CameraPan(new Vector2(float.Parse(parts[1]), float.Parse(parts[2])));
-				}
-			}
-			else if (p == "wait")
-			{
-				c = new CutsceneWait(float.Parse(parts[1]));
-			}
-			else if (p == "create")
-			{
-				c = new CutsceneCreation(parts[1], parts[2], parts[3], parts[4]);
-			}
-			else if (p == "destroy")
-			{
-				c = new CutsceneCreation(parts[1].Trim());
-			}
-			else if (p == "add")
-			{
-				c = new CutsceneAdd(parts[1].Trim());
-			}
-			else if (p == "disable")
-			{
-				GameObject go;
-				CutsceneActor ca = FindActor(parts[1].Trim());
-				if (ca == null)
-				{
-					go = GameObject.Find(parts[1].Trim());
-				}
-				else
-				{
-					go = ca.gameObject;
-				}
-				c = new CutsceneEnable(go, false);
-			}
-			else if (p == "enable")
-			{
-				GameObject go;
-				CutsceneActor ca = FindActor(parts[1].Trim());
-				if (ca == null)
-				{
-					go = GameObject.Find(parts[1].Trim());
-				}
-				else
-				{
-					go = ca.gameObject;
-				}
-				if (parts.Length == 4)
-				{
-					c = new CutsceneEnable(go, float.Parse(parts[2]), float.Parse(parts[3]));
-				}
-				else
-				{
-					c = new CutsceneEnable(go, true);
-				}
-			}
-			else if (p == "activate")
-			{
-				GameObject go = GameObject.Find(parts[1].Trim());
-				if (go != null)
-				{
-					ActivatedObject ao = go.GetComponent<ActivatedObject>();
-					if (ao != null)
-					{
-						c = new CutsceneActivate(ao, parts[2].Trim() == "true");
-					}
-				}
-			}
-			else if (p == "align")
-			{
-				c = new CutsceneAlign(parts[1].Trim() == "left");
-			}
-			else if (p == "play")
-			{
-				//c = new CutscenePlay(parts[1].Trim());
-			}
-			else if (p == "bold")
-			{
-				c = new CutsceneFontEffect(FontEffects.Bold, parts[1].Trim() == "true");
-			}
-			else if (p == "italics")
-			{
-				c = new CutsceneFontEffect(FontEffects.Italics, parts[1].Trim() == "true");
-			}
-			else if (p == "follow")
-			{
-				c = new CameraFollow(parts[1].Trim());
-			}
-			else if (p == "goto")
-			{
-				c = new SceneChange(parts[1].Trim());
-			}
-			else
-			{
-				parts = line.Split(':');
-				if (parts.Length == 2)
-				{
-					c = new CutsceneDialog(parts[0], parts[1].Trim());
-				}
-				else
-				{
-					c = new CutsceneDialog(parts[0].Trim());
-				}
-			}
+		elements = new List<List<CutsceneElement>>();
+        string[] lines = text.text.Split('\n');
 
-			if (elements.Count == 0)
-			{
-				head = c;
-			}
-			else
-			{
-				CutsceneElement d = elements[elements.Count - 1];
-				d.nextElement = c;
-				c.prevElement = d;
-			}
-			elements.Add(c);
-		}
+        for (int i = 0; i < lines.Length; i++)
+        {
+            
+
+            List<CutsceneElement> elems = new List<CutsceneElement>();
+            bool seq = false;
+            do
+            {
+                string line = lines[i].Trim();
+                seq = line.Substring(line.Length - 3) == "and";
+
+                if (seq)
+                {
+                    line = line.Substring(0, line.Length - 4);
+                }
+               
+                CutsceneElement e = Parse(line);
+
+                if (e != null)
+                {
+                    elems.Add(e);
+                    if (seq) {
+                        i++;
+                    }
+                } 
+               
+            } while (seq);
+
+            if (elems.Count > 0)
+            {
+                elements.Add(elems);
+            }
+
+            /*
+            if (e != null) {
+                
+				if (elements.Count == 0)
+				{
+					head = e;
+				}
+				else
+				{
+                    elements.Last().nextElement = e;
+                    e.prevElement = elements.Last();
+				}
+
+                elements.Add(e);
+            } */
+        }
 	}
 
 	public void StartCutscene()
 	{
         EventManager.TriggerEvent("StartCutscene");
-		NextElement();
+        currentIndex = 0;
+		foreach (CutsceneElement ce in elements[0])
+		{
+			ce.Run();
+		}
+		//NextElement();
 
 	}
 
+    void ElementCompleted() {
+        currentCompleted++;
+    }
 	/// <summary>
 	/// Advances to the next element if it exists.
 	/// Otherwise, it ends the cutscene and removes everything from the screen.
 	/// </summary>
 	public void NextElement()
 	{
+        /*
 		if (!isBeingSkipped)
 		{
 			isBeingSkipped = Input.GetKey(KeyCode.Escape);
@@ -300,7 +354,19 @@ public class Cutscene
 		else
 		{
 			SkipCutscene();
-		}
+		}*/
+        
+        currentIndex++;
+        currentCompleted = 0;
+    
+        if (currentIndex < elements.Count) {
+            foreach(CutsceneElement ce in elements[currentIndex]) {
+                ce.Run();
+            }
+        } else {
+            EndCutscene();
+        }
+
 	}
 
 	void EndCutscene()
@@ -310,10 +376,12 @@ public class Cutscene
         //GameManager.Instance.IsInCutscene = false;
         //UIManager.Instance.StartCoroutine("HideDialog");
         EventManager.TriggerEvent("EndCutscene");
-		foreach (CutsceneActor ca in charactersOnStage)
+        foreach (CutsceneActor ca in characters)
 		{
 			ca.DestroySelf();
 		}
+
+        characters.Clear();
 	}
 	/// <summary>
 	/// Creates a character dynamically from the sprite in Resources with the same name.
@@ -322,11 +390,14 @@ public class Cutscene
 	public void CreateCharacter(string charName)
 	{
         GameObject character = Resources.Load<GameObject>("Characters/" + charName);
+        Debug.Log(string.Format("{0}: {1}", charName, character != null));
         if (character)
 		{
+            Debug.Log("I found " + charName);
 			CutsceneActor actor = GameObject.Instantiate(character).GetComponent<CutsceneActor>();
 			actor.Init();
             actor.CharacterName = charName;
+            Debug.Log(actor.name + " " + charName);
 			characters.Add(actor);
 		}
 	}
@@ -366,15 +437,18 @@ public class Cutscene
 		return null;
 	}
 
-	/// <summary>
-	/// Adds the actor to stage.
-	/// </summary>
-	/// <param name="actor">Actor.</param>
-	public void AddActorToStage(CutsceneActor actor)
-	{
-		charactersOnStage.Add(actor);
-	}
+    public void Update(float dt)
+    {
+        if (Game.Instance.IsInCutscene)
+        {
+            if (currentCompleted >= elements[currentIndex].Count)
+            {
+                NextElement();
+            }
+        }
+    }
 
+    /*
 	/// <summary>
 	/// Skips the cutscene.
 	/// </summary>
@@ -389,13 +463,13 @@ public class Cutscene
 			currentNode = currentNode.nextElement;
 		}
 		EndCutscene();
-	}
+	}*/
 
-	/// <summary>
-	/// Gets a value indicating whether this instance is being skipped.
-	/// </summary>
-	/// <value><c>true</c> if this instance is being skipped; otherwise, <c>false</c>.</value>
-	public bool IsBeingSkipped
+    /// <summary>
+    /// Gets a value indicating whether this instance is being skipped.
+    /// </summary>
+    /// <value><c>true</c> if this instance is being skipped; otherwise, <c>false</c>.</value>
+    public bool IsBeingSkipped
 	{
 		get
 		{

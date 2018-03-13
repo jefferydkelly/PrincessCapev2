@@ -11,6 +11,7 @@ public class CutsceneTrigger : MapTile{
         if (collision.CompareTag("Player") && cutscene) {
             Cutscene.Instance.Load(cutscene);
             Cutscene.Instance.StartCutscene();
+            gameObject.SetActive(false);
         }
     }
 

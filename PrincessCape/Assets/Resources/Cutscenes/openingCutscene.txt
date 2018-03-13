@@ -1,32 +1,32 @@
 character SirMatthew Matthew
-character Elwynn
-Character DragonHead Slog
-disable Remains(Clone)
-pan to Player
-disable Player
-align right
+character Elwynn Elwynn
+character DragonHead Slog
+disable Remains(Clone) and
+disable Player and
+align right and
 show Elwynn -5 0.5
+pan to Elwynn
+move-x Elwynn -2 1.5 and
 Elwynn: Kidnapped by another dragon?
-move-x Elwynn -2 1.5
 Elwynn: How many times does that make it this year?
 flip-x Elwynn
-move-x Elwynn -5 1.5
+move-x Elwynn -5 1.5 and
 Elwynn: No matter.  I'm sure Father will send some brave knights to rescue me.
 show Matthew -22 1.5
-pan to Matthew
+pan to Matthew and
+????: Princess Elwynn, I'm here to save you from that dragon.
 move Matthew -21.25 0.5 0.5
 align left
-swap-sprite Matthew 2
-Sir Matthew: Princess Elwynn, I'm here to save you from that dragon.
+animate Matthew Mask
 flip-x Elwynn
 move-x Matthew -12 1
-pan 2.5 0
+pan 12.5 0
 show Slog -2 5.5 0
 Slog: Raaaaaaaaaaaaaaaw!
 Sir Matthew: There you are!
 Sir Matthew: Have at me, foul beast!
 wait 1
-swap-sprite Matthew 1
+animate Matthew Fire
 wait 1
 hide Slog
 Sir Matthew: Help!  I'm on fire!

@@ -4,20 +4,24 @@ using System.Collections.Generic;
 
 public class CutsceneActor : MonoBehaviour
 {
-	private SpriteRenderer mySpriteRenderer;
+	SpriteRenderer mySpriteRenderer;
+    Animator myAnimator;
 	bool isHidden = true;
     string characterName = "Character";
 
 	// Use this for initialization
     public void Init() {
         mySpriteRenderer = GetComponent<SpriteRenderer>();
+        myAnimator = GetComponent<Animator>();
         IsHidden = true;
     }
 
     Timer CreateTimer(float time) {
 		int totalTicks = Mathf.FloorToInt(time / 0.03f);
 		Timer timer = new Timer(0.03f, totalTicks);
-        timer.OnComplete.AddListener(Cutscene.Instance.NextElement);
+        timer.OnComplete.AddListener(()=> {
+            EventManager.TriggerEvent("ElementCompleted");
+        });
         return timer;
     }
 	
@@ -197,6 +201,12 @@ public class CutsceneActor : MonoBehaviour
 
         scaleTimer.Start();
 	}
+
+
+    public void Animate(string trigger) {
+        myAnimator.SetTrigger(trigger);
+        EventManager.TriggerEvent("ElementCompleted");
+    }
 	public string CharacterName
 	{
 		get

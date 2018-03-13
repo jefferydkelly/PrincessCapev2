@@ -37,22 +37,7 @@ public class CameraManager : Manager
     /// <param name="dt">Dt.</param>
     public void Update(float dt)
     {
-		if (Game.Instance.IsInCutscene)
-		{
-
-			if (state == CameraState.Panning)
-			{
-				;
-				if (Follow())
-				{
-					Position = targetPos;
-					Cutscene.Instance.NextElement();
-                    state = target ? CameraState.Following : CameraState.Frozen;
-				}
-            } else if (target && state == CameraState.Following) {
-                Position = target.transform.position.SetZ(Position.z);
-            }
-		} else if (target)
+		if (target)
         {
             if (state == CameraState.Following)
             {
@@ -121,23 +106,67 @@ public class CameraManager : Manager
         }
     }
 
-    public void Pan(GameObject tar) {
-        target = tar;
-        targetPos = tar.transform.position.SetZ(Position.z);
+    public void Pan(Vector2 tar, float time) {
         state = CameraState.Panning;
-    }
+        Vector3 startPos = Position;
+		int ticks = Mathf.FloorToInt(time / 0.03f);
+		Timer panTimer = new Timer(0.03f, ticks);
+		panTimer.OnTick.AddListener(() => {
+            Position = startPos + (Vector3)tar * panTimer.RunPercent;
+		});
 
-    public void Pan(Vector2 tar) {
-        targetPos = Position + (Vector3)tar;
-        state = CameraState.Panning;
-        target = null;
-    }
+		panTimer.OnComplete.AddListener(() => {
+            Position = startPos + (Vector3)tar;
+			state = CameraState.Frozen;
+			EventManager.TriggerEvent("ElementCompleted");
+		});
 
-    public void PanTo(Vector2 tar) {
+		panTimer.Start();
+
+	}
+
+    public void PanTo(Vector2 tar, float time) {
         targetPos = new Vector3(tar.x, tar.y, Position.z);
         state = CameraState.Panning;
-        target = null;
+		Vector3 startPos = Position;
+        Vector3 dif = targetPos - Position;
 
+
+		int ticks = Mathf.FloorToInt(time / 0.03f);
+		Timer panTimer = new Timer(0.03f, ticks);
+		panTimer.OnTick.AddListener(() => {
+			Position = startPos + dif * panTimer.RunPercent;
+		});
+
+		panTimer.OnComplete.AddListener(() => {
+			Position = startPos + dif;
+			state = CameraState.Frozen;
+			EventManager.TriggerEvent("ElementCompleted");
+		});
+
+		panTimer.Start();
+
+	}
+
+    public void Pan(GameObject go, float time) {
+        state = CameraState.Panning;
+
+        Vector3 startPos = Position;
+        Vector3 dif = (go.transform.position - Position).SetZ(0);
+       
+        int ticks = Mathf.FloorToInt(time / 0.03f);
+        Timer panTimer = new Timer(0.03f, ticks);
+        panTimer.OnTick.AddListener(()=> {
+            Position = startPos + dif * panTimer.RunPercent;
+        });
+
+        panTimer.OnComplete.AddListener(()=> {
+            Position = startPos + dif;
+            state = CameraState.Frozen;
+            EventManager.TriggerEvent("ElementCompleted");
+        });
+
+        panTimer.Start();
     }
 
     public bool IsFollowing {

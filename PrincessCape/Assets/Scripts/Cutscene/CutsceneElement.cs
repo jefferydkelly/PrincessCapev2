@@ -101,14 +101,7 @@ public class CutsceneDialog : CutsceneElement
 		{
             EventManager.TriggerEvent("ShowMessage");
 		}
-
-        EventManager.StartListening("EndOfMessage", Proceed);
 	}
-
-    void Proceed() {
-        EventManager.StopListening("EndOfMessage", Proceed);
-        Cutscene.Instance.NextElement();
-    }
 }
 
 /// <summary>
@@ -120,13 +113,14 @@ public class CameraPan : CutsceneElement
 	Vector3 panEnding;
 	bool panTo;
 	string panToName = "";
+    float panTime = 1.0f;
 
 	/// <summary>
 	/// Initializes a new <see cref="CameraPan"/>.
 	/// </summary>
 	/// <param name="pd">The distance which the Camera will be panned.</param>
 	/// <param name="t">The duration of the pan.</param>
-	public CameraPan(Vector2 pd)
+	public CameraPan(Vector2 pd, float time = 1.0f)
 	{
 		panDistance = pd;
 		panTo = false;
@@ -138,19 +132,20 @@ public class CameraPan : CutsceneElement
 	/// </summary>
 	/// <param name="pd">The ending of the pan</param>
 	/// <param name="t">The duration of the pan</param>
-	public CameraPan(Vector3 pd)
+	public CameraPan(Vector3 pd, float time = 1.0f)
 	{
 		panEnding = pd;
 		panTo = true;
 		canSkip = true;
 	}
 
-    public CameraPan(string name)
+    public CameraPan(string name, float time = 1.0f)
 	{
 		panToName = name;
 
 		panTo = true;
 		canSkip = true;
+        panTime = time;
 	}
 
 	public override void Run()
@@ -159,16 +154,16 @@ public class CameraPan : CutsceneElement
         {
             if (panToName.Length > 0)
             {
-                CameraManager.Instance.Pan(Cutscene.Instance.FindActor(panToName).gameObject);
+                CameraManager.Instance.Pan(Cutscene.Instance.FindActor(panToName).gameObject, panTime);
             }
             else
             {
-                CameraManager.Instance.PanTo(panEnding);
+                CameraManager.Instance.PanTo(panEnding, panTime);
             }
         }
         else
         {
-            CameraManager.Instance.Pan(panDistance);
+            CameraManager.Instance.Pan(panDistance, panTime);
         }
 	}
 }
@@ -188,6 +183,7 @@ public class CameraFollow : CutsceneElement
 	{
 		CameraManager.Instance.Target = GameObject.Find(targetName);
         CameraManager.Instance.IsFollowing = true;
+        EventManager.TriggerEvent("ElementCompleted");
 	}
 }
 
@@ -205,7 +201,9 @@ public class CutsceneWait : CutsceneElement
 	{
 		canSkip = true;
         waitTimer = new Timer(dt);
-        waitTimer.OnComplete.AddListener(Cutscene.Instance.NextElement);
+        waitTimer.OnComplete.AddListener(() => { 
+            EventManager.TriggerEvent("ElementCompleted"); 
+        });
 	}
 	public override void Run()
 	{
@@ -313,7 +311,7 @@ public class CutsceneEffect : CutsceneElement
         CutsceneActor myActor = Cutscene.Instance.FindActor(affected);
 
 		if (type == EffectType.Show)
-		{
+        {
             if (myActor)
 			{
                 
@@ -341,6 +339,8 @@ public class CutsceneEffect : CutsceneElement
 		{
 			myActor.FlipY();
 		}
+
+        EventManager.TriggerEvent("ElementCompleted");
 	}
 }
 
@@ -453,6 +453,8 @@ public class CutsceneCreation : CutsceneElement
                 Object.Destroy(go);
 			}
 		}
+
+        EventManager.TriggerEvent("ElementCompleted");
 	}
 }
 
@@ -470,6 +472,7 @@ public class CutsceneAdd : CutsceneElement
 	public override void Run()
 	{
         Game.Instance.Player.AddItem(ScriptableObject.CreateInstance(itemName) as MagicItem, false);
+        EventManager.TriggerEvent("ElementCompleted");
 	}
 }
 
@@ -496,15 +499,18 @@ public class CutsceneEnable : CutsceneElement
 	public override void Run()
 	{
 		if (hideObject)
-		{
+        {
 			hideObject.SetActive(enable);
 
 			if (move)
 			{
 				hideObject.transform.position = pos;
+
 			}
 
 		}
+
+        EventManager.TriggerEvent("ElementCompleted");
 	}
 }
 
@@ -531,6 +537,8 @@ public class CutsceneActivate : CutsceneElement
 		{
 			ao.Deactivate();
 		}
+
+        EventManager.TriggerEvent("ElementCompleted");
 	}
 }
 
@@ -552,6 +560,8 @@ public class CutsceneAlign : CutsceneElement
         } else {
             EventManager.TriggerEvent("AlignRight");
         }
+
+        EventManager.TriggerEvent("ElementCompleted");
 	}
 }
 
@@ -571,6 +581,22 @@ public class CutscenePlay : CutsceneElement
 		AudioManager.Instance.PlaySound(soundEffect);
 	}
 }*/
+
+public class CutsceneAnimation: CutsceneElement {
+    string triggerName;
+    CutsceneActor actor;
+
+    public CutsceneAnimation(CutsceneActor ca, string tName) {
+        triggerName = tName;
+        actor = ca;
+    }
+
+    public override void Run()
+    {
+        actor.Animate(triggerName);
+    }
+}
+
 public enum EffectType
 {
 	Show, Hide, FlipHorizontal, FlipVertical
@@ -607,6 +633,7 @@ public class CutsceneSpriteChange : CutsceneElement
 		{
             //ca.SpriteIndex = newSprite;
 		}
+        EventManager.TriggerEvent("ElementCompleted");
 	}
 }
 
@@ -632,6 +659,7 @@ public class CutsceneFontEffect : CutsceneElement
 		{
 			//UIManager.Instance.Italicized = enact;
 		}
+        EventManager.TriggerEvent("ElementCompleted");
 	}
 }
 

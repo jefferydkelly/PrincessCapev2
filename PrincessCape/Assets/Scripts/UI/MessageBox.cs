@@ -70,13 +70,22 @@ public class MessageBox : MonoBehaviour {
         text.text = message[curLine].Substring(0, currentCharacter);
     }
     void NextLine() {
+        
         EventManager.StopListening("ItemOneActivated", NextLine);
         curLine++;
-        if (curLine < message.Count) {
+        if (curLine < message.Count)
+        {
             StartReveal();
-        } else {
-            EventManager.TriggerEvent("EndOfMessage");
         }
+        else
+        {
+            EventManager.TriggerEvent("EndOfMessage");
+            if (Game.Instance.IsInCutscene)
+            {
+                EventManager.TriggerEvent("ElementCompleted");
+            }
+        }
+
     }
 
     public static void SetMessage(List<string> words) {

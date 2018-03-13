@@ -22,11 +22,13 @@ public class Game : MonoBehaviour {
         
         if (!instance || instance == this)
         {
+            
             isClosing = false;
             managers = new List<Manager>();
             toAdd = new List<Manager>();
             instance = this;
             DontDestroyOnLoad(gameObject);
+            Controller controller = Controller.Instance;
             SceneManager.sceneLoaded += OnSceneLoaded;
             EventManager.StartListening("Pause", () => { IsPaused = true; });
             EventManager.StartListening("Unpause", () => { IsPaused = false; });
@@ -54,7 +56,10 @@ public class Game : MonoBehaviour {
 
     private void OnApplicationQuit()
     {
-        EventManager.Instance.Clear();
+        if (EventManager.Instance != null)
+        {
+            EventManager.Instance.Clear();
+        }
         isClosing = true;
         instance = null;
     }
@@ -151,12 +156,6 @@ public class Game : MonoBehaviour {
         get {
             if (!isClosing)
             {
-                if (!instance)
-                {
-                    GameObject go = new GameObject("GameManager");
-                    instance = go.AddComponent<Game>();
-
-                }
                 return instance;
             }
 

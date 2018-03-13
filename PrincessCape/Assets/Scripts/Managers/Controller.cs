@@ -21,6 +21,7 @@ public class Controller:Manager {
     /// </summary>
     Controller() {
         instance = this;
+        Game.Instance.AddManager(this);
     }
 
     public void SetKeys(Dictionary<string, KeyCode> keys) {

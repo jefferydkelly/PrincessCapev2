@@ -5,7 +5,7 @@ licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: SirMatthew
-    21300002: SirMatthew_Unmasked
+    21300002: SirMatthew_NoMask
     21300004: SirMatthew_OnFire
   externalObjects: {}
   serializedVersion: 4
@@ -111,13 +111,13 @@ TextureImporter:
         width: 128
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: SirMatthew_Unmasked
+      name: SirMatthew_NoMask
       rect:
         serializedVersion: 2
         x: 128
@@ -125,7 +125,7 @@ TextureImporter:
         width: 128
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,7 +139,7 @@ TextureImporter:
         width: 128
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
