@@ -41,7 +41,7 @@ public class CameraManager : Manager
         {
             if (state == CameraState.Following)
             {
-                Position = target.transform.position.SetZ(Position.z);//new Vector3(target.transform.position.x, target.transform.position.y, Camera.main.transform.position.z);
+                Position = target.transform.position.SetZ(Position.z) + Vector3.up * 3;//new Vector3(target.transform.position.x, target.transform.position.y, Camera.main.transform.position.z);
             } else if (state == CameraState.Resetting) {
 
                 if (Follow()) {

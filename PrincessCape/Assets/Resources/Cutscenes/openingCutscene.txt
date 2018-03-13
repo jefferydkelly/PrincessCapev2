@@ -5,7 +5,7 @@ disable Remains(Clone) and
 disable Player and
 align right and
 show Elwynn -5 0.5
-pan to Elwynn
+pan to -5 2 0.25
 move-x Elwynn -2 1.5 and
 Elwynn: Kidnapped by another dragon?
 Elwynn: How many times does that make it this year?
@@ -70,6 +70,7 @@ Elwynn: Could I really do that?
 animate Elwynn Idle
 wait 0.5
 hide Elwynn
-enable Player -2.5 0.5
+enable Player -5 0.5
+pan 0 1.5 0.75
+wait 1.25
 follow Player
-wait 2

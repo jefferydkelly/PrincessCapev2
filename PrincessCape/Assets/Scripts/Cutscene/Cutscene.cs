@@ -104,13 +104,11 @@ public class Cutscene:Manager
 		{
 			if (parts[1] == "to")
 			{
-				if (parts.Length >= 3)
+				if (parts.Length == 4)
 				{
 					GameObject go = GameObject.Find(parts[2]);
-                    float panTime = 1.0f;
-                    if (parts.Length == 4) {
-                        panTime = float.Parse(parts[3]);
-                    }
+                    float panTime = float.Parse(parts[3]);
+
 					if (go)
 					{
                         return new CameraPan(go.transform.position, panTime);
@@ -122,7 +120,9 @@ public class Cutscene:Manager
 				}
 				else
 				{
-                    return new CameraPan(new Vector3(float.Parse(parts[2]), float.Parse(parts[3]), Camera.main.transform.position.z));
+                    float panTime = float.Parse(parts[4]);
+					
+                    return new CameraPan(new Vector3(float.Parse(parts[2]), float.Parse(parts[3]), Camera.main.transform.position.z), panTime);
 				}
 			}
 			else
