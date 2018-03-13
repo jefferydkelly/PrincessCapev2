@@ -423,7 +423,7 @@ public class CutsceneCreation : CutsceneElement
 	bool destroy = false;
 	public CutsceneCreation(string name, string dx, string dy, string dz)
 	{
-		prefab = Resources.Load<GameObject>(name);
+		prefab = Resources.Load<GameObject>("Prefabs/"+name);
 		position = new Vector3(float.Parse(dx), float.Parse(dy), float.Parse(dz));
 		autoAdvance = true;
 		canSkip = false;

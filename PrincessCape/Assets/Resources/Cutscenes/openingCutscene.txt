@@ -10,48 +10,60 @@ move-x Elwynn -2 1.5 and
 Elwynn: Kidnapped by another dragon?
 Elwynn: How many times does that make it this year?
 flip-x Elwynn
-move-x Elwynn -5 1.5 and
+move-x Elwynn -8 3.5 and
 Elwynn: No matter.  I'm sure Father will send some brave knights to rescue me.
-show Matthew -22 1.5
-pan to Matthew and
-????: Princess Elwynn, I'm here to save you from that dragon.
-move Matthew -21.25 0.5 0.5
-align left
+show Matthew -27 1.5
+pan -16 0 1 and
+move Matthew -21.25 0.5 1 and
+align left and
+????: Princess Elwynn?
 animate Matthew Mask
-flip-x Elwynn
-move-x Matthew -12 1
-pan 12.5 0
+move-x Matthew -15 1 and
+move-x Elwynn -7 1 and
+pan 12.5 0 1 and
+Elwynn: Sir Matthew?
+Sir Matthew: I'm here to save you from that dragon.
 show Slog -2 5.5 0
 Slog: Raaaaaaaaaaaaaaaw!
-Sir Matthew: There you are!
+flip-x Elwynn
+move-x Elwynn -5 1 and
+Elwynn: Aaaah!
+Sir Matthew: Fear not, Princess!  I will protect you from this monstrosity.
+move-x Matthew -13 1 and
 Sir Matthew: Have at me, foul beast!
 wait 1
+create DragonFire -3 5 0
 animate Matthew Fire
 wait 1
+destroy DragonFire and
+move-x Slog 5 2.5
 hide Slog
+flip-x Elwynn
+move-x Matthew -7 1.0 and
 Sir Matthew: Help!  I'm on fire!
-move-x Matthew -14 1.0
 flip-x Matthew
+move-x Matthew -11 1.0 and
 Sir Matthew: Hot!
-move-x Matthew -7 1.0
 flip-x Matthew
-move-x Matthew -10 1
-move-x Matthew -12 0.25
-rotate Matthew -90 0.25
-move Matthew -12 0.25 0.25
+move-x Matthew -7 1
+move-x Matthew -12 0.5
+rotate Matthew -90 0.5 and
+move Matthew -12 0 0.5
 Sir Matthew: I'm....so...sorry!
 fade-out Matthew 0.5
 enable Remains(Clone)
-flip-x Elwynn
+move-x Elwynn -8 1 and
 Elwynn: What do I do now?
-move-x Elwynn -8 1
+move-x Elwynn -11 1 and
 Elwynn: What is that?  His cape is still intact.
-move-x Elwynn -11 1
 Elwynn: If I take that, I just might be able to escape.
-move-x Elwynn -5 2
+move-x Elwynn -8 1
+wait 0.5
 flip-x Elwynn
+move-x Elwynn -5 1 and
+pan 5 0 1 and
 Elwynn: Could I really do that?
 hide Elwynn
-enable Player -5 0.5
+enable Player -2.5 0.5
 follow Player
 wait 2
