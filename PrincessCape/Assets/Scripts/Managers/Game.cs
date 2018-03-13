@@ -173,6 +173,7 @@ public class Game : MonoBehaviour {
         if (newScene.name == "Test")
         {
             player = FindObjectOfType<Player>();
+            player.Init();
             map = FindObjectOfType<Map>();
             //player.transform.position = Checkpoint.ResetPosition;
             if (lastScene != "Test")

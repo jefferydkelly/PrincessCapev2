@@ -306,6 +306,7 @@ public class Cutscene:Manager
 	{
         EventManager.TriggerEvent("StartCutscene");
         currentIndex = 0;
+
 		foreach (CutsceneElement ce in elements[0])
 		{
 			ce.Run();

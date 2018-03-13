@@ -20,12 +20,14 @@ align left and
 animate Matthew Mask
 move-x Matthew -15 1 and
 move-x Elwynn -7 1 and
+animate Elwynn Excited and
 pan 12.5 0 1 and
 Elwynn: Sir Matthew?
 Sir Matthew: I'm here to save you from that dragon.
 show Slog -2 5.5 0
 Slog: Raaaaaaaaaaaaaaaw!
 flip-x Elwynn
+animate Elwynn Scared and
 move-x Elwynn -5 1 and
 Elwynn: Aaaah!
 Sir Matthew: Fear not, Princess!  I will protect you from this monstrosity.
@@ -55,6 +57,7 @@ enable Remains(Clone)
 move-x Elwynn -8 1 and
 Elwynn: What do I do now?
 move-x Elwynn -11 1 and
+animate Elwynn Curious and
 Elwynn: What is that?  His cape is still intact.
 Elwynn: If I take that, I just might be able to escape.
 move-x Elwynn -8 1
@@ -62,7 +65,10 @@ wait 0.5
 flip-x Elwynn
 move-x Elwynn -5 1 and
 pan 5 0 1 and
+animate Elwynn Down and
 Elwynn: Could I really do that?
+animate Elwynn Idle
+wait 0.5
 hide Elwynn
 enable Player -2.5 0.5
 follow Player

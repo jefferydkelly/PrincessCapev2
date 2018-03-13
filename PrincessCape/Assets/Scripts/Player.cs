@@ -21,12 +21,9 @@ public class Player : MonoBehaviour {
 
     List<MagicItem> inventory;
     ItemLevel items = ItemLevel.None;
+    bool initialized = false;
     private void Awake()
     {
-        myRigidbody = GetComponent<Rigidbody2D>();
-        myRenderer = GetComponent<SpriteRenderer>();
-        resetTimer = new Timer(1.0f);
-        resetTimer.OnComplete.AddListener(Game.Instance.Reset);
         inventory = new List<MagicItem>();
         EventManager.StartListening("LevelLoaded", Reset);
         EventManager.StartListening("ShowMessage", () => { state = PlayerState.ReadingMessage; });
@@ -34,6 +31,24 @@ public class Player : MonoBehaviour {
         EventManager.StartListening("EndOfMessage", () => { state = PlayerState.Normal; });
         DontDestroyOnLoad(gameObject);
    
+    }
+
+    public void Init() {
+        if (!initialized)
+        {
+            myRigidbody = GetComponent<Rigidbody2D>();
+            myRenderer = GetComponent<SpriteRenderer>();
+            resetTimer = new Timer(1.0f);
+            resetTimer.OnComplete.AddListener(Game.Instance.Reset);
+
+            platformLayers = ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("Hazard"));
+            if (CameraManager.Instance != null)
+            {
+                CameraManager.Instance.Target = gameObject;
+            }
+
+            initialized = true;
+        }
     }
 
     private void OnEnable()
@@ -68,17 +83,6 @@ public class Player : MonoBehaviour {
             myRigidbody.velocity = storedVelocity;
             myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
-    }
-    // Use this for initialization
-    void Start()
-    {
-
-        platformLayers = ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("Hazard"));
-        if (CameraManager.Instance != null)
-        {
-            CameraManager.Instance.Target = gameObject;
-        }
-
     }
 	
 	// Update is called once per frame
