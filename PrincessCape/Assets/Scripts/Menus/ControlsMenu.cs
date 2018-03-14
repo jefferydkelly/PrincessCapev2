@@ -76,6 +76,7 @@ public class ControlsMenu : MainMenu {
 		keyCodes["First Item"] = KeyCode.Mouse0;
 		keyCodes["Second Item"] = KeyCode.Mouse1;
 		keyCodes["Pause"] = KeyCode.P;
+        keyCodes["Inventory"] = KeyCode.I;
         UpdateKeys();
     }
 
