@@ -10,34 +10,28 @@ public class ItemMenu : MonoBehaviour {
 	void Awake () {
         boxes = GetComponentsInChildren<ItemSlot>().ToList();
 
-        StartListening();
-		EventManager.StartListening("ShowDialog", StopListening);
-		EventManager.StartListening("ShowMessage", StopListening);
-        EventManager.StartListening("EndOfMessage", StartListening);
+        EventManager.StartListening("Inventory", Toggle);
         Hide();
 
 	}
 
-    void StopListening() {
-        EventManager.StopListening("ShowItemMenu", Reveal);
-        EventManager.StartListening("HideItemMenu", Hide);
-    }
-
-    void StartListening() {
-        EventManager.StartListening("ShowItemMenu", Reveal);
-        EventManager.StopListening("HideItemMenu", Hide);
-
+    void Toggle() {
+        if (!Game.Instance.IsPaused && !Game.Instance.IsInCutscene) {
+            if (gameObject.activeSelf) {
+                Hide();
+            } else {
+                Reveal();
+            }
+        }
     }
     void Reveal() {
         gameObject.SetActive(true);
-        StopListening();
         for (int i = 0; i < Game.Instance.Player.Inventory.Count; i++) {
             boxes[i].SetItem(Game.Instance.Player.Inventory[i]);
         }
     }
 
     void Hide() {
-        StartListening();
         gameObject.SetActive(false);
     }
 }

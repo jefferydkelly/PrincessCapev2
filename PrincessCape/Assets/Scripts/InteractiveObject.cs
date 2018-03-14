@@ -78,8 +78,10 @@ public abstract class InteractiveObject : MapTile {
             myRenderer.color = value ? highlightColor : Color.white;
             if (value) {
                 Selected = this;
+                EventManager.StartListening("Interact", Interact);
             } else if (selected == this) {
                 Selected = null;
+                EventManager.StopListening("Interact", Interact);
             }
         }
     }

@@ -24,7 +24,11 @@ public class Game : MonoBehaviour {
         {
             
             isClosing = false;
+          
             managers = new List<Manager>();
+            if(toAdd != null) {
+                managers = toAdd;
+            }
             toAdd = new List<Manager>();
             instance = this;
             DontDestroyOnLoad(gameObject);
@@ -91,6 +95,7 @@ public class Game : MonoBehaviour {
         {
             toAdd = new List<Manager>();
         }
+
         toAdd.Add(m);
     }
 
@@ -122,6 +127,7 @@ public class Game : MonoBehaviour {
             {
                 //Debug.Log("Load the next level");
                 //Clear the map and load the next scene before starting the next level
+
                 map.Clear();
 
                 map.Load(sceneName);
@@ -156,6 +162,9 @@ public class Game : MonoBehaviour {
         get {
             if (!isClosing)
             {
+                if (instance == null) {
+                    instance = FindObjectOfType<Game>();
+                }
                 return instance;
             }
 
@@ -220,10 +229,6 @@ public class Game : MonoBehaviour {
         get {
             return state == GameState.Cutscene;
         }
-    }
-
-    public void StartCutscene() {
-        
     }
 
     void EndCutscene() {

@@ -133,12 +133,6 @@ public class Player : MonoBehaviour {
             {
                 Jump();
             } 
-
-            if (Input.GetKeyDown(KeyCode.F) && InteractiveObject.Selected) {
-                InteractiveObject.Selected.Interact();
-            }
-
-
         }
 	}
 

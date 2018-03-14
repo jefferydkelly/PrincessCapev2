@@ -6,12 +6,16 @@ using UnityEngine.UI;
 public class ItemBox : MonoBehaviour {
     Image background;
     Image itemImage;
+    Text keyBox;
     [SerializeField]
     bool isFirstItem = true;
 	// Use this for initialization
 	void Awake () {
         background = GetComponent<Image>();
         itemImage = GetComponentsInChildren<Image>()[1];
+
+        keyBox = transform.parent.GetComponentInChildren<Text>();
+        keyBox.text = Controller.Instance.GetKey(isFirstItem ? "ItemOne" : "ItemTwo");
         EventManager.StartListening("ShowMessage", StopListening);
         EventManager.StartListening("ShowDialog", StopListening);
         EventManager.StartListening("EndOfMessage", StartListening);
@@ -20,6 +24,11 @@ public class ItemBox : MonoBehaviour {
     private void OnEnable()
     {
         StartListening();
+
+		if (Game.Instance && Game.Instance.Player && Game.Instance.Player.Inventory.Count == 0)
+		{
+			IsHidden = true;
+		}
     }
 
     private void OnDisable()
@@ -57,6 +66,10 @@ public class ItemBox : MonoBehaviour {
     }
 
     void UpdateItemInfo() {
+
+        if (IsHidden) {
+            IsHidden = false;
+        }
         foreach(MagicItem mi in Game.Instance.Player.Inventory) {
             if ((isFirstItem && mi.Slot == MagicItemSlot.First) || (!isFirstItem && mi.Slot == MagicItemSlot.Second)) {
                 itemImage.sprite = mi.Sprite;
@@ -68,4 +81,26 @@ public class ItemBox : MonoBehaviour {
     void Clear() {
         itemImage.sprite = null;
     }
+
+	bool IsHidden
+	{
+		set
+		{
+			foreach (Image i in transform.parent.GetComponentsInChildren<Image>())
+			{
+				i.enabled = !value;
+			}
+
+			foreach (Text t in transform.parent.GetComponentsInChildren<Text>())
+			{
+				t.enabled = !value;
+			}
+
+		}
+
+		get
+		{
+			return !GetComponent<Image>().enabled;
+		}
+	}
 }

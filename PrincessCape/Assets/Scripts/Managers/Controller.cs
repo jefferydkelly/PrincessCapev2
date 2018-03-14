@@ -5,36 +5,30 @@ using UnityEngine;
 
 public class Controller:Manager {
     static Controller instance;
-
-    KeyCode forward = KeyCode.D;
-    KeyCode backward = KeyCode.A;
-    KeyCode up = KeyCode.W;
-    KeyCode down = KeyCode.S;
-    KeyCode jump = KeyCode.Space;
-    KeyCode interact = KeyCode.F;
-    KeyCode itemOne = KeyCode.Mouse0;
-    KeyCode itemTwo = KeyCode.Mouse1;
-    KeyCode pause = KeyCode.P;
+    Dictionary<string, KeyCode> keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Controller"/> class.
     /// </summary>
     Controller() {
         instance = this;
-        Game.Instance.AddManager(this);
+        keys = new Dictionary<string, KeyCode>();
+        keys.Add("Forward", KeyCode.D);
+        keys.Add("Backward", KeyCode.A);
+        keys.Add("Up", KeyCode.W);
+        keys.Add("Down", KeyCode.S);
+        keys.Add("Jump", KeyCode.Space);
+        keys.Add("Pause", KeyCode.P);
+        keys.Add("Interact", KeyCode.F);
+        keys.Add("ItemOne", KeyCode.Mouse0);
+        keys.Add("ItemTwo", KeyCode.Mouse1);
+        keys.Add("Inventory", KeyCode.I);
+
     }
 
-    public void SetKeys(Dictionary<string, KeyCode> keys) {
-        forward = keys["Forward"];
-        backward = keys["Backward"];
-        up = keys["Up"];
-        down = keys["Down"];
-        jump = keys["Jump"];
-        interact = keys["Interact"];
-        itemOne = keys["First Item"];
-        itemTwo = keys["Second Item"];
-        pause = keys["Pause"];
-
+    public void SetKeys(Dictionary<string, KeyCode> keyDict) {
+        keys = keyDict;
+        Debug.Log(keys["ItemOne"]);
     }
     /// <summary>
     /// Gets the instance.
@@ -62,7 +56,7 @@ public class Controller:Manager {
     /// <value>The horizontal input.</value>
     public float Horizontal {
         get {
-            return (Input.GetKey(forward) ? 1 : 0) - (Input.GetKey(backward) ? 1 : 0);
+            return (Input.GetKey(keys["Forward"]) ? 1 : 0) - (Input.GetKey(keys["Backward"]) ? 1 : 0);
             //return Input.GetAxis("Horizontal");
         }
     }
@@ -73,7 +67,7 @@ public class Controller:Manager {
     /// <value>The vertical input.</value>
     public float Vertical {
         get {
-            return (Input.GetKey(up) ? 1 : 0) - (Input.GetKey(down) ? 1 : 0);
+            return (Input.GetKey(keys["Up"]) ? 1 : 0) - (Input.GetKey(keys["Down"]) ? 1 : 0);
         }
     }
 
@@ -93,7 +87,7 @@ public class Controller:Manager {
     /// <value><c>true</c> if the item one has been pressed in the last frame; otherwise, <c>false</c>.</value>
     bool IsItemOneDown {
         get {
-            return Input.GetKeyDown(itemOne);
+            return Input.GetKeyDown(keys["ItemOne"]);
         }
     }
 
@@ -103,7 +97,7 @@ public class Controller:Manager {
 	/// <value><c>true</c> if the item one is being held down; otherwise, <c>false</c>.</value>
 	bool IsItemOneHeld {
         get {
-            return Input.GetKey(itemOne);
+            return Input.GetKey(keys["ItemOne"]);
         }
     }
 
@@ -115,7 +109,7 @@ public class Controller:Manager {
 	{
 		get
 		{
-            return Input.GetKeyUp(itemOne);
+            return Input.GetKeyUp(keys["ItemOne"]);
 		}
 	}
 
@@ -125,7 +119,7 @@ public class Controller:Manager {
 	/// <value><c>true</c> if the item two has been pressed in the last frame; otherwise, <c>false</c>.</value>
 	bool IsItemTwoDown {
         get {
-            return Input.GetKeyDown(itemTwo);
+            return Input.GetKeyDown(keys["ItemTwo"]);
         }
     }
 
@@ -137,7 +131,7 @@ public class Controller:Manager {
 	{
 		get
 		{
-            return Input.GetKey(itemTwo);
+            return Input.GetKey(keys["ItemTwo"]);
 		}
 	}
 
@@ -149,7 +143,7 @@ public class Controller:Manager {
 	{
 		get
 		{
-            return Input.GetKeyUp(itemTwo);
+            return Input.GetKeyUp(keys["ItemTwo"]);
 		}
 	}
 
@@ -159,7 +153,7 @@ public class Controller:Manager {
     /// <value><c>true</c> if the Jump has been pressed; otherwise, <c>false</c>.</value>
     public bool Jump {
         get {
-            return Input.GetKeyDown(jump) || Input.GetKeyDown(up);// || Input.GetKeyDown(KeyCode.UpArrow);
+            return Input.GetKeyDown(keys["Jump"]) || Input.GetKeyDown(keys["Up"]);// || Input.GetKeyDown(KeyCode.UpArrow);
         }
     }
 
@@ -169,10 +163,31 @@ public class Controller:Manager {
     /// <value><c>true</c> if the Pause key has been pressed; otherwise, <c>false</c>.</value>
     public bool Pause {
         get {
-            return Input.GetKeyDown(pause) || Input.GetKeyDown(KeyCode.Escape);
+            return Input.GetKeyDown(keys["Pause"]) || Input.GetKeyDown(KeyCode.Escape);
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether the interact key has been pressed since the last frame.
+    /// </summary>
+    /// <value><c>true</c> if interact; otherwise, <c>false</c>.</value>
+    public bool Interact {
+        get {
+            return Input.GetKeyDown(keys["Interact"]);
+        }
+    }
+
+    bool IsKeyDown(string keyName) {
+        return Input.GetKeyDown(keys[keyName]);
+    }
+
+    bool IsKeyHeld (string keyName) {
+        return Input.GetKey(keys[keyName]);
+    }
+
+    bool IsKeyReleased (string keyName) {
+        return Input.GetKeyUp(keys[keyName]);
+    }
     /// <summary>
     /// Updates Input.
     /// </summary>
@@ -182,56 +197,50 @@ public class Controller:Manager {
 		if (Pause)
 		{
 			EventManager.TriggerEvent(Game.Instance.IsPaused ? "Unpause" : "Pause");
-
-			if (Game.Instance.IsPaused)
-			{
-				EventManager.TriggerEvent("ShowItemMenu");
-			}
-            else
-			{
-				EventManager.TriggerEvent("HideItemMenu");
-			}
 		}
-        else if (IsItemOneDown)
+        else if (IsKeyDown("ItemOne"))
 		{
 			EventManager.TriggerEvent("ItemOneActivated");
 		}
-		else if (IsItemOneHeld)
+        else if (IsKeyHeld("ItemOne"))
 		{
 			EventManager.TriggerEvent("ItemOneHeld");
 		}
-		else if (IsItemOneUp)
+        else if (IsKeyReleased("ItemOne"))
 		{
 			EventManager.TriggerEvent("ItemOneDeactivated");
 		}
 
-		if (IsItemTwoDown)
+		if (IsKeyDown("ItemTwo"))
 		{
 			EventManager.TriggerEvent("ItemTwoActivated");
 		}
-		else if (IsItemTwoHeld)
+		else if (IsKeyHeld("ItemTwo"))
 		{
 			EventManager.TriggerEvent("ItemTwoHeld");
 		}
-		else if (IsItemTwoUp)
+		else if (IsKeyReleased("ItemTwo"))
 		{
 			EventManager.TriggerEvent("ItemTwoDeactivated");
 		}
-		
-    }
+
+        if (IsKeyDown("Inventory")) {
+            EventManager.TriggerEvent("Inventory");
+        }
+
+        if (IsKeyDown("Interact")) {
+            EventManager.TriggerEvent("Interact");
+        }
+
+
+	}
 
     public string Info {
         get {
             string info = PCLParser.StructStart;
-            info += PCLParser.CreateAttribute("Forward", forward);
-            info += PCLParser.CreateAttribute("Backward", backward);
-            info += PCLParser.CreateAttribute("Up", up);
-            info += PCLParser.CreateAttribute("Down", down);
-            info += PCLParser.CreateAttribute("Jump", jump);
-            info += PCLParser.CreateAttribute("Interact", interact);
-            info += PCLParser.CreateAttribute("First Item", itemOne);
-            info += PCLParser.CreateAttribute("Second Item", itemTwo);
-            info += PCLParser.CreateAttribute("Pause", pause);
+            foreach(KeyValuePair<string, KeyCode> kvp in keys) {
+                info += PCLParser.CreateAttribute(kvp.Key, kvp.Value);
+            }
             info += PCLParser.StructEnd;
             return info;
         }
@@ -239,17 +248,31 @@ public class Controller:Manager {
 
     public Dictionary<string, KeyCode> KeyDict {
         get {
-            Dictionary<string, KeyCode> dict = new Dictionary<string, KeyCode>();
-            dict.Add("Forward", forward);
-			dict.Add("Backward", backward);
-			dict.Add("Up", up);
-			dict.Add("Down", down);
-            dict.Add("Jump", jump);
-			dict.Add("Interact", interact);
-			dict.Add("First Item", itemOne);
-			dict.Add("Second Item", itemTwo);
-			dict.Add("Pause", pause);
-            return dict;
+            return keys;
         }
+    }
+
+    public string GetKey(string key) {
+        KeyCode keycode = KeyCode.None;
+
+        if (keys.TryGetValue(key, out keycode)) {
+            if (keycode == KeyCode.Mouse0) {
+                return "LMB";
+            } else if (keycode == KeyCode.Mouse1) {
+                return "RMB";
+            } else if (keycode == KeyCode.LeftArrow) {
+                return "Left";
+			} else if (keycode == KeyCode.RightArrow)
+			{
+				return "Right";
+            } else if (keycode == KeyCode.UpArrow) {
+                return "Up";
+            } else if (keycode == KeyCode.DownArrow) {
+                return "Down";
+            }
+         
+            return keycode.ToString();
+        }
+        return "";
     }
 }
