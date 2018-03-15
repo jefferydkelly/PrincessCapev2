@@ -153,7 +153,7 @@ public class Controller:Manager {
     /// <value><c>true</c> if the Jump has been pressed; otherwise, <c>false</c>.</value>
     public bool Jump {
         get {
-            return Input.GetKeyDown(keys["Jump"]) || Input.GetKeyDown(keys["Up"]);// || Input.GetKeyDown(KeyCode.UpArrow);
+            return Input.GetKeyDown(keys["Jump"]) || (!Game.Instance.Player.IsOnLadder && Input.GetKeyDown(keys["Up"]));
         }
     }
 

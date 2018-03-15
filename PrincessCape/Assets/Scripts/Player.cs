@@ -116,10 +116,11 @@ public class Player : MonoBehaviour {
                     return;
 				}
 				else if (aboveLadder && Controller.Instance.Vertical < 0) {
+                    aboveLadder = false;
                     myRigidbody.gravityScale = 0;
                     myRigidbody.velocity = myRigidbody.velocity.SetX(0);
                     transform.position = transform.position.SetX(theLadder.transform.position.x);
-                    transform.position += Vector3.down * 0.5f;
+                    transform.position += Vector3.down * 2;
                 }
 
                 if (!aboveLadder)
@@ -157,7 +158,7 @@ public class Player : MonoBehaviour {
     bool IsOnGround {
         get
         {
-            return Physics2D.BoxCast(transform.position, new Vector2(1.0f, 0.1f), 0, Vector2.down, 1.0f, platformLayers);
+            return Physics2D.BoxCast(transform.position, new Vector2(0.9f, 0.1f), 0, Vector2.down, 1.0f, platformLayers);
         }
     }
 
@@ -191,15 +192,22 @@ public class Player : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.relativeVelocity.y > 0) {
-            myRigidbody.gravityScale = 1;
+            Vector2 dif = ((Vector3)collision.contacts[0].point - transform.position);
 
-			
+            if (Vector2.Dot(dif.normalized, Vector2.up) < 0)
+            {
+                myRigidbody.gravityScale = 1;
 
-            EventManager.TriggerEvent("PlayerLanded");
+
+
+
+                EventManager.TriggerEvent("PlayerLanded");
+            }
         }
 
 		if (collision.collider.CompareTag("Ladder Top"))
 		{
+            EventManager.TriggerEvent("PlayerLanded");
 			aboveLadder = true;
             theLadder = collision.gameObject.GetComponentInParent<Ladder>();
         } else if (collision.collider.CompareTag("Projectile")) {
@@ -324,6 +332,15 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Player"/> is on ladder.
+    /// </summary>
+    /// <value><c>true</c> if is on ladder; otherwise, <c>false</c>.</value>
+    public bool IsOnLadder {
+        get {
+            return onLadder && !aboveLadder && !IsOnGround;
+        }
+    }
     /// <summary>
     /// Gets or sets a value indicating whether this <see cref="T:Player"/> is pulling.
     /// </summary>

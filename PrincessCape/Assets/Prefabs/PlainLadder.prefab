@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4217111662203664}
   - component: {fileID: 212759009918717584}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PlainLadder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

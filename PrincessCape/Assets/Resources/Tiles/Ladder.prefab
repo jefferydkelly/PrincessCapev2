@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212563342401529140}
   - component: {fileID: 61349789399222602}
   - component: {fileID: 114690935343229856}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Ladder
   m_TagString: Ladder
   m_Icon: {fileID: 0}
@@ -141,6 +141,8 @@ MonoBehaviour:
     y: 0
     width: 128
     height: 128
+  connections: []
+  startActive: 0
   plainLadder: {fileID: 1008565809480018, guid: 49848d28462904f02a3570d0038209af,
     type: 2}
 --- !u!212 &212563342401529140

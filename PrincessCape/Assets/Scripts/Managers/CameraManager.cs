@@ -45,7 +45,13 @@ public class CameraManager : Manager
         {
             if (state == CameraState.Following)
             {
-                Position = Position.SetX(target.transform.position.x);// + Vector3.up * 3;//new Vector3(target.transform.position.x, target.transform.position.y, Camera.main.transform.position.z);
+                if (Game.Instance.IsPlaying  && Game.Instance.Player.IsOnLadder)
+                {
+                    Debug.Log("On Ladder");
+                    Position = Game.Instance.Player.transform.position.SetZ(Position.z);
+                } else {
+                    Position = Position.SetX(target.transform.position.x);
+                }
             } else if (state == CameraState.Resetting) {
 
                 if (Follow()) {
