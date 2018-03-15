@@ -85,7 +85,7 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (!Game.Instance.IsPaused && !isFrozen && !IsPulling)
+        if (Game.Instance.IsPlaying && !isFrozen && !IsPulling)
         {
             float xForce = Controller.Instance.Horizontal * 5;
 			myRigidbody.AddForce(new Vector2(xForce, 0));
@@ -419,7 +419,6 @@ public class Player : MonoBehaviour {
         {
             MessageBox.SetMessage(mi.ItemGetMessage);
             EventManager.TriggerEvent("ShowMessage");
-            EventManager.TriggerEvent("Pause");
             EventManager.StartListening("EndOfMessage", EndCutscene);
         }
     }

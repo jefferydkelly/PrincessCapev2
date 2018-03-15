@@ -20,7 +20,6 @@ public class KnightRemains : InteractiveObject
             MessageBox.SetMessage(message);
             SpeakerBox.SetSpeaker(knightName);
             EventManager.StartListening("EndOfMessage", GiveItem);
-            EventManager.TriggerEvent("Pause");
             EventManager.TriggerEvent("ShowDialog");
 
         }

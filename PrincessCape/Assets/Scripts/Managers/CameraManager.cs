@@ -17,6 +17,10 @@ public class CameraManager : Manager
         Game.Instance.AddManager(this);
         EventManager.StartListening("PlayerDied", ResetCamera);
         EventManager.StartListening("PlayerRespawned", OnPlayerRespawn);
+        EventManager.StartListening("PlayerLanded", ()=> {
+            Vector3 panPos = Game.Instance.Player.transform.position + Vector3.up * 3;
+            PanTo(panPos, 0.25f);
+        });
 
     }
 
@@ -41,7 +45,7 @@ public class CameraManager : Manager
         {
             if (state == CameraState.Following)
             {
-                Position = target.transform.position.SetZ(Position.z) + Vector3.up * 3;//new Vector3(target.transform.position.x, target.transform.position.y, Camera.main.transform.position.z);
+                Position = Position.SetX(target.transform.position.x);// + Vector3.up * 3;//new Vector3(target.transform.position.x, target.transform.position.y, Camera.main.transform.position.z);
             } else if (state == CameraState.Resetting) {
 
                 if (Follow()) {
@@ -117,7 +121,7 @@ public class CameraManager : Manager
 
 		panTimer.OnComplete.AddListener(() => {
             Position = startPos + (Vector3)tar;
-			state = CameraState.Frozen;
+			state = Game.Instance.IsInCutscene ? CameraState.Frozen : CameraState.Following;
 			EventManager.TriggerEvent("ElementCompleted");
 		});
 
@@ -140,7 +144,7 @@ public class CameraManager : Manager
 
 		panTimer.OnComplete.AddListener(() => {
 			Position = startPos + dif;
-			state = CameraState.Frozen;
+			state = Game.Instance.IsInCutscene ? CameraState.Frozen : CameraState.Following;
 			EventManager.TriggerEvent("ElementCompleted");
 		});
 
@@ -162,7 +166,7 @@ public class CameraManager : Manager
 
         panTimer.OnComplete.AddListener(()=> {
             Position = startPos + dif;
-            state = CameraState.Frozen;
+            state = Game.Instance.IsInCutscene ? CameraState.Frozen : CameraState.Following;
             EventManager.TriggerEvent("ElementCompleted");
         });
 

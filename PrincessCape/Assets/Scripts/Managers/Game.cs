@@ -42,6 +42,20 @@ public class Game : MonoBehaviour {
 			EventManager.StartListening("EndCutscene", () => {
                 state = GameState.Playing;
 			});
+
+            EventManager.StartListening("ShowDialog", ()=> {
+                if (!IsInCutscene)
+                {
+                    state = GameState.Message;
+                }
+            });
+
+			EventManager.StartListening("EndOfMessage", () => {
+				if (!IsInCutscene)
+				{
+                    state = GameState.Playing;
+				}
+			});
             if (canvas)
             {
                 canvas.SetActive(true);
@@ -279,5 +293,6 @@ public enum GameState {
     Menu,
     Playing,
     Paused,
-    Cutscene
+    Cutscene,
+    Message
 }
