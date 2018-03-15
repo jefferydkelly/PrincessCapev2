@@ -55,7 +55,6 @@ public class Player : MonoBehaviour {
     {
         EventManager.StartListening("PlayerDied", Die);
         EventManager.StartListening("Pause", Pause);
-        EventManager.StartListening("Unpause", Unpause);
         EventManager.StartListening("StartPush", StartPush);
     }
 
@@ -63,28 +62,27 @@ public class Player : MonoBehaviour {
 	{
         EventManager.StopListening("PlayerDied", Die);
 		EventManager.StopListening("Pause", Pause);
-        EventManager.StopListening("Unpause", Unpause);
 	}
 
     /// <summary>
     /// Pause this instance.
     /// </summary>
     void Pause() {
-        storedVelocity = myRigidbody.velocity;
-        myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
-    }
-
-    /// <summary>
-    /// Unpause this instance.
-    /// </summary>
-    void Unpause() {
-        if (state != PlayerState.ReadingMessage)
+        if (myRigidbody.constraints == RigidbodyConstraints2D.FreezeAll)
         {
-            myRigidbody.velocity = storedVelocity;
-            myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+			if (state != PlayerState.ReadingMessage)
+			{
+				myRigidbody.velocity = storedVelocity;
+				myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+			}
+        }
+        else
+        {
+            storedVelocity = myRigidbody.velocity;
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
         }
     }
-	
+
 	// Update is called once per frame
 	void Update () {
         if (!Game.Instance.IsPaused && !isFrozen && !IsPulling)

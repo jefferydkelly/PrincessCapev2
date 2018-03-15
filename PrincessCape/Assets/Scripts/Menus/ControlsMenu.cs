@@ -28,6 +28,9 @@ public class ControlsMenu : MainMenu {
 
     private void Update()
     {
+        if (keyCodes == null) {
+            RestoreDefaults();
+        }
         if (keyCodes.ContainsKey(inputToAssign) && Input.anyKeyDown) {
             KeyCode code = KeyCode.None;
             if (Input.GetKeyDown(KeyCode.LeftArrow)) {
@@ -67,15 +70,16 @@ public class ControlsMenu : MainMenu {
     }
 
     public void RestoreDefaults() {
+        keyCodes = new Dictionary<string, KeyCode>();
 		keyCodes["Forward"] = KeyCode.D;
 		keyCodes["Backward"] = KeyCode.A;
 		keyCodes["Up"] = KeyCode.W;
 		keyCodes["Down"] = KeyCode.S;
 		keyCodes["Jump"] = KeyCode.Space;
-		keyCodes["Interact"] = KeyCode.F;
 		keyCodes["First Item"] = KeyCode.Mouse0;
 		keyCodes["Second Item"] = KeyCode.Mouse1;
 		keyCodes["Pause"] = KeyCode.P;
+        keyCodes["Interact"] = KeyCode.F;
         keyCodes["Inventory"] = KeyCode.I;
         UpdateKeys();
     }

@@ -34,8 +34,7 @@ public class Game : MonoBehaviour {
             DontDestroyOnLoad(gameObject);
             Controller controller = Controller.Instance;
             SceneManager.sceneLoaded += OnSceneLoaded;
-            EventManager.StartListening("Pause", () => { IsPaused = true; });
-            EventManager.StartListening("Unpause", () => { IsPaused = false; });
+            EventManager.StartListening("Pause", () => { IsPaused = !IsPaused; });
             EventManager.StartListening("StartCutscene", ()=>{
                 state = GameState.Cutscene;
             });
@@ -76,7 +75,10 @@ public class Game : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-      
+
+        if (toAdd == null) {
+            toAdd = new List<Manager>();
+        }
         foreach(Manager m in toAdd) {
             managers.Add(m);
         }
@@ -137,13 +139,17 @@ public class Game : MonoBehaviour {
         }
         else
         {
-            state = GameState.Playing;
+            state = sceneName == "Test" ? GameState.Playing : GameState.Menu;
             SceneManager.LoadScene(sceneName);
+            Destroy(player);
         }
 
        
     }
 
+    /// <summary>
+    /// Adds items to the Player's inventory to bring it up to the 
+    /// </summary>
     public void AddItems() {
 
 		for (int i = (int)player.Items + 1; i <= (int)map.Items; i++)
@@ -217,6 +223,7 @@ public class Game : MonoBehaviour {
         }
 
         set {
+            Debug.Log(string.Format("{0}:{1}", state, value));
             if (value && state == GameState.Playing) {
                 state = GameState.Paused;
             } else if (!value && state == GameState.Paused) {
@@ -225,14 +232,46 @@ public class Game : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Game"/> is in cutscene.
+    /// </summary>
+    /// <value><c>true</c> if is in cutscene; otherwise, <c>false</c>.</value>
     public bool IsInCutscene {
         get {
             return state == GameState.Cutscene;
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Game"/> is playing.
+    /// </summary>
+    /// <value><c>true</c> if is playing; otherwise, <c>false</c>.</value>
+    public bool IsPlaying {
+        get {
+            return state == GameState.Playing;
+        }
+    }
+
+    /// <summary>
+    /// Handles the transition between cutscene and gameplay
+    /// </summary>
     void EndCutscene() {
         state = GameState.Playing;
+    }
+
+    /// <summary>
+    /// Quit this instance.
+    /// </summary>
+    public void Quit() {
+        Application.Quit();
+    }
+
+    /// <summary>
+    /// Triggers the event.
+    /// </summary>
+    /// <param name="eventName">Event name.</param>
+    public void TriggerEvent(string eventName) {
+        EventManager.TriggerEvent(eventName);
     }
 }
 

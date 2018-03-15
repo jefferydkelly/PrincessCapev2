@@ -18,10 +18,10 @@ public class Controller:Manager {
         keys.Add("Up", KeyCode.W);
         keys.Add("Down", KeyCode.S);
         keys.Add("Jump", KeyCode.Space);
-        keys.Add("Pause", KeyCode.P);
-        keys.Add("Interact", KeyCode.F);
         keys.Add("ItemOne", KeyCode.Mouse0);
         keys.Add("ItemTwo", KeyCode.Mouse1);
+        keys.Add("Interact", KeyCode.F);
+        keys.Add("Pause", KeyCode.P);
         keys.Add("Inventory", KeyCode.I);
 
     }
@@ -196,7 +196,7 @@ public class Controller:Manager {
     {
 		if (Pause)
 		{
-			EventManager.TriggerEvent(Game.Instance.IsPaused ? "Unpause" : "Pause");
+			EventManager.TriggerEvent("Pause");
 		}
         else if (IsKeyDown("ItemOne"))
 		{
