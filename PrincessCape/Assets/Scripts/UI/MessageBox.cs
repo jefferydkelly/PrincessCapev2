@@ -30,7 +30,7 @@ public class MessageBox : MonoBehaviour {
     void DisplayLine() {
         if (!gameObject.activeSelf)
         {
-            EventManager.StartListening("HideItemMenu", Hide);
+            EventManager.StartListening("Inventory", Hide);
 			EventManager.StartListening("EndCutscene", Hide);
             gameObject.SetActive(true);
         }

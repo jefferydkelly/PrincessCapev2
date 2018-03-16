@@ -237,7 +237,6 @@ public class Game : MonoBehaviour {
         }
 
         set {
-            Debug.Log(string.Format("{0}:{1}", state, value));
             if (value && state == GameState.Playing) {
                 state = GameState.Paused;
             } else if (!value && state == GameState.Paused) {

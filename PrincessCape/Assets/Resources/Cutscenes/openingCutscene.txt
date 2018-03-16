@@ -13,7 +13,7 @@ flip-x Elwynn
 move-x Elwynn -8 3.5 and
 Elwynn: No matter.  I'm sure Father will send some brave knights to rescue me.
 show Matthew -27 1.5
-pan -16 0 1 and
+pan -14 0 1 and
 move Matthew -21.25 0.5 1 and
 align left and
 ????: Princess Elwynn?
@@ -21,7 +21,7 @@ animate Matthew Mask
 move-x Matthew -15 1 and
 move-x Elwynn -7 1 and
 animate Elwynn Excited and
-pan 12.5 0 1 and
+pan 10.5 0 1 and
 Elwynn: Sir Matthew?
 Sir Matthew: I'm here to save you from that dragon.
 show Slog -2 5.5 0
@@ -71,6 +71,6 @@ animate Elwynn Idle
 wait 0.5
 hide Elwynn
 enable Player -5 0.5
-pan 0 1.5 0.75
-wait 1.25
+pan 0 0.5 0.25
+wait 1.75
 follow Player

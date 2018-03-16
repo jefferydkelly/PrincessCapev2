@@ -9,6 +9,7 @@ public class CameraManager : Manager
     CameraState state = CameraState.Following;
     GameObject target;
     Vector3 targetPos;
+    Vector3 offset = Vector3.up * 2;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:CameraManager"/> class.
@@ -17,22 +18,27 @@ public class CameraManager : Manager
         Game.Instance.AddManager(this);
         EventManager.StartListening("PlayerDied", ResetCamera);
         EventManager.StartListening("PlayerRespawned", OnPlayerRespawn);
-        EventManager.StartListening("PlayerLanded", ()=> {
-            Vector3 panPos = Game.Instance.Player.transform.position + Vector3.up * 3;
-            PanTo(panPos, 0.25f);
-        });
+        EventManager.StartListening("PlayerLanded", PanToPlayer);
+
+        EventManager.StartListening("LevelLoaded", PanToPlayer);
 
     }
 
+    void PanToPlayer() {
+		Vector3 panPos = Game.Instance.Player.transform.position.SetZ(Position.z) + offset;
+		PanTo(panPos, 0.25f);
+    }
     void ResetCamera() {
         target = Checkpoint.Active;
         state = CameraState.Resetting;
-        targetPos = target.transform.position.SetZ(Position.z);
+        Vector3 panPos = target.transform.position.SetZ(Position.z) + offset;
+		PanTo(panPos, 0.25f);
     }
 
     void OnPlayerRespawn() {
         state = CameraState.Following;
         target = Game.Instance.Player.gameObject;
+        Position = target.transform.position.SetZ(Position.z) + offset;
     }
     /// <summary>
     /// Update the specified dt.
@@ -47,7 +53,6 @@ public class CameraManager : Manager
             {
                 if (Game.Instance.IsPlaying  && Game.Instance.Player.IsOnLadder)
                 {
-                    Debug.Log("On Ladder");
                     Position = Game.Instance.Player.transform.position.SetZ(Position.z);
                 } else {
                     Position = Position.SetX(target.transform.position.x);
