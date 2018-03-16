@@ -10,14 +10,15 @@ public class InteractionBox : MonoBehaviour {
 	// Use this for initialization
 	void OnEnable () {
         EventManager.StartListening("SetInteraction", SetText);
-  
-        textbox = GetComponentInChildren<Text>();
+		textbox = GetComponentInChildren<Text>();
+		textbox.text = "";
+        EventManager.StartListening("LevelLoaded", ()=> {
+            IsHidden = Game.Instance.Map.Items == ItemLevel.None;
+            textbox.text = "";
+        });
+
         interactionKey = transform.parent.GetComponentInChildren<Text>();
         interactionKey.text = Controller.Instance.GetKey("Interact");
-        if (Game.Instance && Game.Instance.Player && Game.Instance.Player.Inventory.Count == 0)
-        {
-            IsHidden = true;
-        }
 	}
 
     private void OnDisable()

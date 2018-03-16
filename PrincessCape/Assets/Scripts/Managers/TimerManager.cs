@@ -67,7 +67,12 @@ public class TimerManager: Manager
         }
         toAdd.Clear();
         foreach(Timer t in timers) {
-            t.Update(dt);
+            if (t != null)
+            {
+                t.Update(dt);
+            } else {
+                toRemove.Add(t);
+            }
         }
 
         foreach(Timer t in toRemove) {

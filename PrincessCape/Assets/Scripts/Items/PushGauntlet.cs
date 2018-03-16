@@ -24,7 +24,7 @@ public class PushGauntlet : MagneticGlove {
     /// </summary>
     public override void Use()
     {
-        if (!Game.Instance.IsPaused)
+        if (Game.Instance.IsPlaying)
         {
             if (state == MagicItemState.Activated)
             {
@@ -64,7 +64,7 @@ public class PushGauntlet : MagneticGlove {
     /// </summary>
 	public override void Deactivate()
 	{
-        if (!Game.Instance.IsPaused)
+        if (Game.Instance.IsPlaying)
         {
             if (state == MagicItemState.Activated)
             {

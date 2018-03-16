@@ -56,6 +56,14 @@ public class Game : MonoBehaviour {
                     state = GameState.Playing;
 				}
 			});
+
+            EventManager.StartListening("Inventory", ()=> {
+                if (state == GameState.Playing) {
+                    state = GameState.Inventory;
+                } else if (state == GameState.Inventory) {
+                    state = GameState.Playing;
+                }
+            });
             if (canvas)
             {
                 canvas.SetActive(true);
@@ -199,22 +207,39 @@ public class Game : MonoBehaviour {
     /// <param name="lsm">Lsm.</param>
     void OnSceneLoaded(Scene newScene, LoadSceneMode lsm) {
        
+
         if (newScene.name == "Test")
         {
             player = FindObjectOfType<Player>();
             player.Init();
             map = FindObjectOfType<Map>();
-           
+            state = GameState.Playing;
             if (lastScene != "Test")
             {
+                lastScene = SceneManager.GetActiveScene().name;
                 LoadScene(levelToLoad);
+                return;
             } else {
 				EventManager.TriggerEvent("LevelLoaded");
+
                 AddItems();
             }
+
+        } else {
+            state = GameState.Menu;
         }
 
         lastScene = SceneManager.GetActiveScene().name;
+    }
+
+    /// <summary>
+    /// Gets the map.
+    /// </summary>
+    /// <value>The map.</value>
+    public Map Map {
+        get {
+            return map;
+        }
     }
 
     /// <summary>
@@ -293,5 +318,6 @@ public enum GameState {
     Playing,
     Paused,
     Cutscene,
-    Message
+    Message,
+    Inventory
 }

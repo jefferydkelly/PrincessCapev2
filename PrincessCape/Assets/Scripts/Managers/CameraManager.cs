@@ -10,7 +10,7 @@ public class CameraManager : Manager
     GameObject target;
     Vector3 targetPos;
     Vector3 offset = Vector3.up * 2;
-
+    Timer panTimer;
     /// <summary>
     /// Initializes a new instance of the <see cref="T:CameraManager"/> class.
     /// </summary>
@@ -24,17 +24,27 @@ public class CameraManager : Manager
 
     }
 
+    /// <summary>
+    /// Pans to player.
+    /// </summary>
     void PanToPlayer() {
-		Vector3 panPos = Game.Instance.Player.transform.position.SetZ(Position.z) + offset;
-		PanTo(panPos, 0.25f);
+        if (!Game.Instance.Player.IsDead)
+        {
+            Vector3 panPos = Game.Instance.Player.transform.position.SetZ(Position.z) + offset;
+            PanTo(panPos, 0.25f);
+        }
     }
+    /// <summary>
+    /// Pans to the respawn point when the player dies
+    /// </summary>
     void ResetCamera() {
-        target = Checkpoint.Active;
-        state = CameraState.Resetting;
-        Vector3 panPos = target.transform.position.SetZ(Position.z) + offset;
-		PanTo(panPos, 0.25f);
+        Vector3 panPos = Checkpoint.ResetPosition.SetZ(Position.z) + offset;
+		PanTo(panPos, 1.0f);
     }
 
+    /// <summary>
+    /// Starts following the player again when they respawn
+    /// </summary>
     void OnPlayerRespawn() {
         state = CameraState.Following;
         target = Game.Instance.Player.gameObject;
@@ -57,19 +67,8 @@ public class CameraManager : Manager
                 } else {
                     Position = Position.SetX(target.transform.position.x);
                 }
-            } else if (state == CameraState.Resetting) {
-
-                if (Follow()) {
-                    Position = targetPos;
-                    state = CameraState.Following;
-                }
             }
         }
-    }
-
-    bool Follow() {
-        Position = Vector3.Lerp(Position, targetPos, Time.deltaTime);
-        return Vector3.Distance(Position, targetPos) < 0.05f;
     }
 
     /// <summary>
@@ -121,11 +120,20 @@ public class CameraManager : Manager
         }
     }
 
+    /// <summary>
+    /// Pans the camera by the specified amount over the given time
+    /// </summary>
+    /// <returns>The pan.</returns>
+    /// <param name="tar">The distance the camera will pan.</param>
+    /// <param name="time">The time it will take for the camera to pan.</param>
     public void Pan(Vector2 tar, float time) {
         state = CameraState.Panning;
         Vector3 startPos = Position;
 		int ticks = Mathf.FloorToInt(time / 0.03f);
-		Timer panTimer = new Timer(0.03f, ticks);
+        if (panTimer != null) {
+            panTimer.Stop();
+        }
+		panTimer = new Timer(0.03f, ticks);
 		panTimer.OnTick.AddListener(() => {
             Position = startPos + (Vector3)tar * panTimer.RunPercent;
 		});
@@ -140,6 +148,11 @@ public class CameraManager : Manager
 
 	}
 
+    /// <summary>
+    /// Pans the camera to the given position
+    /// </summary>
+    /// <param name="tar">The position the camera will pan to.</param>
+    /// <param name="time">The length og the pan in seconds.</param>
     public void PanTo(Vector2 tar, float time) {
         targetPos = new Vector3(tar.x, tar.y, Position.z);
         state = CameraState.Panning;
@@ -148,7 +161,11 @@ public class CameraManager : Manager
 
 
 		int ticks = Mathf.FloorToInt(time / 0.03f);
-		Timer panTimer = new Timer(0.03f, ticks);
+		if (panTimer != null)
+		{
+			panTimer.Stop();
+		} 
+        panTimer = new Timer(0.03f, ticks);
 		panTimer.OnTick.AddListener(() => {
 			Position = startPos + dif * panTimer.RunPercent;
 		});
@@ -163,6 +180,11 @@ public class CameraManager : Manager
 
 	}
 
+    /// <summary>
+    /// Pans the camera to the specified GameObject
+    /// </summary>
+    /// <param name="go">The GameObject the camera will pan to.</param>
+    /// <param name="time">The length of the pan in seconds.</param>
     public void Pan(GameObject go, float time) {
         state = CameraState.Panning;
 
@@ -170,7 +192,11 @@ public class CameraManager : Manager
         Vector3 dif = (go.transform.position - Position).SetZ(0);
        
         int ticks = Mathf.FloorToInt(time / 0.03f);
-        Timer panTimer = new Timer(0.03f, ticks);
+		if (panTimer != null)
+		{
+			panTimer.Stop();
+		}
+        panTimer = new Timer(0.03f, ticks);
         panTimer.OnTick.AddListener(()=> {
             Position = startPos + dif * panTimer.RunPercent;
         });
@@ -184,6 +210,10 @@ public class CameraManager : Manager
         panTimer.Start();
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:CameraManager"/> is following.
+    /// </summary>
+    /// <value><c>true</c> if is following; otherwise, <c>false</c>.</value>
     public bool IsFollowing {
         get {
             return state == CameraState.Following;

@@ -162,6 +162,10 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Player"/> can jump.
+    /// </summary>
+    /// <value><c>true</c> if can jump; otherwise, <c>false</c>.</value>
     bool CanJump {
         get {
             return IsOnGround && !IsUsingMagneticGloves && state != PlayerState.MovingBlock;
@@ -176,6 +180,7 @@ public class Player : MonoBehaviour {
         if (state == PlayerState.MovingBlock) {
             InteractiveObject.Selected.Interact();
         }
+        state = PlayerState.Dead;
         resetTimer.Start();
     }
 
@@ -184,7 +189,7 @@ public class Player : MonoBehaviour {
     /// </summary>
     public void Reset() {
         EventManager.TriggerEvent("PlayerRespawned");
-        transform.position = Checkpoint.ResetPosition;
+        transform.position = Checkpoint.ResetPosition + Vector3.up;
         isFrozen = false;
         myRigidbody.velocity = Vector2.zero;
     }
@@ -199,9 +204,13 @@ public class Player : MonoBehaviour {
                 myRigidbody.gravityScale = 1;
 
 
+                if (collision.IsOnLayer("Hazard"))
+                {
+                    state = PlayerState.Dead;
 
-
-                EventManager.TriggerEvent("PlayerLanded");
+                } else {
+                    EventManager.TriggerEvent("PlayerLanded");
+                }
             }
         }
 

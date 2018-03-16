@@ -22,7 +22,7 @@ public class StarShield : MagicItem
 	/// </summary>
 	public override void Activate()
 	{
-		if (!Game.Instance.IsPaused)
+        if (Game.Instance.IsPlaying)
 		{
 			if (state == MagicItemState.Ready)
 			{
@@ -46,7 +46,7 @@ public class StarShield : MagicItem
 	/// </summary>
 	public override void Deactivate()
 	{
-		if (!Game.Instance.IsPaused)
+        if (Game.Instance.IsPlaying)
 		{
 			if (state == MagicItemState.Activated)
 			{
