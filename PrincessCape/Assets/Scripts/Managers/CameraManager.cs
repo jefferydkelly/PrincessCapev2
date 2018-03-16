@@ -19,6 +19,9 @@ public class CameraManager : Manager
         EventManager.StartListening("PlayerDied", ResetCamera);
         EventManager.StartListening("PlayerRespawned", OnPlayerRespawn);
         EventManager.StartListening("PlayerLanded", PanToPlayer);
+        EventManager.StartListening("PlayerOffscreen", ()=> {
+            Position = Game.Instance.Player.transform.position.SetZ(Position.z);
+        });
 
         EventManager.StartListening("LevelLoaded", PanToPlayer);
 
@@ -61,7 +64,7 @@ public class CameraManager : Manager
         {
             if (state == CameraState.Following)
             {
-                if (Game.Instance.IsPlaying  && Game.Instance.Player.IsOnLadder)
+                if (Game.Instance.IsPlaying  && (Game.Instance.Player.IsOnLadder || (Game.Instance.Player.IsUsingMagneticGloves && Mathf.Abs(Game.Instance.Player.Velocity.y) > 0)))
                 {
                     Position = Game.Instance.Player.transform.position.SetZ(Position.z);
                 } else {

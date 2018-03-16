@@ -286,7 +286,7 @@ public class Game : MonoBehaviour {
     /// <value><c>true</c> if is playing; otherwise, <c>false</c>.</value>
     public bool IsPlaying {
         get {
-            return state == GameState.Playing;
+            return state == GameState.Playing && !player.IsDead;
         }
     }
 

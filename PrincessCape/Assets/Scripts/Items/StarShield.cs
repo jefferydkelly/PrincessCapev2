@@ -9,7 +9,7 @@ public class StarShield : MagicItem
 		itemName = "Star Shield";
 		itemGetMessage = new List<string>() {
 			"You got the Star Shield!",
-			"Press and hold the item button to reflect projectiles away from you"
+			"Press and hold [[[ItemTwo]]] to reflect projectiles away from you"
 		};
     }
 

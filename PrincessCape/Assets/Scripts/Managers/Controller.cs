@@ -252,6 +252,11 @@ public class Controller:Manager {
         }
     }
 
+    /// <summary>
+    /// Gets the key.
+    /// </summary>
+    /// <returns>The key.</returns>
+    /// <param name="key">Key.</param>
     public string GetKey(string key) {
         KeyCode keycode = KeyCode.None;
 

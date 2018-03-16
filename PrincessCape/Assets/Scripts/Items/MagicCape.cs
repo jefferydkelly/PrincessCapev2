@@ -15,7 +15,7 @@ public class MagicCape : MagicItem
         itemGetMessage = new List<string>() {
             "You got the Magic Cape!",
             "As you put it on, you feel yourself getting lighter",
-            "Press and hold the Left Mouse Button to float gently down"
+            "Press and hold [[[ItemOne]]] to float gently down"
         };
     }
 

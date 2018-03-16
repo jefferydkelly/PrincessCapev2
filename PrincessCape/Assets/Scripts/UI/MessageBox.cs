@@ -34,10 +34,26 @@ public class MessageBox : MonoBehaviour {
 			EventManager.StartListening("EndCutscene", Hide);
             gameObject.SetActive(true);
         }
-        text.text = message[0];
+
+
+        text.text = ParseKeys(message[0]);
         curLine = 0;
     }
 
+    string ParseKeys(string line) {
+        while (line.Contains("[[["))
+		{
+			int start = line.IndexOf("[[[", System.StringComparison.Ordinal);
+			int end = line.IndexOf("]]]", System.StringComparison.Ordinal);
+            string sub = line.Substring(start, end - start + 3);
+           
+            string key = sub.Replace("[[[", "").Replace("]]]", "");
+            line = line.Replace(sub, Controller.Instance.GetKey(key));
+
+		}
+
+        return line;
+    }
     void Hide() {
         EventManager.StopListening("HideItemMenu", Hide);
         EventManager.StopListening("HideMessage", Hide);
@@ -50,6 +66,9 @@ public class MessageBox : MonoBehaviour {
             gameObject.SetActive(true);
             EventManager.StartListening("HideMessage", Hide);
 			EventManager.StartListening("EndCutscene", Hide);
+        }
+        for (int i = 0; i < message.Count; i++) {
+            message[i] = ParseKeys(message[i]);
         }
         curLine = 0;
         StartReveal();

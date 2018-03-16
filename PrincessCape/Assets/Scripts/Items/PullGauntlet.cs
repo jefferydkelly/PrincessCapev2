@@ -11,6 +11,7 @@ public class PullGauntlet : MagneticGlove
 		itemGetMessage = new List<string>() {
 			"You got the Pull Gaunlet!",
 			"Slipping it on, you feel the power flowing through your hands",
+            "Press [[[Inventory]]] and equipt it with [[[ItemOne]]] or [[[ItemTwo]]]",
 			"Press and hold the item button to pull metal blocks towards you",
             "But beware, if the block can't be moved.  You will be."
 		};

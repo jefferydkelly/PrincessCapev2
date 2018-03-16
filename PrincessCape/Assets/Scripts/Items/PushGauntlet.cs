@@ -10,6 +10,7 @@ public class PushGauntlet : MagneticGlove {
 		itemGetMessage = new List<string>() {
 			"You got the Push Gaunlet!",
 			"Slipping it on, you feel the power flowing through your hands",
+            "Press [[[Inventory]]] and equipt it with [[[ItemOne]]] or [[[ItemTwo]]]",
 			"Press and hold the item button to push metal blocks away from you",
 			"But beware, just like the Push Gauntlet, if the block can't be moved.  You will be."
 		};
