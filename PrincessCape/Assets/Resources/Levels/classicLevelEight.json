@@ -32,10 +32,7 @@
 "Scale": "(1.0, 1.0, 1.0)",
 "Knight": "Sir Travis",
 "Item": "PushGauntlet",
-"Message": [
-"El": "Princess, I have failed you.",
-"El": "Please take my Push Gauntlet to esape.",
-],
+"File": "travis",
 },
 {
 "Name": "Platform",

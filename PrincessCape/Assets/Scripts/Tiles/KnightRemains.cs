@@ -11,6 +11,8 @@ public class KnightRemains : InteractiveObject
     string knightName = "Sir Matthew";
     [SerializeField]
     List<string> message;
+    [SerializeField]
+    TextAsset messageFile;
     bool itemGiven = false;
     public override void Interact()
     {
@@ -60,7 +62,13 @@ public class KnightRemains : InteractiveObject
         string data = base.GenerateSaveData();
         data += PCLParser.CreateAttribute("Knight", knightName);
         data += PCLParser.CreateAttribute("Item", itemOnRemains);
-        data += PCLParser.CreateArray("Message", message);
+        //data += PCLParser.CreateArray("Message", message);
+        string fileName = "None";
+        if (messageFile != null)
+        {
+            fileName = messageFile.name;
+        }
+        data += PCLParser.CreateAttribute<string>("File", fileName);
         return data;
     }
 
@@ -69,10 +77,21 @@ public class KnightRemains : InteractiveObject
         base.FromData(tile);
         knightName = PCLParser.ParseLine(tile.NextLine);
         itemOnRemains = PCLParser.ParseEnum<ItemLevel>(tile.NextLine);
+
         message = new List<string>();
+
+        string fileName = PCLParser.ParseLine(tile.NextLine);
+        if (fileName != "None") {
+            
+            messageFile = Resources.Load<TextAsset>("Cutscenes/" + fileName);
+            foreach(string s in messageFile.text.Split('\n')) {
+                message.Add(s);
+            }
+        }
+        /*
         tile.TossLine();
         while (!tile.FullyRead && !tile.Peek.Contains("]")) {
             message.Add(PCLParser.ParseLine(tile.NextLine));
-        }
+        }*/
     }
 }

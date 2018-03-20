@@ -85,10 +85,7 @@
 "Scale": "(1.0, 1.0, 1.0)",
 "Knight": "Sir Sam the Regal",
 "Item": "PullGauntlet",
-"Message": [
-"El": "Why hello there.  ",
-"El": "Take this magnetic glove and find out how you can become even more attractive.",
-],
+"File": "samuel",
 },
 {
 "Name": "Ladder",

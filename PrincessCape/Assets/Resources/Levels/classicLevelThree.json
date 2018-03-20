@@ -36,11 +36,7 @@
 "Scale": "(1.0, 1.0, 1.0)",
 "Knight": "Sir Percival",
 "Item": "StarShield",
-"Message": [
-"El": "It's dangerous to go alone.",
-"El": "Take this shield.",
-"El": "It may be of use in reflecting projectiles.",
-],
+"file": "percival",
 },
 {
 "Name": "Platform",
