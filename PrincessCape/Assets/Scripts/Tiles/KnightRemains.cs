@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class KnightRemains : InteractiveObject
 {
@@ -10,8 +11,6 @@ public class KnightRemains : InteractiveObject
     [SerializeField]
     string knightName = "Sir Matthew";
     [SerializeField]
-    List<string> message;
-    [SerializeField]
     TextAsset messageFile;
     bool itemGiven = false;
     public override void Interact()
@@ -19,10 +18,13 @@ public class KnightRemains : InteractiveObject
         if (!itemGiven)
         {
             //Add item to the player's inventory
-            MessageBox.SetMessage(message);
-            SpeakerBox.SetSpeaker(knightName);
-            EventManager.StartListening("EndOfMessage", GiveItem);
-            EventManager.TriggerEvent("ShowDialog");
+            if (messageFile != null)
+            {
+                MessageBox.SetMessage(messageFile.text.Split('\n').ToList());
+                SpeakerBox.SetSpeaker(knightName);
+                EventManager.StartListening("EndOfMessage", GiveItem);
+                EventManager.TriggerEvent("ShowDialog");
+            }
 
         }
     }
@@ -62,7 +64,7 @@ public class KnightRemains : InteractiveObject
         string data = base.GenerateSaveData();
         data += PCLParser.CreateAttribute("Knight", knightName);
         data += PCLParser.CreateAttribute("Item", itemOnRemains);
-        //data += PCLParser.CreateArray("Message", message);
+     
         string fileName = "None";
         if (messageFile != null)
         {
@@ -78,20 +80,11 @@ public class KnightRemains : InteractiveObject
         knightName = PCLParser.ParseLine(tile.NextLine);
         itemOnRemains = PCLParser.ParseEnum<ItemLevel>(tile.NextLine);
 
-        message = new List<string>();
-
         string fileName = PCLParser.ParseLine(tile.NextLine);
         if (fileName != "None") {
             
             messageFile = Resources.Load<TextAsset>("Cutscenes/" + fileName);
-            foreach(string s in messageFile.text.Split('\n')) {
-                message.Add(s);
-            }
         }
-        /*
-        tile.TossLine();
-        while (!tile.FullyRead && !tile.Peek.Contains("]")) {
-            message.Add(PCLParser.ParseLine(tile.NextLine));
-        }*/
+       
     }
 }
