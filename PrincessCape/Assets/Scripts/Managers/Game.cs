@@ -72,7 +72,12 @@ public class Game : MonoBehaviour {
 			if (SceneManager.GetActiveScene().name == "Test")
 			{
 				state = GameState.Playing;
-			}
+            }
+
+            EventManager.StartListening("LevelLoaded", ()=> {
+                state = GameState.Playing;
+                AddItems();
+            });
 
         } else {
             Destroy(gameObject);
@@ -213,16 +218,11 @@ public class Game : MonoBehaviour {
             player = FindObjectOfType<Player>();
             player.Init();
             map = FindObjectOfType<Map>();
-            state = GameState.Playing;
             if (lastScene != "Test")
             {
                 lastScene = SceneManager.GetActiveScene().name;
                 LoadScene(levelToLoad);
                 return;
-            } else {
-				EventManager.TriggerEvent("LevelLoaded");
-
-                AddItems();
             }
 
         } else {
@@ -266,6 +266,7 @@ public class Game : MonoBehaviour {
                 state = GameState.Paused;
             } else if (!value && state == GameState.Paused) {
                 state = GameState.Playing;
+                Debug.Log("Playing");
             }
         }
     }
@@ -295,6 +296,7 @@ public class Game : MonoBehaviour {
     /// </summary>
     void EndCutscene() {
         state = GameState.Playing;
+        Debug.Log("Playing");
     }
 
     /// <summary>

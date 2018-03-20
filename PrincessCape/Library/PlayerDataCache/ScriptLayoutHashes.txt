@@ -22,6 +22,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 31aaf521b3ef8699466676591ea0efd4 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 df374c01140c2d578bf70cbd60073d1d UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Credits
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PauseMenu
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.StarShield
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.SpeakerBox
 cfba38043d4c16aa47f0d3cf402fef75 Assembly-CSharp.dll:.ConveyorBelt
@@ -186,7 +187,7 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.InteractionBox
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MagicCape
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CutsceneActor
-bd2237995ff789ee97230b4df90c9205 Assembly-CSharp.dll:.KnightRemains
+4c5e2241a68dce61d39b8b15c6ab060f Assembly-CSharp.dll:.KnightRemains
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.AimArrow
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ItemMenu
 a36bf14675bf2d4952cdf2deebcbf0f3 Assembly-CSharp.dll:.ControlsMenu

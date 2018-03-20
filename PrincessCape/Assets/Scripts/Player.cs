@@ -26,9 +26,19 @@ public class Player : MonoBehaviour {
     {
         inventory = new List<MagicItem>();
         EventManager.StartListening("LevelLoaded", Reset);
-        EventManager.StartListening("ShowMessage", () => { state = PlayerState.ReadingMessage; });
-        EventManager.StartListening("ShowDialog", () => { state = PlayerState.ReadingMessage; });
-        EventManager.StartListening("EndOfMessage", () => { state = PlayerState.Normal; });
+        EventManager.StartListening("ShowMessage", () => {
+            isFrozen = true;
+            state = PlayerState.ReadingMessage; 
+        });
+             
+        EventManager.StartListening("ShowDialog", () => {
+            isFrozen = true;
+            state = PlayerState.ReadingMessage; 
+        });
+        EventManager.StartListening("EndOfMessage", () => {
+            isFrozen = false;
+            state = PlayerState.Normal; 
+        });
         DontDestroyOnLoad(gameObject);
    
     }
@@ -183,6 +193,7 @@ public class Player : MonoBehaviour {
         if (state == PlayerState.MovingBlock) {
             InteractiveObject.Selected.Interact();
         }
+        EventManager.TriggerEvent("ItemOnDeactivated");
         state = PlayerState.Dead;
         resetTimer.Start();
     }
@@ -195,6 +206,7 @@ public class Player : MonoBehaviour {
         transform.position = Checkpoint.ResetPosition + Vector3.up;
         isFrozen = false;
         myRigidbody.velocity = Vector2.zero;
+        state = PlayerState.Normal;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -449,6 +461,7 @@ public class Player : MonoBehaviour {
             MessageBox.SetMessage(mi.ItemGetMessage);
             EventManager.TriggerEvent("ShowMessage");
             EventManager.StartListening("EndOfMessage", EndCutscene);
+            state = PlayerState.ReadingMessage;
         }
     }
 

@@ -508,7 +508,7 @@ public class CutsceneEnable : CutsceneElement
 
 			}
 
-		}
+        }
 
         EventManager.TriggerEvent("ElementCompleted");
 	}

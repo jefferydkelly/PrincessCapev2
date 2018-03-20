@@ -220,6 +220,7 @@ public class Map : MonoBehaviour
                     foreach (TileStruct t in newTiles)
                     {
                         MapTile tile = Instantiate(prefabs[t.name]).GetComponent<MapTile>();
+                        tile.name = tile.name.Replace("(Clone)", "");
                         tile.FromData(t);
                         tile.Init();
                         AddTile(tile);
