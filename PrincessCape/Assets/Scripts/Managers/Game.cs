@@ -39,9 +39,7 @@ public class Game : MonoBehaviour {
                 state = GameState.Cutscene;
             });
 
-			EventManager.StartListening("EndCutscene", () => {
-                state = GameState.Playing;
-			});
+            EventManager.StartListening("EndCutscene", EndCutscene);
 
             EventManager.StartListening("ShowDialog", ()=> {
                 if (!IsInCutscene)
@@ -266,7 +264,6 @@ public class Game : MonoBehaviour {
                 state = GameState.Paused;
             } else if (!value && state == GameState.Paused) {
                 state = GameState.Playing;
-                Debug.Log("Playing");
             }
         }
     }
@@ -278,6 +275,12 @@ public class Game : MonoBehaviour {
     public bool IsInCutscene {
         get {
             return state == GameState.Cutscene;
+        }
+    }
+
+    public bool IsInInventory {
+        get {
+            return state == GameState.Inventory;
         }
     }
 
@@ -296,7 +299,6 @@ public class Game : MonoBehaviour {
     /// </summary>
     void EndCutscene() {
         state = GameState.Playing;
-        Debug.Log("Playing");
     }
 
     /// <summary>

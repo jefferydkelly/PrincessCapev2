@@ -86,6 +86,7 @@ public class MessageBox : MonoBehaviour {
     }
     void RevealCharacter() {
         currentCharacter++;
+        currentCharacter = Mathf.Max(text.text.Length, currentCharacter);
         text.text = message[curLine].Substring(0, currentCharacter);
     }
     void NextLine() {

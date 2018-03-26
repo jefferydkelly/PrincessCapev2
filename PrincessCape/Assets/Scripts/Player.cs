@@ -35,10 +35,18 @@ public class Player : MonoBehaviour {
             isFrozen = true;
             state = PlayerState.ReadingMessage; 
         });
-        EventManager.StartListening("EndOfMessage", () => {
-            isFrozen = false;
-            state = PlayerState.Normal; 
+
+        EventManager.StartListening("EndOfMessage", ()=> {
+			
+            if (!Game.Instance.IsInCutscene)
+            {
+				isFrozen = false;
+				state = PlayerState.Normal;
+                EventManager.TriggerEvent("HideMessage");
+            }
+
         });
+        EventManager.StartListening("EndCutscene", EndCutscene);
         DontDestroyOnLoad(gameObject);
    
     }
@@ -460,7 +468,6 @@ public class Player : MonoBehaviour {
         {
             MessageBox.SetMessage(mi.ItemGetMessage);
             EventManager.TriggerEvent("ShowMessage");
-            EventManager.StartListening("EndOfMessage", EndCutscene);
             state = PlayerState.ReadingMessage;
         }
     }
@@ -469,9 +476,13 @@ public class Player : MonoBehaviour {
     /// Event Handler for the end of a cutscene
     /// </summary>
     void EndCutscene() {
-        EventManager.StopListening("EndOfMessage", EndCutscene);
+
+		isFrozen = false;
+		state = PlayerState.Normal;
         EventManager.TriggerEvent("HideMessage");
-        EventManager.TriggerEvent("Unpause");
+        Debug.Log(state);
+        //EventManager.TriggerEvent("Pause");
+
     }
 
     void StartPush() {

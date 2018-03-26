@@ -950,7 +950,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &274742288
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2450,7 +2450,6 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0, b: 0, a: 1}
   itemOnRemains: 1
   knightName: Sir Matthew
-  message: []
   messageFile: {fileID: 4900000, guid: 9f1648d05c5ff4aefa1f58a91f09dd2a, type: 3}
 --- !u!50 &567421007
 Rigidbody2D:

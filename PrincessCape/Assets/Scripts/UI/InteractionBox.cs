@@ -19,6 +19,8 @@ public class InteractionBox : MonoBehaviour {
 
         interactionKey = transform.parent.GetComponentInChildren<Text>();
         interactionKey.text = Controller.Instance.GetKey("Interact");
+
+        EventManager.StartListening("ClearIntearction", ClearText);
 	}
 
     private void OnDisable()
@@ -35,6 +37,10 @@ public class InteractionBox : MonoBehaviour {
         } else {
             textbox.text = "";
         }
+    }
+
+    void ClearText() {
+        textbox.text = "";
     }
 
     bool IsHidden {

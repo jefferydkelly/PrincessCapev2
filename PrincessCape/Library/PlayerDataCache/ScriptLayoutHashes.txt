@@ -1,4 +1,4 @@
-OSXStandalone
+WindowsStandalone
 SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/Test.unity

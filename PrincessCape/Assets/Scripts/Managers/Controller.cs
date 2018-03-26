@@ -224,12 +224,21 @@ public class Controller:Manager {
 			EventManager.TriggerEvent("ItemTwoDeactivated");
 		}
 
-        if (IsKeyDown("Inventory")) {
-            EventManager.TriggerEvent("Inventory");
+        if (Game.Instance.IsPlaying || Game.Instance.IsInInventory)
+        {
+            if (IsKeyDown("Inventory"))
+            {
+                EventManager.TriggerEvent("Inventory");
+            }
         }
 
-        if (IsKeyDown("Interact")) {
-            EventManager.TriggerEvent("Interact");
+        if(Game.Instance.IsPlaying) {
+
+            if (IsKeyDown("Interact"))
+            {
+                EventManager.TriggerEvent("Interact");
+                EventManager.TriggerEvent("ClearInteraction");
+            }
         }
 
 
