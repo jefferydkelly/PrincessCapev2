@@ -194,6 +194,10 @@ public class Controller:Manager {
     /// <param name="dt">The time since the last update.</param>
     public void Update(float dt)
     {
+
+        if (Input.anyKeyDown) {
+            EventManager.TriggerEvent("AnyKey");
+        }
 		if (Pause)
 		{
 			EventManager.TriggerEvent("Pause");

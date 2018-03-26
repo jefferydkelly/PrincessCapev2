@@ -20,7 +20,7 @@ public class KnightRemains : InteractiveObject
             //Add item to the player's inventory
             if (messageFile != null)
             {
-                MessageBox.SetMessage(messageFile.text.Split('\n').ToList());
+                UIManager.Instance.SetMainText(messageFile.text.Split('\n').ToList());
                 SpeakerBox.SetSpeaker(knightName);
                 EventManager.StartListening("EndOfMessage", GiveItem);
                 EventManager.TriggerEvent("ShowDialog");

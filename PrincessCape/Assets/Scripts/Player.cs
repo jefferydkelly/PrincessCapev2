@@ -466,7 +466,7 @@ public class Player : MonoBehaviour {
         items = (ItemLevel)System.Enum.Parse(typeof(ItemLevel), mi.ItemName.Replace(" ", string.Empty));
         if (showMessage)
         {
-            MessageBox.SetMessage(mi.ItemGetMessage);
+            UIManager.Instance.SetMainText(mi.ItemGetMessage);
             EventManager.TriggerEvent("ShowMessage");
             state = PlayerState.ReadingMessage;
         }
@@ -480,9 +480,6 @@ public class Player : MonoBehaviour {
 		isFrozen = false;
 		state = PlayerState.Normal;
         EventManager.TriggerEvent("HideMessage");
-        Debug.Log(state);
-        //EventManager.TriggerEvent("Pause");
-
     }
 
     void StartPush() {

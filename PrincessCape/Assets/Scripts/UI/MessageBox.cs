@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class MessageBox : MonoBehaviour {
 
-    static List<string> message;
-    Text text;
+    List<string> message;
+    Text textbox;
     int curLine = 0;
     int currentCharacter = 0;
     float revealTime = 0.05f;
@@ -18,13 +18,13 @@ public class MessageBox : MonoBehaviour {
         EventManager.StartListening("ShowMessage", DisplayMessage);
         EventManager.StartListening("ShowLine", DisplayLine);
         EventManager.StartListening("AlignLeft", ()=>{
-            text.alignment = TextAnchor.UpperLeft;
+            textbox.alignment = TextAnchor.UpperLeft;
         });
 
         EventManager.StartListening("AlignRight", () => {
-            text.alignment = TextAnchor.UpperRight;
+            textbox.alignment = TextAnchor.UpperRight;
         });
-        text = GetComponentInChildren<Text>();
+        textbox = GetComponentInChildren<Text>();
     }
 
     void DisplayLine() {
@@ -36,7 +36,7 @@ public class MessageBox : MonoBehaviour {
         }
 
 
-        text.text = ParseKeys(message[0]);
+        textbox.text = ParseKeys(message[0]);
         curLine = 0;
     }
 
@@ -78,20 +78,24 @@ public class MessageBox : MonoBehaviour {
 
     void StartReveal() {
 		currentCharacter = 0;
-		text.text = "";
+		textbox.text = "";
 		revealTimer = new Timer(revealTime, message[curLine].Length - 1);
 		revealTimer.OnTick.AddListener(RevealCharacter);
-		revealTimer.OnComplete.AddListener(() => { EventManager.StartListening("ItemOneActivated", NextLine); });
+		revealTimer.OnComplete.AddListener(() => { EventManager.StartListening("AnyKey", NextLine); });
 		revealTimer.Start();
     }
     void RevealCharacter() {
         currentCharacter++;
-        currentCharacter = Mathf.Max(text.text.Length, currentCharacter);
-        text.text = message[curLine].Substring(0, currentCharacter);
+        currentCharacter = Mathf.Min(message[curLine].Length, currentCharacter);
+        textbox.text = message[curLine].Substring(0, currentCharacter);
+
+        if (currentCharacter == message[curLine].Length) {
+            EventManager.TriggerEvent("EndOfLine");
+        }
     }
     void NextLine() {
         
-        EventManager.StopListening("ItemOneActivated", NextLine);
+        EventManager.StopListening("AnyKey", NextLine);
         curLine++;
         if (curLine < message.Count)
         {
@@ -108,11 +112,26 @@ public class MessageBox : MonoBehaviour {
 
     }
 
-    public static void SetMessage(List<string> words) {
-        message = words;
+    /// <summary>
+    /// Gets or sets the message.
+    /// </summary>
+    /// <value>The message.</value>
+    public List<string> Message {
+        set {
+            message = value;
+        }
+
+        get {
+            return message;
+        }
     }
 
-    public static void SetLine(string line) {
-        message = new List<string>() { line };
+    public bool IsComplete {
+        get {
+            if (curLine >= message.Count) {
+                return false;
+            }
+            return currentCharacter == message[curLine].Length;
+        }
     }
 }

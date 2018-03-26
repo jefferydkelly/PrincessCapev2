@@ -91,7 +91,7 @@ public class CutsceneDialog : CutsceneElement
     /// </summary>
 	public override void Run()
 	{
-        MessageBox.SetLine(dialog);
+        UIManager.Instance.SetMainText(dialog);
 		if (speaker != null)
 		{
             SpeakerBox.SetSpeaker(speaker);
