@@ -23,7 +23,7 @@ public abstract class InteractiveObject : MapTile {
     /// <param name="collision">Collision.</param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Player")) {
+        if (collision.collider.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem) {
             IsHighlighted = true;
         }
     }
@@ -36,7 +36,7 @@ public abstract class InteractiveObject : MapTile {
     /// <param name="collision">Collision.</param>
     private void OnCollisionExit2D(Collision2D collision)
     {
-		if (collision.collider.CompareTag("Player"))
+		if (collision.collider.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem)
 		{
             IsHighlighted = false;
 		}
@@ -48,7 +48,7 @@ public abstract class InteractiveObject : MapTile {
 	/// <param name="collision">Collision.</param>
 	public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) {
+        if (collision.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem) {
             IsHighlighted = true;
         }
     }
@@ -59,7 +59,7 @@ public abstract class InteractiveObject : MapTile {
 	/// <param name="collision">Collision.</param>
 	public void OnTriggerExit2D(Collider2D collision)
 	{
-		if (collision.CompareTag("Player"))
+		if (collision.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem)
 		{
             IsHighlighted = false;
 		}
@@ -79,6 +79,7 @@ public abstract class InteractiveObject : MapTile {
             if (value) {
                 Selected = this;
                 EventManager.StartListening("Interact", Interact);
+                UIManager.Instance.SetInteractionText(interaction);
             } else if (selected == this) {
                 Selected = null;
                 EventManager.StopListening("Interact", Interact);
@@ -93,7 +94,6 @@ public abstract class InteractiveObject : MapTile {
 
         private set {
             selected = value;
-            EventManager.TriggerEvent("SetInteraction");
         }
     }
 

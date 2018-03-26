@@ -241,7 +241,7 @@ public class Controller:Manager {
             if (IsKeyDown("Interact"))
             {
                 EventManager.TriggerEvent("Interact");
-                EventManager.TriggerEvent("ClearInteraction");
+                //EventManager.TriggerEvent("ClearInteraction");
             }
         }
 

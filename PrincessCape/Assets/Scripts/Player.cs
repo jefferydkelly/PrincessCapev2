@@ -22,6 +22,7 @@ public class Player : MonoBehaviour {
     List<MagicItem> inventory;
     ItemLevel items = ItemLevel.None;
     bool initialized = false;
+    HeldItem heldItem;
     private void Awake()
     {
         inventory = new List<MagicItem>();
@@ -119,6 +120,9 @@ public class Player : MonoBehaviour {
                     fwd *= -1;
                     myRenderer.flipX = !myRenderer.flipX;
                 }
+            }
+            if (heldItem) {
+                heldItem.transform.position = transform.position + Vector3.right * fwd;
             }
             bool onGround = IsOnGround;
 
@@ -503,6 +507,21 @@ public class Player : MonoBehaviour {
     public ItemLevel Items {
         get {
             return items;
+        }
+    }
+
+    public HeldItem HeldItem {
+        get {
+            return heldItem;
+        }
+
+        set {
+            heldItem = value;
+        }
+    }
+    public bool IsHoldingItem {
+        get {
+            return heldItem != null;
         }
     }
 }

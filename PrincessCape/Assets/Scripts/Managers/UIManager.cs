@@ -9,21 +9,27 @@ public class UIManager : MonoBehaviour {
     MessageBox mainText;
     [SerializeField]
     Text minorText;
+    [SerializeField]
+    InteractionBox interaction;
 
     private void Awake()
     {
         instance = this;
+        Timer showTimer = new Timer(2.0f);
+        showTimer.OnTick.AddListener(()=> {
+			minorText.gameObject.SetActive(true);
+			SetMinorText("Press Any Key To Continue");
+        });
         EventManager.StartListening("EndOfLine", ()=> {
-            minorText.gameObject.SetActive(true);
-            SetMinorText("Press Any Key To Continue");
+            showTimer.Start();
         });
 
         EventManager.StartListening("AnyKey", ()=> {
-            if (mainText.IsComplete) {
-                minorText.gameObject.SetActive(false);
-            }        
+            showTimer.Stop();
+            minorText.gameObject.SetActive(false);
         });
 
+        interaction.Text = "";
         minorText.gameObject.SetActive(false);
     }
 
@@ -61,5 +67,12 @@ public class UIManager : MonoBehaviour {
 	{
         minorText.text = line;
 	}
+
+    public void SetInteractionText(string line) {
+        if (interaction.IsHidden) {
+            interaction.IsHidden = false;
+        }
+        interaction.Text = line;
+    }
 
 }

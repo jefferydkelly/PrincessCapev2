@@ -53,7 +53,7 @@ public class KnightRemains : InteractiveObject
     /// <param name="collision">Collision.</param>
     public new void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!itemGiven && collision.CompareTag("Player"))
+        if (!itemGiven && collision.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem)
         {
             IsHighlighted = true;
         }
