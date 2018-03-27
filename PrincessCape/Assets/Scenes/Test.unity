@@ -636,7 +636,7 @@ Prefab:
     - target: {fileID: 224447129829225018, guid: e6ab0f94da34b443caecaa7470a6443c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 484.7324
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224447129829225018, guid: e6ab0f94da34b443caecaa7470a6443c,
         type: 2}
@@ -1754,7 +1754,7 @@ Prefab:
     - target: {fileID: 224447129829225018, guid: e6ab0f94da34b443caecaa7470a6443c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 484.7324
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224447129829225018, guid: e6ab0f94da34b443caecaa7470a6443c,
         type: 2}
@@ -3264,6 +3264,48 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &727904904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 727904905}
+  - component: {fileID: 727904906}
+  m_Layer: 0
+  m_Name: Heatlh Bar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &727904905
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 727904904}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 50, y: 25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1817260411}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &727904906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 727904904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7639f0c63066b433588ed225e6117d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heartPrefab: {fileID: 1885108323267032, guid: 0375acb204f83407cade7761a6bfb870,
+    type: 2}
 --- !u!1 &750119181
 GameObject:
   m_ObjectHideFlags: 0
@@ -3493,7 +3535,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 543.6083, y: 484.7324}
+  m_AnchoredPosition: {x: 543.6083, y: 0}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &789131711
@@ -8493,7 +8535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1799882834
 Transform:
   m_ObjectHideFlags: 0
@@ -8756,12 +8798,13 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1817260410}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1439.0815, y: -886.39703, z: -0.14946295}
+  m_LocalPosition: {x: -1440, y: 700, z: 0}
   m_LocalScale: {x: 3.2727273, y: 3.2727273, z: 3.2727273}
   m_Children:
   - {fileID: 1445956527}
   - {fileID: 78793427}
   - {fileID: 789131710}
+  - {fileID: 727904905}
   m_Father: {fileID: 1785769908}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -23,6 +23,9 @@ public class Player : MonoBehaviour {
     ItemLevel items = ItemLevel.None;
     bool initialized = false;
     HeldItem heldItem;
+
+    int currentHealth = 3;
+    int maxHealth = 3;
     private void Awake()
     {
         inventory = new List<MagicItem>();
@@ -208,6 +211,11 @@ public class Player : MonoBehaviour {
         EventManager.TriggerEvent("ItemOnDeactivated");
         state = PlayerState.Dead;
         resetTimer.Start();
+    }
+
+    public void TakeDamage() {
+        currentHealth--;
+        EventManager.TriggerEvent("TakeDamage");
     }
 
     /// <summary>
@@ -510,6 +518,10 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets or sets the held item.
+    /// </summary>
+    /// <value>The held item.</value>
     public HeldItem HeldItem {
         get {
             return heldItem;
@@ -519,9 +531,33 @@ public class Player : MonoBehaviour {
             heldItem = value;
         }
     }
+
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Player"/> is holding item.
+    /// </summary>
+    /// <value><c>true</c> if is holding item; otherwise, <c>false</c>.</value>
     public bool IsHoldingItem {
         get {
             return heldItem != null;
+        }
+    }
+    /// <summary>
+    /// Gets the current health.
+    /// </summary>
+    /// <value>The current health.</value>
+    public int CurrentHealth {
+        get {
+            return currentHealth;
+        }
+    }
+
+    /// <summary>
+    /// Gets the max health.
+    /// </summary>
+    /// <value>The max health.</value>
+    public int MaxHealth {
+        get {
+            return maxHealth;
         }
     }
 }
