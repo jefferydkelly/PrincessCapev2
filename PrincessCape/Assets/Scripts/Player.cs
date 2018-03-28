@@ -51,6 +51,7 @@ public class Player : MonoBehaviour {
 
         });
         EventManager.StartListening("EndCutscene", EndCutscene);
+
         DontDestroyOnLoad(gameObject);
    
     }
@@ -68,21 +69,21 @@ public class Player : MonoBehaviour {
             {
                 CameraManager.Instance.Target = gameObject;
             }
-
+            EventManager.TriggerEvent("IncreaseHealth");
             initialized = true;
         }
     }
 
     private void OnEnable()
     {
-        EventManager.StartListening("PlayerDied", Die);
+        EventManager.StartListening("PlayerReset", TakeDamage);
         EventManager.StartListening("Pause", Pause);
         EventManager.StartListening("StartPush", StartPush);
     }
 
 	private void OnDisable()
 	{
-        EventManager.StopListening("PlayerDied", Die);
+        EventManager.StopListening("PlayerReset", TakeDamage);
 		EventManager.StopListening("Pause", Pause);
 	}
 
@@ -216,6 +217,10 @@ public class Player : MonoBehaviour {
     public void TakeDamage() {
         currentHealth--;
         EventManager.TriggerEvent("TakeDamage");
+
+        if (currentHealth == 0) {
+            Die();
+        }
     }
 
     /// <summary>

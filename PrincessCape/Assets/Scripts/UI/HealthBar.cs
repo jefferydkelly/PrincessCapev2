@@ -7,8 +7,10 @@ public class HealthBar : MonoBehaviour {
     GameObject heartPrefab;
 	// Use this for initialization
 	void Awake () {
-        EventManager.StartListening("TakeDamage", UpdateHealth);
-        EventManager.StartListening("PlayerRespawned", UpdateHealth);
+        EventManager.StartListening("TakeDamage", TakeDamage);
+        EventManager.StartListening("RestoreHealth", RestoreHealth);
+        EventManager.StartListening("PlayerRespawned", FullRestore);
+        EventManager.StartListening("IncreaseHealth", AddNewHeart);
 	}
 
     private void UpdateHealth()
@@ -21,11 +23,32 @@ public class HealthBar : MonoBehaviour {
                 heart.transform.SetParent(transform);
                 heart.transform.localPosition = Vector3.right * 66 * i;
             }
-        } else {
-			for (int i = transform.childCount; i > Game.Instance.Player.CurrentHealth; i--)
-			{
-                Destroy(transform.GetChild(i).gameObject);
-			}
+        }
+    }
+
+    void RestoreHealth() {
+        for (int i = 0; i < Game.Instance.Player.CurrentHealth; i++) {
+            transform.GetChild(i).gameObject.SetActive(true);
+        }
+    }
+    void TakeDamage() {
+		for (int i = transform.childCount; i > Game.Instance.Player.CurrentHealth; i--)
+		{
+            transform.GetChild(i-1).gameObject.SetActive(false);
+		}
+    }
+    void AddNewHeart() {
+        FullRestore();
+        for (int i = transform.childCount; i < Game.Instance.Player.MaxHealth; i++) {
+			GameObject heart = Instantiate(heartPrefab);
+			heart.transform.SetParent(transform);
+			heart.transform.localPosition = Vector3.right * 66 * i;
+        }
+    }
+
+    void FullRestore() {
+        for (int i = 0; i < transform.childCount; i++) {
+            transform.GetChild(i).gameObject.SetActive(true);
         }
     }
 }
