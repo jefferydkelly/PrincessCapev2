@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HeldItem : InteractiveObject
 {
-    Rigidbody2D myRigidbody;
+    protected Rigidbody2D myRigidbody;
     bool isHeld = false;
     public override void Init()
     {
@@ -15,13 +15,15 @@ public class HeldItem : InteractiveObject
     public void Drop()
     {
         Game.Instance.Player.HeldItem = null;
+        UIManager.Instance.SetInteractionText("");
         myRigidbody.gravityScale = 1;
         //transform.position += Game.Instance.Player.Forward * 0.1f;
         if (Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f)
         {
-            myRigidbody.velocity = Game.Instance.Player.Forward * 12.5f;
+            myRigidbody.AddForce(Game.Instance.Player.Forward * 6.25f, ForceMode2D.Impulse);
         }
         isHeld = false;
+
     }
 
     public override void Interact()
@@ -30,7 +32,9 @@ public class HeldItem : InteractiveObject
         {
             Game.Instance.Player.HeldItem = this;
             myRigidbody.gravityScale = 0;
+            myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             isHeld = true;
+            IsHighlighted = false;
             EventManager.StartListening("Interact", Drop);
         } else {
             Drop();
