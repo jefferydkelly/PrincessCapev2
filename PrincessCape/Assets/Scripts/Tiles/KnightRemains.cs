@@ -17,6 +17,8 @@ public class KnightRemains : InteractiveObject
     {
         if (!itemGiven)
         {
+            UIManager.Instance.SetInteractionText("");
+            IsHighlighted = false;
             //Add item to the player's inventory
             if (messageFile != null)
             {

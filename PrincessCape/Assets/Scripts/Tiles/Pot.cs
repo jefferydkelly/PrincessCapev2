@@ -21,9 +21,10 @@ public class Pot : HeldItem {
     {
         base.Init();
         startPosition = transform.position;
-        EventManager.StartListening("Reset", ()=> {
+        EventManager.StartListening("PlayerRespawned", ()=> {
+            gameObject.SetActive(true);
             transform.position = startPosition;
-            myRenderer.enabled = true;
+
         });
     }
     private void OnCollisionEnter2D(Collision2D collision)

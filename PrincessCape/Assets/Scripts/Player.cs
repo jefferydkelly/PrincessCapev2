@@ -24,8 +24,12 @@ public class Player : MonoBehaviour {
     bool initialized = false;
     HeldItem heldItem;
 
+    //Health
     int currentHealth = 3;
     int maxHealth = 3;
+    bool isInvincible = false;
+    Timer invincibilityTimer;
+
     private void Awake()
     {
         inventory = new List<MagicItem>();
@@ -70,20 +74,23 @@ public class Player : MonoBehaviour {
                 CameraManager.Instance.Target = gameObject;
             }
             EventManager.TriggerEvent("IncreaseHealth");
+            invincibilityTimer = new Timer(0.5f);
+            invincibilityTimer.OnComplete.AddListener(()=> {
+                isInvincible = false;
+                myRenderer.color = myRenderer.color.SetAlpha(1.0f);
+            });
             initialized = true;
         }
     }
 
     private void OnEnable()
     {
-        EventManager.StartListening("PlayerReset", TakeDamage);
         EventManager.StartListening("Pause", Pause);
         EventManager.StartListening("StartPush", StartPush);
     }
 
 	private void OnDisable()
 	{
-        EventManager.StopListening("PlayerReset", TakeDamage);
 		EventManager.StopListening("Pause", Pause);
 	}
 
@@ -205,33 +212,59 @@ public class Player : MonoBehaviour {
     /// Kill the player and reset the game.
     /// </summary>
     public void Die() {
-        isFrozen = true;
-        if (state == PlayerState.MovingBlock) {
-            InteractiveObject.Selected.Interact();
-        }
-        EventManager.TriggerEvent("ItemOnDeactivated");
         state = PlayerState.Dead;
-        resetTimer.Start();
+        BeginReset();
     }
 
-    public void TakeDamage() {
-        currentHealth--;
-        EventManager.TriggerEvent("TakeDamage");
-
-        if (currentHealth == 0) {
-            Die();
+    public void TakeDamage(bool autoReset = false) {
+        if (!isInvincible)
+        {
+            currentHealth--;
+            EventManager.TriggerEvent("TakeDamage");
+            isInvincible = true;
+            if (currentHealth == 0)
+            {
+                Die();
+            }
+            else if (autoReset)
+            {
+                BeginReset();
+            } else {
+                myRenderer.color = myRenderer.color.SetAlpha(0.5f);
+                invincibilityTimer.Start();;
+            }
         }
+    }
+
+    void BeginReset() {
+		isFrozen = true;
+		EventManager.TriggerEvent("ItemOneDeactivated");
+		EventManager.TriggerEvent("ItemTwoDeactivated");
+		if (state == PlayerState.MovingBlock)
+		{
+			InteractiveObject.Selected.Interact();
+		}
+        if (IsHoldingItem) {
+            heldItem.Drop();
+        }
+        resetTimer.Start();
     }
 
     /// <summary>
     /// Reset the player to the last checkpoint.
     /// </summary>
     public void Reset() {
-        EventManager.TriggerEvent("PlayerRespawned");
+        if (IsDead)
+        {
+            currentHealth = maxHealth;
+            EventManager.TriggerEvent("PlayerRespawned");
+        }
         transform.position = Checkpoint.ResetPosition + Vector3.up;
         isFrozen = false;
         myRigidbody.velocity = Vector2.zero;
         state = PlayerState.Normal;
+		myRenderer.color = myRenderer.color.SetAlpha(0.5f);
+		invincibilityTimer.Start(); ;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -260,15 +293,12 @@ public class Player : MonoBehaviour {
 			aboveLadder = true;
             theLadder = collision.gameObject.GetComponentInParent<Ladder>();
         } else if (collision.collider.CompareTag("Projectile")) {
-            Projectile projectile = collision.gameObject.GetComponent<Projectile>();
             if (IsUsingShield) {
-                projectile.Fwd = Controller.Instance.DirectionalInput;
+                collision.gameObject.GetComponent<Projectile>().Fwd = Controller.Instance.DirectionalInput;
             } else {
-                Die();
+                TakeDamage();
             }
         }
-
-
     }
 
     private void OnCollisionExit2D(Collision2D collision)
