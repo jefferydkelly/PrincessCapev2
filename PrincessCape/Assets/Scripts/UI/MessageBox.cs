@@ -81,8 +81,18 @@ public class MessageBox : MonoBehaviour {
 		textbox.text = "";
 		revealTimer = new Timer(revealTime, message[curLine].Length - 1);
 		revealTimer.OnTick.AddListener(RevealCharacter);
+        EventManager.StartListening("AnyKey", FastReveal);
 		revealTimer.OnComplete.AddListener(() => { EventManager.StartListening("AnyKey", NextLine); });
 		revealTimer.Start();
+    }
+
+    void FastReveal() {
+        revealTimer.Stop();
+        currentCharacter = message[curLine].Length;
+        textbox.text = message[curLine].Substring(0, currentCharacter);
+        EventManager.TriggerEvent("EndOfLine");
+        EventManager.StopListening("AnyKey", FastReveal);
+        EventManager.StartListening("AnyKey", NextLine);
     }
     void RevealCharacter() {
         currentCharacter++;
@@ -92,6 +102,8 @@ public class MessageBox : MonoBehaviour {
         if (currentCharacter == message[curLine].Length) {
             EventManager.TriggerEvent("EndOfLine");
         }
+
+
     }
     void NextLine() {
         
