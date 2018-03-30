@@ -13,7 +13,7 @@ public class Door : MapTile {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && nextScene.Length > 0) {
-            
+            EventManager.TriggerEvent("LevelOver");
             Game.Instance.LoadScene(nextScene);
         }
     }
