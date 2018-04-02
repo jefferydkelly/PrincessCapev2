@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Player : MonoBehaviour {
 
     int platformLayers = -1;
@@ -60,6 +59,9 @@ public class Player : MonoBehaviour {
    
     }
 
+    /// <summary>
+    /// Initializes the player and the basic components
+    /// </summary>
     public void Init() {
         if (!initialized)
         {
@@ -68,11 +70,13 @@ public class Player : MonoBehaviour {
             resetTimer = new Timer(1.0f);
             resetTimer.OnComplete.AddListener(Game.Instance.Reset);
 
+            //Exlcude these Player, Background and Hazard layers so the player can't jump off any of them
             platformLayers = ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("Hazard"));
             if (CameraManager.Instance != null)
             {
                 CameraManager.Instance.Target = gameObject;
             }
+            //Updates the health bar in the UI
             EventManager.TriggerEvent("IncreaseHealth");
             invincibilityTimer = new Timer(0.5f);
             invincibilityTimer.OnComplete.AddListener(()=> {
@@ -86,7 +90,6 @@ public class Player : MonoBehaviour {
     private void OnEnable()
     {
         EventManager.StartListening("Pause", Pause);
-        EventManager.StartListening("StartPush", StartPush);
     }
 
 	private void OnDisable()
@@ -115,9 +118,11 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        //If the player isn't visible on the screen, call PlayerOffscreen to recenter the camera
         if (!myRenderer.isVisible) {
             EventManager.TriggerEvent("PlayerOffscreen");
         }
+
         if (Game.Instance.IsPlaying && !isFrozen && !IsPulling)
         {
             float xForce = Controller.Instance.Horizontal * 5;
@@ -126,13 +131,13 @@ public class Player : MonoBehaviour {
 
             if (myRigidbody.velocity.x / fwd < 0) {
                 
-                if (state != PlayerState.MovingBlock)
+                if (!(IsHoldingItem && heldItem.IsHeavy))
                 {
                     fwd *= -1;
                     myRenderer.flipX = !myRenderer.flipX;
                 }
             }
-            if (heldItem) {
+            if (IsHoldingItem) {
                 heldItem.transform.position = transform.position + Vector3.right * fwd;
             }
             bool onGround = IsOnGround;
@@ -171,13 +176,6 @@ public class Player : MonoBehaviour {
         }
 	}
 
-    private void LateUpdate()
-    {
-        if (state == PlayerState.MovingBlock) {
-            myRigidbody.velocity = Vector3.right * Controller.Instance.Horizontal * maxSpeed / 4.0f;
-        }
-    }
-
     /// <summary>
     /// Makes the Player jump.
     /// </summary>
@@ -204,7 +202,7 @@ public class Player : MonoBehaviour {
     /// <value><c>true</c> if can jump; otherwise, <c>false</c>.</value>
     bool CanJump {
         get {
-            return IsOnGround && !IsUsingMagneticGloves && state != PlayerState.MovingBlock;
+            return IsOnGround && !IsUsingMagneticGloves;
         }
     }
 
@@ -216,6 +214,10 @@ public class Player : MonoBehaviour {
         BeginReset();
     }
 
+    /// <summary>
+    /// Deals damage to the player and causes the player to die if the currentHealth == 0
+    /// </summary>
+    /// <param name="autoReset">If set to <c>true</c>, the player will reset to the last checkpoint automatically.</param>
     public void TakeDamage(bool autoReset = false) {
         if (!isInvincible)
         {
@@ -236,14 +238,13 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Starts resetting the player.
+    /// </summary>
     void BeginReset() {
 		isFrozen = true;
 		EventManager.TriggerEvent("ItemOneDeactivated");
 		EventManager.TriggerEvent("ItemTwoDeactivated");
-		if (state == PlayerState.MovingBlock)
-		{
-			InteractiveObject.Selected.Interact();
-		}
         if (IsHoldingItem) {
             heldItem.Drop();
         }
@@ -395,6 +396,10 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:Player"/> is using shield.
+    /// </summary>
+    /// <value><c>true</c> if is using shield; otherwise, <c>false</c>.</value>
     public bool IsUsingShield {
         get {
             return state == PlayerState.UsingShield;
@@ -468,6 +473,10 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Player"/> is using magnetic gloves.
+    /// </summary>
+    /// <value><c>true</c> if is using magnetic gloves; otherwise, <c>false</c>.</value>
     public bool IsUsingMagneticGloves {
         get {
             return state == PlayerState.Pulling || state == PlayerState.Pushing;
@@ -527,20 +536,6 @@ public class Player : MonoBehaviour {
 		isFrozen = false;
 		state = PlayerState.Normal;
         EventManager.TriggerEvent("HideMessage");
-    }
-
-    void StartPush() {
-        if (IsOnGround) {
-            state = PlayerState.MovingBlock;
-            EventManager.StopListening("StartPush", StartPush);
-            EventManager.StartListening("StopPush", StopPush);
-        }
-    }
-
-    void StopPush() {
-        state = PlayerState.Normal;
-        EventManager.StopListening("StopPush", StopPush);
-        EventManager.StartListening("StartPush", StartPush);
     }
 
     /// <summary>
@@ -604,7 +599,6 @@ public enum PlayerState {
     Floating,
     Pushing,
     Pulling,
-    MovingBlock,
     UsingShield,
     Frozen,
     ReadingMessage

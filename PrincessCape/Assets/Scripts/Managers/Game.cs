@@ -101,6 +101,9 @@ public class Game : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
+        if(managers == null) {
+            managers = new List<Manager>();
+        }
         if (toAdd == null) {
             toAdd = new List<Manager>();
         }

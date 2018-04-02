@@ -6,7 +6,8 @@ using UnityEngine;
 public class HeldItem : InteractiveObject
 {
     protected Rigidbody2D myRigidbody;
-    bool isHeld = false;
+    protected bool isHeld = false;
+    protected bool canBeThrown = true;
     public override void Init()
     {
         base.Init();
@@ -18,12 +19,12 @@ public class HeldItem : InteractiveObject
         UIManager.Instance.SetInteractionText("");
         myRigidbody.gravityScale = 1;
         //transform.position += Game.Instance.Player.Forward * 0.1f;
-        if (Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f)
-        {
-            myRigidbody.AddForce(Game.Instance.Player.Forward * 6.25f, ForceMode2D.Impulse);
-        }
         isHeld = false;
 
+    }
+
+    public void Throw() {
+        myRigidbody.AddForce(Game.Instance.Player.Forward * 6.25f, ForceMode2D.Impulse);
     }
 
     public override void Interact()
@@ -38,6 +39,10 @@ public class HeldItem : InteractiveObject
             EventManager.StartListening("Interact", Drop);
         } else {
             Drop();
+
+            if (canBeThrown && Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f) {
+                Throw();
+            }
         }
     }
 
@@ -45,7 +50,7 @@ public class HeldItem : InteractiveObject
     {
         if (isHeld)
         {
-            if (Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f)
+            if (canBeThrown && Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f)
             {
                 UIManager.Instance.SetInteractionText("Throw");
             }
@@ -53,6 +58,12 @@ public class HeldItem : InteractiveObject
             {
                 UIManager.Instance.SetInteractionText("Drop");
             }
+        }
+    }
+
+    public bool IsHeavy {
+        get {
+            return myRigidbody.mass > 1.0f;
         }
     }
 }
