@@ -1228,6 +1228,12 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &222546936 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114920916779455512, guid: e6ab0f94da34b443caecaa7470a6443c,
+    type: 2}
+  m_PrefabInternal: {fileID: 483958004}
+  m_Script: {fileID: 11500000, guid: 99baf0920ee4a484f9866e4027dcdb39, type: 3}
 --- !u!1 &228007977
 GameObject:
   m_ObjectHideFlags: 0
@@ -9576,7 +9582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1785769905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9672,6 +9678,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainText: {fileID: 1242165087}
   minorText: {fileID: 2007370107}
+  itemOneBox: {fileID: 2059503582}
+  itemTwoBox: {fileID: 222546936}
   interaction: {fileID: 6262278}
   loadingScreen: {fileID: 906522743}
 --- !u!1 &1803046168
@@ -10882,6 +10890,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2053843161}
+--- !u!114 &2059503582 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114920916779455512, guid: e6ab0f94da34b443caecaa7470a6443c,
+    type: 2}
+  m_PrefabInternal: {fileID: 174719088}
+  m_Script: {fileID: 11500000, guid: 99baf0920ee4a484f9866e4027dcdb39, type: 3}
 --- !u!1 &2099388849
 GameObject:
   m_ObjectHideFlags: 0

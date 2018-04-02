@@ -15,7 +15,7 @@ public class ItemBox : MonoBehaviour {
         itemImage = GetComponentsInChildren<Image>()[1];
 
         keyBox = transform.parent.GetComponentInChildren<Text>();
-        keyBox.text = Controller.Instance.GetKey(isFirstItem ? "ItemOne" : "ItemTwo");
+        //keyBox.text = Controller.Instance.GetKey(isFirstItem ? "ItemOne" : "ItemTwo");
         EventManager.StartListening("ShowMessage", StopListening);
         EventManager.StartListening("ShowDialog", StopListening);
         EventManager.StartListening("EndOfMessage", StartListening);
@@ -103,4 +103,14 @@ public class ItemBox : MonoBehaviour {
 			return !GetComponent<Image>().enabled;
 		}
 	}
+
+    public string KeyText {
+        get {
+            return keyBox.text;
+        }
+
+        set {
+            keyBox.text = value;
+        }
+    }
 }

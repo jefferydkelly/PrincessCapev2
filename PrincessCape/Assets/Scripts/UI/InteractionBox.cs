@@ -19,8 +19,8 @@ public class InteractionBox : MonoBehaviour
             textbox.text = "";
         });
 
-        interactionKey = transform.parent.GetComponentInChildren<Text>();
-        interactionKey.text = Controller.Instance.GetKey("Interact");
+        interactionKey = transform.parent.GetComponentsInChildren<Text>()[1];
+        //interactionKey.text = Controller.Instance.GetKey("Interact");
 
         EventManager.StartListening("ClearIntearction", ClearText);
     }
@@ -62,6 +62,16 @@ public class InteractionBox : MonoBehaviour
         set
         {
             textbox.text = value;
+        }
+    }
+
+    public string KeyText {
+        get {
+            return interactionKey.text;
+        }
+
+        set {
+            interactionKey.text = value;
         }
     }
 }

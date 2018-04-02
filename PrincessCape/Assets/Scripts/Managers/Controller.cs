@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class Controller:Manager {
     static Controller instance;
-    Dictionary<string, KeyCode> keys;
+    protected Dictionary<string, KeyCode> keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Controller"/> class.
     /// </summary>
-    Controller() {
+    protected Controller() {
         instance = this;
         keys = new Dictionary<string, KeyCode>();
         keys.Add("Forward", KeyCode.D);
@@ -23,7 +23,6 @@ public class Controller:Manager {
         keys.Add("Interact", KeyCode.F);
         keys.Add("Pause", KeyCode.P);
         keys.Add("Inventory", KeyCode.I);
-
     }
 
     public void SetKeys(Dictionary<string, KeyCode> keyDict) {
@@ -40,7 +39,13 @@ public class Controller:Manager {
             {
                 if (instance == null)
                 {
-                    instance = new Controller();
+                    if (Input.GetJoystickNames().Length == 0)
+                    {
+                        instance = new Controller();
+                    } else {
+                        instance = new GamepadController();
+                    }
+                    UIManager.Instance.UpdateKeys();
                     Game.Instance.AddManager(instance);
                 }
                 return instance;
@@ -54,7 +59,7 @@ public class Controller:Manager {
     /// Gets the horizontal input.
     /// </summary>
     /// <value>The horizontal input.</value>
-    public float Horizontal {
+    public virtual float Horizontal {
         get {
             return (Input.GetKey(keys["Forward"]) ? 1 : 0) - (Input.GetKey(keys["Backward"]) ? 1 : 0);
             //return Input.GetAxis("Horizontal");
@@ -65,7 +70,7 @@ public class Controller:Manager {
     /// Gets the vertical input.
     /// </summary>
     /// <value>The vertical input.</value>
-    public float Vertical {
+    public virtual float Vertical {
         get {
             return (Input.GetKey(keys["Up"]) ? 1 : 0) - (Input.GetKey(keys["Down"]) ? 1 : 0);
         }
@@ -192,7 +197,7 @@ public class Controller:Manager {
     /// Updates Input.
     /// </summary>
     /// <param name="dt">The time since the last update.</param>
-    public void Update(float dt)
+    public virtual void Update(float dt)
     {
 
         if (Input.anyKeyDown) {
@@ -270,7 +275,7 @@ public class Controller:Manager {
     /// </summary>
     /// <returns>The key.</returns>
     /// <param name="key">Key.</param>
-    public string GetKey(string key) {
+    public virtual string GetKey(string key) {
         KeyCode keycode = KeyCode.None;
 
         if (keys.TryGetValue(key, out keycode)) {

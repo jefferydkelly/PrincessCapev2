@@ -11,6 +11,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Text minorText;
     [SerializeField]
+    ItemBox itemOneBox;
+	[SerializeField]
+	ItemBox itemTwoBox;
+    [SerializeField]
     InteractionBox interaction;
     [SerializeField]
     Image loadingScreen;
@@ -113,5 +117,11 @@ public class UIManager : MonoBehaviour
         get {
             return loadingScreen.color.a <= 0.0f;
         }
+    }
+
+    public void UpdateKeys() {
+        itemOneBox.KeyText = Controller.Instance.GetKey("ItemOne");
+        itemTwoBox.KeyText = Controller.Instance.GetKey("ItemTwo");
+        interaction.KeyText = Controller.Instance.GetKey("Interact");
     }
 }
