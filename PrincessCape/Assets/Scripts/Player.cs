@@ -202,7 +202,7 @@ public class Player : MonoBehaviour {
     /// <value><c>true</c> if can jump; otherwise, <c>false</c>.</value>
     bool CanJump {
         get {
-            return IsOnGround && !IsUsingMagneticGloves;
+            return IsOnGround && !IsUsingMagneticGloves && !(IsHoldingItem && heldItem.IsHeavy);
         }
     }
 
