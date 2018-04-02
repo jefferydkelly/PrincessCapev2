@@ -139,6 +139,10 @@ public class Player : MonoBehaviour {
             }
             if (IsHoldingItem) {
                 heldItem.transform.position = transform.position + Vector3.right * fwd;
+
+                if (heldItem.IsHeavy) {
+                    heldItem.transform.position = heldItem.transform.position.SetY(transform.position.y - Height / 2 + heldItem.HalfHeight);
+                }
             }
             bool onGround = IsOnGround;
 
@@ -588,6 +592,12 @@ public class Player : MonoBehaviour {
     public int MaxHealth {
         get {
             return maxHealth;
+        }
+    }
+
+    float Height {
+        get {
+            return myRenderer.bounds.size.y;
         }
     }
 }

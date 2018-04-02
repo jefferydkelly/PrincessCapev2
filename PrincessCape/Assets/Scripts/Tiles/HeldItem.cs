@@ -7,7 +7,6 @@ public class HeldItem : InteractiveObject
 {
     protected Rigidbody2D myRigidbody;
     protected bool isHeld = false;
-    protected bool canBeThrown = true;
     public override void Init()
     {
         base.Init();
@@ -40,7 +39,7 @@ public class HeldItem : InteractiveObject
         } else {
             Drop();
 
-            if (canBeThrown && Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f) {
+            if (!IsHeavy && Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f) {
                 Throw();
             }
         }
@@ -50,7 +49,7 @@ public class HeldItem : InteractiveObject
     {
         if (isHeld)
         {
-            if (canBeThrown && Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f)
+            if (!IsHeavy && Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f)
             {
                 UIManager.Instance.SetInteractionText("Throw");
             }
@@ -61,9 +60,19 @@ public class HeldItem : InteractiveObject
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:HeldItem"/> is heavy.
+    /// </summary>
+    /// <value><c>true</c> if is heavy; otherwise, <c>false</c>.</value>
     public bool IsHeavy {
         get {
             return myRigidbody.mass > 1.0f;
+        }
+    }
+
+    public float HalfHeight {
+        get {
+            return myRenderer.bounds.extents.y;
         }
     }
 }

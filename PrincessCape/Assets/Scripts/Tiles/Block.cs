@@ -14,7 +14,6 @@ public class Block : HeldItem{
     public override void Init()
     {
         base.Init();
-        canBeThrown = false;
 		startPosition = transform.position;
 		EventManager.StartListening("PlayerRespawned", Reset);
     }
