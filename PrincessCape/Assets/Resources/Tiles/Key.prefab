@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 61305003537980860}
   - component: {fileID: 50883655485698504}
   - component: {fileID: 114852356715431418}
+  - component: {fileID: 114415615389604904}
   m_Layer: 0
   m_Name: Key
   m_TagString: Metal
@@ -88,6 +89,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &114415615389604904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1481141419559472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1bfa86bfca544a53a029b1ef6cd3998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layer: 0
+  editorTextureRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 128
+    height: 128
 --- !u!114 &114852356715431418
 MonoBehaviour:
   m_ObjectHideFlags: 1

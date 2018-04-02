@@ -224,6 +224,8 @@ public class Game : MonoBehaviour {
                 lastScene = SceneManager.GetActiveScene().name;
                 LoadScene(levelToLoad);
                 return;
+            } else {
+                AddItems();
             }
 
         } else {
