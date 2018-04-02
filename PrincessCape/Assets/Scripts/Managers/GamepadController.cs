@@ -73,5 +73,14 @@ public class GamepadController : Controller {
         }
     }
 
+	public override bool Jump
+	{
+		get
+		{
+			return Input.GetKeyDown(keys["Jump"]);
+
+		}
+	}
+
 
 }

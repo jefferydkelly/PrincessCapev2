@@ -156,9 +156,10 @@ public class Controller:Manager {
     /// Gets a value indicating whether the Jump key has been pressed within the last frame.
     /// </summary>
     /// <value><c>true</c> if the Jump has been pressed; otherwise, <c>false</c>.</value>
-    public bool Jump {
+    public virtual bool Jump {
         get {
             return Input.GetKeyDown(keys["Jump"]) || (!Game.Instance.Player.IsOnLadder && Input.GetKeyDown(keys["Up"]));
+
         }
     }
 
