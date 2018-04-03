@@ -612,63 +612,6 @@ public enum CutsceneElements
 	Dialog, Move, Effect, SpriteChange
 }
 
-[System.Serializable]
-public class CutsceneSpriteChange : CutsceneElement
-{
-	string affected = "Character";
-	int newSprite = -1;
-
-	public CutsceneSpriteChange(string target, int spriteIndex)
-	{
-		affected = target;
-        newSprite = spriteIndex;
-		autoAdvance = true;
-	}
-
-	public override void Run()
-	{
-        CutsceneActor ca = Cutscene.Instance.FindActor(affected);
-
-		if (ca)
-		{
-            //ca.SpriteIndex = newSprite;
-		}
-        EventManager.TriggerEvent("ElementCompleted");
-	}
-}
-
-public class CutsceneFontEffect : CutsceneElement
-{
-	bool enact;
-	FontEffects effect;
-
-	public CutsceneFontEffect(FontEffects fe, bool act)
-	{
-		effect = fe;
-		enact = act;
-		autoAdvance = true;
-	}
-
-	public override void Run()
-	{
-		if (effect == FontEffects.Bold)
-		{
-			//UIManager.Instance.Bolded = enact;
-		}
-		else if (effect == FontEffects.Italics)
-		{
-			//UIManager.Instance.Italicized = enact;
-		}
-        EventManager.TriggerEvent("ElementCompleted");
-	}
-}
-
-public enum FontEffects
-{
-	Bold,
-	Italics
-}
-
 public class SceneChange : CutsceneElement
 {
 	string newScene;
@@ -683,6 +626,5 @@ public class SceneChange : CutsceneElement
 	public override void Run()
 	{
         Game.Instance.LoadScene(newScene);
-		//CameraManager.Instance.FadeOutToNewScene(newScene);
 	}
 }

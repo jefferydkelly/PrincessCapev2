@@ -446,6 +446,8 @@ public class Player : MonoBehaviour {
 			if (value && (!IsDead || isFrozen))
 			{
                 state = PlayerState.Pulling;
+				onLadder = false;
+				aboveLadder = false;
 			}
             else if (!value && IsPulling)
 			{
@@ -470,6 +472,8 @@ public class Player : MonoBehaviour {
 			if (value && (!IsDead || isFrozen))
 			{
 				state = PlayerState.Pushing;
+                onLadder = false;
+                aboveLadder = false;
 			}
 			else if (!value && IsPushing)
 			{

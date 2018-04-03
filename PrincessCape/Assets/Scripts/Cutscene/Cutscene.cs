@@ -96,10 +96,6 @@ public class Cutscene:Manager
 		{
             return new CutsceneMovement(parts[1], MoveTypes.Y, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
 		}
-		else if (p == "swap-sprite")
-		{
-			return new CutsceneSpriteChange(parts[1], int.Parse(parts[2]));
-		}
 		else if (p == "pan")
 		{
 			if (parts[1] == "to")
@@ -200,14 +196,6 @@ public class Cutscene:Manager
 		else if (p == "play")
 		{
 			//c = new CutscenePlay(parts[1].Trim());
-		}
-		else if (p == "bold")
-		{
-			return new CutsceneFontEffect(FontEffects.Bold, parts[1].Trim() == "true");
-		}
-		else if (p == "italics")
-		{
-			return new CutsceneFontEffect(FontEffects.Italics, parts[1].Trim() == "true");
 		}
 		else if (p == "follow")
 		{
