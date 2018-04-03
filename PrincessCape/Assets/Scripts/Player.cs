@@ -34,12 +34,12 @@ public class Player : MonoBehaviour {
         inventory = new List<MagicItem>();
         EventManager.StartListening("LevelLoaded", Reset);
         EventManager.StartListening("ShowMessage", () => {
-            isFrozen = true;
+            IsFrozen = true;
             state = PlayerState.ReadingMessage; 
         });
              
         EventManager.StartListening("ShowDialog", () => {
-            isFrozen = true;
+            IsFrozen = true;
             state = PlayerState.ReadingMessage; 
         });
 
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour {
 			
             if (!Game.Instance.IsInCutscene)
             {
-				isFrozen = false;
+				IsFrozen = false;
 				state = PlayerState.Normal;
                 EventManager.TriggerEvent("HideMessage");
             }
@@ -383,6 +383,21 @@ public class Player : MonoBehaviour {
         }
     }
 
+    bool IsFrozen {
+        get {
+            return isFrozen;
+        }
+
+        set {
+            isFrozen = value;
+            if (isFrozen) {
+                myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            } else {
+                myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
+        }
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether this <see cref="T:Player"/> is floating.
     /// </summary>
@@ -393,7 +408,7 @@ public class Player : MonoBehaviour {
         }
 
         set {
-            if (value && (!IsDead || isFrozen)) {
+            if (value && (!IsDead || IsFrozen)) {
                 state = PlayerState.Floating;
             } else if (!value && IsFloating) {
                 state = PlayerState.Normal;
@@ -411,12 +426,12 @@ public class Player : MonoBehaviour {
         }
 
         set {
-            if (value && !(IsDead || isFrozen)) {
+            if (value && !(IsDead || IsFrozen)) {
                 state = PlayerState.UsingShield;
-                isFrozen = true;
+                IsFrozen = true;
             } else if (!value && IsUsingShield) {
                 state = PlayerState.Normal;
-                isFrozen = false;
+                IsFrozen = false;
             }
         }
     }
@@ -443,7 +458,7 @@ public class Player : MonoBehaviour {
 
 		set
 		{
-			if (value && (!IsDead || isFrozen))
+			if (value && (!IsDead || IsFrozen))
 			{
                 state = PlayerState.Pulling;
 				onLadder = false;
@@ -469,7 +484,7 @@ public class Player : MonoBehaviour {
 
 		set
 		{
-			if (value && (!IsDead || isFrozen))
+			if (value && (!IsDead || IsFrozen))
 			{
 				state = PlayerState.Pushing;
                 onLadder = false;
@@ -542,7 +557,7 @@ public class Player : MonoBehaviour {
     /// </summary>
     void EndCutscene() {
 
-		isFrozen = false;
+		IsFrozen = false;
 		state = PlayerState.Normal;
         EventManager.TriggerEvent("HideMessage");
     }
