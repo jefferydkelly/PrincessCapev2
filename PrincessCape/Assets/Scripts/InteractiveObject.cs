@@ -82,6 +82,7 @@ public abstract class InteractiveObject : MapTile {
                 UIManager.Instance.SetInteractionText(interaction);
             } else if (selected == this) {
                 Selected = null;
+                UIManager.Instance.SetInteractionText("");
                 EventManager.StopListening("Interact", Interact);
             }
         }
