@@ -276,26 +276,26 @@ public class Controller:Manager {
     /// </summary>
     /// <returns>The key.</returns>
     /// <param name="key">Key.</param>
-    public virtual string GetKey(string key) {
+    public virtual string GetKey(string key, bool fullName = false) {
         KeyCode keycode = KeyCode.None;
 
         if (keys.TryGetValue(key, out keycode)) {
             if (keycode == KeyCode.Mouse0) {
-                return "LMB";
+                return fullName ? "Left Mouse Button" : "LMB";
             } else if (keycode == KeyCode.Mouse1) {
-                return "RMB";
+                return fullName ? "Right Mouse Button" : "RMB";
             } else if (keycode == KeyCode.LeftArrow) {
-                return "Left";
+                return fullName ? "Left Arrow Key" : "Left";
 			} else if (keycode == KeyCode.RightArrow)
 			{
-				return "Right";
+				return fullName ? "Right Arrow Key" : "Right";
             } else if (keycode == KeyCode.UpArrow) {
-                return "Up";
+                return fullName ? "Up Arrow Key" : "Up";
             } else if (keycode == KeyCode.DownArrow) {
-                return "Down";
+                return fullName ? "Down Arrow Key" : "Down";
             }
-         
-            return keycode.ToString();
+
+            return keycode.ToString() + (fullName ? " Key" : "");
         }
         return "";
     }

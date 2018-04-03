@@ -35,7 +35,7 @@ public class GamepadController : Controller {
     /// </summary>
     /// <returns>The key.</returns>
     /// <param name="key">Key.</param>
-    public override string GetKey(string key)
+    public override string GetKey(string key, bool fullName = false)
     {
         KeyCode keycode = KeyCode.None;
 

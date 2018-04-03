@@ -48,7 +48,7 @@ public class MessageBox : MonoBehaviour {
             string sub = line.Substring(start, end - start + 3);
            
             string key = sub.Replace("[[[", "").Replace("]]]", "");
-            line = line.Replace(sub, Controller.Instance.GetKey(key));
+            line = line.Replace(sub, Controller.Instance.GetKey(key, true));
 
 		}
 
