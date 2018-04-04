@@ -118,66 +118,76 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        //If the player isn't visible on the screen, call PlayerOffscreen to recenter the camera
-        if (!myRenderer.isVisible) {
-            EventManager.TriggerEvent("PlayerOffscreen");
-        }
-
-        if (Game.Instance.IsPlaying && !isFrozen && !IsPulling)
+        if (initialized)
         {
-            float xForce = Controller.Instance.Horizontal * 5;
-			myRigidbody.AddForce(new Vector2(xForce, 0));
-			myRigidbody.ClampXVelocity(maxSpeed);
-
-            if (myRigidbody.velocity.x / fwd < 0) {
-                
-                if (!(IsHoldingItem && heldItem.IsHeavy))
-                {
-                    fwd *= -1;
-                    myRenderer.flipX = !myRenderer.flipX;
-                }
-            }
-            if (IsHoldingItem) {
-                heldItem.transform.position = transform.position + Vector3.right * fwd;
-
-                if (heldItem.IsHeavy) {
-                    myRigidbody.ClampXVelocity(maxSpeed / 5.0f);
-                    heldItem.transform.position = heldItem.transform.position.SetY(transform.position.y - Height / 2 + heldItem.HalfHeight);
-                }
-            }
-            bool onGround = IsOnGround;
-
-            if (onLadder) {
-                //myRigidbody.AddForce(new Vector2(0, Controller.Instance.Vertical * 5));
-
-                bool jump = Controller.Instance.Jump;
-           
-                if (onGround && !(jump && aboveLadder) && Controller.Instance.Vertical > 0) {
-                    myRigidbody.gravityScale = 0;
-				}
-                else if (jump)
-				{
-					onLadder = false;
-					Jump();
-                    return;
-				}
-				else if (aboveLadder && Controller.Instance.Vertical < 0) {
-                    aboveLadder = false;
-                    myRigidbody.gravityScale = 0;
-                    myRigidbody.velocity = myRigidbody.velocity.SetX(0);
-                    transform.position = transform.position.SetX(theLadder.transform.position.x);
-                    transform.position += Vector3.down * 2;
-                }
-
-                if (!aboveLadder)
-				{
-					myRigidbody.velocity = myRigidbody.velocity.SetY(Controller.Instance.Vertical * maxSpeed / 1.5f);
-				}
-            }
-            else if (CanJump && Controller.Instance.Jump)
+            //If the player isn't visible on the screen, call PlayerOffscreen to recenter the camera
+            if (!myRenderer.isVisible)
             {
-                Jump();
-            } 
+                EventManager.TriggerEvent("PlayerOffscreen");
+            }
+
+            if (Game.Instance.IsPlaying && !isFrozen && !IsPulling)
+            {
+                float xForce = Controller.Instance.Horizontal * 5;
+                myRigidbody.AddForce(new Vector2(xForce, 0));
+                myRigidbody.ClampXVelocity(maxSpeed);
+
+                if (myRigidbody.velocity.x / fwd < 0)
+                {
+
+                    if (!(IsHoldingItem && heldItem.IsHeavy))
+                    {
+                        fwd *= -1;
+                        myRenderer.flipX = !myRenderer.flipX;
+                    }
+                }
+                if (IsHoldingItem)
+                {
+                    heldItem.transform.position = transform.position + Vector3.right * fwd;
+
+                    if (heldItem.IsHeavy)
+                    {
+                        myRigidbody.ClampXVelocity(maxSpeed / 5.0f);
+                        heldItem.transform.position = heldItem.transform.position.SetY(transform.position.y - Height / 2 + heldItem.HalfHeight);
+                    }
+                }
+                bool onGround = IsOnGround;
+
+                if (onLadder)
+                {
+                    //myRigidbody.AddForce(new Vector2(0, Controller.Instance.Vertical * 5));
+
+                    bool jump = Controller.Instance.Jump;
+
+                    if (onGround && !(jump && aboveLadder) && Controller.Instance.Vertical > 0)
+                    {
+                        myRigidbody.gravityScale = 0;
+                    }
+                    else if (jump)
+                    {
+                        onLadder = false;
+                        Jump();
+                        return;
+                    }
+                    else if (aboveLadder && Controller.Instance.Vertical < 0)
+                    {
+                        aboveLadder = false;
+                        myRigidbody.gravityScale = 0;
+                        myRigidbody.velocity = myRigidbody.velocity.SetX(0);
+                        transform.position = transform.position.SetX(theLadder.transform.position.x);
+                        transform.position += Vector3.down * 2;
+                    }
+
+                    if (!aboveLadder)
+                    {
+                        myRigidbody.velocity = myRigidbody.velocity.SetY(Controller.Instance.Vertical * maxSpeed / 1.5f);
+                    }
+                }
+                else if (CanJump && Controller.Instance.Jump)
+                {
+                    Jump();
+                }
+            }
         }
 	}
 

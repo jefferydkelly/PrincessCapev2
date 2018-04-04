@@ -68,6 +68,9 @@ public class UIManager : MonoBehaviour
     {
         get
         {
+            if (instance == null) {
+                instance = FindObjectOfType<UIManager>();
+            }
             return instance;
         }
     }

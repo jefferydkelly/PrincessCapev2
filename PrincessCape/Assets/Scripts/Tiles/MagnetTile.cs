@@ -19,6 +19,12 @@ public class MagnetTile : ActivatedObject {
     {
         myAnimator.SetTrigger("Deactivate");
         magField.enabled = false;
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, Vector2.one, 0, transform.up, magField.size.y);
+        foreach(RaycastHit2D hit in hits) {
+            if (hit.collider.GetComponent<Metal>()) {
+                hit.rigidbody.AddForce((pull ? transform.up : -transform.up) * force / 10);
+            }
+        }
     }
 
     // Use this for initialization
@@ -36,6 +42,19 @@ public class MagnetTile : ActivatedObject {
     {
         if (collision.CompareTag("Metal")) {
             collision.attachedRigidbody.AddForce((pull ? -transform.up : transform.up) * force);
+        }
+    }
+
+    public override void ScaleY(bool up)
+    {
+        BoxCollider2D col = GetComponent<BoxCollider2D>();
+       
+        if (up) {
+            col.size += Vector2.up;
+            col.offset += Vector2.up / 2;
+        } else if (col.size.y > 1) {
+            col.size -= Vector2.up;
+            col.offset -= Vector2.up / 2;
         }
     }
 }

@@ -32,7 +32,7 @@ public class Game : MonoBehaviour {
             toAdd = new List<Manager>();
             instance = this;
             DontDestroyOnLoad(gameObject);
-            Controller controller = Controller.Instance;
+         
             SceneManager.sceneLoaded += OnSceneLoaded;
             EventManager.StartListening("Pause", () => { IsPaused = !IsPaused; });
             EventManager.StartListening("StartCutscene", ()=>{
