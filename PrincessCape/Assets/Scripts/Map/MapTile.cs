@@ -10,13 +10,18 @@ public class MapTile : MonoBehaviour {
     Rect editorTextureRect = new Rect(0, 0, 128, 128);
     int id = -1;
 
+    protected bool initialized = false;
 	/// <summary>
 	/// Dehighlights this instance on awake
 	/// </summary>
 	private void Awake()
 	{
-        HighlightState = MapHighlightState.Normal;
-        Init();
+        if (!initialized)
+        {
+            HighlightState = MapHighlightState.Normal;
+            Init();
+            initialized = true;
+        }
 	}
 
     public virtual void Init() {
@@ -183,13 +188,13 @@ public class MapTile : MonoBehaviour {
 	{
 		if (up)
 		{
-            transform.localScale += transform.up;
-            transform.position += transform.up / 2.0f;
+            transform.localScale += Vector3.up;
+            transform.localPosition += Vector3.up / 2.0f;
 		}
 		else if (transform.localScale.y > 1)
 		{
-            transform.localScale -= transform.up;
-            transform.position -= transform.up / 2.0f;
+            transform.localScale -= Vector3.up;
+            transform.localPosition -= Vector3.up / 2.0f;
 		}
 	}
 
