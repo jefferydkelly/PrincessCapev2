@@ -176,6 +176,7 @@ MonoBehaviour:
     height: 128
   connections: []
   startActive: 0
+  magField: {fileID: 114772355664119672}
 --- !u!212 &212629347251174936
 SpriteRenderer:
   m_ObjectHideFlags: 1

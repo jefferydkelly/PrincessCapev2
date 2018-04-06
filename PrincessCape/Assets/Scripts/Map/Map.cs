@@ -64,7 +64,10 @@ public class Map : MonoBehaviour
         {
             foreach (MapTile tile in tiles)
             {
-                DestroyImmediate(tile.gameObject, false);
+                if (tile)
+                {
+                    DestroyImmediate(tile.gameObject, false);
+                }
             }
         }
 

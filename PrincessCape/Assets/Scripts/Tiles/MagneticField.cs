@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class MagneticField : MapTile{
     BoxCollider2D myCollider;
     [SerializeField]

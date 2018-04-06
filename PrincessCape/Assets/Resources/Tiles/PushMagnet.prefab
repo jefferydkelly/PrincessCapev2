@@ -157,6 +157,7 @@ MonoBehaviour:
     height: 128
   connections: []
   startActive: 0
+  magField: {fileID: 114436278581916288}
 --- !u!114 &114436278581916288
 MonoBehaviour:
   m_ObjectHideFlags: 1

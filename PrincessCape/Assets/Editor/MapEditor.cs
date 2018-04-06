@@ -292,7 +292,7 @@ public class MapEditor : Editor {
 						SelectedMapTile.ScaleX(true);
 						Event.current.Use();
                     } else if (mode == MapEditMode.Rotate) {
-                        SelectedMapTile.Rotate(90);
+                        SelectedMapTile.Rotate(-90);
                         Event.current.Use();
 					}
 					else if (mode == MapEditMode.Flip)
@@ -320,7 +320,7 @@ public class MapEditor : Editor {
 					}
 					else if (mode == MapEditMode.Rotate)
 					{
-						SelectedMapTile.Rotate(-90);
+						SelectedMapTile.Rotate(90);
 						Event.current.Use();
 					}
 					else if (mode == MapEditMode.Flip)

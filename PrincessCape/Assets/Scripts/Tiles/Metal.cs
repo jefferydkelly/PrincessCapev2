@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Metal : MapTile {
+public class Metal : MonoBehaviour{
     SpriteRenderer myRenderer;
     Rigidbody2D myRigidbody;
     Vector3 startPosition;
@@ -12,7 +12,11 @@ public class Metal : MapTile {
         Init();
     }
 
-    public override void Init() {
+    public void Init() {
+		if (!IsStatic)
+		{
+			startPosition = transform.position;
+		}
 		myRenderer = GetComponent<SpriteRenderer>();
 		myRigidbody = GetComponent<Rigidbody2D>();
 		if (!IsStatic)
@@ -114,16 +118,6 @@ public class Metal : MapTile {
 
         get {
             return myRigidbody ? myRigidbody.velocity : Vector2.zero;
-        }
-    }
-
-    public override void FromData(TileStruct tile)
-    {
-        base.FromData(tile);
-
-        if (!IsStatic)
-        {
-            startPosition = transform.position;
         }
     }
 }
