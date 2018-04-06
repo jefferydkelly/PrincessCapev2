@@ -8,6 +8,7 @@ TagManager:
   - Ladder Top
   - Metal
   - Projectile
+  - Light
   layers:
   - Default
   - TransparentFX
