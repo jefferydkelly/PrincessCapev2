@@ -56,6 +56,10 @@ public class Player : MonoBehaviour {
 
         });
 
+        EventManager.StartListening("ShowAim", ()=> {
+            shieldField.transform.localScale = Vector3.one;
+        });
+
         EventManager.StartListening("HideAim", ()=> {
             shieldField.gameObject.SetActive(false);
         });
