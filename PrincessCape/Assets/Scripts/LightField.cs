@@ -71,7 +71,6 @@ public class LightField : MonoBehaviour {
 
     void SetYScale(float yScale) {
         transform.localScale = transform.localScale.SetY(yScale);
-        transform.localPosition = Vector3.up * ((yScale + 0.5f) / 2);
     }
 
     void SetYScale(GameObject go) {

@@ -29,6 +29,8 @@ public class Player : MonoBehaviour {
     bool isInvincible = false;
     Timer invincibilityTimer;
 
+    [SerializeField]
+    LightField shieldField;
     private void Awake()
     {
         inventory = new List<MagicItem>();
@@ -53,8 +55,12 @@ public class Player : MonoBehaviour {
             }
 
         });
-        EventManager.StartListening("EndCutscene", EndCutscene);
 
+        EventManager.StartListening("HideAim", ()=> {
+            shieldField.gameObject.SetActive(false);
+        });
+        EventManager.StartListening("EndCutscene", EndCutscene);
+        shieldField.gameObject.SetActive(false);
         DontDestroyOnLoad(gameObject);
    
     }
@@ -337,7 +343,19 @@ public class Player : MonoBehaviour {
         }
     }
 
-	public void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Light") && collision.gameObject != shieldField.gameObject)
+		{
+            shieldField.gameObject.SetActive(IsUsingShield);
+
+            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition.SetZ(-Camera.main.transform.position.z));
+            Vector2 dif = mouseWorld - transform.position;
+            shieldField.transform.localRotation = Quaternion.AngleAxis(dif.Angle().ToDegrees() - 90, Vector3.forward);
+		}
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
 	{
         if (!IsUsingMagneticGloves)
         {
@@ -350,7 +368,14 @@ public class Player : MonoBehaviour {
                     myRigidbody.velocity = myRigidbody.velocity.SetY(0);
                 }
             }
-        }
+		}
+		else if (collision.CompareTag("Light"))
+		{
+            if (collision.gameObject != shieldField.gameObject)
+            {
+                shieldField.gameObject.SetActive(false);
+            }
+		}
 	}
 
     /// <summary>
