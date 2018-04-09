@@ -6,12 +6,12 @@ using System.Linq;
 public class KnightRemains : InteractiveObject
 {
 
-    [SerializeField]
-    ItemLevel itemOnRemains = ItemLevel.MagicCape;
-    [SerializeField]
-    string knightName = "Sir Matthew";
-    [SerializeField]
-    TextAsset messageFile;
+	[SerializeField]
+	ItemLevel itemOnRemains = ItemLevel.MagicCape;
+	[SerializeField]
+	string knightName = "Sir Matthew";
+	[SerializeField]
+	TextAsset messageFile;
     bool itemGiven = false;
     public override void Interact()
     {
@@ -61,32 +61,33 @@ public class KnightRemains : InteractiveObject
         }
     }
 
-    protected override string GenerateSaveData()
-    {
-        string data = base.GenerateSaveData();
-        data += PCLParser.CreateAttribute("Knight", knightName);
-        data += PCLParser.CreateAttribute("Item", itemOnRemains);
-     
-        string fileName = "None";
-        if (messageFile != null)
-        {
-            fileName = messageFile.name;
+    public ItemLevel Item {
+        get {
+            return itemOnRemains;
         }
-        data += PCLParser.CreateAttribute<string>("File", fileName);
-        return data;
+
+        set {
+            itemOnRemains = value;
+        }
     }
 
-    public override void FromData(TileStruct tile)
-    {
-        base.FromData(tile);
-        knightName = PCLParser.ParseLine(tile.NextLine);
-        itemOnRemains = PCLParser.ParseEnum<ItemLevel>(tile.NextLine);
-
-        string fileName = PCLParser.ParseLine(tile.NextLine);
-        if (fileName != "None") {
-            
-            messageFile = Resources.Load<TextAsset>("Cutscenes/" + fileName);
+    public string KnightName {
+        get {
+            return knightName;
         }
-       
+
+        set {
+            knightName = value;
+        }
+    }
+
+    public TextAsset Message {
+        get {
+            return messageFile;
+        }
+
+        set {
+            messageFile = value;
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public abstract class InteractiveObject : MapTile {
+public abstract class InteractiveObject : MonoBehaviour {
     static InteractiveObject selected;
     [SerializeField]
     string interaction = "Interact";

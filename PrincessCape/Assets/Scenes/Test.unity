@@ -3214,13 +3214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 650758dbb879e410ab1a669c8b8e61ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: 0
-  editorTextureRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 128
-    height: 64
   interaction: Pick Up
   highlightColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!50 &1068504846
@@ -5207,6 +5200,8 @@ GameObject:
   - component: {fileID: 2090409126}
   - component: {fileID: 2090409125}
   - component: {fileID: 2090409124}
+  - component: {fileID: 2090409127}
+  - component: {fileID: 2090409128}
   m_Layer: 0
   m_Name: Mirror
   m_TagString: Untagged
@@ -5221,7 +5216,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2090409122}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 464238139}
@@ -5316,6 +5311,39 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &2090409127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2090409122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8dce65869e04f179546fda45a47ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interaction: Interact
+  highlightColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!50 &2090409128
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2090409122}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 2
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &2099388849
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,14 +6,10 @@ public class Block : HeldItem{
 
     Vector3 startPosition;
 
-    private void Start()
+    private void Awake()
     {
-        Init();
-    }
-
-    public override void Init()
-    {
-        base.Init();
+        myRenderer = GetComponent<SpriteRenderer>();
+        myRigidbody = GetComponent<Rigidbody2D>();
 		startPosition = transform.position;
 		EventManager.StartListening("PlayerRespawned", Reset);
     }
@@ -31,8 +27,9 @@ public class Block : HeldItem{
 	{
 		if (collision.collider.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem)
 		{
+            
             Vector3 dif = collision.transform.position - transform.position;
-            if (Vector3.Dot(Vector3.up, dif) <= 0.5f)
+            if (Vector3.Dot(Vector3.up, dif) <= 0.55f)
             {
                 IsHighlighted = true;
             }

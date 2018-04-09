@@ -76,8 +76,8 @@ public class LightField : MonoBehaviour {
     }
 
     float FindClosestPoint(GameObject go) {
-        float distance = Vector3.Dot(transform.up, go.transform.position - transform.position);
-        foreach (RaycastHit2D hit in Physics2D.RaycastAll(transform.position, transform.up, distance)) {
+        
+        foreach (RaycastHit2D hit in Physics2D.RaycastAll(transform.position, transform.up, transform.localScale.y)) {
             if (hit.collider.gameObject == go) {
                 return hit.distance;
             }

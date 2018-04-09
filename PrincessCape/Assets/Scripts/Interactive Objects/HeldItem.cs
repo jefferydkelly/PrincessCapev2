@@ -7,10 +7,10 @@ public class HeldItem : InteractiveObject
 {
     protected Rigidbody2D myRigidbody;
     protected bool isHeld = false;
-    public override void Init()
+    void Awake()
     {
-        base.Init();
         myRigidbody = GetComponent<Rigidbody2D>();
+        myRenderer = GetComponent<SpriteRenderer>();
     }
     public void Drop()
     {
