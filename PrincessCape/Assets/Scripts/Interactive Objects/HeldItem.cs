@@ -20,6 +20,13 @@ public class HeldItem : InteractiveObject
         //transform.position += Game.Instance.Player.Forward * 0.1f;
         isHeld = false;
 
+		if (!IsHeavy && Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f)
+		{
+			Throw();
+		}
+
+        EventManager.StopListening("Interact", Drop);
+
     }
 
     public void Throw() {
@@ -36,13 +43,7 @@ public class HeldItem : InteractiveObject
             isHeld = true;
             IsHighlighted = false;
             EventManager.StartListening("Interact", Drop);
-        } else {
-            Drop();
-
-            if (!IsHeavy && Mathf.Abs(Game.Instance.Player.Velocity.x) >= 0.25f) {
-                Throw();
-            }
-        }
+        }   
     }
 
     public void Update()

@@ -4,7 +4,7 @@
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "12",
+"ID": "14",
 "Position": "(1.0, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(15.0, 1.0, 1.0)",
@@ -24,7 +24,7 @@
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
 "Connections": [
-"El": "8",
+"El": "7",
 ],
 },
 {
@@ -35,15 +35,8 @@
 "Scale": "(6.0, 1.0, 1.0)",
 },
 {
-"Name": "Key",
-"ID": "4",
-"Position": "(12.0, 0.5, 0.0)",
-"Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 1.0, 1.0)",
-},
-{
 "Name": "Checkpoint",
-"ID": "5",
+"ID": "4",
 "Position": "(-3.0, 0.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
@@ -51,21 +44,21 @@
 },
 {
 "Name": "Platform",
-"ID": "6",
+"ID": "5",
 "Position": "(3.0, 6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(17.0, 1.0, 1.0)",
 },
 {
 "Name": "Platform",
-"ID": "7",
+"ID": "6",
 "Position": "(14.5, 6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(4.0, 1.0, 1.0)",
 },
 {
 "Name": "PullMagnet",
-"ID": "8",
+"ID": "7",
 "Position": "(12.0, 6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
@@ -74,12 +67,37 @@
 },
 {
 "Name": "PushMagnet",
-"ID": "10",
+"ID": "9",
 "Position": "(16.0, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
 "Field Height": "4",
+},
+{
+"Name": "Mirror",
+"ID": "11",
+"Position": "(0.0, 0.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+},
+{
+"Name": "LightField",
+"ID": "12",
+"Position": "(5.0, 3.0, 1.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 5.0, 1.0)",
+},
+{
+"Name": "LightActivatedTile",
+"ID": "13",
+"Position": "(9.0, 5.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Starts Active": "False",
+"Connections": [
+"El": "7",
+],
 },
 ]
 }

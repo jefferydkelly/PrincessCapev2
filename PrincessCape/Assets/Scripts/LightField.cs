@@ -22,7 +22,10 @@ public class LightField : MonoBehaviour {
 
     private void OnDisable()
     {
-        expandTimer.Stop();
+        if (!Game.isClosing)
+        {
+            expandTimer.Stop();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,7 +34,6 @@ public class LightField : MonoBehaviour {
         if (!CanPassThrough(collision))
         {
             Stop();
-            Debug.Log(FindClosestPoint(collision.gameObject));
             SetYScale(collision.gameObject);
         }
     }

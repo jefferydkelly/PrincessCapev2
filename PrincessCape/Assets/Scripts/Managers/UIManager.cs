@@ -33,11 +33,12 @@ public class UIManager : MonoBehaviour
             showTimer.Start();
         });
 
-        EventManager.StartListening("AnyKey", () =>
-        {
-            showTimer.Stop();
-            minorText.gameObject.SetActive(false);
-        });
+		Controller.Instance.AnyKey.AddListener(() =>
+		{
+			showTimer.Stop();
+			minorText.gameObject.SetActive(false);
+		});
+        //EventManager.StartListening("AnyKey", );
 
         interaction.Text = "";
         minorText.gameObject.SetActive(false);

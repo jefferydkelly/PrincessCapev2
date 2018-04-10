@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 public class MagneticField : MapTile{
-    BoxCollider2D myCollider;
+    SpriteRenderer myRenderer;
     [SerializeField]
     bool pull = true;
     float force = 15f;
@@ -15,7 +15,7 @@ public class MagneticField : MapTile{
 
 	public override void Init()
 	{
-        myCollider = GetComponent<BoxCollider2D>();
+        myRenderer = GetComponent<SpriteRenderer>();
 	}
 
 	private void OnTriggerStay2D(Collider2D collision)
@@ -28,12 +28,13 @@ public class MagneticField : MapTile{
 
     private void OnDisable()
     {
-		RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, Vector2.one, 0, transform.up, myCollider.size.y);
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position - (transform.up * myRenderer.bounds.extents.y), Vector2.one, 0, transform.up, myRenderer.bounds.size.y);
 		foreach (RaycastHit2D hit in hits)
 		{
 			if (hit.collider.GetComponent<Metal>())
 			{
-				hit.rigidbody.AddForce((pull ? transform.up : -transform.up) * force / 10);
+                hit.rigidbody.velocity = Vector2.zero;
+                hit.rigidbody.AddForce(Vector2.down * force / 5);
 			}
 		}
     }

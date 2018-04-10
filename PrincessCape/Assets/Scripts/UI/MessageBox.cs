@@ -81,8 +81,12 @@ public class MessageBox : MonoBehaviour {
 		textbox.text = "";
 		revealTimer = new Timer(revealTime, message[curLine].Length - 1);
 		revealTimer.OnTick.AddListener(RevealCharacter);
-        EventManager.StartListening("AnyKey", FastReveal);
-		revealTimer.OnComplete.AddListener(() => { EventManager.StartListening("AnyKey", NextLine); });
+        Controller.Instance.AnyKey.AddListener(FastReveal);
+        //EventManager.StartListening("AnyKey", FastReveal);
+		revealTimer.OnComplete.AddListener(() => { 
+            /*EventManager.StartListening("AnyKey", NextLine);*/ 
+            Controller.Instance.AnyKey.AddListener(NextLine);
+        });
 		revealTimer.Start();
     }
 
@@ -91,8 +95,10 @@ public class MessageBox : MonoBehaviour {
         currentCharacter = message[curLine].Length;
         textbox.text = message[curLine].Substring(0, currentCharacter);
         EventManager.TriggerEvent("EndOfLine");
-        EventManager.StopListening("AnyKey", FastReveal);
-        EventManager.StartListening("AnyKey", NextLine);
+        Controller.Instance.AnyKey.RemoveListener(FastReveal);
+        Controller.Instance.AnyKey.AddListener(NextLine);
+        //EventManager.StopListening("AnyKey", FastReveal);
+        //EventManager.StartListening("AnyKey", NextLine);
     }
     void RevealCharacter() {
         currentCharacter++;
@@ -106,8 +112,8 @@ public class MessageBox : MonoBehaviour {
 
     }
     void NextLine() {
-        
-        EventManager.StopListening("AnyKey", NextLine);
+        Controller.Instance.AnyKey.RemoveListener(NextLine);
+        //EventManager.StopListening("AnyKey", NextLine);
         curLine++;
         if (curLine < message.Count)
         {

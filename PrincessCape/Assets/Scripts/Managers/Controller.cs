@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Controller:Manager {
     static Controller instance;
     protected Dictionary<string, KeyCode> keys;
-
+    UnityEvent anyKey;
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Controller"/> class.
     /// </summary>
@@ -23,6 +24,7 @@ public class Controller:Manager {
         keys.Add("Interact", KeyCode.F);
         keys.Add("Pause", KeyCode.P);
         keys.Add("Inventory", KeyCode.I);
+        anyKey = new UnityEvent();
     }
 
     public void SetKeys(Dictionary<string, KeyCode> keyDict) {
@@ -39,12 +41,7 @@ public class Controller:Manager {
             {
                 if (instance == null)
                 {
-                    if (Input.GetJoystickNames().Length == 0)
-                    {
-                        instance = new Controller();
-                    } else {
-                        instance = new GamepadController();
-                    }
+                    instance = new Controller();
                     UIManager.Instance.UpdateKeys();
                     Game.Instance.AddManager(instance);
                 }
@@ -202,7 +199,7 @@ public class Controller:Manager {
     {
 
         if (Input.anyKeyDown) {
-            EventManager.TriggerEvent("AnyKey");
+            anyKey.Invoke();
         }
 		if (Pause)
 		{
@@ -298,5 +295,11 @@ public class Controller:Manager {
             return keycode.ToString() + (fullName ? " Key" : "");
         }
         return "";
+    }
+
+    public UnityEvent AnyKey {
+        get {
+            return anyKey;
+        }
     }
 }
