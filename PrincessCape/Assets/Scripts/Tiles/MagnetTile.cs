@@ -64,7 +64,6 @@ public class MagnetTile : ActivatedObject {
     {
         base.FromData(tile);
         float fieldHeight = PCLParser.ParseFloat(tile.NextLine);
-        magField.transform.localScale = magField.transform.localScale.SetY(fieldHeight);
-        magField.transform.localPosition = Vector3.up * (fieldHeight + 1) / 2;
+        magField.ScaleY(fieldHeight);
     }
 }

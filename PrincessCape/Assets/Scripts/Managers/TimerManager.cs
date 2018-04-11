@@ -166,7 +166,10 @@ public class Timer
 	public void Stop()
 	{
 		state = TimerState.Stopped;
-		TimerManager.Instance.RemoveTimer(this);
+        if (!Game.isClosing)
+        {
+            TimerManager.Instance.RemoveTimer(this);
+        }
 	}
 
 	/// <summary>

@@ -198,6 +198,13 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
+    public virtual void ScaleY(float yscale) {
+        float scaleDif = yscale - transform.localScale.y;
+        transform.localScale = transform.localScale.SetY(yscale);
+        transform.localPosition += Vector3.up * scaleDif / 2;
+
+    }
+
 	/// <summary>
 	/// Delete this instance.
 	/// </summary>
