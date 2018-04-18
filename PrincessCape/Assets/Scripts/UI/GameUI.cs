@@ -6,12 +6,13 @@ public class GameUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        EventManager.StartListening("StartCutscene", ()=> {
-            gameObject.SetActive(false);
-        });
+      
+		Cutscene.Instance.OnStart.AddListener(() => {
+			gameObject.SetActive(false);
+		});
 
-        EventManager.StartListening("EndCutscene", ()=> {
+        Cutscene.Instance.OnEnd.AddListener(() => {
             gameObject.SetActive(true);
-        });
+		});
 	}
 }

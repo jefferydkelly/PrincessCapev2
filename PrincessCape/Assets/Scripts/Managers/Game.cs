@@ -35,11 +35,11 @@ public class Game : MonoBehaviour {
          
             SceneManager.sceneLoaded += OnSceneLoaded;
             EventManager.StartListening("Pause", () => { IsPaused = !IsPaused; });
-            EventManager.StartListening("StartCutscene", ()=>{
+            Cutscene.Instance.OnStart.AddListener(()=> {
                 state = GameState.Cutscene;
             });
 
-            EventManager.StartListening("EndCutscene", EndCutscene);
+            Cutscene.Instance.OnEnd.AddListener(EndCutscene);
 
             EventManager.StartListening("ShowDialog", ()=> {
                 if (!IsInCutscene)

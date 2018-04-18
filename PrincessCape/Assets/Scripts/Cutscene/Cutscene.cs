@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using System.IO;
 using System.Linq;
 using System;
@@ -12,12 +13,17 @@ public class Cutscene:Manager
     int currentIndex = 0;
     int currentCompleted = 0;
 	bool isBeingSkipped = false;
+
+    UnityEvent onStart;
+    UnityEvent onEnd;
    
     private static Cutscene instance;
 
     public Cutscene() {
 		characters = new List<CutsceneActor>();
         elements = new List<List<CutsceneElement>>();
+        onStart = new UnityEvent();
+        onEnd = new UnityEvent();
         Game.Instance.AddManager(this);
         EventManager.StartListening("ElementCompleted", ElementCompleted);
     }
@@ -292,7 +298,7 @@ public class Cutscene:Manager
 
 	public void StartCutscene()
 	{
-        EventManager.TriggerEvent("StartCutscene");
+        OnStart.Invoke();
         currentIndex = 0;
 
 		foreach (CutsceneElement ce in elements[0])
@@ -360,11 +366,7 @@ public class Cutscene:Manager
 
 	void EndCutscene()
 	{
-		//End the cutscene
-		//UIManager.Instance.ShowBoxes = true;
-        //GameManager.Instance.IsInCutscene = false;
-        //UIManager.Instance.StartCoroutine("HideDialog");
-        EventManager.TriggerEvent("EndCutscene");
+        OnEnd.Invoke();
         foreach (CutsceneActor ca in characters)
 		{
 			ca.DestroySelf();
@@ -466,12 +468,35 @@ public class Cutscene:Manager
 		}
 	}
 
+    /// <summary>
+    /// Gets the instance.
+    /// </summary>
+    /// <value>The instance.</value>
     public static Cutscene Instance {
         get {
             if (instance == null) {
                 instance = new Cutscene();
             }
             return instance;
+        }
+    }
+    /// <summary>
+    /// Gets the on start event.
+    /// </summary>
+    /// <value>The on start event.</value>
+    public UnityEvent OnStart {
+        get {
+            return onStart;
+        }
+    }
+
+    /// <summary>
+    /// Gets the on end event.
+    /// </summary>
+    /// <value>The on end event.</value>
+    public UnityEvent OnEnd {
+        get {
+            return onEnd;
         }
     }
 }
