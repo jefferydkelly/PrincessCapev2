@@ -63,7 +63,8 @@ public class Player : MonoBehaviour {
         EventManager.StartListening("HideAim", ()=> {
             shieldField.gameObject.SetActive(false);
         });
-        EventManager.StartListening("EndCutscene", EndCutscene);
+        Cutscene.Instance.OnEnd.AddListener(EndCutscene);
+       
         shieldField.gameObject.SetActive(false);
         DontDestroyOnLoad(gameObject);
    

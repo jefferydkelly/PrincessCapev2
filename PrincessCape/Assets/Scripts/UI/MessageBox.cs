@@ -31,7 +31,7 @@ public class MessageBox : MonoBehaviour {
         if (!gameObject.activeSelf)
         {
             EventManager.StartListening("Inventory", Hide);
-			EventManager.StartListening("EndCutscene", Hide);
+            Cutscene.Instance.OnEnd.AddListener(Hide);
             gameObject.SetActive(true);
         }
 
@@ -57,7 +57,7 @@ public class MessageBox : MonoBehaviour {
     void Hide() {
         EventManager.StopListening("HideItemMenu", Hide);
         EventManager.StopListening("HideMessage", Hide);
-        EventManager.StopListening("EndCutscene", Hide);
+        Cutscene.Instance.OnEnd.RemoveListener(Hide);
         gameObject.SetActive(false);
     }
     void DisplayMessage() {
@@ -65,7 +65,7 @@ public class MessageBox : MonoBehaviour {
         {
             gameObject.SetActive(true);
             EventManager.StartListening("HideMessage", Hide);
-			EventManager.StartListening("EndCutscene", Hide);
+			Cutscene.Instance.OnEnd.AddListener(Hide);
         }
         for (int i = 0; i < message.Count; i++) {
             message[i] = ParseKeys(message[i]);
