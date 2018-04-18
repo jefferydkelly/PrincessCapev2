@@ -100,12 +100,17 @@ public class Player : MonoBehaviour {
 
     private void OnEnable()
     {
-        EventManager.StartListening("Pause", Pause);
+        Controller.Instance.OnPause.AddListener(Pause);
+        //EventManager.StartListening("Pause", Pause);
     }
 
 	private void OnDisable()
 	{
-		EventManager.StopListening("Pause", Pause);
+        if (!Game.isClosing)
+        {
+            Controller.Instance.OnPause.RemoveListener(Pause);
+        }
+		//EventManager.StopListening("Pause", Pause);
 	}
 
     /// <summary>

@@ -34,7 +34,8 @@ public class Game : MonoBehaviour {
             DontDestroyOnLoad(gameObject);
          
             SceneManager.sceneLoaded += OnSceneLoaded;
-            EventManager.StartListening("Pause", () => { IsPaused = !IsPaused; });
+            Controller.Instance.OnPause.AddListener(() => { IsPaused = !IsPaused; });
+         
             Cutscene.Instance.OnStart.AddListener(()=> {
                 state = GameState.Cutscene;
             });

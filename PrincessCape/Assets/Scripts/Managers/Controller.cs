@@ -8,6 +8,8 @@ public class Controller:Manager {
     static Controller instance;
     protected Dictionary<string, KeyCode> keys;
     UnityEvent anyKey;
+    UnityEvent onPause;
+   
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Controller"/> class.
     /// </summary>
@@ -25,6 +27,7 @@ public class Controller:Manager {
         keys.Add("Pause", KeyCode.P);
         keys.Add("Inventory", KeyCode.I);
         anyKey = new UnityEvent();
+        onPause = new UnityEvent();
     }
 
     public void SetKeys(Dictionary<string, KeyCode> keyDict) {
@@ -42,7 +45,7 @@ public class Controller:Manager {
                 if (instance == null)
                 {
                     instance = new Controller();
-                    UIManager.Instance.UpdateKeys();
+                    //UIManager.Instance.UpdateKeys();
                     Game.Instance.AddManager(instance);
                 }
                 return instance;
@@ -203,7 +206,8 @@ public class Controller:Manager {
         }
 		if (Pause)
 		{
-			EventManager.TriggerEvent("Pause");
+            onPause.Invoke();
+			//EventManager.TriggerEvent("Pause");
 		}
         else if (IsKeyDown("ItemOne"))
 		{
@@ -300,6 +304,12 @@ public class Controller:Manager {
     public UnityEvent AnyKey {
         get {
             return anyKey;
+        }
+    }
+
+    public UnityEvent OnPause {
+        get {
+            return onPause;
         }
     }
 }

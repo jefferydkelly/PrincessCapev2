@@ -8,7 +8,7 @@ public class PauseMenu : MonoBehaviour
     // Use this for initialization
     private void Awake()
     {
-        EventManager.StartListening("Pause", Toggle);
+        Controller.Instance.OnPause.AddListener(Toggle);
         gameObject.SetActive(false);
     }
 

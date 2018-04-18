@@ -59,6 +59,7 @@ public class UIManager : MonoBehaviour
         });
 
         EventManager.StartListening("LevelOver", ToggleLoadingScreen);
+        UpdateKeys();
     }
 
     /// <summary>
