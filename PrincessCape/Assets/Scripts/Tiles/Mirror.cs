@@ -14,7 +14,6 @@ public class Mirror : MapTile {
 
     public override bool Overlaps(Vector3 pos)
     {
-        Debug.Log(Bounds);
 		Vector3 dif = pos - transform.position;
 		Vector3 bounds = Bounds / 2;
 		return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);

@@ -1,0 +1,42 @@
+{
+"MapName": "Classic Level Four",
+"Items": "StarShield",
+"Tiles": [
+{
+"Name": "Platform",
+"ID": "1",
+"Position": "(5.0, -1.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(9.0, 1.0, 1.0)",
+},
+{
+"Name": "Platform",
+"ID": "2",
+"Position": "(9.0, 3.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 7.0, 1.0)",
+},
+{
+"Name": "LightField",
+"ID": "3",
+"Position": "(2.0, 3.0, 1.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 7.0, 1.0)",
+},
+{
+"Name": "Mirror",
+"ID": "4",
+"Position": "(5.0, 0.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+},
+{
+"Name": "Checkpoint",
+"ID": "5",
+"Position": "(7.0, 0.0, 1.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Is First?": "True",
+},
+]
+}
