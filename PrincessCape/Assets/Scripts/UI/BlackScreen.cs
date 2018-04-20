@@ -10,12 +10,10 @@ public class BlackScreen : MonoBehaviour {
 	void Start () {
         image = GetComponent<Image>();
         EventManager.StartListening("LevelLoaded", ()=> {
-            Debug.Log("Loaded");
             image.color = image.color.SetAlpha(0);
         });
 
         EventManager.StartListening("LevelOver",()=> {
-            Debug.Log("Ended");
             image.color = image.color.SetAlpha(1);
         });
 

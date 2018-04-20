@@ -128,13 +128,16 @@ public class Timer
 	/// </summary>
 	public void Start()
 	{
-		if (state == TimerState.NotStarted || state == TimerState.Done || state == TimerState.Stopped)
-		{
-			state = TimerState.Running;
-			curTime = 0;
-            timesRun = 0;
-			TimerManager.Instance.AddTimer(this);
-		}
+        if (Application.isPlaying && !Game.isClosing)
+        {
+            if (state == TimerState.NotStarted || state == TimerState.Done || state == TimerState.Stopped)
+            {
+                state = TimerState.Running;
+                curTime = 0;
+                timesRun = 0;
+                TimerManager.Instance.AddTimer(this);
+            }
+        }
 
 	}
 

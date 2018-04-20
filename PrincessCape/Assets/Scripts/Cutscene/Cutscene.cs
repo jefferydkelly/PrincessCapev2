@@ -305,6 +305,7 @@ public class Cutscene:Manager
 		{
 			ce.Run();
 		}
+       
 		//NextElement();
 
 	}
@@ -318,39 +319,6 @@ public class Cutscene:Manager
 	/// </summary>
 	public void NextElement()
 	{
-        /*
-		if (!isBeingSkipped)
-		{
-			isBeingSkipped = Input.GetKey(KeyCode.Escape);
-		}
-		if (!isBeingSkipped)
-		{
-			if (currentNode == null)
-			{
-				currentNode = head;
-			}
-			else if (currentNode.nextElement != null)
-			{
-				currentNode = currentNode.nextElement;
-			}
-			else
-			{
-				EndCutscene();
-				return;
-			}
-
-			currentNode.Run();
-
-			if (currentNode.AutoAdvance)
-			{
-				NextElement();
-			}
-		}
-		else
-		{
-			SkipCutscene();
-		}*/
-        
         currentIndex++;
         currentCompleted = 0;
     

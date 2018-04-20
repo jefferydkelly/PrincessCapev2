@@ -1,5 +1,6 @@
 {
 "MapName": "Classic Level Two",
+"Show In Level Select": "True",
 "Items": "MagicCape",
 "Tiles": [
 {

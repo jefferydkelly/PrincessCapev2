@@ -67,7 +67,10 @@ public class LevelSelect : MainMenu {
 
 			foreach (TextAsset t in texts)
 			{
-                AddMap(t.name, t.text);
+                if (PCLParser.ParseBool(t.text.Split('\n')[2]))
+                {
+                    AddMap(t.name, t.text);
+                }
 
 
 			}

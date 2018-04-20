@@ -1,5 +1,6 @@
 {
 "MapName": "Classic Level Seven",
+"Show In Level Select": "True",
 "Items": "PullGauntlet",
 "Tiles": [
 {

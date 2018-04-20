@@ -442,7 +442,7 @@ public class CutsceneCreation : CutsceneElement
 		if (!destroy)
 		{
 			GameObject go = Object.Instantiate(prefab);
-			go.name = prefab.name;
+            go.name = prefab.name;
 			go.transform.position = position;
 		}
 		else

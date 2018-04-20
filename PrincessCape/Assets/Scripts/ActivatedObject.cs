@@ -17,7 +17,8 @@ public abstract class ActivatedObject : MapTile
     {
         if (startActive)
         {
-            EventManager.StartListening("LevelLoaded", Activate);
+            Activate();
+            //EventManager.StartListening("LevelLoaded", Activate);
         }
     }
     /// <summary>

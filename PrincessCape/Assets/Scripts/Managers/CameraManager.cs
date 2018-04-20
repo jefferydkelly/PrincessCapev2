@@ -23,7 +23,8 @@ public class CameraManager : Manager
             Position = Game.Instance.Player.transform.position.SetZ(Position.z);
         });
 
-        EventManager.StartListening("LevelLoaded", PanToPlayer);
+        Game.Instance.Map.OnLevelLoaded.AddListener(PanToPlayer);
+        //EventManager.StartListening("LevelLoaded", PanToPlayer);
 
     }
 

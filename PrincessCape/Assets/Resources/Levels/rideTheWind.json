@@ -1,5 +1,6 @@
 {
 "MapName": "Ride the Wind",
+"Show In Level Select": "False",
 "Items": "MagicCape",
 "Tiles": [
 {

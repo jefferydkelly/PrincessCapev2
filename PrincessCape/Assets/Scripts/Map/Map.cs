@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Events;
 
 
 public class Map : MonoBehaviour
@@ -12,8 +13,12 @@ public class Map : MonoBehaviour
     string fileName;
     [SerializeField]
     ItemLevel items = ItemLevel.None;
+    [SerializeField]
+    bool showInLevelSelect = true;
     List<MapTile> tiles;
     Dictionary<string, GameObject> prefabs;
+
+    UnityEvent onLevelLoaded;
     public void Awake()
     {
         Init();
@@ -152,7 +157,8 @@ public class Map : MonoBehaviour
 	public string SaveToFile() {
         string info = "{\n";
         info += PCLParser.CreateAttribute("MapName", levelName);
-        info += PCLParser.CreateAttribute("Items", items);//string.Format("\"MapName\": \"{0}\"", levelName) + ",\n";
+        info += PCLParser.CreateAttribute("Show In Level Select", showInLevelSelect);
+        info += PCLParser.CreateAttribute("Items", items);
         info += PCLParser.CreateArray("Tiles");
         foreach(MapTile tile in tiles) {
             info += tile.SaveData();
@@ -166,12 +172,8 @@ public class Map : MonoBehaviour
         string[] lines = json.Split('\n');
 
         levelName = PCLParser.ParseLine(lines[1]);
-
-        if (lines[2].Contains("Items")) {
-            items = PCLParser.ParseEnum<ItemLevel>(lines[2]);
-        } else {
-            items = ItemLevel.None;
-        }
+        showInLevelSelect = PCLParser.ParseBool(lines[2]);
+        items = PCLParser.ParseEnum<ItemLevel>(lines[3]);
         int ind = json.IndexOf(',');
         string tileData = json.Substring(ind);
         return PCLParser.ParseTiles(tileData);
@@ -235,7 +237,7 @@ public class Map : MonoBehaviour
                     }
 
                     if (Application.isPlaying) {                       
-                        EventManager.TriggerEvent("LevelLoaded");
+                        OnLevelLoaded.Invoke();
                     }
                 }
 
@@ -272,7 +274,7 @@ public class Map : MonoBehaviour
     }
 
     public void Init() {
-
+       
         transform.position = Vector3.zero;
         tiles = GetComponentsInChildren<MapTile>().ToList();
 		foreach(MapTile mt in tiles) {
@@ -282,6 +284,23 @@ public class Map : MonoBehaviour
         ClearHighlights();
 
         AssignIDs();
+        onLevelLoaded = new UnityEvent();
+    }
+
+    /// <summary>
+    /// Gets the on level loaded event.
+    /// </summary>
+    /// <value>The on level loaded event.</value>
+    public UnityEvent OnLevelLoaded {
+        get {
+            return onLevelLoaded;
+        }
+    }
+
+    public bool ShowInLevelSelect {
+        get {
+            return showInLevelSelect;
+        }
     }
 }
 

@@ -34,7 +34,8 @@ public class Player : MonoBehaviour {
     private void Awake()
     {
         inventory = new List<MagicItem>();
-        EventManager.StartListening("LevelLoaded", Reset);
+        Game.Instance.Map.OnLevelLoaded.AddListener(Reset);
+        //EventManager.StartListening("LevelLoaded", Reset);
         EventManager.StartListening("ShowMessage", () => {
             IsFrozen = true;
             state = PlayerState.ReadingMessage; 
@@ -101,6 +102,7 @@ public class Player : MonoBehaviour {
     private void OnEnable()
     {
         Controller.Instance.OnPause.AddListener(Pause);
+        transform.position = Checkpoint.Active.transform.position.SetZ(0);
         //EventManager.StartListening("Pause", Pause);
     }
 

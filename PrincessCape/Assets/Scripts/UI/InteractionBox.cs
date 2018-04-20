@@ -13,11 +13,17 @@ public class InteractionBox : MonoBehaviour
     {
         textbox = GetComponentInChildren<Text>();
         textbox.text = "";
+		Game.Instance.Map.OnLevelLoaded.AddListener(() =>
+		{
+			IsHidden = Game.Instance.Map.Items == ItemLevel.None;
+			textbox.text = "";
+		});
+        /*
         EventManager.StartListening("LevelLoaded", () =>
         {
             IsHidden = Game.Instance.Map.Items == ItemLevel.None;
             textbox.text = "";
-        });
+        });*/
 
         interactionKey = transform.parent.GetComponentsInChildren<Text>()[1];
         //interactionKey.text = Controller.Instance.GetKey("Interact");

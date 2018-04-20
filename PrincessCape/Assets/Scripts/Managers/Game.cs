@@ -71,12 +71,14 @@ public class Game : MonoBehaviour {
 			if (SceneManager.GetActiveScene().name == "Test")
 			{
 				state = GameState.Playing;
+                map = FindObjectOfType<Map>();
+				map.OnLevelLoaded.AddListener(() =>
+				{
+					state = GameState.Playing;
+					AddItems();
+				});
             }
 
-            EventManager.StartListening("LevelLoaded", ()=> {
-                state = GameState.Playing;
-                AddItems();
-            });
 
         } else {
             Destroy(gameObject);
@@ -217,11 +219,19 @@ public class Game : MonoBehaviour {
 
         if (newScene.name == "Test")
         {
+            
             player = FindObjectOfType<Player>();
             player.Init();
             map = FindObjectOfType<Map>();
+			
+
             if (lastScene != "Test")
             {
+				map.OnLevelLoaded.AddListener(() =>
+				{
+					state = GameState.Playing;
+					AddItems();
+				});
                 lastScene = SceneManager.GetActiveScene().name;
                 LoadScene(levelToLoad);
                 return;
@@ -242,6 +252,9 @@ public class Game : MonoBehaviour {
     /// <value>The map.</value>
     public Map Map {
         get {
+            if (map == null) {
+				map = FindObjectOfType<Map>();
+            }
             return map;
         }
     }
