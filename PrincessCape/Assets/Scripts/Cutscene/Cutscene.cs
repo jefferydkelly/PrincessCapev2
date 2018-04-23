@@ -38,6 +38,7 @@ public class Cutscene:Manager
     CutsceneElement Parse(string line) {
         string[] parts = line.Split(' ');
 		string p = parts[0].ToLower();
+      
 		if (p == "show")
 		{
 			return new CutsceneEffect(parts[1], EffectType.Show, float.Parse(parts[2]), float.Parse(parts[3]));
@@ -223,9 +224,9 @@ public class Cutscene:Manager
 			{
 				CreateCharacter(parts[1].Trim(), parts[2]);
 			}
-        } else if (line.Contains(":")) {
+        } else {
             parts = line.Split(':');
-           
+       
 			if (parts.Length == 2)
 			{
 				return new CutsceneDialog(parts[0], parts[1].Trim());

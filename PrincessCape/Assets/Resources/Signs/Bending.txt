@@ -1,0 +1,8 @@
+wait 0.25
+Head Alchemist's Diary - 4/16/961 AB
+In my studies, I have found a most singular facet of these gloves that to my knowledge, no one else has noted.
+It seems that when aimed at an object, the gloves form a kind of connection with it that lasts as long as the gloves are active.
+I've been able to use them to manipulate the velocity of the blocks as if I were guiding them as they were pulled toward me.
+This connection even seems to persist after the gloves are deactivated allowing me to pull it again even if I'm not pointing at it.
+More study is required to discover if there are other similar facets to these gloves.
+- Laz
