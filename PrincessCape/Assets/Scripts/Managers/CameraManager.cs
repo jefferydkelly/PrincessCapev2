@@ -65,7 +65,7 @@ public class CameraManager : Manager
         {
             if (state == CameraState.Following)
             {
-                if (Game.Instance.IsPlaying  && (Game.Instance.Player.IsOnLadder || (Game.Instance.Player.IsUsingMagneticGloves && Mathf.Abs(Game.Instance.Player.Velocity.y) > 0)))
+                if (Game.Instance.IsPlaying  && (Game.Instance.Player.IsOnLadder || (Game.Instance.Player.IsFloating)|| (Game.Instance.Player.IsUsingMagneticGloves && Mathf.Abs(Game.Instance.Player.Velocity.y) > 0)))
                 {
                     Position = Game.Instance.Player.transform.position.SetZ(Position.z);
                 } else {

@@ -451,7 +451,7 @@ public class Player : MonoBehaviour {
     /// <value><c>true</c> if is floating; otherwise, <c>false</c>.</value>
     public bool IsFloating {
         get {
-            return state == PlayerState.Floating;
+            return state == PlayerState.Floating && !IsOnGround;
         }
 
         set {

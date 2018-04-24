@@ -42,6 +42,7 @@ public class MagicCape : MagicItem
                     EventManager.TriggerEvent("ItemTwoActivatedSuccessfully");
                 }
                 state = MagicItemState.Activated;
+                Game.Instance.Player.IsFloating = true;
                 Game.Instance.Player.Rigidbody.gravityScale = 0.15f;
                 Game.Instance.Player.Rigidbody.velocity = Game.Instance.Player.Velocity.SetY(0);
             }
@@ -68,6 +69,7 @@ public class MagicCape : MagicItem
 
                 cooldownTimer.Start();
                 state = MagicItemState.OnCooldown;
+                Game.Instance.Player.IsFloating = false;
             }
         }
     }
