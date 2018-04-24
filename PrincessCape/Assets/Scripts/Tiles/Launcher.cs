@@ -17,15 +17,20 @@ public class Launcher : ActivatedObject
     }
 
     public override void Init() {
-		myAnimator = GetComponent<Animator>();
-		launchTimer = new Timer(launchTime, true);
-		launchTimer.OnTick.AddListener(Launch);
+        if (!initialized)
+        {
+            myAnimator = GetComponent<Animator>();
+            launchTimer = new Timer(launchTime, true);
+            launchTimer.OnTick.AddListener(Launch);
 
-		if (startActive)
-		{
-            Activate();
-			//EventManager.StartListening("LevelLoaded", Activate);
-		}
+            if (startActive)
+            {
+                Activate();
+                //EventManager.StartListening("LevelLoaded", Activate);
+            }
+
+            initialized = true;
+        }
 
     }
     void Launch() {

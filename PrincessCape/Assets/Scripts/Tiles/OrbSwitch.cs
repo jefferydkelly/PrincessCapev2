@@ -12,7 +12,7 @@ public class OrbSwitch : ActivatorObject
 
     public override void Init() {
 		myAnimatior = GetComponent<Animator>();
-
+        isActivated = startActive;
         if (startActive) {
             Activate();
         }
@@ -23,7 +23,7 @@ public class OrbSwitch : ActivatorObject
         {
             Destroy(collision.gameObject);
             IsActivated = !IsActivated;
-
+            Debug.Log(isActivated);
             if (IsActivated)
             {
                 Activate();

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
     float speed = 2.0f;
     Rigidbody2D myRigidbody;
-    float lifeTime = 5.0f;
+    float lifeTime = 7.5f;
 	// Use this for initialization
 	void Awake () {
         myRigidbody = GetComponent<Rigidbody2D>();

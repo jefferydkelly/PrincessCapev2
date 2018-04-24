@@ -15,6 +15,7 @@ public abstract class ActivatedObject : MapTile
 
     private void Awake()
     {
+        Init();
         if (startActive)
         {
             Activate();
@@ -56,6 +57,9 @@ public abstract class ActivatedObject : MapTile
     {
         if (!HasConnection(ao))
         {
+            if (this is ActivatorObject) {
+                ao.StartsActive = startActive;
+            }
             connections.Add(ao);
             ao.AddConnection(this);
         }
@@ -142,6 +146,12 @@ public abstract class ActivatedObject : MapTile
 
         set {
             startActive = value;
+
+            if (this is ActivatorObject) {
+                foreach(ActivatedObject ao in connections) {
+                    ao.StartsActive = value;
+                }
+            }
         }
     }
 #endif
