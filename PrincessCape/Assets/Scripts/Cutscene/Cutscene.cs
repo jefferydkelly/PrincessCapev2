@@ -255,6 +255,7 @@ public class Cutscene:Manager
             do
             {
                 string line = lines[i].Trim();
+
                 seq = line.Substring(line.Length - 3) == "and";
 
                 if (seq)
@@ -278,36 +279,16 @@ public class Cutscene:Manager
             {
                 elements.Add(elems);
             }
-
-            /*
-            if (e != null) {
-                
-				if (elements.Count == 0)
-				{
-					head = e;
-				}
-				else
-				{
-                    elements.Last().nextElement = e;
-                    e.prevElement = elements.Last();
-				}
-
-                elements.Add(e);
-            } */
         }
 	}
 
 	public void StartCutscene()
 	{
         OnStart.Invoke();
-        currentIndex = 0;
+        currentIndex = -1;
 
-		foreach (CutsceneElement ce in elements[0])
-		{
-			ce.Run();
-		}
+        NextElement();
        
-		//NextElement();
 
 	}
 
