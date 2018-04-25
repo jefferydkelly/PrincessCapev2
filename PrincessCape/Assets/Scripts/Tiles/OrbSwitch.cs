@@ -23,7 +23,7 @@ public class OrbSwitch : ActivatorObject
         {
             Destroy(collision.gameObject);
             IsActivated = !IsActivated;
-            Debug.Log(isActivated);
+          
             if (IsActivated)
             {
                 Activate();

@@ -1,0 +1,6 @@
+pan to 6.5 -17.5 3
+Hogi: Boss Slog told me, the Great Hogi Grimar, to guard the front gate.
+Hogi: Those four knights got through when I was in the bathroom but I'm sure they all died to my ingenious traps.
+Hogi: No thanks to that lazy lout Laz.
+Hogi: For now, no matter what, I will not take my eye of this gate.
+follow Player

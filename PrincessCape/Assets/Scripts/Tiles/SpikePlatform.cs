@@ -37,7 +37,10 @@ public class SpikePlatform : ActivatedObject {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Activate();
+        if (connections.Count == 0)
+        {
+            Activate();
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
