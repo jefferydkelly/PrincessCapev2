@@ -32,8 +32,7 @@ public class SpikePlatform : ActivatedObject {
     public void OnTriggerEnter2D(Collider2D collision) {
        
         if (collision.CompareTag("Player")) {
-            
-            EventManager.TriggerEvent("PlayerDied");
+            Game.Instance.Player.TakeDamage(true);
         }
     }
 
