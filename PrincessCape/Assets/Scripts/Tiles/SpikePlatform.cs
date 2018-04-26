@@ -30,7 +30,9 @@ public class SpikePlatform : ActivatedObject {
     }
 
     public void OnTriggerEnter2D(Collider2D collision) {
+       
         if (collision.CompareTag("Player")) {
+            
             EventManager.TriggerEvent("PlayerDied");
         }
     }
@@ -45,7 +47,10 @@ public class SpikePlatform : ActivatedObject {
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        Deactivate();
+        if (connections.Count == 0)
+        {
+            Deactivate();
+        }
     }
 
     public override void Init()
