@@ -316,6 +316,7 @@ public class Player : MonoBehaviour {
                     state = PlayerState.Dead;
 
                 } else {
+                    IsXFrozen = false;
                     EventManager.TriggerEvent("PlayerLanded");
                 }
             }
@@ -430,6 +431,10 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:Player"/> is frozen.
+    /// </summary>
+    /// <value><c>true</c> if is frozen; otherwise, <c>false</c>.</value>
     bool IsFrozen {
         get {
             return isFrozen;
@@ -439,6 +444,20 @@ public class Player : MonoBehaviour {
             isFrozen = value;
             if (isFrozen) {
                 myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            } else {
+                myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
+        }
+    }
+
+    public bool IsXFrozen {
+        get {
+            return myRigidbody.constraints == RigidbodyConstraints2D.FreezePositionX;
+        } 
+
+        set {
+            if (value) {
+                myRigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
             } else {
                 myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             }

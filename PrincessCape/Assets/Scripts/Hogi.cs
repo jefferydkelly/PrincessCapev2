@@ -10,12 +10,17 @@ public class Hogi : MonoBehaviour {
     {
         bridgeToCollapse = FindObjectOfType<Bridge>();
         collapseTimer = new Timer(1.0f / 60, 90);
-        collapseTimer.OnTick.AddListener(()=> {
+        collapseTimer.OnTick.AddListener(() =>
+        {
             transform.Rotate(0, 0, 1);
             transform.position += Vector3.down * 1.0f / 90;
         });
 
-        collapseTimer.OnComplete.AddListener(bridgeToCollapse.Deactivate);
+        collapseTimer.OnComplete.AddListener(() => {
+            Game.Instance.Player.IsXFrozen = true;
+            bridgeToCollapse.Deactivate();
+                                             
+        });
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

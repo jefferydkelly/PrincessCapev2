@@ -277,7 +277,13 @@ public class CutsceneMovement : CutsceneElement
 				}
 				myActor.MoveTo(new Vector2(x, y), time);
 			}
-		}
+        } else {
+            GameObject go = GameObject.Find(mover);
+
+            if (go) {
+                go.transform.position = new Vector3(x, y).SetZ(go.transform.position.z);
+            }
+        }
 	}
 }
 

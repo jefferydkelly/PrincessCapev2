@@ -1,0 +1,30 @@
+character Elwynn Elwynn
+disable Player
+show Elwynn 4 -42
+rotate Elwynn 90 0.25
+Elwynn: Owww!
+pan to Elwynn 1
+Elwynn: This day has been nothing but fun and excitement.
+move-y Elwynn -41.5 0.25 and
+rotate Elwynn -90 0.25
+Elwynn: I guess I can't wait for another knight to come and "save" me.
+move-x Elwynn 7.5 2
+Elwynn: It says 'Laz's Lab No Girls Allowed'
+flip-x Elwynn
+Elwynn: Guess I've got to find another way out.
+move-x Elwynn 4 1.5
+wait 0.5
+flip-x Elwynn
+wait 0.5
+flip-x Elwynn
+Elwynn: I mean it does say 'No Girls Allowed'.
+move-x Elwynn 1 1.5
+wait 1
+flip-x Elwynn
+Elwynn: Screw that!
+Elwynn: This is my only way forward.
+Elwynn: I'm not going to let a sign keep me out.
+move-x Elwynn 9 2
+wait 1
+enable Player
+goto classicLevelSix.json

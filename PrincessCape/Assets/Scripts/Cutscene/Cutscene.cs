@@ -25,6 +25,7 @@ public class Cutscene:Manager
         onStart = new UnityEvent();
         onEnd = new UnityEvent();
         Game.Instance.AddManager(this);
+        Game.Instance.Map.OnLevelLoaded.AddListener(EndCutscene);
         EventManager.StartListening("ElementCompleted", ElementCompleted);
     }
 
