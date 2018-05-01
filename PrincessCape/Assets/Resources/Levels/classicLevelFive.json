@@ -6,9 +6,9 @@
 {
 "Name": "Platform",
 "ID": "0",
-"Position": "(-8.0, -3.5, 0.0)",
+"Position": "(-8.0, -3.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 34.0, 1.0)",
+"Scale": "(1.0, 33.0, 1.0)",
 },
 {
 "Name": "Platform",
@@ -20,7 +20,7 @@
 {
 "Name": "Checkpoint",
 "ID": "2",
-"Position": "(-6.0, 9.0, 1.0)",
+"Position": "(-6.0, -19.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Is First?": "True",
@@ -35,9 +35,9 @@
 {
 "Name": "Platform",
 "ID": "4",
-"Position": "(13.0, -1.5, 0.0)",
+"Position": "(13.0, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 30.0, 1.0)",
+"Scale": "(1.0, 29.0, 1.0)",
 },
 {
 "Name": "Platform",
@@ -78,7 +78,7 @@
 {
 "Name": "SpikePlatform",
 "ID": "10",
-"Position": "(5.0, -6.5, 0.0)",
+"Position": "(5.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -86,7 +86,7 @@
 {
 "Name": "SpikePlatform",
 "ID": "11",
-"Position": "(6.0, -6.5, 0.0)",
+"Position": "(6.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -94,7 +94,7 @@
 {
 "Name": "SpikePlatform",
 "ID": "12",
-"Position": "(-1.0, -6.5, 0.0)",
+"Position": "(-1.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -102,7 +102,7 @@
 {
 "Name": "SpikePlatform",
 "ID": "13",
-"Position": "(0.0, -6.5, 0.0)",
+"Position": "(0.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -110,7 +110,7 @@
 {
 "Name": "SpikePlatform",
 "ID": "14",
-"Position": "(1.0, -6.5, 0.0)",
+"Position": "(1.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -118,7 +118,7 @@
 {
 "Name": "SpikePlatform",
 "ID": "15",
-"Position": "(2.0, -6.5, 0.0)",
+"Position": "(2.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -126,7 +126,7 @@
 {
 "Name": "SpikePlatform",
 "ID": "16",
-"Position": "(3.0, -6.5, 0.0)",
+"Position": "(3.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -134,7 +134,7 @@
 {
 "Name": "SpikePlatform",
 "ID": "17",
-"Position": "(4.0, -6.5, 0.0)",
+"Position": "(4.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -160,14 +160,14 @@
 {
 "Name": "Platform",
 "ID": "19",
-"Position": "(-4.5, -7.0, 0.0)",
+"Position": "(-4.5, -6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(6.0, 1.0, 1.0)",
 },
 {
 "Name": "Checkpoint",
 "ID": "20",
-"Position": "(-6.0, -6.0, 1.0)",
+"Position": "(-6.0, -5.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Is First?": "False",
@@ -175,14 +175,14 @@
 {
 "Name": "Platform",
 "ID": "21",
-"Position": "(4.5, -14.0, 0.0)",
+"Position": "(4.5, -13.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(16.0, 1.0, 1.0)",
 },
 {
 "Name": "Checkpoint",
 "ID": "22",
-"Position": "(6.0, -13.0, 1.0)",
+"Position": "(6.0, -12.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Is First?": "False",
@@ -190,7 +190,7 @@
 {
 "Name": "Ladder",
 "ID": "23",
-"Position": "(-4.0, -14.0, 1.0)",
+"Position": "(-4.0, -13.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -199,14 +199,14 @@
 {
 "Name": "Platform",
 "ID": "24",
-"Position": "(-5.5, -21.0, 0.0)",
+"Position": "(-5.5, -20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(6.0, 1.0, 1.0)",
 },
 {
 "Name": "Gate",
 "ID": "25",
-"Position": "(13.0, -18.5, 0.0)",
+"Position": "(13.0, -17.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 2.0, 1.0)",
 "Starts Active": "True",
@@ -214,7 +214,7 @@
 {
 "Name": "BridgeEnd",
 "ID": "26",
-"Position": "(-2.0, -20.5, 0.0)",
+"Position": "(-2.0, -19.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -223,14 +223,14 @@
 {
 "Name": "Platform",
 "ID": "27",
-"Position": "(12.0, -21.0, 0.0)",
+"Position": "(12.0, -20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(3.0, 1.0, 1.0)",
 },
 {
 "Name": "Hogi",
 "ID": "28",
-"Position": "(11.5, -18.5, 0.0)",
+"Position": "(11.5, -17.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 },
@@ -245,7 +245,7 @@
 {
 "Name": "LightField",
 "ID": "30",
-"Position": "(4.0, -17.5, 0.0)",
+"Position": "(4.0, -16.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 6.0, 1.0)",
 },
@@ -300,7 +300,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
-"Lines": "6",
+"Lines": "5",
 },
 {
 "Name": "Platform",
@@ -312,14 +312,14 @@
 {
 "Name": "Platform",
 "ID": "39",
-"Position": "(7.5, -7.0, 0.0)",
+"Position": "(7.5, -6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(2.0, 1.0, 1.0)",
 },
 {
 "Name": "Ladder",
 "ID": "40",
-"Position": "(9.0, -7.0, 1.0)",
+"Position": "(9.0, -6.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
@@ -328,28 +328,28 @@
 {
 "Name": "Platform",
 "ID": "41",
-"Position": "(-3.0, -32.0, 0.0)",
+"Position": "(-3.0, -31.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 21.0, 1.0)",
 },
 {
 "Name": "Platform",
 "ID": "42",
-"Position": "(11.0, -32.0, 0.0)",
+"Position": "(11.0, -31.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 21.0, 1.0)",
 },
 {
 "Name": "Platform",
 "ID": "43",
-"Position": "(4.0, -43.0, 0.0)",
+"Position": "(4.0, -42.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(15.0, 1.0, 1.0)",
 },
 {
 "Name": "Door",
 "ID": "44",
-"Position": "(9.5, -41.0, 1.0)",
+"Position": "(9.5, -40.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Next Level": "WinScreen",
@@ -357,7 +357,7 @@
 {
 "Name": "CutsceneTrigger",
 "ID": "45",
-"Position": "(4.0, -42.0, 0.0)",
+"Position": "(4.0, -41.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Cutscene": "alchemyLabEntrance",

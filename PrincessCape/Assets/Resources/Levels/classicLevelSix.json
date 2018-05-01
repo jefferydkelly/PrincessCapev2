@@ -5,7 +5,7 @@
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "0",
+"ID": "75",
 "Position": "(-6.0, 3.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 7.0, 1.0)",
@@ -81,7 +81,7 @@
 {
 "Name": "Remains",
 "ID": "10",
-"Position": "(0.0, 0.0, 1.0)",
+"Position": "(0.0, 0.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Knight": "Sir Sam the Regal",
@@ -291,7 +291,7 @@
 {
 "Name": "MetalBlock",
 "ID": "38",
-"Position": "(14.0, 19.0, 0.0)",
+"Position": "(15.0, 19.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 },
@@ -517,10 +517,50 @@
 },
 {
 "Name": "Platform",
-"ID": "71",
+"ID": "70",
 "Position": "(10.0, 24.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(3.0, 2.0, 1.0)",
+},
+{
+"Name": "Sign",
+"ID": "71",
+"Position": "(-1.0, 8.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Text": "Bending",
+},
+{
+"Name": "Sign",
+"ID": "72",
+"Position": "(13.0, 19.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Text": "Physics",
+},
+{
+"Name": "Sign",
+"ID": "73",
+"Position": "(3.0, 17.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Text": "Pulling",
+},
+{
+"Name": "Sign",
+"ID": "74",
+"Position": "(-3.0, 36.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Text": "IWillFindThem",
+},
+{
+"Name": "Sign",
+"ID": "76",
+"Position": "(-2.0, 0.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Text": "Defense",
 },
 ]
 }
