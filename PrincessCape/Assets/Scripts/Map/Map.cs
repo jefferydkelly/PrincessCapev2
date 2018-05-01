@@ -24,6 +24,9 @@ public class Map : MonoBehaviour
         Init();
     }
 
+    /// <summary>
+    /// Loads the Tile prefabs from the appropriate folder
+    /// </summary>
     void LoadPrefabs() {
 		Object[] obj = Resources.LoadAll("Tiles", typeof(GameObject));
 
@@ -36,6 +39,9 @@ public class Map : MonoBehaviour
 		}
 	}
 
+    /// <summary>
+    /// Assigns unique IDs to every tile.
+    /// </summary>
     public void AssignIDs()
     {
         int id = 0;
@@ -53,6 +59,9 @@ public class Map : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Clear the map of all tiles.
+    /// </summary>
     public void Clear()
     {
         if (Application.isPlaying)
@@ -79,6 +88,9 @@ public class Map : MonoBehaviour
         tiles = new List<MapTile>();
 
     }
+    /// <summary>
+    /// Sets the highlight state of each tile to normal.
+    /// </summary>
     public void ClearHighlights()
     {
        
@@ -87,6 +99,11 @@ public class Map : MonoBehaviour
             tile.HighlightState = MapHighlightState.Normal;
         }
     }
+
+    /// <summary>
+    /// Adds a tile to the map and assigns it an ID.
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public void AddTile(MapTile tile)
     {
         tile.transform.SetParent(transform);
@@ -99,6 +116,10 @@ public class Map : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Removes the tile from the map.
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public void RemoveTile(MapTile tile)
     {
         tiles.Remove(tile);
@@ -109,6 +130,10 @@ public class Map : MonoBehaviour
 #endif
     }
 
+    /// <summary>
+    /// Gets the number of tiles in the map.
+    /// </summary>
+    /// <value>The number of tiles in the map.</value>
     public int NumberOfTiles
     {
         get
@@ -117,6 +142,11 @@ public class Map : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the tile according to its place in the array.
+    /// </summary>
+    /// <returns>The tile located at tileNum or null if tileNum is greater than the number of tiles in the array.</returns>
+    /// <param name="tileNum">Tile number.</param>
     public MapTile GetTile(int tileNum)
     {
         if (tileNum < NumberOfTiles)
@@ -147,6 +177,9 @@ public class Map : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+    /// <summary>
+    /// Renders the in editor.
+    /// </summary>
     public void RenderInEditor() {
 		foreach (MapTile tile in tiles)
 		{
@@ -154,6 +187,10 @@ public class Map : MonoBehaviour
 		}
     }
 #endif
+	/// <summary>
+	/// Converts the map into a json-ish file string for saving to file
+	/// </summary>
+	/// <returns> A json-ish file string.</returns>
 	public string SaveToFile() {
         string info = "{\n";
         info += PCLParser.CreateAttribute("MapName", levelName);
@@ -167,7 +204,11 @@ public class Map : MonoBehaviour
         return info;
     }
 
-
+	/// <summary>
+	/// Creates a List of Tile Struct information based on the information in the string passed in
+	/// </summary>
+	/// <returns> List of Tile Struct information based on the json passed in.</returns>
+	/// <param name="json">Json.</param>
 	public List<TileStruct> LoadFromFile(string json) {
         string[] lines = json.Split('\n');
 
@@ -179,6 +220,11 @@ public class Map : MonoBehaviour
         return PCLParser.ParseTiles(tileData);
     }
 
+    /// <summary>
+    /// Gets the tile by its ID number.
+    /// </summary>
+    /// <returns>The tile with the given ID if there is one.</returns>
+    /// <param name="id">Identifier.</param>
     public MapTile GetTileByID(int id) {
         foreach(MapTile tile in tiles) {
             if (tile.ID == id) {
@@ -189,6 +235,11 @@ public class Map : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// Whether or not a tile has the given identifier.
+    /// </summary>
+    /// <returns><c>true</c>, if has a tile has the ID, <c>false</c> otherwise.</returns>
+    /// <param name="id">Identifier.</param>
     bool TileHasID(int id) {
 		foreach (MapTile tile in tiles)
 		{
@@ -201,6 +252,11 @@ public class Map : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Load the specified file.
+    /// </summary>
+    /// <returns>The load.</returns>
+    /// <param name="file">File.</param>
     public void Load(string file) {
 
         if (prefabs == null) {
@@ -246,6 +302,13 @@ public class Map : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reload the level.
+    /// </summary>
+    public void Reload() {
+        Load(fileName);
+    }
+
 
     /// <summary>
     /// Gets the name of the level.
@@ -267,12 +330,19 @@ public class Map : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the name of the file.
+    /// </summary>
+    /// <value>The name of the file.</value>
     public string FileName {
         get {
             return fileName;
         }
     }
 
+    /// <summary>
+    /// Initializes the Map and all of the tiles
+    /// </summary>
     public void Init() {
        
         transform.position = Vector3.zero;
@@ -297,6 +367,10 @@ public class Map : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Map"/> show in level select.
+    /// </summary>
+    /// <value><c>true</c> if show in level select; otherwise, <c>false</c>.</value>
     public bool ShowInLevelSelect {
         get {
             return showInLevelSelect;

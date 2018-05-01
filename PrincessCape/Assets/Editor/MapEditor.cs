@@ -136,6 +136,10 @@ public class MapEditor : Editor {
             GUIUtility.ExitGUI();
 		}
 
+        if (GUILayout.Button("Reload")) {
+            Reload();
+            GUIUtility.ExitGUI();
+        }
 		if (GUILayout.Button("Load"))
 		{
 			Load();
@@ -360,6 +364,9 @@ public class MapEditor : Editor {
         map.RenderInEditor();
 	}
 
+    /// <summary>
+    /// Connect the selected map tile and the secondary map tile if they are an Activator and Activated object.
+    /// </summary>
     void Connect() {
         if (selectedMapTile != null && secondaryMapTile != null)
         {
@@ -522,6 +529,10 @@ public class MapEditor : Editor {
 		}
 	}
 
+    /// <summary>
+    /// Gets or sets the secondary map tile.
+    /// </summary>
+    /// <value>The secondary map tile.</value>
     MapTile SecondaryMapTile {
         get {
             return secondaryMapTile;
@@ -541,6 +552,9 @@ public class MapEditor : Editor {
         }
     }
 
+    /// <summary>
+    /// Saves the current map to the given file location
+    /// </summary>
     void Save() {
         string path = EditorUtility.SaveFilePanel("Save Level To File", "Assets/Resources/Levels", map.FileName, "json");
 
@@ -551,6 +565,9 @@ public class MapEditor : Editor {
 		}
     }
 
+    /// <summary>
+    /// Load the level at the given file location.
+    /// </summary>
     void Load() {
         string path = EditorUtility.OpenFilePanel("Open A Level File", "Assets/Resources/Levels", "json");
         if (path.Length > 0)
@@ -564,6 +581,18 @@ public class MapEditor : Editor {
             serialMap.ApplyModifiedProperties();
             serialMap.Update();
         }
+    }
+
+    /// <summary>
+    /// Reloads the map.
+    /// </summary>
+    void Reload() {
+        map.Reload();
+		serialMap.FindProperty("levelName").stringValue = map.LevelName;
+		serialMap.FindProperty("fileName").stringValue = map.FileName;
+		serialMap.FindProperty("items").enumValueIndex = (int)map.Items;
+		serialMap.ApplyModifiedProperties();
+		serialMap.Update();
     }
 
 }
