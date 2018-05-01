@@ -8,26 +8,27 @@ using System.IO;
 [CustomEditor(typeof(Map))]
 public class MapEditor : Editor {
     MapTile selectedPrefab;
-    MapTile selectedMapTile;
+    MapTile primaryMapTile;
     MapTile secondaryMapTile;
+    List<MapTile> otherSelectedObjects;
     Dictionary<string, GameObject> prefabs;
 
-	Vector3 spawnPosition = Vector3.zero;
+    Vector3 spawnPosition = Vector3.zero;
     Map map;
     SerializedObject serialMap;
 
     string[] tools = { "Translate (Z)", "Rotate (X)", "Scale (C)", "Flip (V)", "Align (B)" };
     MapEditMode mode = MapEditMode.Translate;
 
-	/// <summary>
-	/// Handles the initialization of the MapEditor
-	/// </summary>
-	private void OnEnable()
-	{
+    /// <summary>
+    /// Handles the initialization of the MapEditor
+    /// </summary>
+    private void OnEnable()
+    {
         map = target as Map;
-		
-		Object[] obj = Resources.LoadAll("Tiles", typeof(GameObject));
-		
+        
+        Object[] obj = Resources.LoadAll("Tiles", typeof(GameObject));
+        
         prefabs = new Dictionary<string, GameObject>(obj.Length);
 
         for (int i = 0; i < obj.Length; i++)
@@ -38,46 +39,48 @@ public class MapEditor : Editor {
 
         map.Init();
         serialMap = new SerializedObject(map);
-	}
+        otherSelectedObjects = new List<MapTile>();
+    }
 
-	/// <summary>
-	/// Handles the disabling of the MapEditor
-	/// </summary>
-	private void OnDisable()
-	{
-		if (SelectedMapTile)
-		{
+    /// <summary>
+    /// Handles the disabling of the MapEditor
+    /// </summary>
+    private void OnDisable()
+    {
+        ClearMap();
+    }
+
+    /// <summary>
+    /// Handles the destruction of the MapEditor
+    /// </summary>
+    private void OnDestroy()
+    {
+        
+        ClearMap();
+    }
+
+    void ClearMap() {
+        if (SelectedMapTile)
+        {
             SelectedMapTile.HighlightState = MapHighlightState.Normal;
-		}
+        }
 
-        if (SecondaryMapTile) {
+        foreach (MapTile mt in otherSelectedObjects)
+        {
+            mt.HighlightState = MapHighlightState.Normal;
+        }
+        if (SecondaryMapTile)
+        {
             SecondaryMapTile.HighlightState = MapHighlightState.Normal;
         }
-	}
+    }
 
-	/// <summary>
-	/// Handles the destruction of the MapEditor
-	/// </summary>
-	private void OnDestroy()
-	{
-        
-		if (SelectedMapTile)
-		{
-			SelectedMapTile.HighlightState = MapHighlightState.Normal;
-		}
-
-		if (SecondaryMapTile)
-		{
-			SecondaryMapTile.HighlightState = MapHighlightState.Normal;
-		}
-	}
-
-	/// <summary>
-	/// Draws the Buttons in the MapEditor and Handles the determination of the selected prefab
-	/// </summary>
-	public override void OnInspectorGUI()
-	{
-		DrawDefaultInspector();
+    /// <summary>
+    /// Draws the Buttons in the MapEditor and Handles the determination of the selected prefab
+    /// </summary>
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
         GUILayout.BeginHorizontal();
         mode = (MapEditMode)GUILayout.Toolbar((int)mode, tools);
         GUILayout.EndHorizontal();
@@ -102,71 +105,72 @@ public class MapEditor : Editor {
         }
         GUILayout.EndHorizontal();
 
-		GUILayout.BeginHorizontal();
-		if (prefabs != null)
-		{
-			int elementsInThisRow = 0;
+        GUILayout.BeginHorizontal();
+        if (prefabs != null)
+        {
+            int elementsInThisRow = 0;
             foreach(KeyValuePair<string, GameObject> pair in prefabs) {
-				elementsInThisRow++;
+                elementsInThisRow++;
                 Texture prefabTexture = pair.Value.GetComponent<MapTile>().EditorTexture;
 
-				if (GUILayout.Button(prefabTexture, GUILayout.MaxWidth(50), GUILayout.MaxHeight(50)))
-				{
+                if (GUILayout.Button(prefabTexture, GUILayout.MaxWidth(50), GUILayout.MaxHeight(50)))
+                {
                     selectedPrefab = pair.Value.GetComponent<MapTile>();
-					EditorWindow.FocusWindowIfItsOpen(typeof(SceneView));
-				}
+                    EditorWindow.FocusWindowIfItsOpen(typeof(SceneView));
+                }
 
 
-				if (elementsInThisRow > Screen.width / 128)
-				{
-					elementsInThisRow = 0;
-					GUILayout.EndHorizontal();
-					GUILayout.BeginHorizontal();
-				}
+                if (elementsInThisRow > Screen.width / 128)
+                {
+                    elementsInThisRow = 0;
+                    GUILayout.EndHorizontal();
+                    GUILayout.BeginHorizontal();
+                }
 
-			}
-		}
+            }
+        }
 
-		GUILayout.EndHorizontal();
+        GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-		if (GUILayout.Button("Save"))
-		{
+        if (GUILayout.Button("Save"))
+        {
             Save();
             GUIUtility.ExitGUI();
-		}
+        }
 
         if (GUILayout.Button("Reload")) {
             Reload();
             GUIUtility.ExitGUI();
         }
-		if (GUILayout.Button("Load"))
-		{
-			Load();
-			GUIUtility.ExitGUI();
-		}
+        if (GUILayout.Button("Load"))
+        {
+            Load();
+            GUIUtility.ExitGUI();
+        }
 
         if (GUILayout.Button("Clear")) {
             SelectedMapTile = null;
             SecondaryMapTile = null;
             map.Clear();
         }
-		GUILayout.EndHorizontal();
+        GUILayout.EndHorizontal();
         map.RenderInEditor();
-	}
+    }
 
-	/// <summary>
-	/// Handles events in the MapEditor and spawns, deletes, connects, manipulates objects according to user input
-	/// </summary>
-	private void OnSceneGUI()
-	{
+    /// <summary>
+    /// Handles events in the MapEditor and spawns, deletes, connects, manipulates objects according to user input
+    /// </summary>
+    private void OnSceneGUI()
+    {
       
         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-		if (Event.current.isMouse)
-		{
-			spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
+        if (Event.current.isMouse)
+        {
+            spawnPosition = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin;
 
             if (Event.current.type == EventType.MouseDown) {
+                
                 MapTile atLoc = map.GetObjectAtLocation(spawnPosition);
                 if (Event.current.button == 0)
                 {
@@ -174,11 +178,33 @@ public class MapEditor : Editor {
                     {
                         if (atLoc == SecondaryMapTile)
                         {
-                            SwapSelectedAndSecondary();
+                            if (!Event.current.shift)
+                            {
+                                SwapSelectedAndSecondary();
+                                foreach (MapTile mt in otherSelectedObjects)
+                                {
+                                    mt.HighlightState = MapHighlightState.Normal;
+                                }
+                                otherSelectedObjects.Clear();
+                            } else {
+                                secondaryMapTile.HighlightState = MapHighlightState.Primary;
+                                otherSelectedObjects.Add(secondaryMapTile);
+                                secondaryMapTile = null;
+                            }
                         }
                         else
                         {
-                            SelectedMapTile = atLoc != selectedMapTile ? atLoc : null;
+                            if (!Event.current.shift)
+                            {
+                                SelectedMapTile = atLoc != primaryMapTile ? atLoc : null;
+                                foreach(MapTile mt in otherSelectedObjects) {
+                                    mt.HighlightState = MapHighlightState.Normal;
+                                }
+                                otherSelectedObjects.Clear();
+                            } else if (atLoc) {
+                                atLoc.HighlightState = MapHighlightState.Primary;
+                                otherSelectedObjects.Add(atLoc);
+                            }
                         }
                         Repaint();
                     } else {
@@ -199,31 +225,31 @@ public class MapEditor : Editor {
                     Repaint();
 
                 }
-			}
-			else if (Event.current.type == EventType.MouseDrag && Event.current.button == 0)
-			{
+            }
+            else if (Event.current.type == EventType.MouseDrag && Event.current.button == 0)
+            {
 
-				Spawn(spawnPosition);
-				Event.current.Use();
-			}
-		}
+                Spawn(spawnPosition);
+                Event.current.Use();
+            }
+        }
 
         if (Event.current.type == EventType.KeyDown)
-		{
-			if (Event.current.keyCode == KeyCode.Delete || Event.current.keyCode == KeyCode.Backspace)
-			{
-				if (SelectedMapTile)
-				{
-                    map.RemoveTile(selectedMapTile);
+        {
+            if (Event.current.keyCode == KeyCode.Delete || Event.current.keyCode == KeyCode.Backspace)
+            {
+                if (SelectedMapTile)
+                {
+                    map.RemoveTile(primaryMapTile);
 
                     if (map.NumberOfTiles > 0)
-					{
+                    {
                         SelectedMapTile = map.GetTile(map.NumberOfTiles - 1);
-					}
-				}
+                    }
+                }
 
-				Event.current.Use();
-			}
+                Event.current.Use();
+            }
             else if (Event.current.keyCode == KeyCode.Z) {
                 
                 mode = MapEditMode.Translate;
@@ -243,142 +269,212 @@ public class MapEditor : Editor {
                 Event.current.Use();
             } else if (Event.current.keyCode == KeyCode.B) {
                 mode = MapEditMode.Align;
-				Repaint();
-				Event.current.Use();
+                Repaint();
+                Event.current.Use();
             }
-			else if (SelectedMapTile != null)
-			{
+            else if (SelectedMapTile != null)
+            {
                 if (Event.current.keyCode == KeyCode.UpArrow) {
                     if (mode == MapEditMode.Translate) {
-						SelectedMapTile.Translate(new Vector3(0, 1, 0));
-						Event.current.Use();
+                        SelectedMapTile.Translate(new Vector3(0, 1, 0));
+                        foreach(MapTile mt in otherSelectedObjects) {
+                            mt.Translate(new Vector3(0, 1, 0));
+                        }
+                        Event.current.Use();
                     } else if (mode == MapEditMode.Scale) {
-						SelectedMapTile.ScaleY(true);
-						Event.current.Use();
+                        SelectedMapTile.ScaleY(true);
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.ScaleY(true);
+                        }
+                        Event.current.Use();
                     } else if (mode == MapEditMode.Flip) {
                         SelectedMapTile.FlipY();
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.FlipY();
+                        }
                         Event.current.Use();
                     } else if (mode == MapEditMode.Align) {
                         SpawnAligned(Direction.Up);
                         Event.current.Use();
                     }
                 } else if (Event.current.keyCode == KeyCode.DownArrow) {
-					if (mode == MapEditMode.Translate)
-					{
-						SelectedMapTile.Translate(new Vector3(0, -1, 0));
-						Event.current.Use();
-					}
-					else if (mode == MapEditMode.Scale)
-					{
+                    if (mode == MapEditMode.Translate)
+                    {
+                        SelectedMapTile.Translate(new Vector3(0, -1, 0));
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.Translate(new Vector3(0, -1, 0));
+                        }
+                        Event.current.Use();
+                    }
+                    else if (mode == MapEditMode.Scale)
+                    {
                         SelectedMapTile.ScaleY(false);
-						Event.current.Use();
-					}
-					else if (mode == MapEditMode.Flip)
-					{
-						SelectedMapTile.FlipY();
-						Event.current.Use();
-					}
-					else if (mode == MapEditMode.Align)
-					{
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.ScaleY(false);
+                        }
+                        Event.current.Use();
+                    }
+                    else if (mode == MapEditMode.Flip)
+                    {
+                        SelectedMapTile.FlipY();
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.FlipY();
+                        }
+
+                        Event.current.Use();
+                    }
+                    else if (mode == MapEditMode.Align)
+                    {
                         SpawnAligned(Direction.Down);
                         Event.current.Use();
-					}
-				}
+                    }
+                }
                 else if (Event.current.keyCode == KeyCode.RightArrow)
-				{
-					if (mode == MapEditMode.Translate)
-					{
-						SelectedMapTile.Translate(new Vector3(1, 0, 0));
-						Event.current.Use();
-					}
-					else if (mode == MapEditMode.Scale)
-					{
-						SelectedMapTile.ScaleX(true);
-						Event.current.Use();
+                {
+                    if (mode == MapEditMode.Translate)
+                    {
+                        SelectedMapTile.Translate(new Vector3(1, 0, 0));
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.Translate(new Vector3(1, 0, 0));
+                        }
+                        Event.current.Use();
+                    }
+                    else if (mode == MapEditMode.Scale)
+                    {
+                        SelectedMapTile.ScaleX(true);
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.ScaleX(true);
+                        }
+
+                        Event.current.Use();
                     } else if (mode == MapEditMode.Rotate) {
                         SelectedMapTile.Rotate(-90);
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.Rotate(-90);
+                        }
                         Event.current.Use();
-					}
-					else if (mode == MapEditMode.Flip)
-					{
-						SelectedMapTile.FlipX();
-						Event.current.Use();
-					}
-					else if (mode == MapEditMode.Align)
-					{
+                    }
+                    else if (mode == MapEditMode.Flip)
+                    {
+                        SelectedMapTile.FlipX();
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.FlipX();
+                        }
+                        Event.current.Use();
+                    }
+                    else if (mode == MapEditMode.Align)
+                    {
                         SpawnAligned(Direction.Right);
                         Event.current.Use();
-					}
-				}
-				else if (Event.current.keyCode == KeyCode.LeftArrow)
-				{
-					if (mode == MapEditMode.Translate)
-					{
-						SelectedMapTile.Translate(new Vector3(-1, 0, 0));
-						Event.current.Use();
-					}
-					else if (mode == MapEditMode.Scale)
-					{
-						SelectedMapTile.ScaleX(false);
-						Event.current.Use();
-					}
-					else if (mode == MapEditMode.Rotate)
-					{
-						SelectedMapTile.Rotate(90);
-						Event.current.Use();
-					}
-					else if (mode == MapEditMode.Flip)
-					{
-						SelectedMapTile.FlipX();
-						Event.current.Use();
-					}
-					else if (mode == MapEditMode.Align)
-					{
+                    }
+                }
+                else if (Event.current.keyCode == KeyCode.LeftArrow)
+                {
+                    if (mode == MapEditMode.Translate)
+                    {
+                        SelectedMapTile.Translate(new Vector3(-1, 0, 0));
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.Translate(new Vector3(-1, 0, 0));
+                        }
+                        Event.current.Use();
+                    }
+                    else if (mode == MapEditMode.Scale)
+                    {
+                        SelectedMapTile.ScaleX(false);
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.ScaleX(false);
+                        }
+                        Event.current.Use();
+                    }
+                    else if (mode == MapEditMode.Rotate)
+                    {
+                        SelectedMapTile.Rotate(90);
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.Rotate(90);
+                        }
+
+                        Event.current.Use();
+                    }
+                    else if (mode == MapEditMode.Flip)
+                    {
+                        SelectedMapTile.FlipX();
+
+                        foreach (MapTile mt in otherSelectedObjects)
+                        {
+                            mt.FlipX();
+                        }
+                        Event.current.Use();
+                    }
+                    else if (mode == MapEditMode.Align)
+                    {
                         SpawnAligned(Direction.Left);
                         Event.current.Use();
-					}
+                    }
                 } else if (Event.current.keyCode == KeyCode.Space) {
                     Connect();
                 }
-			}
+            }
 
 
-		}
+        }
 
-		if (SelectedMapTile != null)
-		{
-			Handles.Label(SelectedMapTile.transform.position, "X");
-		}
-
-
-		Handles.BeginGUI();
-		GUILayout.Box("Map Edit Mode");
-		if (selectedPrefab == null)
-		{
-			GUILayout.Box("No prefab selected!");
-		}
+        if (SelectedMapTile != null)
+        {
+            Handles.Label(SelectedMapTile.transform.position, "X");
+        }
 
 
-		Handles.EndGUI();
+        Handles.BeginGUI();
+        GUILayout.Box("Map Edit Mode");
+        if (selectedPrefab == null)
+        {
+            GUILayout.Box("No prefab selected!");
+        }
+
+
+        Handles.EndGUI();
 
         map.RenderInEditor();
-	}
+    }
 
     /// <summary>
     /// Connect the selected map tile and the secondary map tile if they are an Activator and Activated object.
     /// </summary>
     void Connect() {
-        if (selectedMapTile != null && secondaryMapTile != null)
+        if (primaryMapTile != null && secondaryMapTile != null)
         {
             ActivatedObject connected = null;
-            ActivatorObject connector = selectedMapTile.GetComponent<ActivatorObject>();
+            ActivatorObject connector = primaryMapTile.GetComponent<ActivatorObject>();
             if (connector != null)
             {
                 connected = secondaryMapTile.GetComponent<ActivatedObject>();
             }
             else
             {
-                connected = selectedMapTile.GetComponent<ActivatedObject>();
+                connected = primaryMapTile.GetComponent<ActivatedObject>();
                 connector = secondaryMapTile.GetComponent<ActivatorObject>();
             }
 
@@ -396,36 +492,36 @@ public class MapEditor : Editor {
 
     }
     void SpawnAligned(Direction dir) {
-        if (selectedPrefab != null && selectedMapTile != null)
-		{
-			SpriteRenderer spSpr = selectedPrefab.GetComponent<SpriteRenderer>();
-			SpriteRenderer sgoSpr = SelectedMapTile.GetComponent<SpriteRenderer>();
-			float selectedGameObjectWidth = sgoSpr.bounds.size.x;
-			float selectedGameObjectHeight = sgoSpr.bounds.size.y;
-			float selectedPrefabWidth = spSpr.bounds.size.x;
-			float selectedPrefabHeight = spSpr.bounds.size.y;
+        if (selectedPrefab != null && primaryMapTile != null)
+        {
+            SpriteRenderer spSpr = selectedPrefab.GetComponent<SpriteRenderer>();
+            SpriteRenderer sgoSpr = SelectedMapTile.GetComponent<SpriteRenderer>();
+            float selectedGameObjectWidth = sgoSpr.bounds.size.x;
+            float selectedGameObjectHeight = sgoSpr.bounds.size.y;
+            float selectedPrefabWidth = spSpr.bounds.size.x;
+            float selectedPrefabHeight = spSpr.bounds.size.y;
 
             switch (dir) {
                 case Direction.Up:
-					spawnPosition = new Vector3(SelectedMapTile.transform.position.x,
-												SelectedMapTile.transform.position.y + (selectedGameObjectHeight + selectedPrefabHeight) / 2.0f, 0);
+                    spawnPosition = new Vector3(SelectedMapTile.transform.position.x,
+                                                SelectedMapTile.transform.position.y + (selectedGameObjectHeight + selectedPrefabHeight) / 2.0f, 0);
                     break;
                 case Direction.Down:
-					spawnPosition = new Vector3(SelectedMapTile.transform.position.x,
-												SelectedMapTile.transform.position.y - (selectedGameObjectHeight + selectedPrefabHeight) / 2.0f, 0);
+                    spawnPosition = new Vector3(SelectedMapTile.transform.position.x,
+                                                SelectedMapTile.transform.position.y - (selectedGameObjectHeight + selectedPrefabHeight) / 2.0f, 0);
                     break;
                 case Direction.Left:
-					spawnPosition = new Vector3(SelectedMapTile.transform.position.x - (selectedGameObjectWidth + selectedPrefabWidth) / 2.0f,
-											SelectedMapTile.transform.position.y, 0);
+                    spawnPosition = new Vector3(SelectedMapTile.transform.position.x - (selectedGameObjectWidth + selectedPrefabWidth) / 2.0f,
+                                            SelectedMapTile.transform.position.y, 0);
                     break;
                 case Direction.Right:
-					spawnPosition = new Vector3(SelectedMapTile.transform.position.x + (selectedGameObjectWidth + selectedPrefabWidth) / 2.0f,
-												SelectedMapTile.transform.position.y, 0);
+                    spawnPosition = new Vector3(SelectedMapTile.transform.position.x + (selectedGameObjectWidth + selectedPrefabWidth) / 2.0f,
+                                                SelectedMapTile.transform.position.y, 0);
                     break;
             }
 
             Spawn(spawnPosition);
-		}
+        }
     }
 
     void SwapSelectedAndSecondary() {
@@ -434,13 +530,13 @@ public class MapEditor : Editor {
         SelectedMapTile = temp;
     }
 
-	/// <summary>
-	/// Spawns the selected prefab at the specified spawnPosition.
-	/// </summary>
-	/// <returns>The spawn.</returns>
-	/// <param name="_spawnPosition">Spawn position.</param>
-	void Spawn(Vector2 _spawnPosition)
-	{
+    /// <summary>
+    /// Spawns the selected prefab at the specified spawnPosition.
+    /// </summary>
+    /// <returns>The spawn.</returns>
+    /// <param name="_spawnPosition">Spawn position.</param>
+    void Spawn(Vector2 _spawnPosition)
+    {
         if (selectedPrefab != null)
         {
             Vector3 pos = new Vector3(Mathf.Round(_spawnPosition.x), Mathf.Round(_spawnPosition.y), selectedPrefab.gameObject.IsOnLayer("Background") ? 1 : 0);
@@ -478,56 +574,56 @@ public class MapEditor : Editor {
                 map.AddTile(SelectedMapTile);
             }
         }
-	}
+    }
 
-	/// <summary>
-	/// Determines whether or not an object can be spawned at the given position
-	/// </summary>
-	/// <returns><c>true</c>, if spawn position open was ised, <c>false</c> otherwise.</returns>
-	/// <param name="spawnPos">Spawn position.</param>
-	bool IsSpawnPositionOpen(Vector3 spawnPos)
-	{
+    /// <summary>
+    /// Determines whether or not an object can be spawned at the given position
+    /// </summary>
+    /// <returns><c>true</c>, if spawn position open was ised, <c>false</c> otherwise.</returns>
+    /// <param name="spawnPos">Spawn position.</param>
+    bool IsSpawnPositionOpen(Vector3 spawnPos)
+    {
         if (selectedPrefab == null) {
             return false;
         }
      
         for (int i = 0; i < map.NumberOfTiles; i++)
-		{
+        {
             MapTile tile = map.GetTile(i);
 
             if (tile.Overlaps(selectedPrefab, spawnPosition)) {
                 return false;
             }
-		}
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/// <summary>
-	/// Gets or sets the selected game object.
-	/// </summary>
-	/// <value>The selected game object.</value>
+    /// <summary>
+    /// Gets or sets the selected game object.
+    /// </summary>
+    /// <value>The selected game object.</value>
     MapTile SelectedMapTile
-	{
-		set
-		{
-            if (selectedMapTile && selectedMapTile.HighlightState == MapHighlightState.Primary)
-			{
-                selectedMapTile.HighlightState = MapHighlightState.Normal;
-			}
-
-			selectedMapTile = value;
-            if (selectedMapTile)
+    {
+        set
+        {
+            if (primaryMapTile && primaryMapTile.HighlightState == MapHighlightState.Primary)
             {
-                selectedMapTile.HighlightState = MapHighlightState.Primary;
+                primaryMapTile.HighlightState = MapHighlightState.Normal;
             }
-		}
 
-		get
-		{
-			return selectedMapTile;
-		}
-	}
+            primaryMapTile = value;
+            if (primaryMapTile)
+            {
+                primaryMapTile.HighlightState = MapHighlightState.Primary;
+            }
+        }
+
+        get
+        {
+            return primaryMapTile;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the secondary map tile.
@@ -545,10 +641,10 @@ public class MapEditor : Editor {
 
             secondaryMapTile = value;
 
-			if (secondaryMapTile)
-			{
+            if (secondaryMapTile)
+            {
                 secondaryMapTile.HighlightState = MapHighlightState.Secondary;
-			}
+            }
         }
     }
 
@@ -562,7 +658,7 @@ public class MapEditor : Editor {
             string json = map.SaveToFile();
 
             File.WriteAllText(path, json);
-		}
+        }
     }
 
     /// <summary>
@@ -575,8 +671,8 @@ public class MapEditor : Editor {
             
             map.Load(path);
            
-			serialMap.FindProperty("levelName").stringValue = map.LevelName;
-			serialMap.FindProperty("fileName").stringValue = map.FileName;
+            serialMap.FindProperty("levelName").stringValue = map.LevelName;
+            serialMap.FindProperty("fileName").stringValue = map.FileName;
             serialMap.FindProperty("items").enumValueIndex = (int)map.Items;
             serialMap.ApplyModifiedProperties();
             serialMap.Update();
@@ -588,11 +684,11 @@ public class MapEditor : Editor {
     /// </summary>
     void Reload() {
         map.Reload();
-		serialMap.FindProperty("levelName").stringValue = map.LevelName;
-		serialMap.FindProperty("fileName").stringValue = map.FileName;
-		serialMap.FindProperty("items").enumValueIndex = (int)map.Items;
-		serialMap.ApplyModifiedProperties();
-		serialMap.Update();
+        serialMap.FindProperty("levelName").stringValue = map.LevelName;
+        serialMap.FindProperty("fileName").stringValue = map.FileName;
+        serialMap.FindProperty("items").enumValueIndex = (int)map.Items;
+        serialMap.ApplyModifiedProperties();
+        serialMap.Update();
     }
 
 }
