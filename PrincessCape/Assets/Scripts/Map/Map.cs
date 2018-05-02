@@ -15,6 +15,11 @@ public class Map : MonoBehaviour
     ItemLevel items = ItemLevel.None;
     [SerializeField]
     bool showInLevelSelect = true;
+
+	Color primaryColor = Color.blue;
+	Color otherPrimaryColor = Color.cyan;
+	Color secondaryColor = Color.red;
+
     List<MapTile> tiles;
     Dictionary<string, GameObject> prefabs;
 

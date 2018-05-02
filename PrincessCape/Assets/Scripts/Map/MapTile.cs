@@ -94,6 +94,7 @@ public class MapTile : MonoBehaviour {
 		get
 		{
 			Color myCol = GetComponent<SpriteRenderer>().color;
+
 			if (myCol == Color.white)
 			{
 				return MapHighlightState.Normal;
@@ -101,7 +102,9 @@ public class MapTile : MonoBehaviour {
 			else if (myCol == Color.blue)
 			{
 				return MapHighlightState.Primary;
-			}
+            } else if (myCol == Color.cyan) {
+                return MapHighlightState.Backup;
+            }
 			else
 			{
 				return MapHighlightState.Secondary;
@@ -118,6 +121,9 @@ public class MapTile : MonoBehaviour {
 			{
 				GetComponent<SpriteRenderer>().color = Color.blue;
 			}
+            else if (value == MapHighlightState.Backup) {
+                GetComponent<SpriteRenderer>().color = Color.cyan;
+            }
 			else
 			{
 				GetComponent<SpriteRenderer>().color = Color.red;
@@ -292,6 +298,7 @@ public enum EditorLayer
 public enum MapHighlightState {
     Normal,
     Primary,
-    Secondary
+    Secondary,
+    Backup
 }
 
