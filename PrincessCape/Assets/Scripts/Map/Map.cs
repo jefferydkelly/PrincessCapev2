@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
 
-
 public class Map : MonoBehaviour
 {
     [SerializeField]
@@ -16,14 +15,11 @@ public class Map : MonoBehaviour
     [SerializeField]
     bool showInLevelSelect = true;
 
-	Color primaryColor = Color.blue;
-	Color otherPrimaryColor = Color.cyan;
-	Color secondaryColor = Color.red;
-
     List<MapTile> tiles;
     Dictionary<string, GameObject> prefabs;
 
     UnityEvent onLevelLoaded;
+    static Map instance;
     public void Awake()
     {
         Init();
@@ -360,6 +356,7 @@ public class Map : MonoBehaviour
 
         AssignIDs();
         onLevelLoaded = new UnityEvent();
+        instance = this;
     }
 
     /// <summary>
@@ -379,6 +376,18 @@ public class Map : MonoBehaviour
     public bool ShowInLevelSelect {
         get {
             return showInLevelSelect;
+        }
+    }
+
+    public GameObject GetPrefabByName(string tileName) {
+        GameObject prefab = null;
+        prefabs.TryGetValue(tileName, out prefab);
+        return prefab;
+    }
+
+    public static Map Instance {
+        get {
+            return instance;
         }
     }
 }
