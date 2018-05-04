@@ -626,8 +626,11 @@ public class MapEditor : Editor {
 				mt.HighlightState = MapHighlightState.Normal;
 			}
 			selectedObjects.Clear();
-            value.HighlightState = MapHighlightState.Primary;
-            selectedObjects.Add(value);
+            if (value)
+            {
+                value.HighlightState = MapHighlightState.Primary;
+                selectedObjects.Add(value);
+            }
         }
         get
         {

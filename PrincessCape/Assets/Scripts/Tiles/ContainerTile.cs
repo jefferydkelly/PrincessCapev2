@@ -35,7 +35,10 @@ public class ContainerTile : MapTile
 
     private void OnValidate()
     {
-        StartCoroutine(CheckContents());
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(CheckContents());
+        }
     }
 
     IEnumerator CheckContents()
@@ -57,6 +60,7 @@ public class ContainerTile : MapTile
             SpawnContents();
         }
 
+        MakeContentsClear();
         yield return null;
     }
 
@@ -67,8 +71,17 @@ public class ContainerTile : MapTile
         contents.transform.localPosition = Vector3.up;
         contents.name = insideTheContainer.name;
 
-        SpriteRenderer spr = contents.GetComponent<SpriteRenderer>();
-        spr.color = spr.color.SetAlpha(0.25f);
+        MakeContentsClear();
+    }
+
+    void MakeContentsClear() 
+    {
+        if (transform.childCount > 0)
+        {
+            SpriteRenderer spr = transform.GetChild(0).GetComponent<SpriteRenderer>();
+            spr.color = spr.color.SetAlpha(0.25f);
+
+        }    
     }
 
     public override void Init()
