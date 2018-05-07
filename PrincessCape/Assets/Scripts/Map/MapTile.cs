@@ -115,7 +115,8 @@ public class MapTile : MonoBehaviour {
 		{
 			if (value == MapHighlightState.Normal)
 			{
-				GetComponent<SpriteRenderer>().color = Color.white;
+                float oldA = GetComponent<SpriteRenderer>().color.a;
+                GetComponent<SpriteRenderer>().color = Color.white.SetAlpha(Application.isPlaying ? 1 : oldA);
 			}
 			else if (value == MapHighlightState.Primary)
 			{

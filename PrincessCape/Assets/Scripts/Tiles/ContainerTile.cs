@@ -95,6 +95,8 @@ public class ContainerTile : MapTile
                 transform.GetChild(0).localPosition = Vector3.zero;
                 transform.GetChild(0).gameObject.SetActive(false);
             }
+        } else {
+            MakeContentsClear();
         }
     }
 #if UNITY_EDITOR
