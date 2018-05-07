@@ -119,6 +119,9 @@ public abstract class ActivatedObject : MapTile
         }
     }
 #if UNITY_EDITOR
+    /// <summary>
+    /// Draws indicators of the connections between the Activated Object and its connections as well as the activation status of the object
+    /// </summary>
     public override void RenderInEditor()
     {
         foreach (ActivatedObject acto in Connections)
@@ -139,6 +142,11 @@ public abstract class ActivatedObject : MapTile
         Handles.color = Color.white;
     }
 
+    #endif
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:ActivatedObject"/> starts active.
+    /// </summary>
+    /// <value><c>true</c> if starts active; otherwise, <c>false</c>.</value>
     public bool StartsActive {
         get {
             return startActive;
@@ -154,5 +162,5 @@ public abstract class ActivatedObject : MapTile
             }
         }
     }
-#endif
+
 }

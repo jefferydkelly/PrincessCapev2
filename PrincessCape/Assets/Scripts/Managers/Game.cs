@@ -17,9 +17,10 @@ public class Game : MonoBehaviour {
     string levelToLoad = "classicLevelOne.json";
     string lastScene = "Test";
     GameState state = GameState.Menu;
+    
 	// Use this for initialization
 	void Awake () {
-        
+		
         if (!instance || instance == this)
         {
             
@@ -66,7 +67,8 @@ public class Game : MonoBehaviour {
             if (canvas)
             {
                 canvas.SetActive(true);
-            }
+				Debug.Log(canvas.activeInHierarchy);
+			}
 
 			if (SceneManager.GetActiveScene().name == "Test")
 			{

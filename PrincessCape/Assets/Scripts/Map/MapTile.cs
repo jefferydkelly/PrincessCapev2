@@ -17,15 +17,15 @@ public class MapTile : MonoBehaviour {
 	private void Awake()
 	{
         if (!initialized)
-        {
-            HighlightState = MapHighlightState.Normal;
+		{
             Init();
-            initialized = true;
+            
         }
 	}
 
     public virtual void Init() {
 		HighlightState = MapHighlightState.Normal;
+		initialized = true;
     }
     /// <summary>
     /// Gets the ZPos of this <see cref="T:EditorTile"/> .
@@ -282,11 +282,25 @@ public class MapTile : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets the layer the object is on.
+    /// </summary>
+    /// <value>The layer.</value>
     protected EditorLayer Layer {
         get {
             return layer;
         }
     }
+
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:MapTile"/> is initialized.
+    /// </summary>
+    /// <value><c>true</c> if is initialized; otherwise, <c>false</c>.</value>
+	public bool IsInitialized {
+		get {
+			return initialized;
+		}
+	}
 
 }
 

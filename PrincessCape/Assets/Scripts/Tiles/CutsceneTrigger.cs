@@ -8,7 +8,7 @@ public class CutsceneTrigger : MapTile{
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && cutscene && Game.Instance.IsPlaying) {
+		if (collision.CompareTag("Player") && cutscene && Game.Instance.IsPlaying) {
             Cutscene.Instance.Load(cutscene);
             Cutscene.Instance.StartCutscene();
             gameObject.SetActive(false);

@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Corpse : MapTile {
 
-	
-   protected override string GenerateSaveData()
+	/// <summary>
+	/// Generates the save data.
+	/// </summary>
+	/// <returns>The save data.</returns>
+	protected override string GenerateSaveData()
    {
         KnightRemains remains = GetComponent<KnightRemains>();
 	    string data = base.GenerateSaveData();
@@ -21,6 +24,10 @@ public class Corpse : MapTile {
 	    return data;
    }
 
+   /// <summary>
+   /// Froms the data.
+   /// </summary>
+   /// <param name="tile">Tile.</param>
    public override void FromData(TileStruct tile)
    {
         KnightRemains remains = GetComponent<KnightRemains>();
@@ -34,4 +41,12 @@ public class Corpse : MapTile {
 	    }
 
    }
+
+	private void OnEnable()
+	{
+		if (Game.Instance.IsInCutscene) {
+			Debug.Log("I'm ready");
+		}
+	}
 }
+

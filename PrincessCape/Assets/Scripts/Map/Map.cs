@@ -22,7 +22,7 @@ public class Map : MonoBehaviour
     static Map instance;
     public void Awake()
     {
-        Init();
+		Init();
     }
 
     /// <summary>
@@ -259,7 +259,7 @@ public class Map : MonoBehaviour
     /// <returns>The load.</returns>
     /// <param name="file">File.</param>
     public void Load(string file) {
-
+       
         if (prefabs == null) {
             LoadPrefabs();
         }
@@ -292,7 +292,7 @@ public class Map : MonoBehaviour
                     {
                         ao.Reconnect();
                     }
-
+				
                     if (Application.isPlaying) {                       
                         OnLevelLoaded.Invoke();
                     }
@@ -349,7 +349,10 @@ public class Map : MonoBehaviour
         transform.position = Vector3.zero;
         tiles = GetComponentsInChildren<MapTile>().ToList();
 		foreach(MapTile mt in tiles) {
-            mt.Init();
+			if (!mt.IsInitialized)
+			{
+				mt.Init();
+			}
         }
 
         ClearHighlights();
@@ -379,12 +382,21 @@ public class Map : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets a prefab with the corresponding name if it exists.
+    /// </summary>
+    /// <returns>The prefab by name.</returns>
+    /// <param name="tileName">Tile name.</param>
     public GameObject GetPrefabByName(string tileName) {
         GameObject prefab = null;
         prefabs.TryGetValue(tileName, out prefab);
         return prefab;
     }
 
+    /// <summary>
+    /// Gets the instance.
+    /// </summary>
+    /// <value>The instance.</value>
     public static Map Instance {
         get {
             return instance;

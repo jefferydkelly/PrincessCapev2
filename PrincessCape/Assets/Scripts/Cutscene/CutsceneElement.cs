@@ -488,6 +488,7 @@ public class CutsceneEnable : CutsceneElement
 	bool enable = true;
 	bool move = false;
 	Vector2 pos;
+
 	public CutsceneEnable(GameObject go, bool en)
 	{
 		hideObject = go;

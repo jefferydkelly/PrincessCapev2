@@ -1,6 +1,7 @@
 character SirMatthew Matthew
 character Elwynn Elwynn
 character DragonHead Slog
+wait 0.03
 disable Remains and
 disable Player and
 align right and
@@ -13,7 +14,7 @@ flip-x Elwynn
 move-x Elwynn -8 3.5 and
 Elwynn: No matter.  I'm sure Father will send some brave knights to rescue me.
 show Matthew -27 1.5
-pan -14 0 1 and
+pan -12 0 1 and
 move Matthew -21.25 0.5 1 and
 align left and
 ????: Princess Elwynn?
@@ -21,7 +22,7 @@ animate Matthew Mask
 move-x Matthew -15 1 and
 move-x Elwynn -7 1 and
 animate Elwynn Excited and
-pan 10.5 0 1 and
+pan 8.5 0 1 and
 Elwynn: Sir Matthew?
 Sir Matthew: I'm here to save you from that dragon.
 show Slog -2 5.5 0

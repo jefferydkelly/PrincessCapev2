@@ -16,7 +16,8 @@ public class Cutscene:Manager
 
     UnityEvent onStart;
     UnityEvent onEnd;
-   
+
+	bool eventAdded = false;
     private static Cutscene instance;
 
     public Cutscene() {
@@ -25,7 +26,11 @@ public class Cutscene:Manager
         onStart = new UnityEvent();
         onEnd = new UnityEvent();
         Game.Instance.AddManager(this);
-        Game.Instance.Map.OnLevelLoaded.AddListener(EndCutscene);
+		if (Map.Instance)
+		{
+			Game.Instance.Map.OnLevelLoaded.AddListener(EndCutscene);
+			eventAdded = true;
+		}
         EventManager.StartListening("ElementCompleted", ElementCompleted);
     }
 
@@ -285,11 +290,14 @@ public class Cutscene:Manager
 
 	public void StartCutscene()
 	{
-        OnStart.Invoke();
-        currentIndex = -1;
+		if (!eventAdded)
+		{
+			Map.Instance.OnLevelLoaded.AddListener(EndCutscene);
+		}
+		OnStart.Invoke();
+		currentIndex = -1;
 
-        NextElement();
-       
+		NextElement();
 
 	}
 
@@ -332,14 +340,11 @@ public class Cutscene:Manager
 	public void CreateCharacter(string charName)
 	{
         GameObject character = Resources.Load<GameObject>("Characters/" + charName);
-        Debug.Log(string.Format("{0}: {1}", charName, character != null));
         if (character)
 		{
-            Debug.Log("I found " + charName);
 			CutsceneActor actor = GameObject.Instantiate(character).GetComponent<CutsceneActor>();
 			actor.Init();
-            actor.CharacterName = charName;
-            Debug.Log(actor.name + " " + charName);
+			actor.CharacterName = charName;
 			characters.Add(actor);
 		}
 	}
