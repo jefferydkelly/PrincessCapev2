@@ -28,7 +28,7 @@
 {
 "Name": "Remains",
 "ID": "3",
-"Position": "(1.0, 0.0, 1.0)",
+"Position": "(1.0, 0.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Knight": "Sir Travis",
@@ -310,7 +310,7 @@
 "Position": "(47.5, 32.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Next Level": "classicLevelOne.json",
+"Next Level": "WinScreen",
 },
 {
 "Name": "Platform",

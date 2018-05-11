@@ -41,12 +41,5 @@ public class Corpse : MapTile {
 	    }
 
    }
-
-	private void OnEnable()
-	{
-		if (Game.Instance.IsInCutscene) {
-			Debug.Log("I'm ready");
-		}
-	}
 }
 

@@ -56,6 +56,10 @@ public class SpikePlatform : ActivatedObject {
     {
         myAnimator = GetComponent<Animator>();
         initialized = true;
+
+		if (startActive) {
+			Activate();
+		}
     }
 
     private void Awake()

@@ -17,6 +17,7 @@ public class MagicCape : MagicItem
             "As you put it on, you feel yourself getting lighter",
             "Press and hold the [[[ItemOne]]] to float gently down"
         };
+		itemDescritpion = "Press and hold the Item Key to float down gently.";
     }
 
     private void OnEnable()

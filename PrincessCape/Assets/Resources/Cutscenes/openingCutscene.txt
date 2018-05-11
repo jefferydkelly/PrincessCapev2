@@ -1,9 +1,9 @@
 character SirMatthew Matthew
 character Elwynn Elwynn
 character DragonHead Slog
-wait 0.03
-disable Remains and
+wait 0.05
 disable Player and
+move-y Remains 20 0 and
 align right and
 show Elwynn -5 0.5
 pan to -5 2 0.25
@@ -54,7 +54,7 @@ rotate Matthew -90 0.5 and
 move Matthew -12 0 0.5
 Sir Matthew: I'm....so...sorry!
 fade-out Matthew 0.5
-enable Remains
+move Remains -12 0 0
 move-x Elwynn -8 1 and
 Elwynn: What do I do now?
 move-x Elwynn -11 1 and

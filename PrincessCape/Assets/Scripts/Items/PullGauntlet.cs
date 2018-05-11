@@ -15,6 +15,8 @@ public class PullGauntlet : MagneticGlove
 			"Press and hold the item button to pull metal blocks towards you",
             "But beware, if the block can't be moved.  You will be."
 		};
+
+		itemDescritpion = "Press and hold the Item Key to pull on metal objects.";
     }
 
     private void OnEnable()

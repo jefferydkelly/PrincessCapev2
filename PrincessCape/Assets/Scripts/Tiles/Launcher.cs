@@ -13,24 +13,20 @@ public class Launcher : ActivatedObject
     // Use this for initialization
     void Awake()
     {
-        Init();
+		Init();
     }
 
     public override void Init() {
-        if (!initialized)
-        {
-            myAnimator = GetComponent<Animator>();
-            launchTimer = new Timer(launchTime, true);
-            launchTimer.OnTick.AddListener(Launch);
-
-            if (startActive)
-            {
-                Activate();
-                //EventManager.StartListening("LevelLoaded", Activate);
-            }
-
-            initialized = true;
-        }
+		         
+	    myAnimator = GetComponent<Animator>();
+		if (launchTimer == null)
+		{
+			launchTimer = new Timer(launchTime, true);
+			launchTimer.OnTick.AddListener(Launch);
+		}
+		base.Init();  
+        initialized = true;
+        
 
     }
     void Launch() {

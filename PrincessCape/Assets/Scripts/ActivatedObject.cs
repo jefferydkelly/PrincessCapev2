@@ -16,17 +16,24 @@ public abstract class ActivatedObject : MapTile
     private void Awake()
     {
         Init();
-        if (startActive)
+
+    }
+    
+	public override void Init()
+	{
+		base.Init();
+
+		if (startActive && Application.isPlaying)
         {
             Activate();
             //EventManager.StartListening("LevelLoaded", Activate);
         }
-    }
-    /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="T:ActivatedObject"/> is activated.
-    /// </summary>
-    /// <value><c>true</c> if is activated; otherwise, <c>false</c>.</value>
-    public virtual bool IsActivated
+	}
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="T:ActivatedObject"/> is activated.
+	/// </summary>
+	/// <value><c>true</c> if is activated; otherwise, <c>false</c>.</value>
+	public virtual bool IsActivated
     {
         get
         {
@@ -110,13 +117,8 @@ public abstract class ActivatedObject : MapTile
 
     public override void FromData(TileStruct tile)
     {
-        base.FromData(tile);
-        if (!tile.FullyRead)
-        {
-            startActive = PCLParser.ParseBool(tile.NextLine);
-        } else {
-            startActive = false;
-        }
+		base.FromData(tile);
+		StartsActive = PCLParser.ParseBool(tile.NextLine);
     }
 #if UNITY_EDITOR
     /// <summary>

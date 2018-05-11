@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Events;
 public class Game : MonoBehaviour {
 
     public static bool isClosing = false;
@@ -17,7 +18,8 @@ public class Game : MonoBehaviour {
     string levelToLoad = "classicLevelOne.json";
     string lastScene = "Test";
     GameState state = GameState.Menu;
-    
+
+	UnityEvent onReady = new UnityEvent();
 	// Use this for initialization
 	void Awake () {
 		
@@ -67,7 +69,6 @@ public class Game : MonoBehaviour {
             if (canvas)
             {
                 canvas.SetActive(true);
-				Debug.Log(canvas.activeInHierarchy);
 			}
 
 			if (SceneManager.GetActiveScene().name == "Test")
@@ -81,6 +82,7 @@ public class Game : MonoBehaviour {
 				});
             }
 
+			onReady.Invoke();
 
         } else {
             Destroy(gameObject);
@@ -106,19 +108,26 @@ public class Game : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        if(managers == null) {
-            managers = new List<Manager>();
-        }
-        if (toAdd == null) {
-            toAdd = new List<Manager>();
-        }
-        foreach(Manager m in toAdd) {
-            managers.Add(m);
-        }
-        toAdd.Clear();
-         foreach(Manager m in managers) {
-            m.Update(Time.deltaTime);
-        }
+		if (state != GameState.Menu)
+		{
+			if (managers == null)
+			{
+				managers = new List<Manager>();
+			}
+			if (toAdd == null)
+			{
+				toAdd = new List<Manager>();
+			}
+			foreach (Manager m in toAdd)
+			{
+				managers.Add(m);
+			}
+			toAdd.Clear();
+			foreach (Manager m in managers)
+			{
+				m.Update(Time.deltaTime);
+			}
+		}
 	}
 
     /// <summary>
@@ -160,13 +169,14 @@ public class Game : MonoBehaviour {
             }
             else
             {
-                //Debug.Log("Load the next level");
-                //Clear the map and load the next scene before starting the next level
-
+				//Debug.Log("Load the next level");
+				//Clear the map and load the next scene before starting the next level
+				player.IsFrozen = true;
                 map.Clear();
 
                 map.Load(sceneName);
                 AddItems();
+				player.IsFrozen = false;
 
             }
         }
@@ -336,6 +346,12 @@ public class Game : MonoBehaviour {
     public void TriggerEvent(string eventName) {
         EventManager.TriggerEvent(eventName);
     }
+
+	public UnityEvent OnReady {
+		get {
+			return onReady;
+		}
+	}
 }
 
 public enum GameState {

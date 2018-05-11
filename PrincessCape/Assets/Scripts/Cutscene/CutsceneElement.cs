@@ -282,6 +282,7 @@ public class CutsceneMovement : CutsceneElement
 
             if (go) {
                 go.transform.position = new Vector3(x, y).SetZ(go.transform.position.z);
+				EventManager.TriggerEvent("ElementCompleted");
             }
         }
 	}

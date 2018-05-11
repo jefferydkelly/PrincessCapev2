@@ -11,6 +11,12 @@ public class HealthBar : MonoBehaviour {
         EventManager.StartListening("RestoreHealth", RestoreHealth);
         EventManager.StartListening("PlayerRespawned", FullRestore);
         EventManager.StartListening("IncreaseHealth", AddNewHeart);
+		Game.Instance.OnReady.AddListener(() =>
+		{
+			for (int i = 0; i < 3; i++) {
+				AddNewHeart();
+			}
+		});
 	}
 
     private void UpdateHealth()
@@ -39,11 +45,9 @@ public class HealthBar : MonoBehaviour {
     }
     void AddNewHeart() {
         FullRestore();
-        for (int i = transform.childCount; i < Game.Instance.Player.MaxHealth; i++) {
-			GameObject heart = Instantiate(heartPrefab);
-			heart.transform.SetParent(transform);
-			heart.transform.localPosition = Vector3.right * 66 * i;
-        }
+		GameObject heart = Instantiate(heartPrefab);
+        heart.transform.SetParent(transform);
+		heart.transform.localPosition = Vector3.right * 66 * transform.childCount;
     }
 
     void FullRestore() {

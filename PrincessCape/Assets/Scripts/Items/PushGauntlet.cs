@@ -14,6 +14,8 @@ public class PushGauntlet : MagneticGlove {
 			"Press and hold the item button to push metal blocks away from you",
 			"But beware, just like the Push Gauntlet, if the block can't be moved.  You will be."
 		};
+
+		itemDescritpion = "Press and hold the Item Key to push against metal objects.";
 	}
 
     private void OnEnable()

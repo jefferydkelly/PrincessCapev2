@@ -11,6 +11,8 @@ public class StarShield : MagicItem
 			"You got the Star Shield!",
 			"Press and hold [[[ItemTwo]]] to reflect projectiles away from you"
 		};
+
+		itemDescritpion = "Press and hold the Item Key to reflect projectiles and light.";
     }
 
     private void OnEnable()

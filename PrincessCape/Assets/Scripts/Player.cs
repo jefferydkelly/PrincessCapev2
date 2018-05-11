@@ -35,6 +35,7 @@ public class Player : MonoBehaviour {
     {
         inventory = new List<MagicItem>();
         Game.Instance.Map.OnLevelLoaded.AddListener(Reset);
+		Game.Instance.OnReady.AddListener(Init);
         //EventManager.StartListening("LevelLoaded", Reset);
         EventManager.StartListening("ShowMessage", () => {
             IsFrozen = true;
@@ -89,7 +90,7 @@ public class Player : MonoBehaviour {
                 CameraManager.Instance.Target = gameObject;
             }
             //Updates the health bar in the UI
-            EventManager.TriggerEvent("IncreaseHealth");
+            //EventManager.TriggerEvent("IncreaseHealth");
             invincibilityTimer = new Timer(0.5f);
             invincibilityTimer.OnComplete.AddListener(()=> {
                 isInvincible = false;
@@ -435,7 +436,7 @@ public class Player : MonoBehaviour {
     /// Gets or sets a value indicating whether this <see cref="T:Player"/> is frozen.
     /// </summary>
     /// <value><c>true</c> if is frozen; otherwise, <c>false</c>.</value>
-    bool IsFrozen {
+	public bool IsFrozen {
         get {
             return isFrozen;
         }

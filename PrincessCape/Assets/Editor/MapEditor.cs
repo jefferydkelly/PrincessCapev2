@@ -253,8 +253,9 @@ public class MapEditor : Editor {
             {
                 if (PrimaryMapTile)
                 {
-                    map.RemoveTile(PrimaryMapTile);
-
+					
+					map.RemoveTile(PrimaryMapTile);
+					selectedObjects.Remove(PrimaryMapTile);
                     if (map.NumberOfTiles > 0)
                     {
                         PrimaryMapTile = map.GetTile(map.NumberOfTiles - 1);
@@ -701,6 +702,8 @@ public class MapEditor : Editor {
     /// Reloads the map.
     /// </summary>
     void Reload() {
+		selectedObjects.Clear();
+		secondaryMapTile = null;
         map.Reload();
         serialMap.FindProperty("levelName").stringValue = map.LevelName;
         serialMap.FindProperty("fileName").stringValue = map.FileName;

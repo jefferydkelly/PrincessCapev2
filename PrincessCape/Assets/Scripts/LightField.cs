@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LightField : MonoBehaviour {
     Timer expandTimer;
     float expandTime = 0.25f;
     BoxCollider2D myCollider;
+	UnityEvent onFade;
+
     private void Awake()
     {
         expandTimer = new Timer(expandTime, true);
         expandTimer.OnTick.AddListener(()=> {
             SetYScale((float)transform.localScale.y + 0.5f);
         });
+		onFade = new UnityEvent();
 
     }
 
@@ -25,7 +29,9 @@ public class LightField : MonoBehaviour {
         if (!Game.isClosing)
         {
             expandTimer.Stop();
+			transform.localScale = Vector3.one;
         }
+		onFade.Invoke();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -54,7 +60,7 @@ public class LightField : MonoBehaviour {
 
     bool CanPassThrough(Collider2D col) {
         ReflectiveSurface surf = col.gameObject.GetComponentInChildren<ReflectiveSurface>();
-        return (surf != null && surf.transform == transform.parent) || (col.transform == transform.parent)|| col.CompareTag("Light") || col.gameObject.IsOnLayer("UI");
+		return (surf != null && surf.transform == transform.parent) || (col.transform == transform.parent)|| col.CompareTag("Light") || col.gameObject.IsOnLayer("UI") || col.gameObject.IsOnLayer("Background");
     }
 
     void Stop() {
@@ -86,5 +92,4 @@ public class LightField : MonoBehaviour {
         }
         return -1;
     }
-
 }

@@ -1,11 +1,11 @@
 character Elwynn Elwynn
 disable Player
-show Elwynn 4 -42
+show Elwynn 4 -41
 rotate Elwynn 90 0.25
 Elwynn: Owww!
 pan to Elwynn 1
 Elwynn: This day has been nothing but fun and excitement.
-move-y Elwynn -41.5 0.25 and
+move-y Elwynn -40.5 0.25 and
 rotate Elwynn -90 0.25
 Elwynn: I guess I can't wait for another knight to come and "save" me.
 move-x Elwynn 7.5 2

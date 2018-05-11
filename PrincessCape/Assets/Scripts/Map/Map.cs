@@ -25,10 +25,15 @@ public class Map : MonoBehaviour
 		Init();
     }
 
-    /// <summary>
-    /// Loads the Tile prefabs from the appropriate folder
-    /// </summary>
-    void LoadPrefabs() {
+	private void OnEnable()
+	{
+		instance = this;
+	}
+
+	/// <summary>
+	/// Loads the Tile prefabs from the appropriate folder
+	/// </summary>
+	void LoadPrefabs() {
 		Object[] obj = Resources.LoadAll("Tiles", typeof(GameObject));
 
 		prefabs = new Dictionary<string, GameObject>(obj.Length);
