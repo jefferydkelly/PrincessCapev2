@@ -61,7 +61,7 @@ public class Gate : ActivatedObject {
 	{
 		get
 		{
-			return transform.position + (Vector3)Vector2.down.RotateDeg(transform.rotation.z) * transform.localScale.y;
+			return transform.position + Vector3.down * Bounds.y / 2;
 		}
 	}
 }

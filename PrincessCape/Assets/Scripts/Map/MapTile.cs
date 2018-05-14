@@ -11,6 +11,7 @@ public class MapTile : MonoBehaviour {
     int id = -1;
 
     protected bool initialized = false;
+
 	/// <summary>
 	/// Dehighlights this instance on awake
 	/// </summary>
@@ -18,7 +19,7 @@ public class MapTile : MonoBehaviour {
 	{
         if (!initialized)
 		{
-            Init();
+			Init();
             
         }
 	}
@@ -26,6 +27,7 @@ public class MapTile : MonoBehaviour {
     public virtual void Init() {
 		HighlightState = MapHighlightState.Normal;
 		initialized = true;
+
     }
     /// <summary>
     /// Gets the ZPos of this <see cref="T:EditorTile"/> .
@@ -64,15 +66,26 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+	/// Determines whether or not this tile overlaps the given position.
+    /// </summary>
+	/// <returns>Whether it would overlap the position (<see langword="true"/>), <see langword="false"/> otherwise.</returns>
+    /// <param name="pos">The position to be checked against.</param>
 	public virtual bool Overlaps(Vector3 pos)
 	{
-		Vector3 dif = pos - transform.position;
+		Vector3 dif = pos - Center;
 		Vector3 bounds = Bounds / 2;
 		return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
 	}
+    /// <summary>
+    /// Determines whether or not this tile would overlap a tile at the given position.
+    /// </summary>
+	/// <returns>Whether it would overlap the other tile (<see langword="true"/>), <see langword="false"/> otherwise.</returns>
+    /// <param name="other">The MapTile to be checked against.</param>
+    /// <param name="spawnPos">The position where the tile will be spawned.</param>
 	public virtual bool Overlaps(MapTile other, Vector3 spawnPos)
 	{
-		Vector3 dif = spawnPos - transform.position;
+		Vector3 dif = spawnPos - other.Center;
 		Vector3 bounds = (other.Bounds + Bounds) / 2;
 		return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
 	}

@@ -16,10 +16,13 @@ public class Ladder : ActivatedObject
         Init();
     }
 
+    /// <summary>
+    /// Initializes this instance setting the collider, reveal timer and determining whether or not it appears at the start of the game.
+    /// </summary>
     public override void Init() {
 		myCollider = GetComponent<BoxCollider2D>();
 		revealTimer = new Timer(revealTime, transform.childCount - 1);
-		revealTimer.OnTick.AddListener(RevealTile);
+		revealTimer.OnTick.AddListener(RevealLadderSection);
 		if (Application.isPlaying)
 		{
             
@@ -37,6 +40,9 @@ public class Ladder : ActivatedObject
 		}
     }
 
+    /// <summary>
+    /// Reveals every component of the ladder at once.
+    /// </summary>
     void RevealEverything() {
         gameObject.SetActive(true);
 		for (int i = 1; i < transform.childCount; i++)
@@ -44,13 +50,18 @@ public class Ladder : ActivatedObject
 			transform.GetChild(i).gameObject.SetActive(true);
 		}
     }
+
+    /// <summary>
+    /// Scales the Ladder vertically.
+    /// </summary>
+    /// <param name="up">If set to <c>true</c> increases the scale.  Otherwisem decreases it.</param>
     public override void ScaleY(bool up)
     {
         if (up)
         {
 
             transform.position += Vector3.up;
-            SpawnChild();
+            SpawnLadderSection();
         }
         else if (transform.childCount > 1)
         {
@@ -63,6 +74,10 @@ public class Ladder : ActivatedObject
 
     }
 
+    /// <summary>
+    /// Gets or sets the state of the highlight.
+    /// </summary>
+    /// <value>The state of the highlight.</value>
     public override MapHighlightState HighlightState
     {
         get
@@ -79,7 +94,9 @@ public class Ladder : ActivatedObject
             else if (value == MapHighlightState.Secondary)
             {
                 nextColor = Color.red;
-            }
+			} else if (value == MapHighlightState.Backup) {
+				nextColor = Color.cyan;
+			}
 
             foreach (SpriteRenderer spr in GetComponentsInChildren<SpriteRenderer>())
             {
@@ -88,26 +105,45 @@ public class Ladder : ActivatedObject
         }
     }
 
+    /// <summary>
+    /// Gets the center of the ladder.
+    /// </summary>
+    /// <value>The center.</value>
+	public override Vector3 Center
+	{
+		get
+		{
+			return transform.position + (Vector3)myCollider.offset;
+		}
+	}
 
-    public override bool Overlaps(Vector3 pos)
-    {
-        Vector3 dif = pos - (transform.position + (Vector3)myCollider.offset);
-        Vector3 bounds = myCollider.size / 2;
-        return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
-    }
-    public override bool Overlaps(MapTile other, Vector3 spawnPos)
-    {
-        Vector3 dif = spawnPos - (transform.position + (Vector3)myCollider.offset);
-        Vector3 bounds = (other.Bounds + Bounds) / 2;
-        return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
-    }
+    /// <summary>
+    /// Gets the bounds of the ladder.
+    /// </summary>
+    /// <value>The bounds.</value>
+	public override Vector3 Bounds
+	{
+		get
+		{
+			return myCollider.size;
+		}
+	}
 
-    protected override string GenerateSaveData()
+    /// <summary>
+    /// Generates the save data for the ladder.
+    /// </summary>
+    /// <returns>The save data.</returns>
+	protected override string GenerateSaveData()
     {
         string data = base.GenerateSaveData();
         data += PCLParser.CreateAttribute("Lines", transform.childCount - 1);
         return data;
     }
+
+    /// <summary>
+    /// Creates a ladder from the data given.
+    /// </summary>
+    /// <param name="tile">A struct containing the information for the ladder.</param>
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);
@@ -115,7 +151,7 @@ public class Ladder : ActivatedObject
         int numLinks = PCLParser.ParseInt(tile.NextLine);
         for (int i = 0; i < numLinks; i++)
         {
-            SpawnChild();
+            SpawnLadderSection();
         }
 
         if (!startActive && Application.isPlaying) {
@@ -124,16 +160,22 @@ public class Ladder : ActivatedObject
 
 		myCollider = GetComponent<BoxCollider2D>();
 		revealTimer = new Timer(revealTime, transform.childCount - 1);
-		revealTimer.OnTick.AddListener(RevealTile);
+		revealTimer.OnTick.AddListener(RevealLadderSection);
 		
     }
 
+    /// <summary>
+    /// Starts the reveal of the ladder sections
+    /// </summary>
     public override void Activate()
     {
         gameObject.SetActive(true);
         revealTimer.Start();
     }
 
+    /// <summary>
+    /// Makes all sections of the ladder disappear
+    /// </summary>
     public override void Deactivate()
     {
         gameObject.SetActive(false);
@@ -147,7 +189,10 @@ public class Ladder : ActivatedObject
         myCollider.offset = Vector2.zero;
     }
 
-	void SpawnChild()
+    /// <summary>
+    /// Spawns a new section of the ladder.
+    /// </summary>
+	void SpawnLadderSection()
 	{
         GameObject tile = Instantiate(plainLadder);
 		tile.transform.SetParent(transform);
@@ -157,7 +202,10 @@ public class Ladder : ActivatedObject
 		myCollider.offset = new Vector2(0, -(myCollider.size.y - 1) / 2);
 	}
 
-	void RevealTile()
+    /// <summary>
+    /// Reveals a section of the ladder.
+    /// </summary>
+	void RevealLadderSection()
 	{
 		transform.GetChild(revealTimer.TicksCompleted).gameObject.SetActive(true);
         myCollider.size = myCollider.size.SetY(revealTimer.TicksCompleted);
