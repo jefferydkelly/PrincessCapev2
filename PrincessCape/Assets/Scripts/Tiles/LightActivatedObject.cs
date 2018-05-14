@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightActivatedObject : ActivatorObject {
     Animator myAnimator;
-
+	GameObject lightSource;
     public override void Init()
     {
         base.Init();
@@ -14,6 +14,7 @@ public class LightActivatedObject : ActivatorObject {
     {
         if (collision.CompareTag("Light")) {
             Activate();
+			lightSource = collision.gameObject;
             myAnimator.SetBool("IsActive", true);
         }
     }
@@ -24,6 +25,17 @@ public class LightActivatedObject : ActivatorObject {
 		{
 			Deactivate();
             myAnimator.SetBool("IsActive", false);
+			lightSource = null;
 		}
+    }
+
+	private void Update()
+    {
+        if (lightSource && !lightSource.activeInHierarchy)
+        {
+			Deactivate();
+            myAnimator.SetBool("IsActive", false);
+			lightSource = null;
+        }
     }
 }
