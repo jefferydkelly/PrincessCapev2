@@ -209,7 +209,7 @@
 "Name": "LightEmitter",
 "ID": "25",
 "Position": "(-6.0, -14.0, 0.0)",
-"Rotation": "(0.0, 0.0, 90.0)",
+"Rotation": "(0.0, 0.0, 270.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
 },

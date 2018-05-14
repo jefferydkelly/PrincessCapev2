@@ -130,7 +130,7 @@ public abstract class ActivatedObject : MapTile
         {
             if (acto)
             {
-                Handles.DrawDottedLine(transform.position, acto.transform.position, 8.0f);
+				Handles.DrawDottedLine(Center, acto.Center, 8.0f);
             }
         }
 
@@ -140,7 +140,7 @@ public abstract class ActivatedObject : MapTile
         } else {
             Handles.color = Color.red;
         }
-        Handles.DrawSolidArc(transform.position, -Vector3.forward, Vector3.up, 360, 0.5f);
+		Handles.DrawSolidArc(Center, -Vector3.forward, Vector3.up, 360, 0.5f);
         Handles.color = Color.white;
     }
 

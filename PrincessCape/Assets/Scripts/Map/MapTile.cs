@@ -302,6 +302,12 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
+	public virtual Vector3 Center {
+		get {
+			return transform.position;
+		}
+	}
+
 }
 
 public enum EditorLayer

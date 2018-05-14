@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class Gate : ActivatedObject {
     Animator myAnimator;
@@ -60,32 +57,11 @@ public class Gate : ActivatedObject {
         }
     }
 
-	#if UNITY_EDITOR
-    /// <summary>
-    /// Draws indicators of the connections between the Activated Object and its connections as well as the activation status of the object
-    /// </summary>
-    public override void RenderInEditor()
-    {
-        foreach (ActivatedObject acto in Connections)
-        {
-            if (acto)
-            {
-                Handles.DrawDottedLine(transform.position, acto.transform.position, 8.0f);
-            }
-        }
-
-        if (startActive)
-        {
-            Handles.color = Color.green;
-
-        }
-        else
-        {
-            Handles.color = Color.red;
-        }
-		Handles.DrawSolidArc(transform.position + (Vector3)Vector2.down.RotateDeg(transform.rotation.z) * transform.localScale.y, -Vector3.forward, Vector3.up, 360, 0.5f);
-        Handles.color = Color.white;
-    }
-
-#endif
+	public override Vector3 Center
+	{
+		get
+		{
+			return transform.position + (Vector3)Vector2.down.RotateDeg(transform.rotation.z) * transform.localScale.y;
+		}
+	}
 }
