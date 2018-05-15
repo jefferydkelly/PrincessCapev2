@@ -140,7 +140,7 @@ public abstract class ActivatedObject : MapTile
         } else {
             Handles.color = Color.red;
         }
-		Handles.DrawSolidArc(Center, -Vector3.forward, Vector3.up, 360, 0.5f);
+		Handles.DrawSolidArc(Center, -Vector3.forward, Vector3.up, 360, 0.33f);
         Handles.color = Color.white;
     }
 

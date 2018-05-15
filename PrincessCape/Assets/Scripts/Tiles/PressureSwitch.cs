@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class PressureSwitch : ActivatorObject {
     Animator myAnimator;
@@ -91,5 +94,33 @@ public class PressureSwitch : ActivatorObject {
         }
     }
 
+	#if UNITY_EDITOR
+    public override void RenderInEditor()
+    {
+		foreach (ActivatedObject acto in Connections)
+        {
+            if (acto)
+            {
+                Handles.DrawDottedLine(Center, acto.Center, 8.0f);
+            }
+        }
+        
+        Handles.color = Color.black;
+		Handles.DrawSolidArc(Center, -Vector3.forward, Vector3.up, 360, 0.4f);
+
+		if (startActive)
+        {
+            Handles.color = Color.green;
+
+        }
+        else
+        {
+            Handles.color = Color.red;
+        }
+        Handles.DrawSolidArc(Center, -Vector3.forward, Vector3.up, 360, 0.33f);
+        Handles.color = Color.white;
+
+    }
+    #endif
 
 }

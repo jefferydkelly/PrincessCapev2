@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class Elevator : ActivatedObject
 {
@@ -24,20 +27,24 @@ public class Elevator : ActivatedObject
 			if (up)
 			{
 				transform.position += Vector3.up * moveDistance / (moveTime * ticksPerSec);
-				if (transform.position.y - startLocation.y >= moveDistance) {
+				if (transform.position.y - startLocation.y >= moveDistance)
+				{
 					moveTimer.Stop();
 					up = false;
 					transform.position = transform.position.SetY(startLocation.y + moveDistance);
 				}
-			} else {
+			}
+			else
+			{
 				transform.position += Vector3.up * moveDistance / ticksPerSec;
 
-				if (transform.position.y <= startLocation.y) {
+				if (transform.position.y <= startLocation.y)
+				{
 					transform.position = transform.position.SetY(startLocation.y);
 				}
 			}
 		});
-        
+
 	}
 	public override void Activate()
 	{
@@ -53,4 +60,26 @@ public class Elevator : ActivatedObject
 	{
 		moveTimer.Stop();
 	}
+
+	public override void ScaleY(bool up)
+	{
+		if (up) {
+			moveDistance++;
+		} else if (moveDistance > 1) {
+			moveDistance--;
+		}
+	}
+
+#if UNITY_EDITOR
+	public override void RenderInEditor()
+	{
+		base.RenderInEditor();
+        
+		Handles.color = Color.black;
+		Handles.DrawLine(transform.position, transform.position + Vector3.up * moveDistance);
+		Handles.DrawSolidArc(transform.position + Vector3.up * moveDistance, -Vector3.forward, Vector3.up, 360, 0.33f);
+		Handles.color = Color.white;
+
+	}
+#endif
 }
