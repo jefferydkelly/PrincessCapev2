@@ -25,14 +25,6 @@
 "Scale": "(1.0, 5.0, 1.0)",
 },
 {
-"Name": "Gate",
-"ID": "3",
-"Position": "(-20.0, 1.0, 0.0)",
-"Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 1.5, 1.0)",
-"Starts Active": "True",
-},
-{
 "Name": "Platform",
 "ID": "4",
 "Position": "(-20.0, -1.0, 0.0)",
@@ -87,7 +79,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
-"Lines": "5",
+"Lines": "6",
 },
 {
 "Name": "Platform",
@@ -392,10 +384,18 @@
 {
 "Name": "Sign",
 "ID": "53",
-"Position": "(-22.0, -8.0, 0.0)",
+"Position": "(-22.0, -8.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Text": "SafetyLady",
+},
+{
+"Name": "Gate",
+"ID": "54",
+"Position": "(-20.0, 2.5, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.5, 1.0)",
+"Starts Active": "True",
 },
 ]
 }
