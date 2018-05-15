@@ -5,7 +5,7 @@
 "Tiles": [
 {
 "Name": "Platform",
-"ID": "0",
+"ID": "36",
 "Position": "(-1.0, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(21.0, 1.0, 1.0)",
@@ -116,7 +116,7 @@
 "Name": "LightEmitter",
 "ID": "14",
 "Position": "(-15.0, -6.0, 0.0)",
-"Rotation": "(0.0, 0.0, 90.0)",
+"Rotation": "(0.0, 0.0, 270.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
 },

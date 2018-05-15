@@ -265,11 +265,7 @@ public class MapTile : MonoBehaviour {
 		info += PCLParser.CreateAttribute("Name", name.Split('(')[0]);
 		info += PCLParser.CreateAttribute("ID", ID);
 		info += PCLParser.CreateAttribute("Position", transform.position);
-        float ang = 0;
-        Vector3 ax = Vector3.zero;
-        transform.rotation.ToAngleAxis(out ang, out ax);
-        ax = new Vector3(0, 0, ang);
-        info += PCLParser.CreateAttribute("Rotation", ax);
+		info += PCLParser.CreateAttribute("Rotation", new Vector3(0, 0, transform.eulerAngles.z));
 		info += PCLParser.CreateAttribute("Scale", transform.localScale);
         return info;
     }
