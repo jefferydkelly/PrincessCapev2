@@ -48,29 +48,4 @@ public class OrbSwitch : ActivatorObject
         base.Deactivate();
         myAnimatior.SetTrigger("Deactivate");
     }
-
-#if UNITY_EDITOR
-    public override void RenderInEditor()
-    {
-        foreach (ActivatedObject acto in Connections)
-        {
-            if (acto)
-            {
-                Handles.DrawDottedLine(transform.position, acto.transform.position, 8.0f);
-            }
-        }
-
-        if (startActive)
-        {
-            Handles.color = Color.green;
-
-        }
-        else
-        {
-            Handles.color = Color.red;
-        }
-        Handles.DrawSolidArc(transform.position + Vector3.up / 20, -Vector3.forward, Vector3.up, 360, 0.33f);
-        Handles.color = Color.white;
-    }
-#endif
 }

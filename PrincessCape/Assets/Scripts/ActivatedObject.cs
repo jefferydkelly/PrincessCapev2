@@ -126,21 +126,27 @@ public abstract class ActivatedObject : MapTile
     /// </summary>
     public override void RenderInEditor()
     {
-        foreach (ActivatedObject acto in Connections)
+		foreach (ActivatedObject acto in Connections)
         {
             if (acto)
             {
-				Handles.DrawDottedLine(Center, acto.Center, 8.0f);
+                Handles.DrawDottedLine(Center, acto.Center, 8.0f);
             }
         }
 
-        if (startActive) {
+        Handles.color = Color.black;
+        Handles.DrawSolidArc(Center, -Vector3.forward, Vector3.up, 360, 0.4f);
+
+        if (startActive)
+        {
             Handles.color = Color.green;
 
-        } else {
+        }
+        else
+        {
             Handles.color = Color.red;
         }
-		Handles.DrawSolidArc(Center, -Vector3.forward, Vector3.up, 360, 0.33f);
+        Handles.DrawSolidArc(Center, -Vector3.forward, Vector3.up, 360, 0.33f);
         Handles.color = Color.white;
     }
 
