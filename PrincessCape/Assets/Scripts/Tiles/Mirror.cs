@@ -21,7 +21,7 @@ public class Mirror : MapTile
         return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
     }
 
-    public override Vector3 Bounds
+    public override Vector2 Bounds
     {
         get
         {

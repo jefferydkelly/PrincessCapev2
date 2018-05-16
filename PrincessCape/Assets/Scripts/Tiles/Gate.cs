@@ -61,9 +61,7 @@ public class Gate : ActivatedObject {
 	{
 		get
 		{
-			Vector2 bounds = Bounds;
-			bounds = bounds.RotateDeg(transform.eulerAngles.z);
-			return transform.position - transform.up * bounds.y / 2;
+			return transform.position - transform.up * Bounds.y / 2;
 		}
 	}
 }

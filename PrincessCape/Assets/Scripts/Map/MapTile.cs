@@ -58,11 +58,12 @@ public class MapTile : MonoBehaviour {
 	/// Gets the bounds of this instance.
 	/// </summary>
 	/// <value>The bounds.</value>
-	public virtual Vector3 Bounds
+	public virtual Vector2 Bounds
 	{
 		get
 		{
-			return GetComponent<SpriteRenderer>().bounds.size;
+			Vector2 bounds = GetComponent<SpriteRenderer>().bounds.size;
+			return bounds.RotateDeg(transform.eulerAngles.z);
 		}
 	}
 
@@ -85,8 +86,8 @@ public class MapTile : MonoBehaviour {
     /// <param name="spawnPos">The position where the tile will be spawned.</param>
 	public virtual bool Overlaps(MapTile other, Vector3 spawnPos)
 	{
-		Vector3 dif = spawnPos - other.Center;
-		Vector3 bounds = (other.Bounds + Bounds) / 2;
+		Vector3 dif = spawnPos - Center;
+		Vector2 bounds = (other.Bounds + Bounds) / 2;
 		return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
 	}
 

@@ -121,7 +121,7 @@ public class Ladder : ActivatedObject
     /// Gets the bounds of the ladder.
     /// </summary>
     /// <value>The bounds.</value>
-	public override Vector3 Bounds
+	public override Vector2 Bounds
 	{
 		get
 		{
