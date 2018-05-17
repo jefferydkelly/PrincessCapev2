@@ -69,8 +69,6 @@ public class ActivatorObject : ActivatedObject {
 		Map map = Map.Instance;
 		foreach (int i in connectionIDs)
 		{
-			MapTile connector = map.GetTileByID(i);
-			Debug.Log(string.Format("{0}: Connecting to {1} ID ({2}) and it's {3}", name, connector.name, connector.ID, connector.GetComponent<ActivatedObject>() == null));
 			AddConnection(map.GetTileByID(i).GetComponent<ActivatedObject>());
 		}
 		connectionIDs.Clear();

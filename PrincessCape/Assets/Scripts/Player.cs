@@ -330,7 +330,7 @@ public class Player : MonoBehaviour {
             theLadder = collision.gameObject.GetComponentInParent<Ladder>();
         } else if (collision.collider.CompareTag("Projectile")) {
             if (IsUsingShield) {
-                collision.gameObject.GetComponent<Projectile>().Fwd = Controller.Instance.DirectionalInput;
+				collision.gameObject.GetComponent<Projectile>().Fwd = Controller.Instance.Aim;
             } else {
                 TakeDamage();
             }
@@ -361,11 +361,8 @@ public class Player : MonoBehaviour {
     {
         if (collision.CompareTag("Light") && collision.gameObject != shieldField.gameObject)
 		{
-            shieldField.gameObject.SetActive(IsUsingShield);
-
-            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition.SetZ(-Camera.main.transform.position.z));
-            Vector2 dif = mouseWorld - transform.position;
-            shieldField.transform.localRotation = Quaternion.AngleAxis(dif.Angle().ToDegrees() - 90, Vector3.forward);
+			shieldField.gameObject.SetActive(IsUsingShield);
+			shieldField.transform.localRotation = Quaternion.AngleAxis(Controller.Instance.Aim.Angle().ToDegrees() - 90, Vector3.forward);
 		}
     }
 

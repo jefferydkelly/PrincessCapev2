@@ -24,7 +24,7 @@ public class AimArrow : MonoBehaviour {
     }
 
     void Rotate() {
-        Vector2 input = Controller.Instance.DirectionalInput;
+		Vector2 input = Controller.Instance.Aim;
 
         if (input.sqrMagnitude <= 0) {
             input = Game.Instance.Player.Forward;

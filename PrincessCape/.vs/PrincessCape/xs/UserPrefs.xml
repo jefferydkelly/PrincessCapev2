@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Map/Map.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player.cs">
     <Files>
       <File FileName="Assets/Scripts/Map/MapTile.cs" Line="68" Column="18" />
       <File FileName="Assets/Scripts/Tiles/Gate.cs" Line="61" Column="3" />
@@ -10,7 +10,14 @@
       <File FileName="Assets/Scripts/Tiles/OrbSwitch.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/ActivatedObject.cs" Line="69" Column="14" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="49" Column="48" />
-      <File FileName="Assets/Scripts/ActivatorObject.cs" Line="73" Column="112" />
+      <File FileName="Assets/Scripts/ActivatorObject.cs" Line="71" Column="4" />
+      <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="82" Column="1" />
+      <File FileName="Assets/Scripts/Items/StarShield.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/AimArrow.cs" Line="27" Column="42" />
+      <File FileName="Assets/Scripts/LightField.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Player.cs" Line="338" Column="6" />
+      <File FileName="Assets/Scripts/Managers/Controller.cs" Line="324" Column="67" />
+      <File FileName="Assets/Scripts/Projectile.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

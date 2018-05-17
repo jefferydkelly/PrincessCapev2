@@ -312,4 +312,16 @@ public class Controller:Manager {
             return onPause;
         }
     }
+
+	public Vector3 MousePosition {
+		get {
+			return Camera.main.ScreenToWorldPoint(Input.mousePosition.SetZ(-Camera.main.transform.position.z));
+		}
+	}
+
+	public Vector2 Aim {
+		get {
+			return MousePosition - Game.Instance.Player.transform.position;
+		}
+	}
 }
