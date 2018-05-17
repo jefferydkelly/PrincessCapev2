@@ -148,7 +148,7 @@
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
 "Connections": [
-"El": "41",
+"El": "0",
 ],
 },
 {
@@ -166,7 +166,7 @@
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
 "Connections": [
-"El": "41",
+"El": "9",
 ],
 },
 {
@@ -311,7 +311,15 @@
 },
 {
 "Name": "Gate",
-"ID": "41",
+"ID": "44",
+"Position": "(-11.0, -12.5, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.5, 1.0)",
+"Starts Active": "False",
+},
+{
+"Name": "Gate",
+"ID": "0",
 "Position": "(-9.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.5, 1.0)",
@@ -319,16 +327,8 @@
 },
 {
 "Name": "Gate",
-"ID": "41",
+"ID": "9",
 "Position": "(4.0, -5.5, 0.0)",
-"Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 1.5, 1.0)",
-"Starts Active": "False",
-},
-{
-"Name": "Gate",
-"ID": "44",
-"Position": "(-11.0, -12.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.5, 1.0)",
 "Starts Active": "False",

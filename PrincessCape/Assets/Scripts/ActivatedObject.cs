@@ -62,7 +62,7 @@ public abstract class ActivatedObject : MapTile
     /// <param name="ao">Ao.</param>
     public void AddConnection(ActivatedObject ao)
     {
-        if (!HasConnection(ao))
+        if (ao && !HasConnection(ao))
         {
             if (this is ActivatorObject) {
                 ao.StartsActive = startActive;

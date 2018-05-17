@@ -63,7 +63,9 @@ public class MapTile : MonoBehaviour {
 		get
 		{
 			Vector2 bounds = GetComponent<SpriteRenderer>().bounds.size;
-			return bounds.RotateDeg(transform.eulerAngles.z);
+			bounds = bounds.RotateDeg(transform.eulerAngles.z);
+			bounds = new Vector2(Mathf.Abs(bounds.x), Mathf.Abs(bounds.y));
+			return bounds;
 		}
 	}
 

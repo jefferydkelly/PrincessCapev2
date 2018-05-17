@@ -46,6 +46,18 @@ public class Map : MonoBehaviour
 	}
 
     /// <summary>
+    /// Assigns a unique identifier to the tile.
+    /// </summary>
+    /// <param name="mt">Mt.</param>
+	void AssignID(MapTile mt) {
+		int id = 0;
+		while(TileHasID(id)) {
+			id++;
+		}
+
+		mt.ID = id;
+	}
+    /// <summary>
     /// Assigns unique IDs to every tile.
     /// </summary>
     public void AssignIDs()
@@ -117,9 +129,9 @@ public class Map : MonoBehaviour
         tiles.Add(tile);
 
         if (tile.ID < 0)
-        {
-            tile.ID = NumberOfTiles;
-        }
+		{
+			AssignID(tile);
+		}
     }
 
     /// <summary>
