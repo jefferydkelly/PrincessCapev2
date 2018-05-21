@@ -257,6 +257,91 @@ public class CutsceneMovement : CutsceneElement
 
 	public override void Run()
 	{
+		CutsceneActor actor = Cutscene.Instance.FindActor(mover);
+		GameObject gameObject = actor ? actor.gameObject : GameObject.Find(mover);
+		if (gameObject)
+		{
+			if (time > 0)
+			{
+				Timer moveTimer = new Timer(1 / 30, (int)(time * 30));
+				moveTimer.OnComplete.AddListener(() =>
+				{
+					EventManager.TriggerEvent("ElementCompleted");
+				});
+				Vector3 startPosition = gameObject.transform.position;
+				if (moveType == MoveTypes.X)
+				{
+					float xDist = x - gameObject.transform.position.x;
+					moveTimer.OnTick.AddListener(() =>
+					{
+						gameObject.transform.position = gameObject.transform.position.SetX(startPosition.x + xDist * moveTimer.RunPercent);
+					});
+
+					moveTimer.OnComplete.AddListener(() =>
+					{
+						gameObject.transform.position = startPosition.SetX(x);
+					});
+				}
+				else if (moveType == MoveTypes.Y)
+				{
+					float yDist = y - gameObject.transform.position.y;
+					moveTimer.OnTick.AddListener(() =>
+					{
+						gameObject.transform.position = gameObject.transform.position.SetY(startPosition.y + yDist * moveTimer.RunPercent);
+					});
+
+					moveTimer.OnComplete.AddListener(() =>
+                    {
+                        gameObject.transform.position = startPosition.SetY(y);
+                    });
+				}
+				else if (moveType == MoveTypes.XY)
+				{
+					Vector3 dist = new Vector3(x, y) - gameObject.transform.position;
+
+					moveTimer.OnTick.AddListener(() =>
+					{
+						gameObject.transform.position = startPosition + dist * moveTimer.RunPercent;
+					});
+
+					moveTimer.OnComplete.AddListener(() =>
+                    {
+						gameObject.transform.position = new Vector3(x,y, gameObject.transform.position.z);
+                    });
+				}
+				else if (moveType == MoveTypes.Rotate)
+				{
+					float curRotation = 0;
+					moveTimer.OnTick.AddListener(() => {
+                        gameObject.transform.Rotate(Vector3.forward, -curRotation);
+						curRotation = ang * moveTimer.RunPercent;
+                        gameObject.transform.Rotate(Vector3.forward, curRotation);
+                    });
+
+                    moveTimer.OnComplete.AddListener(() => {
+                        gameObject.transform.Rotate(Vector3.forward, -curRotation);
+                        gameObject.transform.Rotate(Vector3.forward, ang);
+                    });
+				}
+
+				moveTimer.Start();
+
+			}
+			else
+			{
+				if (moveType == MoveTypes.X) {
+					gameObject.transform.position = gameObject.transform.position.SetX(x);
+				} else if (moveType == MoveTypes.Y) {
+					gameObject.transform.position = gameObject.transform.position.SetY(y);
+				} else if (moveType == MoveTypes.XY) {
+					gameObject.transform.position = new Vector3(x, y, gameObject.transform.position.z);
+				} else if (moveType == MoveTypes.Rotate) {
+					gameObject.transform.Rotate(Vector3.forward, ang);
+				}
+				EventManager.TriggerEvent("ElementCompleted");
+			}
+		}
+        /*
         CutsceneActor myActor = Cutscene.Instance.FindActor(mover);
 
 		if (myActor != null)
@@ -285,6 +370,7 @@ public class CutsceneMovement : CutsceneElement
 				EventManager.TriggerEvent("ElementCompleted");
             }
         }
+        */
 	}
 }
 
@@ -449,7 +535,7 @@ public class CutsceneCreation : CutsceneElement
 		if (!destroy)
 		{
 			GameObject go = Object.Instantiate(prefab);
-            go.name = prefab.name;
+			go.name = prefab.name;
 			go.transform.position = position;
 		}
 		else

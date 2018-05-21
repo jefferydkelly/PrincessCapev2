@@ -343,6 +343,7 @@ public class Cutscene:Manager
         if (character)
 		{
 			CutsceneActor actor = GameObject.Instantiate(character).GetComponent<CutsceneActor>();
+			actor.name = character.name;
 			actor.Init();
 			actor.CharacterName = charName;
 			characters.Add(actor);
@@ -360,6 +361,7 @@ public class Cutscene:Manager
 		if (character)
 		{
             CutsceneActor actor = GameObject.Instantiate(character).GetComponent<CutsceneActor>();
+			actor.name = character.name;
             actor.Init();
             actor.CharacterName = spriteName;
             characters.Add(actor);
