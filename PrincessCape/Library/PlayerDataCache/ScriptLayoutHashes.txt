@@ -1,6 +1,6 @@
-OSXStandalone
+WindowsStandalone
 PlayerPath?
-/Users/jefferykelly/Desktop/Demos/princessCapeV2-Fullv1/PrincessCapev2.app
+/Users/jefferykelly/Desktop/Demos/princessCapeV2-Fullv1/PrincessCapev2/PrincessCapev2.exe
 SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/Test.unity

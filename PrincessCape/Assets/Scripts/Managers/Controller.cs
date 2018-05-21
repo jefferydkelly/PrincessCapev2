@@ -321,7 +321,7 @@ public class Controller:Manager {
 
 	public Vector2 Aim {
 		get {
-			return MousePosition - Game.Instance.Player.transform.position;
+			return (MousePosition - Game.Instance.Player.transform.position).normalized;
 		}
 	}
 }

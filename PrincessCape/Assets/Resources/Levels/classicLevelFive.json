@@ -204,14 +204,6 @@
 "Scale": "(6.0, 1.0, 1.0)",
 },
 {
-"Name": "Gate",
-"ID": "25",
-"Position": "(13.0, -17.5, 0.0)",
-"Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 2.0, 1.0)",
-"Starts Active": "True",
-},
-{
 "Name": "BridgeEnd",
 "ID": "26",
 "Position": "(-2.0, -19.5, 0.0)",
@@ -361,6 +353,14 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Cutscene": "alchemyLabEntrance",
+},
+{
+"Name": "Gate",
+"ID": "0",
+"Position": "(13.0, -15.5, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 2.0, 1.0)",
+"Starts Active": "True",
 },
 ]
 }
