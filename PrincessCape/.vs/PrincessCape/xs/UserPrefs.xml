@@ -19,7 +19,7 @@
       <File FileName="Assets/Scripts/Managers/Controller.cs" Line="209" Column="30" />
       <File FileName="Assets/Scripts/Projectile.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="72" Column="4" />
-      <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="28" Column="18" />
+      <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="201" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="171" Column="3" />
       <File FileName="Assets/Scripts/Managers/TimerManager.cs" Line="269" Column="52" />
       <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="110" Column="21" />
@@ -32,7 +32,7 @@
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneWait.cs" Line="23" Column="2" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneMovement.cs" Line="146" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEffect.cs" Line="71" Column="2" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneScale.cs" Line="58" Column="2" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneScale.cs" Line="116" Column="96" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneFade.cs" Line="29" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneCreation.cs" Line="47" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAdd.cs" Line="21" Column="2" />

@@ -30,23 +30,95 @@ public class CutsceneScale : CutsceneElement
 
     public override Timer Run()
     {
+		GameObject gameObject = null;
         CutsceneActor actor = Cutscene.Instance.FindActor(actorName);
-        if (type == ScaleType.All)
-        {
-            actor.Scale(scale, time);
-        }
-        else if (type == ScaleType.X)
-        {
-            actor.ScaleX(scale, time);
-        }
-        else if (type == ScaleType.Y)
-        {
-            actor.ScaleY(scale, time);
-        }
-        else if (type == ScaleType.Ind)
-        {
-            actor.ScaleXY(new Vector3(scale, scale2, 1), time);
-        }
+		if (actor)
+		{
+			gameObject = actor.gameObject;
+		}
+		else {
+			gameObject = GameObject.Find(actorName);
+		}
+
+		if (gameObject)
+		{
+			if (time > 0)
+			{
+				runTimer = new Timer(1.0f / 30.0f, (int)(time * 30));
+				if (type == ScaleType.All)
+				{
+					float startScale = gameObject.transform.localScale.x;
+					float scaleDif = scale - startScale;
+                    
+					runTimer.OnTick.AddListener(() => {
+						float curScale = startScale + scaleDif * runTimer.RunPercent;
+                        gameObject.transform.localScale = new Vector3(curScale, curScale, 1);
+                    });
+
+					runTimer.OnComplete.AddListener(() => {
+                        gameObject.transform.localScale = new Vector3(scale, scale, 1);
+                    });
+				}
+				else if (type == ScaleType.X)
+				{
+					float startScale = gameObject.transform.localScale.x;
+					float scaleDif = scale - startScale;
+
+					runTimer.OnTick.AddListener(() => {
+						gameObject.transform.localScale = gameObject.transform.localScale.SetX(startScale + scaleDif * runTimer.RunPercent);
+                    });
+
+					runTimer.OnComplete.AddListener(() => {
+                        gameObject.transform.localScale = gameObject.transform.localScale.SetX(scale);
+                    });
+                    
+				}
+				else if (type == ScaleType.Y)
+				{
+					float startScale = gameObject.transform.localScale.y;
+                    float scaleDif = scale - startScale;
+
+                    runTimer.OnTick.AddListener(() => {
+                        gameObject.transform.localScale = gameObject.transform.localScale.SetY(startScale + scaleDif * runTimer.RunPercent);
+                    });
+
+                    runTimer.OnComplete.AddListener(() => {
+                        gameObject.transform.localScale = gameObject.transform.localScale.SetY(scale);
+                    });
+				}
+				else if (type == ScaleType.Ind)
+				{
+					Vector3 startScale = gameObject.transform.localScale;
+					Vector3 endScale = new Vector3(scale, scale2);
+					Vector3 scaleDif = endScale - startScale;
+                    scaleDif.z = 0;
+
+                    
+
+					runTimer.OnTick.AddListener(() => {
+						gameObject.transform.localScale = startScale + scaleDif * runTimer.RunPercent;
+                    });
+
+					runTimer.OnComplete.AddListener(() => {
+						gameObject.transform.localScale = endScale;
+                    });
+
+				}
+
+				return runTimer;
+			} else {
+				if (type == ScaleType.X) {
+					gameObject.transform.localScale = gameObject.transform.localScale.SetX(scale);
+				} else if (type == ScaleType.Y) {
+					gameObject.transform.localScale = gameObject.transform.localScale.SetY(scale);
+
+				} else if (type == ScaleType.All) {
+					gameObject.transform.localScale = gameObject.transform.localScale.SetX(scale).SetY(scale);
+				} else if (type == ScaleType.Ind) {
+					gameObject.transform.localScale = gameObject.transform.localScale.SetX(scale).SetY(scale2);
+				}
+			}
+		}
 
         return null;
     }
