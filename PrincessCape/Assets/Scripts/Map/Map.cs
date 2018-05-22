@@ -310,7 +310,8 @@ public class Map : MonoBehaviour
                         ao.Reconnect();
                     }
 				
-                    if (Application.isPlaying) {                       
+                    if (Application.isPlaying) {
+						Game.Instance.Player.transform.position = Checkpoint.ResetPosition;
                         OnLevelLoaded.Invoke();
                     }
                 }

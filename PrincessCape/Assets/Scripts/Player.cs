@@ -103,7 +103,7 @@ public class Player : MonoBehaviour {
     private void OnEnable()
     {
         Controller.Instance.OnPause.AddListener(Pause);
-        transform.position = Checkpoint.Active.transform.position.SetZ(0);
+        //transform.position = Checkpoint.Active.transform.position.SetZ(0);
         //EventManager.StartListening("Pause", Pause);
     }
 

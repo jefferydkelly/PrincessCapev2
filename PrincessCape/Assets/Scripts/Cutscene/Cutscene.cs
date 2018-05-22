@@ -9,9 +9,9 @@ public class Cutscene:Manager
 {
 	List<List<CutsceneElement>> elements = new List<List<CutsceneElement>>();
 	private List<CutsceneActor> characters;
+	List<Timer> activeTimers;
 
-    int currentIndex = 0;
-    int currentCompleted = 0;
+	int currentIndex = 0;
 	bool isBeingSkipped = false;
 
     UnityEvent onStart;
@@ -21,6 +21,7 @@ public class Cutscene:Manager
     private static Cutscene instance;
 
     public Cutscene() {
+		activeTimers = new List<Timer>();
 		characters = new List<CutsceneActor>();
         elements = new List<List<CutsceneElement>>();
         onStart = new UnityEvent();
@@ -31,7 +32,6 @@ public class Cutscene:Manager
 			Game.Instance.Map.OnLevelLoaded.AddListener(EndCutscene);
 			eventAdded = true;
 		}
-        EventManager.StartListening("ElementCompleted", ElementCompleted);
     }
 
     public void Load(string cutscenePath) {
@@ -158,16 +158,23 @@ public class Cutscene:Manager
 		else if (p == "disable")
 		{
 			GameObject go;
-			CutsceneActor ca = FindActor(parts[1].Trim());
+			string objectName = parts[1].Trim();
+			CutsceneActor ca = FindActor(objectName);
 			if (ca == null)
 			{
-				go = GameObject.Find(parts[1].Trim());
+				go = GameObject.Find(objectName);
 			}
 			else
 			{
 				go = ca.gameObject;
 			}
-			return new CutsceneEnable(go, false);
+		
+			if (go)
+			{
+				return new CutsceneEnable(go, false);
+			} else {
+				return new CutsceneEnable(objectName, false);
+			}
 		}
 		else if (p == "enable")
 		{
@@ -218,7 +225,7 @@ public class Cutscene:Manager
 		{
 			return new SceneChange(parts[1].Trim());
         } else if (p == "animate") {
-            return new CutsceneAnimation(FindActor(parts[1].Trim()), parts[2].Trim());
+            return new CutsceneAnimation(parts[1].Trim(), parts[2].Trim());
         }
 		else if (p == "character")
 		{
@@ -301,21 +308,40 @@ public class Cutscene:Manager
 
 	}
 
-    void ElementCompleted() {
-        currentCompleted++;
-    }
 	/// <summary>
 	/// Advances to the next element if it exists.
 	/// Otherwise, it ends the cutscene and removes everything from the screen.
 	/// </summary>
 	public void NextElement()
 	{
+		Controller.Instance.AnyKey.RemoveListener(NextElement);
         currentIndex++;
-        currentCompleted = 0;
-    
+		activeTimers.Clear();
         if (currentIndex < elements.Count) {
+			
             foreach(CutsceneElement ce in elements[currentIndex]) {
-                ce.Run();
+				
+                Timer t = ce.Run();
+                
+				if (t != null) {
+					t.OnComplete.AddListener(() =>
+					{
+						activeTimers.Remove(t);
+						if (activeTimers.Count == 0) {
+							//Debug.Log("Proceed");
+							Controller.Instance.AnyKey.AddListener(NextElement);
+						}
+					});
+
+					activeTimers.Add(t);
+
+					t.Start();
+				}
+            }
+
+			if (activeTimers.Count == 0)
+            {
+				NextElement();
             }
         } else {
             EndCutscene();
@@ -390,10 +416,7 @@ public class Cutscene:Manager
     {
         if (Game.Instance.IsInCutscene)
         {
-            if (currentCompleted >= elements[currentIndex].Count)
-            {
-                NextElement();
-            }
+           
         }
     }
 

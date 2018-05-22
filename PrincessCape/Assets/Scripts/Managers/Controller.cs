@@ -207,7 +207,6 @@ public class Controller:Manager {
 		if (Pause)
 		{
             onPause.Invoke();
-			//EventManager.TriggerEvent("Pause");
 		}
         else if (IsKeyDown("ItemOne"))
 		{
@@ -248,7 +247,6 @@ public class Controller:Manager {
             if (IsKeyDown("Interact"))
             {
                 EventManager.TriggerEvent("Interact");
-                //EventManager.TriggerEvent("ClearInteraction");
             }
         }
 

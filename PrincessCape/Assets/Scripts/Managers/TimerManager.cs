@@ -93,6 +93,7 @@ public class Timer
 	TimerState state;
 	public UnityEvent OnTick;
 	public UnityEvent OnComplete;
+	public string name = "Timer";
 	/// <summary>
 	/// Initializes a new instance of the <see cref="T:Timer"/> class.
 	/// </summary>
@@ -262,6 +263,11 @@ public class Timer
             return (float)timesRun / numRepeats;
         }
     }
+
+	public override string ToString()
+	{
+		return string.Format("{0} : {1}", name, runTime);
+	}
 }
 
 /// <summary>

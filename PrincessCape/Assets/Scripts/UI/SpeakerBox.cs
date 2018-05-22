@@ -4,33 +4,33 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SpeakerBox : MonoBehaviour {
-	static string speaker;
 	Text text;
 	// Use this for initialization
 	void Start () {
 		gameObject.SetActive(false);
-        EventManager.StartListening("ShowDialog", Show);
 		text = GetComponentInChildren<Text>();
 	}
 	
-    void Show() {
+    public void Show() {
         //EventManager.StopListening("ShowDialog", Show);
         gameObject.SetActive(true);
-        text.text = speaker;
         EventManager.StartListening("EndOfDialog", Hide);
         Cutscene.Instance.OnEnd.AddListener(Hide);
         EventManager.StartListening("ShowMessage", Hide);
     }
 
-    void Hide() {
+    public void Hide() {
         EventManager.StopListening("EndOfDialog", Hide);
         Cutscene.Instance.OnEnd.RemoveListener(Hide);
         EventManager.StopListening("ShowMessage", Hide);
         gameObject.SetActive(false);
         EventManager.StartListening("ShowDialog", Show);
     }
-
-    public static void SetSpeaker(string s) {
-        speaker = s;
+    
+	public string Speaker {
+		set
+		{
+			text.text = value;
+		}
     }
 }

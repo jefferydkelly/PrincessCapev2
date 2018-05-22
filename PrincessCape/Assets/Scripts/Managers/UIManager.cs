@@ -8,8 +8,10 @@ public class UIManager : MonoBehaviour
     static UIManager instance;
     [SerializeField]
     MessageBox mainText;
+	[SerializeField]
+	SpeakerBox speakerText;
     [SerializeField]
-    Text minorText;
+	Text minorText;
     [SerializeField]
     ItemBox itemOneBox;
 	[SerializeField]
@@ -101,7 +103,29 @@ public class UIManager : MonoBehaviour
     /// <param name="line">Line.</param>
 	public void SetMinorText(string line)
     {
-        minorText.text = line;
+		minorText.text = line;
+    }
+
+	public Timer ShowMessage(string line, string speaker = "") {
+		SetMainText(line);
+		if (speaker != null && speaker.Length > 0)
+		{
+			speakerText.Speaker = speaker;
+			speakerText.Show();
+		}
+		return mainText.StartReveal();
+	}
+
+	public Timer ShowMessage(List<string> line, string speaker = "")
+    {
+        SetMainText(line);
+		Debug.Log(line);
+		if (speaker != null && speaker.Length > 0)
+        {
+            speakerText.Speaker = speaker;
+            speakerText.Show();
+        }
+        return mainText.StartReveal();
     }
 
     public void SetInteractionText(string line)

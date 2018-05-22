@@ -7060,6 +7060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainText: {fileID: 1242165087}
+  speakerText: {fileID: 1621743744}
   minorText: {fileID: 2007370107}
   itemOneBox: {fileID: 2059503582}
   itemTwoBox: {fileID: 222546936}

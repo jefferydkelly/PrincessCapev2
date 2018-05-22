@@ -12,6 +12,7 @@ public class CutsceneElement
 	protected bool canSkip = false;
 
 	protected bool autoAdvance = false;
+	protected Timer runTimer;
 
     /// <summary>
     /// Gets a value indicating whether this <see cref="T:CutsceneElement"/> advances automatically.
@@ -40,8 +41,9 @@ public class CutsceneElement
     /// <summary>
     /// Run this instance.
     /// </summary>
-	public virtual void Run()
+	public virtual Timer Run()
 	{
+		return null;
 	}
 
     /// <summary>
@@ -80,27 +82,14 @@ public class CutsceneDialog : CutsceneElement
 	{
 		speaker = null;
 		dialog = dia.Replace("\\n", "\n").Trim();
-		//dialog = dialog.Replace("[[PauseKey]]", GameManager.Instance.Player.Controller.PauseKey);
-		//dialog = dialog.Replace("[[LeftItemKey]]", GameManager.Instance.Player.Controller.LeftItemKey);
-		//dialog = dialog.Replace("[[RightItemKey]]", GameManager.Instance.Player.Controller.RightItemKey);
-		//dialog = dialog.Replace("[[AimKeys]]", GameManager.Instance.Player.Controller.AimKeys);
 	}
 
     /// <summary>
     /// Displays the dialog of message
     /// </summary>
-	public override void Run()
+	public override Timer Run()
 	{
-        UIManager.Instance.SetMainText(dialog);
-		if (speaker != null)
-		{
-            SpeakerBox.SetSpeaker(speaker);
-            EventManager.TriggerEvent("ShowDialog");
-		}
-		else
-		{
-            EventManager.TriggerEvent("ShowMessage");
-		}
+		return UIManager.Instance.ShowMessage(dialog, speaker);
 	}
 }
 
@@ -148,7 +137,7 @@ public class CameraPan : CutsceneElement
         panTime = time;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
         if (panTo)
         {
@@ -165,6 +154,8 @@ public class CameraPan : CutsceneElement
         {
             CameraManager.Instance.Pan(panDistance, panTime);
         }
+
+		return null;
 	}
 }
 
@@ -179,11 +170,11 @@ public class CameraFollow : CutsceneElement
 		autoAdvance = true;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
 		CameraManager.Instance.Target = GameObject.Find(targetName);
         CameraManager.Instance.IsFollowing = true;
-        EventManager.TriggerEvent("ElementCompleted");
+		return null;
 	}
 }
 
@@ -192,7 +183,6 @@ public class CameraFollow : CutsceneElement
 /// </summary>
 public class CutsceneWait : CutsceneElement
 {
-    Timer waitTimer;
 	/// <summary>
 	/// Initializes a new instance of the <see cref="CutsceneWait"/> class.
 	/// </summary>
@@ -200,14 +190,11 @@ public class CutsceneWait : CutsceneElement
 	public CutsceneWait(float dt)
 	{
 		canSkip = true;
-        waitTimer = new Timer(dt);
-        waitTimer.OnComplete.AddListener(() => { 
-            EventManager.TriggerEvent("ElementCompleted"); 
-        });
+        runTimer = new Timer(dt);
 	}
-	public override void Run()
+	public override Timer Run()
 	{
-        waitTimer.Start();
+		return null;
 	}
 }
 
@@ -255,7 +242,7 @@ public class CutsceneMovement : CutsceneElement
 		time = dt;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
 		CutsceneActor actor = Cutscene.Instance.FindActor(mover);
 		GameObject gameObject = actor ? actor.gameObject : GameObject.Find(mover);
@@ -263,21 +250,19 @@ public class CutsceneMovement : CutsceneElement
 		{
 			if (time > 0)
 			{
-				Timer moveTimer = new Timer(1 / 30, (int)(time * 30));
-				moveTimer.OnComplete.AddListener(() =>
-				{
-					EventManager.TriggerEvent("ElementCompleted");
-				});
+				runTimer = new Timer(1.0f / 30.0f, (int)(time * 30));
+				runTimer.name = "Move Timer";
+
 				Vector3 startPosition = gameObject.transform.position;
 				if (moveType == MoveTypes.X)
 				{
 					float xDist = x - gameObject.transform.position.x;
-					moveTimer.OnTick.AddListener(() =>
+					runTimer.OnTick.AddListener(() =>
 					{
-						gameObject.transform.position = gameObject.transform.position.SetX(startPosition.x + xDist * moveTimer.RunPercent);
+						gameObject.transform.position = gameObject.transform.position.SetX(startPosition.x + xDist * runTimer.RunPercent);
 					});
 
-					moveTimer.OnComplete.AddListener(() =>
+					runTimer.OnComplete.AddListener(() =>
 					{
 						gameObject.transform.position = startPosition.SetX(x);
 					});
@@ -285,12 +270,12 @@ public class CutsceneMovement : CutsceneElement
 				else if (moveType == MoveTypes.Y)
 				{
 					float yDist = y - gameObject.transform.position.y;
-					moveTimer.OnTick.AddListener(() =>
+					runTimer.OnTick.AddListener(() =>
 					{
-						gameObject.transform.position = gameObject.transform.position.SetY(startPosition.y + yDist * moveTimer.RunPercent);
+						gameObject.transform.position = gameObject.transform.position.SetY(startPosition.y + yDist * runTimer.RunPercent);
 					});
 
-					moveTimer.OnComplete.AddListener(() =>
+					runTimer.OnComplete.AddListener(() =>
                     {
                         gameObject.transform.position = startPosition.SetY(y);
                     });
@@ -299,36 +284,38 @@ public class CutsceneMovement : CutsceneElement
 				{
 					Vector3 dist = new Vector3(x, y) - gameObject.transform.position;
 
-					moveTimer.OnTick.AddListener(() =>
+					runTimer.OnTick.AddListener(() =>
 					{
-						gameObject.transform.position = startPosition + dist * moveTimer.RunPercent;
+						gameObject.transform.position = startPosition + dist * runTimer.RunPercent;
 					});
 
-					moveTimer.OnComplete.AddListener(() =>
+					runTimer.OnComplete.AddListener(() =>
                     {
 						gameObject.transform.position = new Vector3(x,y, gameObject.transform.position.z);
                     });
 				}
 				else if (moveType == MoveTypes.Rotate)
 				{
+					runTimer.name = "Rotate Timer";
 					float curRotation = 0;
-					moveTimer.OnTick.AddListener(() => {
+					runTimer.OnTick.AddListener(() => {
                         gameObject.transform.Rotate(Vector3.forward, -curRotation);
-						curRotation = ang * moveTimer.RunPercent;
+						curRotation = ang * runTimer.RunPercent;
                         gameObject.transform.Rotate(Vector3.forward, curRotation);
                     });
 
-                    moveTimer.OnComplete.AddListener(() => {
+                    runTimer.OnComplete.AddListener(() => {
                         gameObject.transform.Rotate(Vector3.forward, -curRotation);
                         gameObject.transform.Rotate(Vector3.forward, ang);
                     });
 				}
 
-				moveTimer.Start();
+				return runTimer;
 
 			}
 			else
 			{
+				Debug.Log(string.Format("{0}: {1} to {2}, {3}", moveType.ToString(), gameObject.name, x, y));
 				if (moveType == MoveTypes.X) {
 					gameObject.transform.position = gameObject.transform.position.SetX(x);
 				} else if (moveType == MoveTypes.Y) {
@@ -338,39 +325,11 @@ public class CutsceneMovement : CutsceneElement
 				} else if (moveType == MoveTypes.Rotate) {
 					gameObject.transform.Rotate(Vector3.forward, ang);
 				}
-				EventManager.TriggerEvent("ElementCompleted");
+
+				Debug.Log(gameObject.transform.position);
 			}
 		}
-        /*
-        CutsceneActor myActor = Cutscene.Instance.FindActor(mover);
-
-		if (myActor != null)
-		{
-			if (moveType == MoveTypes.Rotate)
-			{
-                myActor.Rotate(ang, time);
-			}
-			else
-			{
-				if (moveType == MoveTypes.X)
-				{
-					y = myActor.transform.position.y;
-				}
-				else if (moveType == MoveTypes.Y)
-				{
-					x = myActor.transform.position.x;
-				}
-				myActor.MoveTo(new Vector2(x, y), time);
-			}
-        } else {
-            GameObject go = GameObject.Find(mover);
-
-            if (go) {
-                go.transform.position = new Vector3(x, y).SetZ(go.transform.position.z);
-				EventManager.TriggerEvent("ElementCompleted");
-            }
-        }
-        */
+		return null;
 	}
 }
 
@@ -399,7 +358,7 @@ public class CutsceneEffect : CutsceneElement
 		canSkip = true;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
         CutsceneActor myActor = Cutscene.Instance.FindActor(affected);
 
@@ -433,7 +392,7 @@ public class CutsceneEffect : CutsceneElement
 			myActor.FlipY();
 		}
 
-        EventManager.TriggerEvent("ElementCompleted");
+		return null;
 	}
 }
 
@@ -463,7 +422,7 @@ public class CutsceneScale : CutsceneElement
 		canSkip = true;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
         CutsceneActor actor = Cutscene.Instance.FindActor(actorName);
 		if (type == ScaleType.All)
@@ -482,6 +441,8 @@ public class CutsceneScale : CutsceneElement
 		{
 			actor.ScaleXY(new Vector3(scale, scale2, 1), time);
 		}
+
+		return null;
 	}
 }
 
@@ -498,13 +459,15 @@ public class CutsceneFade : CutsceneElement
 		canSkip = true;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
         CutsceneActor actor = Cutscene.Instance.FindActor(actorName);
 		if (actor)
 		{
 			actor.Fade(alpha, time);
 		}
+
+		return null;
 	}
 }
 
@@ -530,7 +493,7 @@ public class CutsceneCreation : CutsceneElement
 		canSkip = false;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
 		if (!destroy)
 		{
@@ -547,7 +510,7 @@ public class CutsceneCreation : CutsceneElement
 			}
 		}
 
-        EventManager.TriggerEvent("ElementCompleted");
+		return null;
 	}
 }
 
@@ -562,10 +525,10 @@ public class CutsceneAdd : CutsceneElement
 		canSkip = false;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
         Game.Instance.Player.AddItem(ScriptableObject.CreateInstance(itemName) as MagicItem, false);
-        EventManager.TriggerEvent("ElementCompleted");
+		return null;
 	}
 }
 
@@ -575,6 +538,7 @@ public class CutsceneEnable : CutsceneElement
 	bool enable = true;
 	bool move = false;
 	Vector2 pos;
+	string objectName = "";
 
 	public CutsceneEnable(GameObject go, bool en)
 	{
@@ -590,8 +554,19 @@ public class CutsceneEnable : CutsceneElement
 		pos = new Vector2(x, y);
 	}
 
-	public override void Run()
+	public CutsceneEnable(string oName, bool en) {
+		hideObject = null;
+		objectName = oName;
+		enable = en;
+	}
+
+	public override Timer Run()
 	{
+		if (hideObject == null)
+		{
+			hideObject = GameObject.Find(objectName);
+			Debug.Log(string.Format("{0}:{1}", objectName, hideObject == null));
+		}
 		if (hideObject)
         {
 			hideObject.SetActive(enable);
@@ -604,7 +579,7 @@ public class CutsceneEnable : CutsceneElement
 
         }
 
-        EventManager.TriggerEvent("ElementCompleted");
+		return null;
 	}
 }
 
@@ -621,7 +596,7 @@ public class CutsceneActivate : CutsceneElement
 		canSkip = false;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
 		if (activate)
 		{
@@ -632,7 +607,7 @@ public class CutsceneActivate : CutsceneElement
 			ao.Deactivate();
 		}
 
-        EventManager.TriggerEvent("ElementCompleted");
+		return null;
 	}
 }
 
@@ -647,7 +622,7 @@ public class CutsceneAlign : CutsceneElement
 		canSkip = true;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
         if (left) {
             EventManager.TriggerEvent("AlignLeft");
@@ -655,7 +630,7 @@ public class CutsceneAlign : CutsceneElement
             EventManager.TriggerEvent("AlignRight");
         }
 
-        EventManager.TriggerEvent("ElementCompleted");
+		return null;
 	}
 }
 
@@ -678,16 +653,32 @@ public class CutscenePlay : CutsceneElement
 
 public class CutsceneAnimation: CutsceneElement {
     string triggerName;
-    CutsceneActor actor;
+    string actorName;
 
-    public CutsceneAnimation(CutsceneActor ca, string tName) {
+    public CutsceneAnimation(string aName, string tName) {
         triggerName = tName;
-        actor = ca;
+		actorName = aName;
     }
 
-    public override void Run()
+	public override Timer Run()
     {
-        actor.Animate(triggerName);
+		GameObject gameObject = GameObject.Find(actorName);
+		if (gameObject) {
+			Animator animator = gameObject.GetComponent<Animator>();
+			if (animator) {
+				animator.SetTrigger(triggerName);
+				runTimer = new Timer(0.5f);
+				return runTimer;
+			}
+		} else {
+			CutsceneActor cutsceneActor = Cutscene.Instance.FindActor(actorName);
+			if (cutsceneActor) {
+				cutsceneActor.Animate(triggerName);
+				runTimer = new Timer(0.5f);
+                return runTimer;
+			}
+		}
+		return null;
     }
 }
 
@@ -717,8 +708,9 @@ public class SceneChange : CutsceneElement
 		autoAdvance = true;
 	}
 
-	public override void Run()
+	public override Timer Run()
 	{
         Game.Instance.LoadScene(newScene);
+		return null;
 	}
 }

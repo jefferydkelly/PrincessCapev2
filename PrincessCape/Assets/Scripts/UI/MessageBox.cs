@@ -13,7 +13,9 @@ public class MessageBox : MonoBehaviour {
     Timer revealTimer;
     private void Awake()
     {
-        gameObject.SetActive(false);
+		gameObject.SetActive(false);
+        textbox = GetComponentInChildren<Text>();
+		/*
         EventManager.StartListening("ShowDialog", DisplayMessage);
         EventManager.StartListening("ShowMessage", DisplayMessage);
         EventManager.StartListening("ShowLine", DisplayLine);
@@ -24,10 +26,11 @@ public class MessageBox : MonoBehaviour {
         EventManager.StartListening("AlignRight", () => {
             textbox.alignment = TextAnchor.UpperRight;
         });
-        textbox = GetComponentInChildren<Text>();
+        */
+        
     }
 
-    void DisplayLine() {
+    public void DisplayLine() {
         if (!gameObject.activeSelf)
         {
             EventManager.StartListening("Inventory", Hide);
@@ -71,34 +74,52 @@ public class MessageBox : MonoBehaviour {
             message[i] = ParseKeys(message[i]);
         }
         curLine = 0;
-        StartReveal();
-
-
+		StartReveal();
     }
 
-    void StartReveal() {
+	public Timer StartReveal() {
+		if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+            //EventManager.StartListening("HideMessage", Hide);
+            Cutscene.Instance.OnEnd.AddListener(Hide);
+        }
 		currentCharacter = 0;
+		curLine = 0;
 		textbox.text = "";
 		revealTimer = new Timer(revealTime, message[curLine].Length - 1);
+		revealTimer.name = message[0];
 		revealTimer.OnTick.AddListener(RevealCharacter);
         Controller.Instance.AnyKey.AddListener(FastReveal);
-		revealTimer.OnComplete.AddListener(() => { 
-            
-            Controller.Instance.AnyKey.AddListener(NextLine);
-        });
-		revealTimer.Start();
+		if (message.Count > 1)
+		{
+			Debug.Log("Let's check for the next line");
+			revealTimer.OnComplete.AddListener(() =>
+			{
+				Controller.Instance.AnyKey.AddListener(NextLine);
+			});
+		}
+		return revealTimer;
     }
 
     void FastReveal() {
-        revealTimer.Stop();
-        currentCharacter = message[curLine].Length;
-        textbox.text = message[curLine].Substring(0, currentCharacter);
-        EventManager.TriggerEvent("EndOfLine");
-        Controller.Instance.AnyKey.RemoveListener(FastReveal);
-        Controller.Instance.AnyKey.AddListener(NextLine);
+		if (revealTimer.IsRunning)
+		{
+			revealTimer.Stop();
+			revealTimer.OnComplete.Invoke();
+			currentCharacter = message[curLine].Length;
+			textbox.text = message[curLine].Substring(0, currentCharacter);
+			EventManager.TriggerEvent("EndOfLine");
+			Controller.Instance.AnyKey.RemoveListener(FastReveal);
+			if (message.Count > 1)
+			{
+				Controller.Instance.AnyKey.AddListener(NextLine);
+			}
+		}
     }
     void RevealCharacter() {
         currentCharacter++;
+	
         currentCharacter = Mathf.Min(message[curLine].Length, currentCharacter);
         textbox.text = message[curLine].Substring(0, currentCharacter);
 
@@ -111,7 +132,9 @@ public class MessageBox : MonoBehaviour {
     void NextLine() {
        
         Controller.Instance.AnyKey.RemoveListener(NextLine);
-        //EventManager.StopListening("AnyKey", NextLine);
+		//EventManager.StopListening("AnyKey", NextLine);
+		Debug.Log("Next");
+		Debug.Break();
         curLine++;
         if (curLine < message.Count)
         {
@@ -119,11 +142,7 @@ public class MessageBox : MonoBehaviour {
         }
         else
         {
-            EventManager.TriggerEvent("EndOfMessage");
-            if (Game.Instance.IsInCutscene)
-            {
-                EventManager.TriggerEvent("ElementCompleted");
-            }
+			EventManager.TriggerEvent("EndOfMessage");
         }
 
     }
