@@ -14,6 +14,7 @@ public class Map : MonoBehaviour
     ItemLevel items = ItemLevel.None;
     [SerializeField]
     bool showInLevelSelect = true;
+	bool isLoaded = false;
 
     List<MapTile> tiles;
     Dictionary<string, GameObject> prefabs;
@@ -276,7 +277,7 @@ public class Map : MonoBehaviour
     /// <returns>The load.</returns>
     /// <param name="file">File.</param>
     public void Load(string file) {
-       
+		isLoaded = false;
         if (prefabs == null) {
             LoadPrefabs();
         }
@@ -311,8 +312,9 @@ public class Map : MonoBehaviour
                     }
 				
                     if (Application.isPlaying) {
-						Game.Instance.Player.transform.position = Checkpoint.ResetPosition;
+						isLoaded = true;
                         OnLevelLoaded.Invoke();
+						Game.Instance.Player.transform.position = Checkpoint.ResetPosition;
                     }
                 }
 
@@ -410,6 +412,12 @@ public class Map : MonoBehaviour
         prefabs.TryGetValue(tileName, out prefab);
         return prefab;
     }
+
+	public bool IsLoaded {
+		get {
+			return isLoaded;
+		}
+	}
 
     /// <summary>
     /// Gets the instance.

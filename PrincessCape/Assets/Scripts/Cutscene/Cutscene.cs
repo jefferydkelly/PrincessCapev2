@@ -412,6 +412,17 @@ public class Cutscene:Manager
 		return null;
 	}
 
+	public GameObject FindGameObject(string goName)
+	{
+		CutsceneActor actor = FindActor(goName);
+		if (actor)
+		{
+			return actor.gameObject;
+		} else {
+			return GameObject.Find(goName);
+		}
+	}
+
     public void Update(float dt)
     {
         if (Game.Instance.IsInCutscene)

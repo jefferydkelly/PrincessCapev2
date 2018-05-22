@@ -36,12 +36,11 @@ public class CutsceneEnable : CutsceneElement
         if (hideObject == null)
         {
             hideObject = GameObject.Find(objectName);
-            Debug.Log(string.Format("{0}:{1}", objectName, hideObject == null));
         }
         if (hideObject)
         {
             hideObject.SetActive(enable);
-
+           
             if (move)
             {
                 hideObject.transform.position = pos;

@@ -53,8 +53,8 @@ move-x Matthew -12 0.5
 rotate Matthew -90 0.5 and
 move Matthew -12 0 0.5
 Sir Matthew: I'm....so...sorry!
-fade-out Matthew 0.5
-enable Remains
+fade-out Matthew 0.5 and
+fade-in Remains 0.5
 move-x Elwynn -8 1 and
 Elwynn: What do I do now?
 move-x Elwynn -11 1 and
