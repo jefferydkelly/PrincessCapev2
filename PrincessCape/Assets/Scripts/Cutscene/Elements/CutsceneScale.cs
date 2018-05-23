@@ -16,6 +16,7 @@ public class CutsceneScale : CutsceneElement
         scale = sc;
         time = dt;
         canSkip = true;
+		autoAdvance = true;
     }
 
     public CutsceneScale(string actor, float sc1, float sc2, float dt)
@@ -26,6 +27,7 @@ public class CutsceneScale : CutsceneElement
         scale2 = sc2;
         time = dt;
         canSkip = true;
+		autoAdvance = true;
     }
 
     public override Timer Run()

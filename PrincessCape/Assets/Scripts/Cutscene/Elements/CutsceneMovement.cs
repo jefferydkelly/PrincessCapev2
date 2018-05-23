@@ -24,6 +24,7 @@ public class CutsceneMovement : CutsceneElement
         y = dy;
         time = dt;
         canSkip = true;
+		autoAdvance = true;
     }
 
     public CutsceneMovement(string target, MoveTypes mt, float angle, float dt)
@@ -44,6 +45,7 @@ public class CutsceneMovement : CutsceneElement
         }
 
         time = dt;
+		autoAdvance = true;
     }
 
     public override Timer Run()

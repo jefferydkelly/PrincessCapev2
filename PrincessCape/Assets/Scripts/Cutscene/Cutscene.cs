@@ -18,6 +18,7 @@ public class Cutscene:Manager
     UnityEvent onEnd;
 
 	bool eventAdded = false;
+	bool textBeingRevealed = false;
     private static Cutscene instance;
 
     public Cutscene() {
@@ -157,18 +158,11 @@ public class Cutscene:Manager
 		}
 		else if (p == "disable")
 		{
-			GameObject go;
+			
 			string objectName = parts[1].Trim();
-			CutsceneActor ca = FindActor(objectName);
-			if (ca == null)
-			{
-				go = GameObject.Find(objectName);
-			}
-			else
-			{
-				go = ca.gameObject;
-			}
-		
+
+			GameObject go = FindGameObject(objectName);
+            
 			if (go)
 			{
 				return new CutsceneEnable(go, false);
@@ -178,24 +172,18 @@ public class Cutscene:Manager
 		}
 		else if (p == "enable")
 		{
-			GameObject go;
-			CutsceneActor ca = FindActor(parts[1].Trim());
-			if (ca == null)
-			{
-				go = GameObject.Find(parts[1].Trim());
-			}
-			else
-			{
-				go = ca.gameObject;
-			}
-			if (parts.Length == 4)
-			{
-				return new CutsceneEnable(go, float.Parse(parts[2]), float.Parse(parts[3]));
-			}
-			else
-			{
-				return new CutsceneEnable(go, true);
-			}
+			string objectName = parts[1].Trim();
+            
+            GameObject go = FindGameObject(objectName);
+
+            if (go)
+            {
+                return new CutsceneEnable(go, true);
+            }
+            else
+            {
+                return new CutsceneEnable(objectName, true);
+            }
 		}
 		else if (p == "activate")
 		{
@@ -317,19 +305,29 @@ public class Cutscene:Manager
 		Controller.Instance.AnyKey.RemoveListener(NextElement);
         currentIndex++;
 		activeTimers.Clear();
+		textBeingRevealed = false;
         if (currentIndex < elements.Count) {
 			
             foreach(CutsceneElement ce in elements[currentIndex]) {
-				
+				if (ce is CutsceneDialog) {
+					textBeingRevealed = true;
+				}
                 Timer t = ce.Run();
                 
 				if (t != null) {
 					t.OnComplete.AddListener(() =>
 					{
 						activeTimers.Remove(t);
+
 						if (activeTimers.Count == 0) {
-							//Debug.Log("Proceed");
-							Controller.Instance.AnyKey.AddListener(NextElement);
+							if (ce.AutoAdvance && !textBeingRevealed)
+							{
+								NextElement();
+							}
+							else
+							{
+								Controller.Instance.AnyKey.AddListener(NextElement);
+							}
 						}
 					});
 

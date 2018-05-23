@@ -15,6 +15,7 @@ public class MessageBox : MonoBehaviour {
     {
 		gameObject.SetActive(false);
         textbox = GetComponentInChildren<Text>();
+		revealTimer = new Timer(0);
 		/*
         EventManager.StartListening("ShowDialog", DisplayMessage);
         EventManager.StartListening("ShowMessage", DisplayMessage);
@@ -161,6 +162,11 @@ public class MessageBox : MonoBehaviour {
         }
     }
 
+	public bool IsRevealing {
+		get {
+			return revealTimer.IsRunning;
+		}
+	}
     public bool IsComplete {
         get {
             if (curLine >= message.Count) {

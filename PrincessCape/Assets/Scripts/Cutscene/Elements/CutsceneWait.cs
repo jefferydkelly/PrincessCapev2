@@ -15,9 +15,11 @@ public class CutsceneWait : CutsceneElement
     {
         canSkip = true;
         runTimer = new Timer(dt);
+		autoAdvance = true;
+
     }
     public override Timer Run()
     {
-        return null;
+		return runTimer;
     }
 }

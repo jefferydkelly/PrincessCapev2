@@ -163,4 +163,14 @@ public class UIManager : MonoBehaviour
 			mainText.Alignment = value;
 		}
 	}
+
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:UIManager"/> is revealing message.
+    /// </summary>
+    /// <value><c>true</c> if is revealing message; otherwise, <c>false</c>.</value>
+	public bool IsRevealingMessage {
+		get {
+			return mainText.IsRevealing;
+		}
+	}
 }

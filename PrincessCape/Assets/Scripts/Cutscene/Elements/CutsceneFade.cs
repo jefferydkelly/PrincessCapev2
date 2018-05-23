@@ -12,6 +12,7 @@ public class CutsceneFade : CutsceneElement
     {
         actorName = actor;
 		target = Cutscene.Instance.FindGameObject(actor);
+		//Debug.Log(string.Format("Created {0}: {1}", actorName, target == null));
         alpha = toAlpha;
         time = dt;
         canSkip = true;
@@ -19,9 +20,11 @@ public class CutsceneFade : CutsceneElement
 
     public override Timer Run()
     {
+		Debug.Log(string.Format("{0}: {1}", actorName, target == null));
 		if (!target)
 		{
 			target = Cutscene.Instance.FindGameObject(actorName);
+			Debug.Log(string.Format("Looking again {0}: {1}", actorName, target == null));
 		}
 
 		if (target)

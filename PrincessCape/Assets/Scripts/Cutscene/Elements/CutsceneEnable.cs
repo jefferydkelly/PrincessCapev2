@@ -13,6 +13,7 @@ public class CutsceneEnable : CutsceneElement
     public CutsceneEnable(GameObject go, bool en)
     {
         hideObject = go;
+		objectName = go.name;
         enable = en;
         autoAdvance = true;
         canSkip = false;
@@ -22,6 +23,7 @@ public class CutsceneEnable : CutsceneElement
     {
         move = true;
         pos = new Vector2(x, y);
+		objectName = go.name;
     }
 
     public CutsceneEnable(string oName, bool en)

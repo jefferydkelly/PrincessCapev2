@@ -20,6 +20,7 @@ public class CutsceneDialog : CutsceneElement
         speaker = spk;
         dialog = dia.Replace("\\n", "\n").Trim();
         canSkip = true;
+		autoAdvance = false;
     }
 
     /// <summary>
@@ -30,6 +31,7 @@ public class CutsceneDialog : CutsceneElement
     {
         speaker = null;
         dialog = dia.Replace("\\n", "\n").Trim();
+		autoAdvance = false;
     }
 
     /// <summary>

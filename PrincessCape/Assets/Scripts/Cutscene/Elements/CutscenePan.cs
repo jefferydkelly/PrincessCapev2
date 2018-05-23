@@ -23,6 +23,7 @@ public class CameraPan : CutsceneElement
         panDistance = pd;
         panTo = false;
         canSkip = true;
+		autoAdvance = true;
     }
 
     /// <summary>
@@ -35,6 +36,7 @@ public class CameraPan : CutsceneElement
         panEnding = pd;
         panTo = true;
         canSkip = true;
+		autoAdvance = true;
     }
 
     public CameraPan(string name, float time = 1.0f)
@@ -44,6 +46,7 @@ public class CameraPan : CutsceneElement
         panTo = true;
         canSkip = true;
         panTime = time;
+		autoAdvance = true;
     }
 
     public override Timer Run()
@@ -64,7 +67,8 @@ public class CameraPan : CutsceneElement
             CameraManager.Instance.Pan(panDistance, panTime);
         }
 
-        return null;
+		runTimer = new Timer(panTime);
+		return runTimer;
     }
 }
 
