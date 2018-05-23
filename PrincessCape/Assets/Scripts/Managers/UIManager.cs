@@ -153,4 +153,14 @@ public class UIManager : MonoBehaviour
         itemTwoBox.KeyText = Controller.Instance.GetKey("ItemTwo");
         interaction.KeyText = Controller.Instance.GetKey("Interact");
     }
+
+	public TextAnchor Alignment {
+		get {
+			return mainText.Alignment;
+		}
+
+		set {
+			mainText.Alignment = value;
+		}
+	}
 }

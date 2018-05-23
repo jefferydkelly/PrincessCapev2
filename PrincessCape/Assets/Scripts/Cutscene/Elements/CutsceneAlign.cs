@@ -16,12 +16,12 @@ public class CutsceneAlign : CutsceneElement
     public override Timer Run()
     {
         if (left)
-        {
-            EventManager.TriggerEvent("AlignLeft");
-        }
+		{
+			UIManager.Instance.Alignment = TextAnchor.UpperLeft;
+		}
         else
         {
-            EventManager.TriggerEvent("AlignRight");
+			UIManager.Instance.Alignment = TextAnchor.UpperRight;
         }
 
         return null;

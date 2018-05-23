@@ -169,4 +169,14 @@ public class MessageBox : MonoBehaviour {
             return currentCharacter == message[curLine].Length;
         }
     }
+
+	public TextAnchor Alignment {
+		get {
+			return textbox.alignment;
+		}
+
+		set {
+			textbox.alignment = value;
+		}
+	}
 }

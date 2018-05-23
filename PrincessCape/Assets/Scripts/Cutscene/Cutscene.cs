@@ -297,7 +297,7 @@ public class Cutscene:Manager
 
 	public void StartCutscene()
 	{
-		if (!eventAdded)
+		if (!Map.Instance.IsLoaded)
 		{
 			Map.Instance.OnLevelLoaded.AddListener(EndCutscene);
 		}
