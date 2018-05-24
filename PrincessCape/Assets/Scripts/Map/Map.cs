@@ -413,6 +413,17 @@ public class Map : MonoBehaviour
         return prefab;
     }
 
+	public GameObject GetChildByName(string name) {
+		for (int i = 0; i < transform.childCount; i++) {
+			GameObject child = transform.GetChild(i).gameObject;
+			if (child.name == name) {
+				return child;
+			}
+		}
+
+		return null;
+	}
+
 	public bool IsLoaded {
 		get {
 			return isLoaded;

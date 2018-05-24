@@ -413,11 +413,13 @@ public class Cutscene:Manager
 	public GameObject FindGameObject(string goName)
 	{
 		CutsceneActor actor = FindActor(goName);
-		if (actor)
+		if (goName == "Player") {
+			return Game.Instance.Player.gameObject;
+		} else if (actor)
 		{
 			return actor.gameObject;
 		} else {
-			return GameObject.Find(goName);
+			return Map.Instance.GetChildByName(goName);
 		}
 	}
 
