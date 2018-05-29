@@ -15,10 +15,8 @@ public class ItemBox : MonoBehaviour {
         itemImage = GetComponentsInChildren<Image>()[1];
 
         keyBox = transform.parent.GetComponentInChildren<Text>();
-        //keyBox.text = Controller.Instance.GetKey(isFirstItem ? "ItemOne" : "ItemTwo");
-        EventManager.StartListening("ShowMessage", StopListening);
-        EventManager.StartListening("ShowDialog", StopListening);
-        EventManager.StartListening("EndOfMessage", StartListening);
+		//keyBox.text = Controller.Instance.GetKey(isFirstItem ? "ItemOne" : "ItemTwo");
+
 	}
 
     private void OnEnable()
@@ -36,7 +34,7 @@ public class ItemBox : MonoBehaviour {
         StopListening();
     }
 
-    void StartListening() {
+    public void StartListening() {
 		string itemName = "Item" + (isFirstItem ? "One" : "Two");
 		EventManager.StartListening(itemName + "Equipped", UpdateItemInfo);
 		EventManager.StartListening(itemName + "ActivatedSuccessfully", BlueOut);
@@ -45,7 +43,7 @@ public class ItemBox : MonoBehaviour {
 		EventManager.StartListening("Unequip" + itemName, Clear);
     }
 
-    void StopListening() {
+    public void StopListening() {
 		string itemName = "Item" + (isFirstItem ? "One" : "Two");
 		EventManager.StopListening(itemName + "Equipped", UpdateItemInfo);
 		EventManager.StopListening(itemName + "ActivatedSuccessfully", BlueOut);

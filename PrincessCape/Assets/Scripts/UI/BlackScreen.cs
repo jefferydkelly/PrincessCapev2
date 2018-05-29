@@ -9,7 +9,7 @@ public class BlackScreen : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         image = GetComponent<Image>();
-        EventManager.StartListening("LevelLoaded", ()=> {
+		Map.Instance.OnLevelLoaded.AddListener(() => {
             image.color = image.color.SetAlpha(0);
         });
 

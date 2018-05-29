@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Cutscene/Elements/CutsceneFade.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/MessageBox.cs">
     <Files>
       <File FileName="Assets/Scripts/Map/MapTile.cs" Line="68" Column="18" />
       <File FileName="Assets/Scripts/Tiles/Gate.cs" Line="61" Column="3" />
@@ -15,17 +15,17 @@
       <File FileName="Assets/Scripts/Items/StarShield.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/UI/AimArrow.cs" Line="27" Column="42" />
       <File FileName="Assets/Scripts/LightField.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player.cs" Line="106" Column="11" />
+      <File FileName="Assets/Scripts/Player.cs" Line="612" Column="52" />
       <File FileName="Assets/Scripts/Managers/Controller.cs" Line="209" Column="30" />
       <File FileName="Assets/Scripts/Projectile.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="72" Column="4" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="71" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="417" Column="42" />
       <File FileName="Assets/Scripts/Managers/TimerManager.cs" Line="269" Column="52" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="168" Column="9" />
-      <File FileName="Assets/Scripts/UI/MessageBox.cs" Line="18" Column="30" />
-      <File FileName="Assets/Scripts/UI/SpeakerBox.cs" Line="22" Column="12" />
-      <File FileName="Assets/Scripts/Interactive Objects/KnightRemains.cs" Line="25" Column="87" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="99" Column="18" />
+      <File FileName="Assets/Scripts/UI/MessageBox.cs" Line="176" Column="14" />
+      <File FileName="Assets/Scripts/UI/SpeakerBox.cs" Line="17" Column="3" />
+      <File FileName="Assets/Scripts/Interactive Objects/KnightRemains.cs" Line="25" Column="86" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneDialog.cs" Line="34" Column="23" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePan.cs" Line="49" Column="22" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneFollow.cs" Line="23" Column="1" />
@@ -43,6 +43,11 @@
       <File FileName="Assets/Scripts/Cutscene/Elements/SceneChange.cs" Line="21" Column="2" />
       <File FileName="Assets/Scripts/Tiles/Corpse.cs" Line="54" Column="8" />
       <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="11" Column="101" />
+      <File FileName="Assets/Scripts/UI/HealthBar.cs" Line="50" Column="3" />
+      <File FileName="Assets/Scripts/UI/InteractionBox.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/BlackScreen.cs" Line="14" Column="12" />
+      <File FileName="Assets/Scripts/Managers/Game.cs" Line="80" Column="24" />
+      <File FileName="Assets/Scripts/UI/ItemBox.cs" Line="37" Column="12" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

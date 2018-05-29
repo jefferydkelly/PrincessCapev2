@@ -5,54 +5,47 @@ using UnityEngine;
 public class HealthBar : MonoBehaviour {
     [SerializeField]
     GameObject heartPrefab;
-	// Use this for initialization
-	void Awake () {
-        EventManager.StartListening("TakeDamage", TakeDamage);
-        EventManager.StartListening("RestoreHealth", RestoreHealth);
-        EventManager.StartListening("PlayerRespawned", FullRestore);
-        EventManager.StartListening("IncreaseHealth", AddNewHeart);
-		Game.Instance.OnReady.AddListener(() =>
-		{
-			for (int i = 0; i < 3; i++) {
-				AddNewHeart();
+
+	public int MaxHealth {
+		get {
+			return transform.childCount;
+		}
+
+		set {
+			if (value > MaxHealth) {
+				for (int i = MaxHealth; i < value; i++)
+				{
+					GameObject heart = Instantiate(heartPrefab);
+					heart.transform.SetParent(transform);
+					heart.transform.localPosition = Vector3.right * 66 * transform.childCount;
+				}
 			}
-		});
+		}
 	}
 
-    private void UpdateHealth()
-    {
-        if (Game.Instance.Player.CurrentHealth > transform.childCount) {
-            Debug.Log(Game.Instance.Player.CurrentHealth);
-            for (int i = transform.childCount; i < Game.Instance.Player.CurrentHealth; i++)
-            {
-                GameObject heart = Instantiate(heartPrefab);
-                heart.transform.SetParent(transform);
-                heart.transform.localPosition = Vector3.right * 66 * i;
-            }
-        }
-    }
-
-    void RestoreHealth() {
-        for (int i = 0; i < Game.Instance.Player.CurrentHealth; i++) {
-            transform.GetChild(i).gameObject.SetActive(true);
-        }
-    }
-    void TakeDamage() {
-		for (int i = transform.childCount; i > Game.Instance.Player.CurrentHealth; i--)
-		{
-            transform.GetChild(i-1).gameObject.SetActive(false);
+	public int CurrentHealth {
+		get {
+			int active = 0;
+			for (int i = 0; i < transform.childCount; i++) {
+				if (transform.GetChild(i).gameObject.activeSelf) {
+					active++;
+				}
+			}
+			return active;
 		}
-    }
-    void AddNewHeart() {
-        FullRestore();
-		GameObject heart = Instantiate(heartPrefab);
-        heart.transform.SetParent(transform);
-		heart.transform.localPosition = Vector3.right * 66 * transform.childCount;
-    }
 
-    void FullRestore() {
-        for (int i = 0; i < transform.childCount; i++) {
-            transform.GetChild(i).gameObject.SetActive(true);
-        }
-    }
+		set {
+			if (value > CurrentHealth) {
+				int heal = Mathf.Min(value, MaxHealth);
+				for (int i = CurrentHealth; i < heal; i++) {
+					transform.GetChild(i).gameObject.SetActive(true);
+				}
+			} else if (value < CurrentHealth) {
+				int damage = Mathf.Max(0, value);
+				for (int i = damage; i < MaxHealth; i++) {
+					transform.GetChild(i).gameObject.SetActive(false);
+				}
+			}
+		}
+	}
 }

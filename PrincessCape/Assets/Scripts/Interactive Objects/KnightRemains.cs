@@ -23,8 +23,7 @@ public class KnightRemains : InteractiveObject
             if (messageFile != null)
 			{
 				UIManager.Instance.ShowMessage(messageFile.text.Split('\n').ToList(), knightName);
-                EventManager.StartListening("EndOfMessage", GiveItem);
-                EventManager.TriggerEvent("ShowDialog");
+				UIManager.Instance.OnMessageEnd.AddListener(GiveItem);
             }
 
         }
@@ -34,7 +33,8 @@ public class KnightRemains : InteractiveObject
     {
         itemGiven = true;
         IsHighlighted = false;
-        EventManager.StopListening("EndOfMessage", GiveItem);
+		UIManager.Instance.OnMessageEnd.RemoveListener(GiveItem);
+        
         Game.Instance.Player.AddItem(ScriptableObject.CreateInstance(itemOnRemains.ToString()) as MagicItem, true);
         Timer fadeOutTimer = new Timer(0.05f, 20);
         fadeOutTimer.OnTick.AddListener(()=>{

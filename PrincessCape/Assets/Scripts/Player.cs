@@ -37,26 +37,8 @@ public class Player : MonoBehaviour {
         Game.Instance.Map.OnLevelLoaded.AddListener(Reset);
 		Game.Instance.OnReady.AddListener(Init);
         //EventManager.StartListening("LevelLoaded", Reset);
-        EventManager.StartListening("ShowMessage", () => {
-            IsFrozen = true;
-            state = PlayerState.ReadingMessage; 
-        });
-             
-        EventManager.StartListening("ShowDialog", () => {
-            IsFrozen = true;
-            state = PlayerState.ReadingMessage; 
-        });
 
-        EventManager.StartListening("EndOfMessage", ()=> {
-			
-            if (!Game.Instance.IsInCutscene)
-            {
-				IsFrozen = false;
-				state = PlayerState.Normal;
-                EventManager.TriggerEvent("HideMessage");
-            }
 
-        });
 
         EventManager.StartListening("ShowAim", ()=> {
             shieldField.transform.localScale = Vector3.one;
@@ -97,6 +79,23 @@ public class Player : MonoBehaviour {
                 myRenderer.color = myRenderer.color.SetAlpha(1.0f);
             });
             initialized = true;
+		
+			MaxHealth = 3;
+
+			UIManager.Instance.OnMessageStart.AddListener(() => {
+                IsFrozen = true;
+                state = PlayerState.ReadingMessage;
+            });
+
+            UIManager.Instance.OnMessageEnd.AddListener(() => {
+
+                if (!Game.Instance.IsInCutscene)
+                {
+                    IsFrozen = false;
+                    state = PlayerState.Normal;
+                }
+
+            });
         }
     }
 
@@ -255,8 +254,8 @@ public class Player : MonoBehaviour {
     public void TakeDamage(bool autoReset = false) {
         if (!isInvincible)
         {
-            currentHealth--;
-            EventManager.TriggerEvent("TakeDamage");
+            CurrentHealth--;
+            
             isInvincible = true;
             if (currentHealth == 0)
             {
@@ -291,7 +290,7 @@ public class Player : MonoBehaviour {
     public void Reset() {
         if (IsDead)
         {
-            currentHealth = maxHealth;
+            CurrentHealth = maxHealth;
             EventManager.TriggerEvent("PlayerRespawned");
         }
         transform.position = Checkpoint.ResetPosition + Vector3.up;
@@ -610,8 +609,8 @@ public class Player : MonoBehaviour {
         items = (ItemLevel)System.Enum.Parse(typeof(ItemLevel), mi.ItemName.Replace(" ", string.Empty));
         if (showMessage)
         {
-            UIManager.Instance.SetMainText(mi.ItemGetMessage);
-            EventManager.TriggerEvent("ShowMessage");
+			UIManager.Instance.ShowMessage(mi.ItemGetMessage);
+
             state = PlayerState.ReadingMessage;
         }
     }
@@ -623,7 +622,6 @@ public class Player : MonoBehaviour {
 
 		IsFrozen = false;
 		state = PlayerState.Normal;
-        EventManager.TriggerEvent("HideMessage");
     }
 
     /// <summary>
@@ -667,6 +665,11 @@ public class Player : MonoBehaviour {
         get {
             return currentHealth;
         }
+
+		private set {
+			currentHealth = value;
+			UIManager.Instance.HealthBar.CurrentHealth = value;
+		}
     }
 
     /// <summary>
@@ -677,6 +680,11 @@ public class Player : MonoBehaviour {
         get {
             return maxHealth;
         }
+
+		set {
+			maxHealth = value;
+			UIManager.Instance.HealthBar.MaxHealth = value;
+		}
     }
 
     float Height {

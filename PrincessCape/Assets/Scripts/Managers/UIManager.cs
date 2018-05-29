@@ -2,22 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
     static UIManager instance;
+    //Dialog Boxes
     [SerializeField]
     MessageBox mainText;
 	[SerializeField]
 	SpeakerBox speakerText;
     [SerializeField]
 	Text minorText;
+
+    //Player UI Boxes
     [SerializeField]
     ItemBox itemOneBox;
 	[SerializeField]
 	ItemBox itemTwoBox;
     [SerializeField]
     InteractionBox interaction;
+	[SerializeField]
+	HealthBar healthBar;
+
     [SerializeField]
     Image loadingScreen;
     Timer loadFadeoutTimer;
@@ -30,11 +37,18 @@ public class UIManager : MonoBehaviour
             minorText.gameObject.SetActive(true);
             SetMinorText("Press Any Key To Continue");
         });
-        EventManager.StartListening("EndOfLine", () =>
-        {
-            showTimer.Start();
-        });
+		OnLineEnd.AddListener(showTimer.Start);
 
+		OnMessageStart.AddListener(itemOneBox.StopListening);
+		OnMessageStart.AddListener(itemTwoBox.StopListening);
+
+		OnMessageEnd.AddListener(() =>
+		{
+
+		});
+		OnMessageEnd.AddListener(itemOneBox.StartListening);
+		OnMessageEnd.AddListener(itemTwoBox.StartListening);
+        
 		Controller.Instance.AnyKey.AddListener(() =>
 		{
 			showTimer.Stop();
@@ -55,10 +69,7 @@ public class UIManager : MonoBehaviour
             loadingScreen.color = loadingScreen.color.SetAlpha(0);
         });
 
-
-        EventManager.StartListening("LevelLoaded", ()=> {
-            loadFadeoutTimer.Start();
-        });
+		Map.Instance.OnLevelLoaded.AddListener(loadFadeoutTimer.Start);
 
         EventManager.StartListening("LevelOver", ToggleLoadingScreen);
         UpdateKeys();
@@ -119,7 +130,7 @@ public class UIManager : MonoBehaviour
 	public Timer ShowMessage(List<string> line, string speaker = "")
     {
         SetMainText(line);
-		Debug.Log(line);
+        
 		if (speaker != null && speaker.Length > 0)
         {
             speakerText.Speaker = speaker;
@@ -161,6 +172,32 @@ public class UIManager : MonoBehaviour
 
 		set {
 			mainText.Alignment = value;
+		}
+	}
+
+	public HealthBar HealthBar {
+		get {
+			return healthBar;
+		}
+	}
+
+	public UnityEvent OnMessageStart {
+		get {
+			return mainText.OnMessageStart;
+		}
+	}
+    
+	public UnityEvent OnMessageEnd
+    {
+        get
+        {
+			return mainText.OnMessageEnd;
+        }
+    }
+
+	public UnityEvent OnLineEnd {
+		get {
+			return mainText.OnLineEnd;
 		}
 	}
 

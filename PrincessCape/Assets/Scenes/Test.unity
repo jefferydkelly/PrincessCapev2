@@ -7065,6 +7065,7 @@ MonoBehaviour:
   itemOneBox: {fileID: 2059503582}
   itemTwoBox: {fileID: 222546936}
   interaction: {fileID: 6262278}
+  healthBar: {fileID: 727904906}
   loadingScreen: {fileID: 906522743}
 --- !u!1 &1797838574
 GameObject:

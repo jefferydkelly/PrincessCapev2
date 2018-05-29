@@ -43,21 +43,7 @@ public class Game : MonoBehaviour {
                 state = GameState.Cutscene;
             });
 
-            Cutscene.Instance.OnEnd.AddListener(EndCutscene);
-
-            EventManager.StartListening("ShowDialog", ()=> {
-                if (!IsInCutscene)
-                {
-                    state = GameState.Message;
-                }
-            });
-
-			EventManager.StartListening("EndOfMessage", () => {
-				if (!IsInCutscene)
-				{
-                    state = GameState.Playing;
-				}
-			});
+			Cutscene.Instance.OnEnd.AddListener(EndCutscene);
 
             EventManager.StartListening("Inventory", ()=> {
                 if (state == GameState.Playing) {
@@ -77,6 +63,21 @@ public class Game : MonoBehaviour {
                 map = FindObjectOfType<Map>();
 				map.OnLevelLoaded.AddListener(() =>
 				{
+
+					UIManager.Instance.OnMessageStart.AddListener(() => {
+                        if (!IsInCutscene)
+                        {
+                            state = GameState.Message;
+                        }
+                    });
+
+
+                    UIManager.Instance.OnMessageEnd.AddListener(() => {
+                        if (!IsInCutscene)
+                        {
+                            state = GameState.Playing;
+                        }
+                    });
 					state = GameState.Playing;
 					AddItems();
 				});

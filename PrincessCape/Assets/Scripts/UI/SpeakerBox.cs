@@ -14,17 +14,15 @@ public class SpeakerBox : MonoBehaviour {
     public void Show() {
         //EventManager.StopListening("ShowDialog", Show);
         gameObject.SetActive(true);
-        EventManager.StartListening("EndOfDialog", Hide);
+
+		UIManager.Instance.OnMessageEnd.AddListener(Hide);
         Cutscene.Instance.OnEnd.AddListener(Hide);
-        EventManager.StartListening("ShowMessage", Hide);
     }
 
     public void Hide() {
-        EventManager.StopListening("EndOfDialog", Hide);
+		UIManager.Instance.OnMessageEnd.RemoveListener(Hide);
         Cutscene.Instance.OnEnd.RemoveListener(Hide);
-        EventManager.StopListening("ShowMessage", Hide);
-        gameObject.SetActive(false);
-        EventManager.StartListening("ShowDialog", Show);
+		gameObject.SetActive(false);
     }
     
 	public string Speaker {
