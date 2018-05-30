@@ -16,11 +16,12 @@ public abstract class MagicItem: ScriptableObject {
     public MagicItem () {
         cooldownTimer = new Timer(cooldownTime);
         cooldownTimer.OnComplete.AddListener(Reset);
-        EventManager.StartListening("PlayerDied", ()=> {
-            Deactivate();
+		Game.Instance.Player.OnDie.AddListener(() =>
+		{
+			Deactivate();
             cooldownTimer.Stop();
             Reset();
-        });
+		});
 	}
 
     /// <summary>

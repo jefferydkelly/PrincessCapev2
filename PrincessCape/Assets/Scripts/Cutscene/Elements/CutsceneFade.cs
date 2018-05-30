@@ -18,8 +18,7 @@ public class CutsceneFade : CutsceneElement
     }
 
     public override Timer Run()
-    {
-		Debug.Log(string.Format("{0}: {1}", actorName, target == null));
+	{
 		if (!target)
 		{
 			target = Cutscene.Instance.FindGameObject(actorName);

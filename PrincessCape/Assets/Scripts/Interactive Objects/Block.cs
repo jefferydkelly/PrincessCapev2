@@ -11,7 +11,10 @@ public class Block : HeldItem{
         myRenderer = GetComponent<SpriteRenderer>();
         myRigidbody = GetComponent<Rigidbody2D>();
 		startPosition = transform.position;
-		EventManager.StartListening("PlayerRespawned", Reset);
+		Map.Instance.OnLevelLoaded.AddListener(() =>
+		{
+			Game.Instance.Player.OnRespawn.AddListener(Reset);
+		});
     }
 
     private void Reset()

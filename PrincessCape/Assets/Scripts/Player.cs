@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 public class Player : MonoBehaviour {
 
     int platformLayers = -1;
@@ -31,6 +32,10 @@ public class Player : MonoBehaviour {
 
     [SerializeField]
     LightField shieldField;
+    
+	UnityEvent onRespawn;
+	UnityEvent onLand;
+	UnityEvent onDie;
     private void Awake()
     {
         inventory = new List<MagicItem>();
@@ -51,7 +56,11 @@ public class Player : MonoBehaviour {
        
         shieldField.gameObject.SetActive(false);
         DontDestroyOnLoad(gameObject);
-   
+
+		//Initialize events
+		onRespawn = new UnityEvent();
+		onLand = new UnityEvent();
+		onDie = new UnityEvent();
     }
 
     /// <summary>
@@ -138,11 +147,6 @@ public class Player : MonoBehaviour {
 	void Update () {
         if (initialized)
         {
-            //If the player isn't visible on the screen, call PlayerOffscreen to recenter the camera
-            if (!myRenderer.isVisible)
-            {
-                EventManager.TriggerEvent("PlayerOffscreen");
-            }
 
             if (Game.Instance.IsPlaying && !isFrozen && !IsPulling)
             {
@@ -243,6 +247,7 @@ public class Player : MonoBehaviour {
     /// Kill the player and reset the game.
     /// </summary>
     public void Die() {
+		OnDie.Invoke();
         state = PlayerState.Dead;
         BeginReset();
     }
@@ -291,7 +296,7 @@ public class Player : MonoBehaviour {
         if (IsDead)
         {
             CurrentHealth = maxHealth;
-            EventManager.TriggerEvent("PlayerRespawned");
+			OnRespawn.Invoke();
         }
         transform.position = Checkpoint.ResetPosition + Vector3.up;
         isFrozen = false;
@@ -317,14 +322,14 @@ public class Player : MonoBehaviour {
 
                 } else {
                     IsXFrozen = false;
-                    EventManager.TriggerEvent("PlayerLanded");
+					OnLand.Invoke();
                 }
             }
         }
 
 		if (collision.collider.CompareTag("Ladder Top"))
 		{
-            EventManager.TriggerEvent("PlayerLanded");
+			OnLand.Invoke();
 			aboveLadder = true;
             theLadder = collision.gameObject.GetComponentInParent<Ladder>();
         } else if (collision.collider.CompareTag("Projectile")) {
@@ -692,6 +697,30 @@ public class Player : MonoBehaviour {
             return myRenderer.bounds.size.y;
         }
     }
+
+	public UnityEvent OnRespawn {
+		get {
+			return onRespawn;
+		}
+	}
+
+	public UnityEvent OnDie {
+		get {
+			return onDie;
+		}
+	}
+
+	public UnityEvent OnLand {
+		get {
+			return onLand;
+		}
+	}
+
+	public bool IsOnScreen {
+		get {
+			return myRenderer.isVisible;
+		}
+	}
 }
 
 public enum PlayerState {

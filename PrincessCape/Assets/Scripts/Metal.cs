@@ -22,7 +22,7 @@ public class Metal : MonoBehaviour{
 		if (!IsStatic)
 		{
 			startPosition = transform.position;
-			EventManager.StartListening("PlayerRespawned", Reset);
+			Game.Instance.Player.OnRespawn.AddListener(Reset);
 		}
     }
 

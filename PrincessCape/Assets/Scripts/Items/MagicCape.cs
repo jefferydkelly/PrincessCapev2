@@ -9,7 +9,7 @@ public class MagicCape : MagicItem
     /// Initializes a new instance of the <see cref="T:Cape"/> class.
     /// </summary>
     public MagicCape() {
-		EventManager.StartListening("PlayerLanded", OnPlayerLanded);
+		Game.Instance.Player.OnLand.AddListener(OnPlayerLanded);
 
         itemName = "Magic Cape";
         itemGetMessage = new List<string>() {
