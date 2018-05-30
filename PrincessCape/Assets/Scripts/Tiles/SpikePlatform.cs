@@ -38,18 +38,12 @@ public class SpikePlatform : ActivatedObject {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (connections.Count == 0)
-        {
-            Activate();
-        }
+        Activate();
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (connections.Count == 0)
-        {
-            Deactivate();
-        }
+		Deactivate();
     }
 
     public override void Init()

@@ -219,6 +219,13 @@ public class Map : MonoBehaviour
         foreach(MapTile tile in tiles) {
             info += tile.SaveData();
         }
+		info += PCLParser.ArrayEnding;
+		info += PCLParser.CreateArray("Connections");
+		foreach(ActivatorObject ao in GetComponentsInChildren<ActivatorObject>()) {
+			foreach(ActivatorConnection akon in ao.NewConnections) {
+				info += akon.GenerateSaveData();
+			}
+		}
         info += "]\n}";
         return info;
     }
@@ -228,15 +235,15 @@ public class Map : MonoBehaviour
 	/// </summary>
 	/// <returns> List of Tile Struct information based on the json passed in.</returns>
 	/// <param name="json">Json.</param>
-	public List<TileStruct> LoadFromFile(string json) {
+	public MapFile LoadFromFile(string json) {
         string[] lines = json.Split('\n');
 
         levelName = PCLParser.ParseLine(lines[1]);
         showInLevelSelect = PCLParser.ParseBool(lines[2]);
         items = PCLParser.ParseEnum<ItemLevel>(lines[3]);
         int ind = json.IndexOf(',');
-        string tileData = json.Substring(ind);
-        return PCLParser.ParseTiles(tileData);
+        string mapData = json.Substring(ind);
+		return PCLParser.ParseMapFile(mapData);
     }
 
     /// <summary>
@@ -246,7 +253,9 @@ public class Map : MonoBehaviour
     /// <param name="id">Identifier.</param>
     public MapTile GetTileByID(int id) {
         foreach(MapTile tile in tiles) {
+			
             if (tile.ID == id) {
+				
                 return tile;
             }
         }
@@ -278,6 +287,7 @@ public class Map : MonoBehaviour
     /// <param name="file">File.</param>
     public void Load(string file) {
 		isLoaded = false;
+
         if (prefabs == null) {
             LoadPrefabs();
         }
@@ -294,22 +304,28 @@ public class Map : MonoBehaviour
                 string json = text.text;
                 if (json.Length > 0)
                 {
-                    List<TileStruct> newTiles = LoadFromFile(json);
+					MapFile mapFile = LoadFromFile(json);
 
-
-                    foreach (TileStruct t in newTiles)
+                    
+					foreach (TileStruct t in mapFile.Tiles)
                     {
                         MapTile tile = Instantiate(prefabs[t.name]).GetComponent<MapTile>();
                         tile.name = tile.name.Replace("(Clone)", "");
                         tile.FromData(t);
                         tile.Init();
-                        AddTile(tile);
+						AddTile(tile);
                     }
-
+				
+					foreach(ConnectionStruct akon in mapFile.Connections) {
+						ActivatorObject activator = GetTileByID(akon.Activator) as ActivatorObject;
+						ActivatedObject activated = GetTileByID(akon.Activated) as ActivatedObject;
+						activator.AddConnection(activated, akon.Inverted);
+					}
+                    /*
                     foreach (ActivatorObject ao in GetComponentsInChildren<ActivatorObject>())
                     {
                         ao.Reconnect();
-                    }
+                    }*/
 				
                     if (Application.isPlaying) {
 						isLoaded = true;

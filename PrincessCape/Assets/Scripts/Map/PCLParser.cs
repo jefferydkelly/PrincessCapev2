@@ -7,14 +7,33 @@ public class PCLParser {
     static string structEnd = "},\n";
     static string lineEnding = ",\n";
 
+    /// <summary>
+    /// Creates an attribute string with the given name and value
+    /// </summary>
+	/// <returns>An attribute string with the given name and value.</returns>
+    /// <param name="atrName">The name of the attribute.</param>
+    /// <param name="val">V\The value of the attribute.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
     public static string CreateAttribute<T>(string atrName, T val) {
        return string.Format("\"{0}\": \"{1}\"", atrName, val) + lineEnding;
     }
 
+    /// <summary>
+    /// Creates an array with the given name.
+    /// </summary>
+    /// <returns>The first line of the array in the file.</returns>
+    /// <param name="atrName">The name of the array.</param>
     public static string CreateArray(string atrName) {
         return string.Format("\"{0}\": [\n", atrName);
     }
 
+    /// <summary>
+    /// Creates an array with the given name and populates it with the given values
+    /// </summary>
+    /// <returns>The string representing the array in the file.</returns>
+    /// <param name="atrName">The name of the array.</param>
+    /// <param name="data">The data that fills the array.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
 	public static string CreateArray<T>(string atrName, List<T> data)
 	{
 		string info = string.Format("\"{0}\": [\n", atrName);
@@ -25,40 +44,75 @@ public class PCLParser {
         return info;
 	}
 
+    /// <summary>
+    /// Gets the array ending.
+    /// </summary>
+    /// <value>The closing line of the array.</value>
     public static string ArrayEnding {
         get {
             return "]" + lineEnding;
         }
     }
 
-    public static T ParseEnum<T>(string pcl) {
-        string enu = ParseLine(pcl);
+    /// <summary>
+    /// Parses an enum value from the line.
+    /// </summary>
+    /// <returns>The enum value.</returns>
+    /// <param name="json">The json file line.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
+	public static T ParseEnum<T>(string json) {
+        string enu = ParseLine(json);
         return (T)(System.Enum.Parse(typeof(T), enu));
     }
-    public static Vector3 ParseVector3(string pcl) {
+    /// <summary>
+    /// Parses a Vector3 from the given line of json.
+    /// </summary>
+    /// <returns>The vector3.</returns>
+    /// <param name="json">The Json line.</param>
+	public static Vector3 ParseVector3(string json) {
 
-        string line = ParseLine(pcl);
+        string line = ParseLine(json);
         string firstSub = line.Split('(')[1];
         firstSub = firstSub.Split(')')[0];
         string[] xyz = firstSub.Split(',');
         return new Vector3(float.Parse(xyz[0].Trim()), float.Parse(xyz[1].Trim()), float.Parse(xyz[2].Trim()));
     }
 
-    public static int ParseInt(string pcl) {
-        return int.Parse(ParseLine(pcl));
+    /// <summary>
+    /// Parses an int from the given line of json.
+    /// </summary>
+    /// <returns>The int parsed from the line.</returns>
+    /// <param name="json">Json line.</param>
+	public static int ParseInt(string json) {
+        return int.Parse(ParseLine(json));
     }
 
-    public static float ParseFloat(string pcl) {
-        return float.Parse(ParseLine(pcl));
+    /// <summary>
+    /// Parses a float from the given json line
+    /// </summary>
+    /// <returns>The float parsed from the line.</returns>
+    /// <param name="json">The line of json.</param>
+	public static float ParseFloat(string json) {
+        return float.Parse(ParseLine(json));
     }
 
-    public static bool ParseBool(string pcl) {
-        return bool.Parse(ParseLine(pcl));
+    /// <summary>
+    /// Parses a boolean from the given json line
+    /// </summary>
+    /// <returns><c>true</c>, if bool was parsed, <c>false</c> otherwise.</returns>
+    /// <param name="json">Json.</param>
+	public static bool ParseBool(string json) {
+        return bool.Parse(ParseLine(json));
     }
 
-    public static Dictionary<string, string> ParseDictionary(string pcl) {
+    /// <summary>
+    /// Parses a dictionary from the given lines of json.
+    /// </summary>
+    /// <returns>The dictionary.</returns>
+    /// <param name="json">The lines of json.</param>
+	public static Dictionary<string, string> ParseDictionary(string json) {
         Dictionary<string, string> dict = new Dictionary<string, string>();
-        string[] lines = pcl.Split('\n');
+        string[] lines = json.Split('\n');
         for (int i = 1; i < lines.Length - 2; i++) {
             KeyValuePair<string, string> kvp = ParseKVP(lines[i]);
             dict.Add(kvp.Key, kvp.Value);
@@ -66,19 +120,50 @@ public class PCLParser {
         return dict;
     }
 
-    static KeyValuePair<string, string> ParseKVP(string pcl) {
-        string key = pcl.Substring(1, pcl.IndexOf(':') - 2);
-		string val = pcl.Substring(pcl.IndexOf(':') + 3);
+    /// <summary>
+    /// Parses a Key Value pair from the given line of json
+    /// </summary>
+    /// <returns>The key-value pair.</returns>
+    /// <param name="json">The line of json.</param>
+	static KeyValuePair<string, string> ParseKVP(string json) {
+        string key = json.Substring(1, json.IndexOf(':') - 2);
+		string val = json.Substring(json.IndexOf(':') + 3);
 		val = val.Substring(0, val.Length - 2);
 
         return new KeyValuePair<string, string>(key, val);
     }
-    public static List<TileStruct> ParseTiles(string pcl) {
+
+	public static MapFile ParseMapFile(string json) {
+		int connectionsStart = -1;
+        List<TileStruct> tiles = ParseTiles(json, out connectionsStart);
+		List<ConnectionStruct> connections = ParseConnectionsList(json.Substring(connectionsStart));
+		return new MapFile(tiles, connections);
+	}
+    
+	static int FindEndOfArray(string s, int startInd) {
+		int numOpens = 0;
+		int numCloses = 0;
+		for (int i = startInd; i < s.Length; i++) {
+			if (s[i] == '[') {
+				numOpens++;
+			} else if (s[i] == ']') {
+				numCloses++;
+				if (numOpens == numCloses) {
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
+	public static List<TileStruct> ParseTiles(string json, out int nextInd) {
         List<TileStruct> tiles = new List<TileStruct>();
-        int ind = pcl.IndexOf('[') + 2;
-        int lastInd = pcl.LastIndexOf(']');
-        pcl = pcl.Substring(ind, lastInd - ind);
-        string[] tilesList = pcl.Split('\n');
+        int ind = json.IndexOf('[');
+		int lastInd = FindEndOfArray(json, ind);
+		nextInd = lastInd + 1;
+		ind += 2;//json.LastIndexOf(']');
+        json = json.Substring(ind, lastInd - ind);
+        string[] tilesList = json.Split('\n');
 
         for (int i = 0; i < tilesList.Length; i++)
         {
@@ -121,6 +206,37 @@ public class PCLParser {
      
         return ts;
     }
+
+	public static List<ConnectionStruct> ParseConnectionsList(string json) {
+		List<ConnectionStruct> connections = new List<ConnectionStruct>();
+        int ind = json.IndexOf('[');
+        int lastInd = FindEndOfArray(json, ind);
+       
+        ind += 2;//json.LastIndexOf(']');
+        json = json.Substring(ind, lastInd - ind);
+        string[] tilesList = json.Split('\n');
+
+        for (int i = 0; i < tilesList.Length; i++)
+        {
+            if (tilesList[i] == "{")
+            {
+				List<string> toParse = new List<string>() { tilesList[i + 1], tilesList[i + 2], tilesList[i + 3] };
+
+				connections.Add(ParseConnection(toParse));
+                i+=4;
+            }
+        }
+		return connections;
+	}
+
+	public static ConnectionStruct ParseConnection(List<string> connections) {
+		int tor = ParseInt(connections[0]);
+		int ted = ParseInt(connections[1]);
+		bool inv = ParseBool(connections[2]);
+		return new ConnectionStruct(tor, ted, inv);
+	}
+
+
 
     public static string ParseLine(string line) {
         string tName = line.Substring(line.IndexOf(':') + 3);
@@ -203,4 +319,55 @@ public class TileStruct {
             return currentIndex >= info.Count;
         }
     }
+}
+
+public class MapFile {
+	List<TileStruct> tiles;
+	List<ConnectionStruct> connections;
+
+	public MapFile(List<TileStruct> tileStructs, List<ConnectionStruct> activatorConnections) {
+		tiles = tileStructs;
+		connections = activatorConnections;
+	}
+	public List<TileStruct> Tiles {
+		get {
+			return tiles;
+		}
+	}
+
+	public List<ConnectionStruct> Connections {
+		get {
+			return connections;
+		}
+	}
+}
+
+public struct ConnectionStruct {
+	int activatorID;
+	int activatedID;
+	bool inverted;
+
+	public ConnectionStruct(int tor, int ted, bool inv) {
+		activatorID = tor;
+		activatedID = ted;
+		inverted = inv;
+	}
+
+	public int Activator {
+		get {
+			return activatorID;
+		}
+	}
+
+	public int Activated {
+		get {
+			return activatedID;
+		}
+	}
+
+	public bool Inverted {
+		get {
+			return inverted;
+		}
+	}
 }

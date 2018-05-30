@@ -10,6 +10,7 @@ public class PressureSwitch : ActivatorObject {
     int itemsOnTop = 0;
 
     public override void Init() {
+		base.Init();
         myAnimator = GetComponent<Animator>();
     }
     /// <summary>

@@ -7,8 +7,8 @@ using UnityEditor;
 public abstract class ActivatedObject : MapTile
 {
 
-    [SerializeField]
-    protected List<ActivatedObject> connections = new List<ActivatedObject>();
+    //[SerializeField]
+    //protected List<ActivatedObject> connections = new List<ActivatedObject>();
     [SerializeField]
     protected bool startActive = false;
     protected bool isActivated = false;
@@ -56,17 +56,15 @@ public abstract class ActivatedObject : MapTile
     /// </summary>
     public abstract void Deactivate();
 
+    /*
     /// <summary>
     /// Adds a connection to another <see cref="T:ActivatedObject"/> if they are not already connected
     /// </summary>
     /// <param name="ao">Ao.</param>
-    public void AddConnection(ActivatedObject ao)
+	public virtual void AddConnection(ActivatedObject ao)
     {
         if (ao && !HasConnection(ao))
         {
-            if (this is ActivatorObject) {
-                ao.StartsActive = startActive;
-            }
             connections.Add(ao);
             ao.AddConnection(this);
         }
@@ -97,7 +95,7 @@ public abstract class ActivatedObject : MapTile
             return connections;
         }
     }
-
+    
     /// <summary>
     /// Whether or not this ActivatedObject is connected to the other.
     /// </summary>
@@ -107,7 +105,7 @@ public abstract class ActivatedObject : MapTile
     {
         return connections.Contains(ao);
     }
-
+    */
     protected override string GenerateSaveData()
     {
         string data = base.GenerateSaveData();
@@ -126,14 +124,6 @@ public abstract class ActivatedObject : MapTile
     /// </summary>
     public override void RenderInEditor()
     {
-		foreach (ActivatedObject acto in Connections)
-        {
-            if (acto)
-            {
-                Handles.DrawDottedLine(Center, acto.Center, 8.0f);
-            }
-        }
-
         Handles.color = Color.black;
         Handles.DrawSolidArc(Center, -Vector3.forward, Vector3.up, 360, 0.4f);
 
@@ -155,19 +145,13 @@ public abstract class ActivatedObject : MapTile
     /// Gets or sets a value indicating whether this <see cref="T:ActivatedObject"/> starts active.
     /// </summary>
     /// <value><c>true</c> if starts active; otherwise, <c>false</c>.</value>
-    public bool StartsActive {
+    public virtual bool StartsActive {
         get {
             return startActive;
         }
 
         set {
             startActive = value;
-
-            if (this is ActivatorObject) {
-                foreach(ActivatedObject ao in connections) {
-                    ao.StartsActive = value;
-                }
-            }
         }
     }
 

@@ -106,7 +106,26 @@ public class MapEditor : Editor {
             }
         }
         GUILayout.EndHorizontal();
+		if (PrimaryMapTile && PrimaryMapTile is ActivatorObject) {
+			ActivatorObject activatorObject = PrimaryMapTile as ActivatorObject;
+			if (activatorObject.NewConnections.Count > 0)
+			{
+				GUILayout.BeginHorizontal();
+				GUILayout.Label("Connections:");
+				GUILayout.EndHorizontal();
+				for (int i = 0; i < activatorObject.NewConnections.Count; i++)
+				{
+					ActivatorConnection akon = activatorObject.NewConnections[i];
+					GUILayout.BeginHorizontal();
+					GUILayout.Label(string.Format("{0}: {1}", akon.Activated.name, akon.Activated.ID));
+					if (GUILayout.Button("Invert")) {
+						akon.IsInverted = !akon.IsInverted;
+					}
+                    GUILayout.EndHorizontal();
+				}
 
+			}		
+		}
         GUILayout.BeginHorizontal();
         if (prefabs != null)
         {
@@ -494,7 +513,7 @@ public class MapEditor : Editor {
 
             if (connector != null && connected != null)
             {
-                if (connector.HasConnection(connected))
+				if (connector.HasConnection(connected))
                 {
                     connector.RemoveConnection(connected);
                 } else {

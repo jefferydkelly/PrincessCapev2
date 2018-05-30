@@ -16,9 +16,13 @@ public class CameraManager : Manager
     /// </summary>
     public CameraManager() {
         Game.Instance.AddManager(this);
-		Game.Instance.Player.OnDie.AddListener(ResetCamera);
-		Game.Instance.Player.OnRespawn.AddListener(OnPlayerRespawn);
-		Game.Instance.Player.OnLand.AddListener(PanToPlayer);
+		Game.Instance.OnReady.AddListener(() =>
+		{
+			Game.Instance.Player.OnDie.AddListener(ResetCamera);
+			Game.Instance.Player.OnRespawn.AddListener(OnPlayerRespawn);
+			Game.Instance.Player.OnLand.AddListener(PanToPlayer);
+		});
+
              
         Game.Instance.Map.OnLevelLoaded.AddListener(PanToPlayer);
         //EventManager.StartListening("LevelLoaded", PanToPlayer);

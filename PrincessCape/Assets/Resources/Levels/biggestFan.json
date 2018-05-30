@@ -1,6 +1,6 @@
 {
 "MapName": "Your Biggest Fan",
-"Show In Level Select": "False",
+"Show In Level Select": "True",
 "Items": "MagicCape",
 "Tiles": [
 {
@@ -55,9 +55,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "9",
-],
 },
 {
 "Name": "Box",
@@ -103,10 +100,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "18",
-"El": "23",
-],
 },
 {
 "Name": "Platform",
@@ -177,7 +170,7 @@
 },
 {
 "Name": "Door",
-"ID": "27",
+"ID": "26",
 "Position": "(28.5, 9.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
@@ -185,10 +178,17 @@
 },
 {
 "Name": "Platform",
-"ID": "28",
+"ID": "27",
 "Position": "(30.0, 10.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 6.0, 1.0)",
+},
+],
+"Connections": [
+{
+"Activator": "7",
+"Activated": "9",
+"Inverted": "False",
 },
 ]
 }
