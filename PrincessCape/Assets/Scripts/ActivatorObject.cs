@@ -29,7 +29,6 @@ public class ActivatorObject : ActivatedObject {
 	/// </summary>
 	public override void Activate()
     {
-		Debug.Log("Activate?");
 		onActivate.Invoke();
     }
 

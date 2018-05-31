@@ -1,6 +1,7 @@
 {
 "MapName": "Your Biggest Fan",
-"Show In Level Select": "True",
+"MapID": -1,
+"Show In Level Select": "False",
 "Items": "MagicCape",
 "Tiles": [
 {
