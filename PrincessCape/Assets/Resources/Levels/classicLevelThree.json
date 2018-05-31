@@ -1,5 +1,6 @@
 {
 "MapName": "Classic Level Three",
+"MapID": "3",
 "Show In Level Select": "True",
 "Items": "MagicCape",
 "Tiles": [
@@ -25,9 +26,6 @@
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "41",
-],
 },
 {
 "Name": "Remains",
@@ -60,9 +58,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "7",
-],
 },
 {
 "Name": "Cannon",
@@ -147,9 +142,6 @@
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "0",
-],
 },
 {
 "Name": "Platform",
@@ -165,9 +157,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "9",
-],
 },
 {
 "Name": "Stairs",
@@ -184,9 +173,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "24",
-],
 },
 {
 "Name": "Cannon",
@@ -249,9 +235,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "31",
-],
 },
 {
 "Name": "Platform",
@@ -267,9 +250,6 @@
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "44",
-],
 },
 {
 "Name": "Platform",
@@ -332,6 +312,43 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.5, 1.0)",
 "Starts Active": "False",
+},
+],
+"Connections": [
+{
+"Activator": "2",
+"Activated": "41",
+"Inverted": "False",
+},
+{
+"Activator": "6",
+"Activated": "7",
+"Inverted": "False",
+},
+{
+"Activator": "18",
+"Activated": "0",
+"Inverted": "False",
+},
+{
+"Activator": "21",
+"Activated": "9",
+"Inverted": "False",
+},
+{
+"Activator": "23",
+"Activated": "24",
+"Inverted": "False",
+},
+{
+"Activator": "32",
+"Activated": "31",
+"Inverted": "False",
+},
+{
+"Activator": "34",
+"Activated": "44",
+"Inverted": "False",
 },
 ]
 }

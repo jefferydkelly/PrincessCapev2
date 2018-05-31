@@ -1,5 +1,6 @@
 {
 "MapName": "Classic Level Two",
+"MapID": "2",
 "Show In Level Select": "True",
 "Items": "MagicCape",
 "Tiles": [
@@ -39,9 +40,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "63",
-],
 },
 {
 "Name": "Platform",
@@ -130,10 +128,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "11",
-"El": "18",
-],
 },
 {
 "Name": "Platform",
@@ -318,9 +312,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "38",
-],
 },
 {
 "Name": "Platform",
@@ -343,9 +334,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "57",
-],
 },
 {
 "Name": "Platform",
@@ -483,6 +471,33 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.5, 1.0)",
 "Starts Active": "False",
+},
+],
+"Connections": [
+{
+"Activator": "4",
+"Activated": "63",
+"Inverted": "False",
+},
+{
+"Activator": "16",
+"Activated": "18",
+"Inverted": "False",
+},
+{
+"Activator": "16",
+"Activated": "11",
+"Inverted": "False",
+},
+{
+"Activator": "41",
+"Activated": "38",
+"Inverted": "False",
+},
+{
+"Activator": "44",
+"Activated": "57",
+"Inverted": "False",
 },
 ]
 }

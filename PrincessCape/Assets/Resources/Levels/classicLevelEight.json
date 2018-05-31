@@ -1,5 +1,6 @@
 {
 "MapName": "Class Level Eight",
+"MapID": "8",
 "Show In Level Select": "True",
 "Items": "PullGauntlet",
 "Tiles": [
@@ -63,9 +64,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "8",
-],
 },
 {
 "Name": "Ladder",
@@ -120,9 +118,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "18",
-],
 },
 {
 "Name": "Platform",
@@ -367,6 +362,18 @@
 "Position": "(41.0, 20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
+},
+],
+"Connections": [
+{
+"Activator": "7",
+"Activated": "8",
+"Inverted": "False",
+},
+{
+"Activator": "14",
+"Activated": "18",
+"Inverted": "False",
 },
 ]
 }

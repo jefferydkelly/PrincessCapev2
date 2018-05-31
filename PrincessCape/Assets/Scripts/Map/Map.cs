@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class Map : MonoBehaviour
 {
+	[SerializeField]
+	int mapID = -1;
     [SerializeField]
     string levelName;
     [SerializeField]
@@ -213,6 +215,7 @@ public class Map : MonoBehaviour
 	public string SaveToFile() {
         string info = "{\n";
         info += PCLParser.CreateAttribute("MapName", levelName);
+		info += PCLParser.CreateAttribute("MapID", mapID);
         info += PCLParser.CreateAttribute("Show In Level Select", showInLevelSelect);
         info += PCLParser.CreateAttribute("Items", items);
         info += PCLParser.CreateArray("Tiles");
@@ -239,8 +242,9 @@ public class Map : MonoBehaviour
         string[] lines = json.Split('\n');
 
         levelName = PCLParser.ParseLine(lines[1]);
-        showInLevelSelect = PCLParser.ParseBool(lines[2]);
-        items = PCLParser.ParseEnum<ItemLevel>(lines[3]);
+		mapID = PCLParser.ParseInt(lines[2]);
+        showInLevelSelect = PCLParser.ParseBool(lines[3]);
+        items = PCLParser.ParseEnum<ItemLevel>(lines[4]);
         int ind = json.IndexOf(',');
         string mapData = json.Substring(ind);
 		return PCLParser.ParseMapFile(mapData);
@@ -443,6 +447,12 @@ public class Map : MonoBehaviour
 	public bool IsLoaded {
 		get {
 			return isLoaded;
+		}
+	}
+
+	public int MapID {
+		get {
+			return mapID;
 		}
 	}
 

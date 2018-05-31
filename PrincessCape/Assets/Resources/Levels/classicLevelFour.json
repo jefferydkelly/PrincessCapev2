@@ -1,5 +1,6 @@
 {
 "MapName": "Classic Level Four",
+"MapID": "4",
 "Show In Level Select": "True",
 "Items": "StarShield",
 "Tiles": [
@@ -53,9 +54,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "33",
-],
 },
 {
 "Name": "Platform",
@@ -85,9 +83,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "17",
-],
 },
 {
 "Name": "Platform",
@@ -134,9 +129,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "14",
-],
 },
 {
 "Name": "Gate",
@@ -174,9 +166,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "35",
-],
 },
 {
 "Name": "LightActivatedTile",
@@ -185,9 +174,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "34",
-],
 },
 {
 "Name": "Ladder",
@@ -220,9 +206,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "25",
-],
 },
 {
 "Name": "Platform",
@@ -290,6 +273,38 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(4.0, 0.5, 1.0)",
 "Starts Active": "False",
+},
+],
+"Connections": [
+{
+"Activator": "6",
+"Activated": "33",
+"Inverted": "False",
+},
+{
+"Activator": "10",
+"Activated": "17",
+"Inverted": "False",
+},
+{
+"Activator": "16",
+"Activated": "14",
+"Inverted": "False",
+},
+{
+"Activator": "21",
+"Activated": "35",
+"Inverted": "False",
+},
+{
+"Activator": "22",
+"Activated": "34",
+"Inverted": "False",
+},
+{
+"Activator": "26",
+"Activated": "25",
+"Inverted": "False",
 },
 ]
 }

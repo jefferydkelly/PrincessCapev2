@@ -1,5 +1,6 @@
 {
 "MapName": "Classic Level Six",
+"MapID": "6",
 "Show In Level Select": "True",
 "Items": "StarShield",
 "Tiles": [
@@ -46,9 +47,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "11",
-],
 },
 {
 "Name": "Platform",
@@ -118,9 +116,6 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
-"Connections": [
-"El": "20",
-],
 },
 {
 "Name": "Platform",
@@ -561,6 +556,18 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Text": "Defense",
+},
+],
+"Connections": [
+{
+"Activator": "5",
+"Activated": "11",
+"Inverted": "False",
+},
+{
+"Activator": "14",
+"Activated": "20",
+"Inverted": "False",
 },
 ]
 }

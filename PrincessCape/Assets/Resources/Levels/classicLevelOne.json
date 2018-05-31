@@ -1,5 +1,6 @@
 {
 "MapName": "Classic Level One",
+"MapID": "1",
 "Show In Level Select": "True",
 "Items": "None",
 "Tiles": [
@@ -203,14 +204,6 @@
 "Scale": "(1.0, 1.0, 1.0)",
 },
 {
-"Name": "Door",
-"ID": "28",
-"Position": "(-49.5, -16.5, 1.0)",
-"Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 1.0, 1.0)",
-"Next Level": "classicLevelTwo.json",
-},
-{
 "Name": "Platform",
 "ID": "29",
 "Position": "(-51.0, -13.5, 0.0)",
@@ -397,5 +390,15 @@
 "Scale": "(1.0, 1.5, 1.0)",
 "Starts Active": "True",
 },
+{
+"Name": "Door",
+"ID": "3",
+"Position": "(-48.5, -16.0, 1.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Next Level": "classicLevelTwo.json",
+},
+],
+"Connections": [
 ]
 }

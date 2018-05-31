@@ -1,5 +1,6 @@
 {
 "MapName": "Classic Level Five",
+"MapID": "5",
 "Show In Level Select": "True",
 "Items": "StarShield",
 "Tiles": [
@@ -146,16 +147,6 @@
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
-"Connections": [
-"El": "10",
-"El": "11",
-"El": "12",
-"El": "13",
-"El": "14",
-"El": "15",
-"El": "16",
-"El": "17",
-],
 },
 {
 "Name": "Platform",
@@ -361,6 +352,48 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 2.0, 1.0)",
 "Starts Active": "True",
+},
+],
+"Connections": [
+{
+"Activator": "18",
+"Activated": "12",
+"Inverted": "False",
+},
+{
+"Activator": "18",
+"Activated": "13",
+"Inverted": "False",
+},
+{
+"Activator": "18",
+"Activated": "14",
+"Inverted": "False",
+},
+{
+"Activator": "18",
+"Activated": "15",
+"Inverted": "False",
+},
+{
+"Activator": "18",
+"Activated": "16",
+"Inverted": "False",
+},
+{
+"Activator": "18",
+"Activated": "17",
+"Inverted": "False",
+},
+{
+"Activator": "18",
+"Activated": "10",
+"Inverted": "False",
+},
+{
+"Activator": "18",
+"Activated": "11",
+"Inverted": "False",
 },
 ]
 }
