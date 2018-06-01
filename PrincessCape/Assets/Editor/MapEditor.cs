@@ -100,7 +100,7 @@ public class MapEditor : Editor {
 					string buttonMessage = activator.HasConnection(activated) ? "Disconnect" : "Connect";
 					if (GUILayout.Button(buttonMessage))
 					{
-						Connect();
+						Connect(activator, activated);
 					}
 				}
             }
@@ -211,7 +211,7 @@ public class MapEditor : Editor {
                         {
                             if (!Event.current.shift)
                             {
-                                SwapSelectedAndSecondary();
+                                SwapPrimaryAndSecondary();
                                 foreach (MapTile mt in selectedObjects)
                                 {
                                     mt.HighlightState = MapHighlightState.Normal;
@@ -256,7 +256,7 @@ public class MapEditor : Editor {
                     
                     if (atLoc == PrimaryMapTile)
                     {
-                        SwapSelectedAndSecondary();
+                        SwapPrimaryAndSecondary();
                     }
                     else
                     {
@@ -532,6 +532,24 @@ public class MapEditor : Editor {
         }
 
     }
+
+    /// <summary>
+    /// Connect the specified activator and activated.
+    /// </summary>
+    /// <param name="activator">Activator.</param>
+    /// <param name="activated">Activated.</param>
+	void Connect(ActivatorObject activator, ActivatedObject activated) {
+		if (activator.HasConnection(activated)) {
+			activator.RemoveConnection(activated);
+		} else {
+			activator.AddConnection(activated);
+		}
+	}
+
+    /// <summary>
+    /// Spawns an instance of the selected prefab aligned with the selected object.
+    /// </summary>
+    /// <param name="dir">Dir.</param>
     void SpawnAligned(Direction dir) {
         if (selectedPrefab != null && PrimaryMapTile != null)
         {
@@ -565,7 +583,10 @@ public class MapEditor : Editor {
         }
     }
 
-    void SwapSelectedAndSecondary() {
+    /// <summary>
+    /// Swaps the Primary and Secondary MapTiles.
+    /// </summary>
+	void SwapPrimaryAndSecondary() {
         MapTile temp = SecondaryMapTile;
         SecondaryMapTile = PrimaryMapTile;
         PrimaryMapTile = temp;
