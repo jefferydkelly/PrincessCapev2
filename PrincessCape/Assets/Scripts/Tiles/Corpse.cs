@@ -41,16 +41,5 @@ public class Corpse : MapTile {
 	    }
 
    }
-
-    /*
-    private void OnEnable()
-    {
-    	Debug.Log("Enabled");
-    }
-
-    private void OnDisable()
-    {
-    	Debug.Log("Disabled");
-    }*/
 }
 

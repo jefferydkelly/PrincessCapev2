@@ -65,7 +65,7 @@ public class ActivatorObject : ActivatedObject {
 		if (ao && !HasConnection(ao))
 		{
 			ao.StartsActive = startActive;
-
+			ao.IsConnected = true;
 			if (Application.isPlaying)
 			{
 				
@@ -102,6 +102,7 @@ public class ActivatorObject : ActivatedObject {
     
 	public void RemoveConnection(ActivatedObject ao) {
 		int index = -1;
+
 		for (int i = 0; i < Connections.Count; i++) {
 			if (Connections[i].Activated == ao) {
 				index = i;
@@ -110,7 +111,7 @@ public class ActivatorObject : ActivatedObject {
 		}
         
 		if (index > -1) {
-			
+			ao.IsConnected = false;
 			Connections.RemoveAt(index);
 		}
 	}

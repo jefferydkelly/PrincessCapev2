@@ -24,7 +24,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //Debug.Log(string.Format("{0}: {1}", eventData.button, item.Slot));
         if (eventData.button == PointerEventData.InputButton.Left) {
             
             if (item.Slot == MagicItemSlot.Second)

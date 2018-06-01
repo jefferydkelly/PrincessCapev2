@@ -12,6 +12,8 @@ public abstract class ActivatedObject : MapTile
     [SerializeField]
     protected bool startActive = false;
     protected bool isActivated = false;
+	[SerializeField]
+	protected bool isConnected = false;
 
     private void Awake()
     {
@@ -56,56 +58,6 @@ public abstract class ActivatedObject : MapTile
     /// </summary>
     public abstract void Deactivate();
 
-    /*
-    /// <summary>
-    /// Adds a connection to another <see cref="T:ActivatedObject"/> if they are not already connected
-    /// </summary>
-    /// <param name="ao">Ao.</param>
-	public virtual void AddConnection(ActivatedObject ao)
-    {
-        if (ao && !HasConnection(ao))
-        {
-            connections.Add(ao);
-            ao.AddConnection(this);
-        }
-    }
-
-    /// <summary>
-    /// Removes a connection to another <see cref="T:ActivatedObject"/> if they are connected
-    /// </summary>
-    /// <param name="ao">Ao.</param>
-    public void RemoveConnection(ActivatedObject ao)
-    {
-        if (HasConnection(ao))
-        {
-
-            connections.Remove(ao);
-            ao.RemoveConnection(this);
-        }
-    }
-
-    /// <summary>
-    /// Gets the connections.
-    /// </summary>
-    /// <value>The connections.</value>
-    public List<ActivatedObject> Connections
-    {
-        get
-        {
-            return connections;
-        }
-    }
-    
-    /// <summary>
-    /// Whether or not this ActivatedObject is connected to the other.
-    /// </summary>
-    /// <returns><c>true</c>, If this is connected to ao, <c>false</c> otherwise.</returns>
-    /// <param name="ao">Ao.</param>
-    public bool HasConnection(ActivatedObject ao)
-    {
-        return connections.Contains(ao);
-    }
-    */
     protected override string GenerateSaveData()
     {
         string data = base.GenerateSaveData();
@@ -154,5 +106,15 @@ public abstract class ActivatedObject : MapTile
             startActive = value;
         }
     }
+
+	public bool IsConnected {
+		get {
+			return isConnected;
+		}
+
+		set {
+			isConnected = value;
+		}
+	}
 
 }

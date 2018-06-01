@@ -21,6 +21,15 @@ public class CameraManager : Manager
 			Game.Instance.Player.OnDie.AddListener(ResetCamera);
 			Game.Instance.Player.OnRespawn.AddListener(OnPlayerRespawn);
 			Game.Instance.Player.OnLand.AddListener(PanToPlayer);
+			Cutscene.Instance.OnStart.AddListener(() =>
+			{
+				state = CameraState.Frozen;
+			});
+
+			Cutscene.Instance.OnEnd.AddListener(() =>
+			{
+				state = CameraState.Following;
+			});
 		});
 
              
@@ -36,7 +45,7 @@ public class CameraManager : Manager
         if (!Game.Instance.Player.IsDead)
         {
             Vector3 panPos = Game.Instance.Player.transform.position.SetZ(Position.z) + offset;
-            PanTo(panPos, 0.25f);
+			PanTo(panPos, 0.25f).Start();
         }
     }
     /// <summary>
@@ -44,7 +53,7 @@ public class CameraManager : Manager
     /// </summary>
     void ResetCamera() {
         Vector3 panPos = Checkpoint.ResetPosition.SetZ(Position.z) + offset;
-		PanTo(panPos, 1.0f);
+		PanTo(panPos, 1.0f).Start();
     }
 
     /// <summary>
@@ -134,7 +143,7 @@ public class CameraManager : Manager
     /// <returns>The pan.</returns>
     /// <param name="tar">The distance the camera will pan.</param>
     /// <param name="time">The time it will take for the camera to pan.</param>
-    public void Pan(Vector2 tar, float time) {
+    public Timer Pan(Vector2 tar, float time) {
         state = CameraState.Panning;
         Vector3 startPos = Position;
 		int ticks = Mathf.FloorToInt(time / 0.03f);
@@ -149,10 +158,10 @@ public class CameraManager : Manager
 		panTimer.OnComplete.AddListener(() => {
             Position = startPos + (Vector3)tar;
 			state = Game.Instance.IsInCutscene ? CameraState.Frozen : CameraState.Following;
-			EventManager.TriggerEvent("ElementCompleted");
 		});
 
-		panTimer.Start();
+		//panTimer.Start();
+		return panTimer;
 
 	}
 
@@ -161,13 +170,12 @@ public class CameraManager : Manager
     /// </summary>
     /// <param name="tar">The position the camera will pan to.</param>
     /// <param name="time">The length og the pan in seconds.</param>
-    public void PanTo(Vector2 tar, float time) {
+	public Timer PanTo(Vector2 tar, float time) {
         targetPos = new Vector3(tar.x, tar.y, Position.z);
         state = CameraState.Panning;
 		Vector3 startPos = Position;
         Vector3 dif = targetPos - Position;
-
-
+       
 		int ticks = Mathf.FloorToInt(time / 0.03f);
 		if (panTimer != null)
 		{
@@ -179,13 +187,12 @@ public class CameraManager : Manager
 		});
 
 		panTimer.OnComplete.AddListener(() => {
-			Position = startPos + dif;
+			Position = targetPos;
 			state = Game.Instance.IsInCutscene ? CameraState.Frozen : CameraState.Following;
-			EventManager.TriggerEvent("ElementCompleted");
 		});
 
-		panTimer.Start();
-
+		//panTimer.Start();
+		return panTimer;
 	}
 
     /// <summary>
@@ -193,12 +200,12 @@ public class CameraManager : Manager
     /// </summary>
     /// <param name="go">The GameObject the camera will pan to.</param>
     /// <param name="time">The length of the pan in seconds.</param>
-    public void Pan(GameObject go, float time) {
+    public Timer Pan(GameObject go, float time) {
         state = CameraState.Panning;
-
+        
         Vector3 startPos = Position;
         Vector3 dif = (go.transform.position - Position).SetZ(0);
-       
+	
         int ticks = Mathf.FloorToInt(time / 0.03f);
 		if (panTimer != null)
 		{
@@ -210,12 +217,13 @@ public class CameraManager : Manager
         });
 
         panTimer.OnComplete.AddListener(()=> {
-            Position = startPos + dif;
+			Position = go.transform.position.SetZ(Position.z);
             state = Game.Instance.IsInCutscene ? CameraState.Frozen : CameraState.Following;
-            EventManager.TriggerEvent("ElementCompleted");
+            //EventManager.TriggerEvent("ElementCompleted");
         });
 
-        panTimer.Start();
+		//panTimer.Start();
+		return panTimer;
     }
 
     /// <summary>

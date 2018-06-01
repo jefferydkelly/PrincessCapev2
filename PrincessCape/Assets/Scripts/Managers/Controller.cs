@@ -32,7 +32,6 @@ public class Controller:Manager {
 
     public void SetKeys(Dictionary<string, KeyCode> keyDict) {
         keys = keyDict;
-        Debug.Log(keys["ItemOne"]);
     }
     /// <summary>
     /// Gets the instance.

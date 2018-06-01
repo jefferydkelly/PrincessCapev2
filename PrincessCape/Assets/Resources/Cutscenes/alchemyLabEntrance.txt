@@ -23,7 +23,6 @@ wait 1
 flip-x Elwynn
 Elwynn: Screw that!
 Elwynn: This is my only way forward.
-Elwynn: I'm not going to let a sign keep me out.
 move-x Elwynn 9 2
 wait 1
 enable Player

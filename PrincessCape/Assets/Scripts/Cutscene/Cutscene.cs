@@ -117,14 +117,7 @@ public class Cutscene:Manager
 					GameObject go = GameObject.Find(parts[2]);
                     float panTime = float.Parse(parts[3]);
 
-					if (go)
-					{
-                        return new CameraPan(go.transform.position, panTime);
-					}
-					else
-					{
-                        return new CameraPan(parts[2], panTime);
-					}
+					return new CameraPan(parts[2], panTime);
 				}
 				else
 				{

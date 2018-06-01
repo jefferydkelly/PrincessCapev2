@@ -83,7 +83,6 @@ public class Game : MonoBehaviour {
 				});
             }
 
-			onReady.Invoke();
 
         } else {
             Destroy(gameObject);
@@ -178,6 +177,10 @@ public class Game : MonoBehaviour {
                 map.Load(sceneName);
                 AddItems();
 				player.IsFrozen = false;
+
+				//CameraManager cameraManager = CameraManager.Instance;
+                onReady.Invoke();
+				onReady.RemoveAllListeners();
 
             }
         }

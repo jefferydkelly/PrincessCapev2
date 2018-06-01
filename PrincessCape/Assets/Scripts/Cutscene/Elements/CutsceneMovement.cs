@@ -120,8 +120,7 @@ public class CutsceneMovement : CutsceneElement
 
             }
             else
-            {
-                Debug.Log(string.Format("{0}: {1} to {2}, {3}", moveType.ToString(), gameObject.name, x, y));
+			{
                 if (moveType == MoveTypes.X)
                 {
                     gameObject.transform.position = gameObject.transform.position.SetX(x);
@@ -138,8 +137,6 @@ public class CutsceneMovement : CutsceneElement
                 {
                     gameObject.transform.Rotate(Vector3.forward, ang);
                 }
-
-                Debug.Log(gameObject.transform.position);
             }
         }
         return null;

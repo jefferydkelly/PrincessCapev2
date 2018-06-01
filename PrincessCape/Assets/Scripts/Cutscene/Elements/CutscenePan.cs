@@ -55,20 +55,17 @@ public class CameraPan : CutsceneElement
         {
             if (panToName.Length > 0)
             {
-                CameraManager.Instance.Pan(Cutscene.Instance.FindActor(panToName).gameObject, panTime);
+				return CameraManager.Instance.Pan(Cutscene.Instance.FindGameObject(panToName), panTime);
             }
             else
             {
-                CameraManager.Instance.PanTo(panEnding, panTime);
+                return CameraManager.Instance.PanTo(panEnding, panTime);
             }
         }
         else
         {
-            CameraManager.Instance.Pan(panDistance, panTime);
+            return CameraManager.Instance.Pan(panDistance, panTime);
         }
-
-		runTimer = new Timer(panTime);
-		return runTimer;
     }
 }
 
