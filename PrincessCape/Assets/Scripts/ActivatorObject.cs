@@ -29,7 +29,11 @@ public class ActivatorObject : ActivatedObject {
 	/// </summary>
 	public override void Activate()
     {
-		onActivate.Invoke();
+		if (!isActivated)
+		{
+			onActivate.Invoke();
+			isActivated = true;
+		}
     }
 
     /// <summary>
@@ -37,7 +41,11 @@ public class ActivatorObject : ActivatedObject {
     /// </summary>
     public override void Deactivate()
     {
-		onDeactivate.Invoke();
+		if (isActivated)
+		{
+			onDeactivate.Invoke();
+			isActivated = false;
+		}
     }
 
 	protected int NumConnections

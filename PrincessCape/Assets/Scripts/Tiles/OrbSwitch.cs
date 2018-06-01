@@ -11,17 +11,17 @@ public class OrbSwitch : ActivatorObject
     Animator myAnimatior;
 
     public override void Init() {
-		base.Init();
 		myAnimatior = GetComponent<Animator>();
+		base.Init();
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Projectile"))
         {
-            Destroy(collision.gameObject);
-            IsActivated = !IsActivated;
+			Destroy(collision.gameObject);
           
-            if (IsActivated)
+            if (!IsActivated)
             {
                 Activate();
 

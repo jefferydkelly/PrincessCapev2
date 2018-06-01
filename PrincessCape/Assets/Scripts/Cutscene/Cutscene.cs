@@ -114,7 +114,6 @@ public class Cutscene:Manager
 			{
 				if (parts.Length == 4)
 				{
-					GameObject go = GameObject.Find(parts[2]);
                     float panTime = float.Parse(parts[3]);
 
 					return new CameraPan(parts[2], panTime);
