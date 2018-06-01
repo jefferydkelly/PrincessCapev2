@@ -17,7 +17,6 @@ public class Cutscene:Manager
     UnityEvent onStart;
     UnityEvent onEnd;
 
-	bool eventAdded = false;
 	bool textBeingRevealed = false;
     private static Cutscene instance;
 
@@ -31,7 +30,6 @@ public class Cutscene:Manager
 		if (Map.Instance)
 		{
 			Game.Instance.Map.OnLevelLoaded.AddListener(EndCutscene);
-			eventAdded = true;
 		}
     }
 

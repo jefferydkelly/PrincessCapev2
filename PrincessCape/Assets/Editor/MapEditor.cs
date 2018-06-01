@@ -89,15 +89,23 @@ public class MapEditor : Editor {
 
         GUILayout.BeginHorizontal();
         if (PrimaryMapTile) {
+			ActivatedObject ao = PrimaryMapTile.GetComponent<ActivatedObject>();
             if (SecondaryMapTile)
             {
-                if (GUILayout.Button("Connect"))
-                {
-                    Connect();
-                }
+				ActivatedObject bo = SecondaryMapTile.GetComponent<ActivatedObject>();
+				if (ao && bo && (ao is ActivatorObject || bo is ActivatorObject))
+				{
+					ActivatorObject activator = (ao is ActivatorObject ? ao : bo) as ActivatorObject;
+					ActivatedObject activated = ao is ActivatorObject ? bo : ao;
+					string buttonMessage = activator.HasConnection(activated) ? "Disconnect" : "Connect";
+					if (GUILayout.Button(buttonMessage))
+					{
+						Connect();
+					}
+				}
             }
 
-            ActivatedObject ao = PrimaryMapTile.GetComponent<ActivatedObject>();
+           
             if (ao) {
                 string butText = ao.StartsActive ? "Deactivate" : "Activate";
                 if (GUILayout.Button(butText)) {
@@ -108,14 +116,14 @@ public class MapEditor : Editor {
         GUILayout.EndHorizontal();
 		if (PrimaryMapTile && PrimaryMapTile is ActivatorObject) {
 			ActivatorObject activatorObject = PrimaryMapTile as ActivatorObject;
-			if (activatorObject.NewConnections.Count > 0)
+			if (activatorObject.Connections.Count > 0)
 			{
 				GUILayout.BeginHorizontal();
 				GUILayout.Label("Connections:");
 				GUILayout.EndHorizontal();
-				for (int i = 0; i < activatorObject.NewConnections.Count; i++)
+				for (int i = 0; i < activatorObject.Connections.Count; i++)
 				{
-					ActivatorConnection akon = activatorObject.NewConnections[i];
+					ActivatorConnection akon = activatorObject.Connections[i];
 					GUILayout.BeginHorizontal();
 					GUILayout.Label(string.Format("{0}: {1}", akon.Activated.name, akon.Activated.ID));
 					if (GUILayout.Button("Invert")) {

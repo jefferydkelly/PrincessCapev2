@@ -8,10 +8,10 @@ using UnityEditor;
 #endif
 
 public class ActivatorObject : ActivatedObject {
-    List<int> connectionIDs = new List<int>();
+   
 	UnityEvent onActivate;
 	UnityEvent onDeactivate;
-	List<ActivatorConnection> aConnections;
+	List<ActivatorConnection> connections;
 
 	public override void Init()
 	{
@@ -19,9 +19,9 @@ public class ActivatorObject : ActivatedObject {
 		onActivate = new UnityEvent();
 		onDeactivate = new UnityEvent();
 
-		if (aConnections == null)
+		if (connections == null)
 		{
-			aConnections = new List<ActivatorConnection>();
+			connections = new List<ActivatorConnection>();
 		}
 	}
 	/// <summary>
@@ -44,10 +44,10 @@ public class ActivatorObject : ActivatedObject {
 	{
 		get
 		{
-			return NewConnections.Count;
+			return Connections.Count;
 		}
 	}
-
+    
 	public UnityEvent OnActivate {
 		get {
 			return onActivate;
@@ -83,7 +83,7 @@ public class ActivatorObject : ActivatedObject {
 			else
 			{
 				ActivatorConnection akon = new ActivatorConnection(this, ao, inverted);
-				NewConnections.Add(akon);
+				Connections.Add(akon);
 			}
 
             
@@ -91,26 +91,27 @@ public class ActivatorObject : ActivatedObject {
 	}
 
 	public bool HasConnection(ActivatedObject ao) {
-		foreach(ActivatorConnection akon in NewConnections) {
-			if (akon.Activated == ao) {
+		foreach(ActivatorConnection akon in Connections) {
+			if (akon.Activated.ID == ao.ID) {
 				return true;
 			}
 		}
-
+        
 		return false;
 	}
-
+    
 	public void RemoveConnection(ActivatedObject ao) {
 		int index = -1;
-		for (int i = 0; i < NewConnections.Count; i++) {
-			if (NewConnections[i].Activated == ao) {
+		for (int i = 0; i < Connections.Count; i++) {
+			if (Connections[i].Activated == ao) {
 				index = i;
 				break;
 			}
 		}
-
+        
 		if (index > -1) {
-			NewConnections.RemoveAt(index);
+			
+			Connections.RemoveAt(index);
 		}
 	}
 
@@ -125,7 +126,7 @@ public class ActivatorObject : ActivatedObject {
 		{
 			base.StartsActive = value;
 
-			foreach (ActivatorConnection akon in NewConnections)
+			foreach (ActivatorConnection akon in Connections)
 			{
 				akon.Update();
 			}
@@ -133,12 +134,12 @@ public class ActivatorObject : ActivatedObject {
 		}
 	}
 
-	public List<ActivatorConnection> NewConnections {
+	public List<ActivatorConnection> Connections {
 		get {
-			if (aConnections == null) {
-				aConnections = new List<ActivatorConnection>();
+			if (connections == null) {
+				connections = new List<ActivatorConnection>();
 			}
-			return aConnections;
+			return connections;
 		}
 	}
 
@@ -149,7 +150,7 @@ public class ActivatorObject : ActivatedObject {
     public override void RenderInEditor()
     {
 		base.RenderInEditor();
-		foreach(ActivatorConnection akon in NewConnections) {
+		foreach(ActivatorConnection akon in Connections) {
 			akon.RenderInEditor();
 		}
     }

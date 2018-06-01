@@ -225,7 +225,7 @@ public class Map : MonoBehaviour
 		info += PCLParser.ArrayEnding;
 		info += PCLParser.CreateArray("Connections");
 		foreach(ActivatorObject ao in GetComponentsInChildren<ActivatorObject>()) {
-			foreach(ActivatorConnection akon in ao.NewConnections) {
+			foreach(ActivatorConnection akon in ao.Connections) {
 				info += akon.GenerateSaveData();
 			}
 		}
