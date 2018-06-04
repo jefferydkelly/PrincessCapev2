@@ -29,11 +29,7 @@ public class ActivatorObject : ActivatedObject {
 	/// </summary>
 	public override void Activate()
     {
-		if (!isActivated)
-		{
-			onActivate.Invoke();
-			isActivated = true;
-		}
+		onActivate.Invoke();
     }
 
     /// <summary>
@@ -41,11 +37,7 @@ public class ActivatorObject : ActivatedObject {
     /// </summary>
     public override void Deactivate()
     {
-		if (isActivated)
-		{
-			onDeactivate.Invoke();
-			isActivated = false;
-		}
+		onDeactivate.Invoke();
     }
 
 	protected int NumConnections
@@ -79,13 +71,15 @@ public class ActivatorObject : ActivatedObject {
 				
 				if (inverted)
 				{
-					OnActivate.AddListener(ao.Deactivate);
-                    OnDeactivate.AddListener(ao.Activate);
+					Debug.Log("Adding Inverted");
+					OnActivate.AddListener(ao.DecrementActivator);
+					OnDeactivate.AddListener(ao.IncrementActivator);
 				}
 				else
 				{
-					OnActivate.AddListener(ao.Activate);
-					OnDeactivate.AddListener(ao.Deactivate);
+					Debug.Log("Adding");
+					OnActivate.AddListener(ao.IncrementActivator);
+					OnDeactivate.AddListener(ao.DecrementActivator);
 				}
 			}
 			else

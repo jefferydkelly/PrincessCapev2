@@ -20,7 +20,7 @@ public class PressureSwitch : ActivatorObject {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.attachedRigidbody.mass >= 0.1f) {
-            ItemsOnTop++;
+			IncrementActivator();
         }
     }
 
@@ -32,7 +32,7 @@ public class PressureSwitch : ActivatorObject {
 	{
 		if (collision.attachedRigidbody.mass >= 0.1f)
 		{
-			ItemsOnTop--;
+			DecrementActivator();
 		}
 	}
 
@@ -54,28 +54,6 @@ public class PressureSwitch : ActivatorObject {
                 Deactivate();
             }
          }
-    }
-
-    /// <summary>
-    /// Activate this instance and all connected ActivatedObjects.
-    /// </summary>
-    public override void Activate()
-    {
-        if (!IsActivated)
-        {
-            IsActivated = true;
-            base.Activate();
-        }
-    }
-
-	/// <summary>
-	/// Deactivate this instance and all connected ActivatedObjects.
-	/// </summary>
-	public override void Deactivate() {
-        if (IsActivated) {
-            IsActivated = false;
-            base.Deactivate();
-        }
     }
 
     /// <summary>

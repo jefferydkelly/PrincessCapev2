@@ -768,10 +768,3 @@ public enum MapEditMode {
     Flip,
     Align
 }
-
-public enum Direction {
-    Up,
-    Left,
-    Down,
-    Right
-}

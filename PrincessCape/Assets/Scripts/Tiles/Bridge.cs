@@ -32,7 +32,8 @@ public class Bridge : ActivatedObject
 	}
     public override void Activate()
     {
-        revealTimer.Start();
+		revealTimer.Start();
+		isActivated = true;
     }
 
     void RevealTile()
@@ -43,14 +44,16 @@ public class Bridge : ActivatedObject
 
     public override void Deactivate()
     {
-        if (Application.isPlaying)
-        {
-            revealTimer.Stop();
-        }
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            transform.GetChild(i).gameObject.SetActive(false);
-        }
+		if (Application.isPlaying)
+		{
+			revealTimer.Stop();
+		}
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).gameObject.SetActive(false);
+		}
+		isActivated = false;
+
     }
 
     public override void ScaleY(bool up)

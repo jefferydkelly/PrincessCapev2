@@ -14,6 +14,9 @@ public abstract class ActivatedObject : MapTile
     protected bool isActivated = false;
 	[SerializeField]
 	protected bool isConnected = false;
+	[SerializeField]
+	protected int requiredActivators = 1;
+	protected int currentActivators = 0;
 
     private void Awake()
     {
@@ -107,6 +110,10 @@ public abstract class ActivatedObject : MapTile
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:ActivatedObject"/> is connected.
+    /// </summary>
+    /// <value><c>true</c> if is connected; otherwise, <c>false</c>.</value>
 	public bool IsConnected {
 		get {
 			return isConnected;
@@ -117,4 +124,19 @@ public abstract class ActivatedObject : MapTile
 		}
 	}
 
+	public void IncrementActivator() {
+		currentActivators++;
+		if (currentActivators >= requiredActivators && !isActivated) {
+			IsActivated = true;
+			Activate();
+		}
+	}
+
+	public void DecrementActivator() {
+		currentActivators--;
+		if (isActivated && currentActivators < requiredActivators) {
+			IsActivated = false;
+			Deactivate();
+		}
+	}
 }

@@ -309,8 +309,6 @@ public class Player : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.relativeVelocity.y > 0) {
-            Vector2 dif = ((Vector3)collision.contacts[0].point - transform.position);
-            //if (Vector2.Dot(dif.normalized, Vector2.up) < 0)
 			if (collision.GetClosestDirection() == Direction.Up)
             {
                 myRigidbody.gravityScale = 1;

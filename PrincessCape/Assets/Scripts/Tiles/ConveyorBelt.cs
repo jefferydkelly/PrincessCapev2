@@ -29,14 +29,16 @@ public class ConveyorBelt : ActivatedObject
     }
     public override void Activate()
     {
-        myAnimator.SetTrigger("Activate");
-        theBelt.enabled = true;
+		myAnimator.SetTrigger("Activate");
+		theBelt.enabled = true;
+		isActivated = true;
     }
 
     public override void Deactivate()
     {
-        myAnimator.SetTrigger("Deactivate");
-        theBelt.enabled = false;
+		myAnimator.SetTrigger("Deactivate");
+		theBelt.enabled = false;
+		isActivated = false;
     }
 
     public void OnTriggerStay2D(Collider2D collision)

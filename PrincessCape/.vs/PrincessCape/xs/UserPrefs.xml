@@ -1,21 +1,21 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ExtensionMethods.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/MapEditor.cs">
     <Files>
       <File FileName="Assets/Scripts/Map/MapTile.cs" Line="68" Column="18" />
       <File FileName="Assets/Scripts/Tiles/Gate.cs" Line="61" Column="3" />
       <File FileName="Assets/Scripts/Tiles/Mirror.cs" Line="22" Column="6" />
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="122" Column="19" />
-      <File FileName="Assets/Editor/MapEditor.cs" Line="28" Column="6" />
+      <File FileName="Assets/Editor/MapEditor.cs" Line="770" Column="2" />
       <File FileName="Assets/Scripts/Tiles/OrbSwitch.cs" Line="22" Column="34" />
-      <File FileName="Assets/Scripts/ActivatedObject.cs" Line="71" Column="53" />
+      <File FileName="Assets/Scripts/ActivatedObject.cs" Line="129" Column="65" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="227" Column="78" />
-      <File FileName="Assets/Scripts/ActivatorObject.cs" Line="82" Column="42" />
+      <File FileName="Assets/Scripts/ActivatorObject.cs" Line="40" Column="25" />
       <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="82" Column="1" />
       <File FileName="Assets/Scripts/Items/StarShield.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/UI/AimArrow.cs" Line="27" Column="42" />
       <File FileName="Assets/Scripts/LightField.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player.cs" Line="314" Column="55" />
+      <File FileName="Assets/Scripts/Player.cs" Line="311" Column="48" />
       <File FileName="Assets/Scripts/Managers/Controller.cs" Line="34" Column="24" />
       <File FileName="Assets/Scripts/Projectile.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="74" Column="2" />
@@ -56,9 +56,16 @@
       <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="86" Column="28" />
       <File FileName="Assets/Scripts/Tiles/SpikePlatform.cs" Line="52" Column="4" />
       <File FileName="Assets/Scripts/Menus/LevelSelect.cs" Line="43" Column="33" />
-      <File FileName="Assets/Scripts/Tiles/PressureSwitch.cs" Line="13" Column="15" />
+      <File FileName="Assets/Scripts/Tiles/PressureSwitch.cs" Line="57" Column="6" />
       <File FileName="Assets/Scripts/UI/ItemSlot.cs" Line="26" Column="6" />
-      <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="269" Column="49" />
+      <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="290" Column="10" />
+      <File FileName="Assets/Scripts/Tiles/AirColumn.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Tiles/Bridge.cs" Line="55" Column="23" />
+      <File FileName="Assets/Scripts/Tiles/Checkpoint.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Tiles/ContainerTile.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Tiles/ConveyorBelt.cs" Line="39" Column="3" />
+      <File FileName="Assets/Scripts/Tiles/Door.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="50" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
