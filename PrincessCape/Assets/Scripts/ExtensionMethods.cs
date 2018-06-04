@@ -222,22 +222,70 @@ public static class ExtensionMethods {
         return v.Rotate(ang.ToRadians());
     }
 
+    /// <summary>
+    /// Sets the red.
+    /// </summary>
+    /// <returns>The red.</returns>
+    /// <param name="col">Col.</param>
+    /// <param name="r">The red component.</param>
     public static Color SetRed(this Color col, float r) {
         return new Color(r, col.g, col.b);
     }
 
+    /// <summary>
+    /// Sets the green.
+    /// </summary>
+    /// <returns>The green.</returns>
+    /// <param name="col">Col.</param>
+    /// <param name="g">The green component.</param>
 	public static Color SetGreen(this Color col, float g)
 	{
 		return new Color(col.r, g, col.b);
 	}
 
+    /// <summary>
+    /// Sets the blue.
+    /// </summary>
+    /// <returns>The blue.</returns>
+    /// <param name="col">Col.</param>
+    /// <param name="b">The blue component.</param>
 	public static Color SetBlue(this Color col, float b)
 	{
 		return new Color(col.r, col.g, b);
 	}
 
+    /// <summary>
+    /// Sets the alpha.
+    /// </summary>
+    /// <returns>The alpha.</returns>
+    /// <param name="col">Col.</param>
+    /// <param name="a">The alpha component.</param>
 	public static Color SetAlpha(this Color col, float a)
 	{
 		return new Color(col.r, col.g, col.b, a);
 	}
+
+	public static Direction GetClosestDirection(this Collision2D collision) {
+		Vector3 vector = collision.contacts[0].normal;
+		int ind = -1;
+		float maxDot = 0;
+		Vector3[] directions = { Vector3.up, Vector3.down, Vector3.left, Vector3.right };
+		for (int i = 0; i < 4; i++) {
+			float dot = Vector3.Dot(vector, directions[i]);
+
+			if (dot > maxDot) {
+				ind = i;
+				maxDot = dot;
+			}
+		}
+
+		return (Direction)ind;
+	}
+}
+
+public enum Direction {
+	Up,
+    Down,
+    Left,
+    Right
 }
