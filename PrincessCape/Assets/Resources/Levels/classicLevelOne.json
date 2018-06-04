@@ -64,6 +64,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "11",
 },
 {
@@ -80,6 +81,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "6",
 },
 {
@@ -389,6 +391,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.5, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "Door",

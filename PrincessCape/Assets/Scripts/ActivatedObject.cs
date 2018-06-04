@@ -65,6 +65,7 @@ public abstract class ActivatedObject : MapTile
     {
         string data = base.GenerateSaveData();
         data += PCLParser.CreateAttribute("Starts Active", startActive);
+		data += PCLParser.CreateAttribute("Required Activators", requiredActivators);
         return data;
     }
 
@@ -72,6 +73,7 @@ public abstract class ActivatedObject : MapTile
     {
 		base.FromData(tile);
 		StartsActive = PCLParser.ParseBool(tile.NextLine);
+		requiredActivators = PCLParser.ParseInt(tile.NextLine);
     }
 #if UNITY_EDITOR
     /// <summary>

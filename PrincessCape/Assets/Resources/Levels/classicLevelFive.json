@@ -75,6 +75,7 @@
 "Rotation": "(0.0, 0.0, 270.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "SpikePlatform",
@@ -83,6 +84,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "SpikePlatform",
@@ -91,6 +93,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "SpikePlatform",
@@ -99,6 +102,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "SpikePlatform",
@@ -107,6 +111,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "SpikePlatform",
@@ -115,6 +120,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "SpikePlatform",
@@ -123,6 +129,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "SpikePlatform",
@@ -131,6 +138,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "SpikePlatform",
@@ -139,6 +147,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "OrbSwitch",
@@ -147,6 +156,7 @@
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -185,6 +195,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "6",
 },
 {
@@ -201,6 +212,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Children": "12",
 },
 {
@@ -274,6 +286,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "2",
 },
 {
@@ -283,6 +296,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "5",
 },
 {
@@ -306,6 +320,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "6",
 },
 {
@@ -352,6 +367,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 2.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 ],
 "Connections": [

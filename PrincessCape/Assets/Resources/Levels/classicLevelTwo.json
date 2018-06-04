@@ -40,6 +40,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -90,6 +91,7 @@
 "Rotation": "(0.0, 0.0, 90.0)",
 "Scale": "(1.0, 4.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Box",
@@ -112,6 +114,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "7",
 },
 {
@@ -128,6 +131,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -143,6 +147,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 2.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Ladder",
@@ -151,6 +156,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "6",
 },
 {
@@ -288,6 +294,7 @@
 "Rotation": "(0.0, 0.0, 90.0)",
 "Scale": "(1.0, 2.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Box",
@@ -303,6 +310,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "6",
 },
 {
@@ -312,6 +320,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -334,6 +343,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -426,6 +436,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 "Children": "5",
 },
 {
@@ -471,6 +482,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.5, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 ],
 "Connections": [

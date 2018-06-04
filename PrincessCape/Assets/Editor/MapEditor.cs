@@ -737,10 +737,10 @@ public class MapEditor : Editor {
         {
             
             map.Load(path);
-           
             serialMap.FindProperty("levelName").stringValue = map.LevelName;
             serialMap.FindProperty("fileName").stringValue = map.FileName;
             serialMap.FindProperty("items").enumValueIndex = (int)map.Items;
+			serialMap.FindProperty("mapID").intValue = map.MapID;
             serialMap.ApplyModifiedProperties();
             serialMap.Update();
         }
@@ -756,6 +756,7 @@ public class MapEditor : Editor {
         serialMap.FindProperty("levelName").stringValue = map.LevelName;
         serialMap.FindProperty("fileName").stringValue = map.FileName;
         serialMap.FindProperty("items").enumValueIndex = (int)map.Items;
+		serialMap.FindProperty("mapID").intValue = map.MapID;
         serialMap.ApplyModifiedProperties();
         serialMap.Update();
     }

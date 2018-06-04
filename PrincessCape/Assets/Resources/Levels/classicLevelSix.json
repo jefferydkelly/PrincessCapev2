@@ -47,6 +47,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -93,6 +94,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 "Lines": "7",
 },
 {
@@ -116,6 +118,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -159,6 +162,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 "Lines": "5",
 },
 {
@@ -168,6 +172,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 "Lines": "0",
 },
 {

@@ -26,6 +26,7 @@
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Remains",
@@ -58,6 +59,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Cannon",
@@ -66,6 +68,7 @@
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -88,6 +91,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -103,6 +107,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "5",
 },
 {
@@ -134,6 +139,7 @@
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Name": "OrbSwitch",
@@ -142,6 +148,7 @@
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -157,6 +164,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Stairs",
@@ -173,6 +181,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Cannon",
@@ -181,6 +190,7 @@
 "Rotation": "(0.0, 0.0, 270.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -203,6 +213,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "True",
+"Required Activators": "1",
 "Lines": "6",
 },
 {
@@ -227,6 +238,7 @@
 "Rotation": "(0.0, 0.0, 270.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Switch",
@@ -235,6 +247,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -250,6 +263,7 @@
 "Rotation": "(0.0, 0.0, 180.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Platform",
@@ -288,6 +302,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.5, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Gate",
@@ -296,6 +311,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.5, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Gate",
@@ -304,6 +320,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.5, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 {
 "Name": "Gate",
@@ -312,6 +329,7 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.5, 1.0)",
 "Starts Active": "False",
+"Required Activators": "1",
 },
 ],
 "Connections": [
