@@ -7,22 +7,22 @@
       <File FileName="Assets/Scripts/Tiles/Mirror.cs" Line="22" Column="6" />
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="122" Column="19" />
       <File FileName="Assets/Editor/MapEditor.cs" Line="759" Column="56" />
-      <File FileName="Assets/Scripts/Tiles/OrbSwitch.cs" Line="23" Column="31" />
+      <File FileName="Assets/Scripts/Tiles/OrbSwitch.cs" Line="40" Column="1" />
       <File FileName="Assets/Scripts/ActivatedObject.cs" Line="140" Column="3" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="227" Column="78" />
-      <File FileName="Assets/Scripts/ActivatorObject.cs" Line="32" Column="1" />
+      <File FileName="Assets/Scripts/ActivatorObject.cs" Line="19" Column="41" />
       <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="82" Column="1" />
       <File FileName="Assets/Scripts/Items/StarShield.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/UI/AimArrow.cs" Line="27" Column="42" />
       <File FileName="Assets/Scripts/LightField.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player.cs" Line="311" Column="48" />
+      <File FileName="Assets/Scripts/Player.cs" Line="42" Column="1" />
       <File FileName="Assets/Scripts/Managers/Controller.cs" Line="34" Column="24" />
       <File FileName="Assets/Scripts/Projectile.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="74" Column="2" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="71" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="116" Column="6" />
       <File FileName="Assets/Scripts/Managers/TimerManager.cs" Line="269" Column="52" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="99" Column="18" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="72" Column="1" />
       <File FileName="Assets/Scripts/UI/MessageBox.cs" Line="176" Column="14" />
       <File FileName="Assets/Scripts/UI/SpeakerBox.cs" Line="17" Column="3" />
       <File FileName="Assets/Scripts/Interactive Objects/KnightRemains.cs" Line="25" Column="86" />
@@ -50,7 +50,7 @@
       <File FileName="Assets/Scripts/UI/ItemBox.cs" Line="37" Column="12" />
       <File FileName="Assets/Scripts/Items/MagicCape.cs" Line="12" Column="59" />
       <File FileName="Assets/Scripts/Interactive Objects/Block.cs" Line="14" Column="1" />
-      <File FileName="Assets/Scripts/Managers/CameraManager.cs" Line="208" Column="2" />
+      <File FileName="Assets/Scripts/Managers/CameraManager.cs" Line="36" Column="1" />
       <File FileName="Assets/Scripts/Metal.cs" Line="25" Column="54" />
       <File FileName="Assets/Scripts/Items/MagicItem.cs" Line="24" Column="6" />
       <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="86" Column="28" />
