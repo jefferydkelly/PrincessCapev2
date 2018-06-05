@@ -7,25 +7,17 @@ public class SpikePlatform : ActivatedObject {
     Animator myAnimator;
     public override void Activate()
     {
-        if (!isActivated && initialized)
+        if (Application.isPlaying)
         {
-            isActivated = true;
-            if (Application.isPlaying)
-            {
-                myAnimator.SetBool("isActivated", true);
-            }
+            myAnimator.SetBool("isActivated", true);
         }
     }
 
     public override void Deactivate()
-    {
-        if (isActivated && initialized)
+	{
+        if (Application.isPlaying)
         {
-            isActivated = false;
-            if (Application.isPlaying)
-            {
-                myAnimator.SetBool("isActivated", false);
-            }
+            myAnimator.SetBool("isActivated", false);
         }
     }
 
@@ -38,17 +30,17 @@ public class SpikePlatform : ActivatedObject {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-		if (!isConnected)
+		if (!isConnected && collision.rigidbody.mass > 0.5f)
 		{
-			Activate();
+			IncrementActivator();
 		}
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-		if (!isConnected)
+		if (!isConnected && collision.rigidbody.mass > 0.5f)
 		{
-			Deactivate();
+			DecrementActivator();
 		}
     }
 
@@ -59,6 +51,7 @@ public class SpikePlatform : ActivatedObject {
 
 		if (startActive) {
 			Activate();
+			isActivated = true;
 		}
     }
 

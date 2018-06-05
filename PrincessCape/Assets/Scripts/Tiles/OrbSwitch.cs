@@ -20,8 +20,8 @@ public class OrbSwitch : ActivatorObject
         if (collision.CompareTag("Projectile"))
         {
 			Destroy(collision.gameObject);
-          
-            if (!IsActivated)
+			isActivated = !isActivated;
+            if (isActivated)
             {
                 Activate();
 
@@ -31,6 +31,7 @@ public class OrbSwitch : ActivatorObject
                 Deactivate();
 
             }
+
         }
     }
 

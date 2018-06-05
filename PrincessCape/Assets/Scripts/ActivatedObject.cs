@@ -31,6 +31,7 @@ public abstract class ActivatedObject : MapTile
 		if (startActive && Application.isPlaying)
         {
             Activate();
+			isActivated = true;
             //EventManager.StartListening("LevelLoaded", Activate);
         }
 	}
@@ -135,8 +136,10 @@ public abstract class ActivatedObject : MapTile
 	}
 
 	public void DecrementActivator() {
-		currentActivators--;
+		currentActivators = Mathf.Max(currentActivators-1, 0);
+
 		if (isActivated && currentActivators < requiredActivators) {
+			
 			IsActivated = false;
 			Deactivate();
 		}

@@ -7,10 +7,10 @@
       <File FileName="Assets/Scripts/Tiles/Mirror.cs" Line="22" Column="6" />
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="122" Column="19" />
       <File FileName="Assets/Editor/MapEditor.cs" Line="759" Column="56" />
-      <File FileName="Assets/Scripts/Tiles/OrbSwitch.cs" Line="22" Column="34" />
-      <File FileName="Assets/Scripts/ActivatedObject.cs" Line="76" Column="58" />
+      <File FileName="Assets/Scripts/Tiles/OrbSwitch.cs" Line="23" Column="31" />
+      <File FileName="Assets/Scripts/ActivatedObject.cs" Line="140" Column="3" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="227" Column="78" />
-      <File FileName="Assets/Scripts/ActivatorObject.cs" Line="40" Column="25" />
+      <File FileName="Assets/Scripts/ActivatorObject.cs" Line="16" Column="27" />
       <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="82" Column="1" />
       <File FileName="Assets/Scripts/Items/StarShield.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/UI/AimArrow.cs" Line="27" Column="42" />
@@ -54,7 +54,7 @@
       <File FileName="Assets/Scripts/Metal.cs" Line="25" Column="54" />
       <File FileName="Assets/Scripts/Items/MagicItem.cs" Line="24" Column="6" />
       <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="86" Column="28" />
-      <File FileName="Assets/Scripts/Tiles/SpikePlatform.cs" Line="52" Column="4" />
+      <File FileName="Assets/Scripts/Tiles/SpikePlatform.cs" Line="54" Column="23" />
       <File FileName="Assets/Scripts/Menus/LevelSelect.cs" Line="43" Column="33" />
       <File FileName="Assets/Scripts/Tiles/PressureSwitch.cs" Line="57" Column="6" />
       <File FileName="Assets/Scripts/UI/ItemSlot.cs" Line="26" Column="6" />
@@ -66,6 +66,7 @@
       <File FileName="Assets/Scripts/Tiles/ConveyorBelt.cs" Line="39" Column="3" />
       <File FileName="Assets/Scripts/Tiles/Door.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="50" Column="3" />
+      <File FileName="Assets/Scripts/Menus/LoadInputBrowser.cs" Line="86" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

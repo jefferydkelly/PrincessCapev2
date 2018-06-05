@@ -71,13 +71,11 @@ public class ActivatorObject : ActivatedObject {
 				
 				if (inverted)
 				{
-					Debug.Log("Adding Inverted");
 					OnActivate.AddListener(ao.DecrementActivator);
 					OnDeactivate.AddListener(ao.IncrementActivator);
 				}
 				else
 				{
-					Debug.Log("Adding");
 					OnActivate.AddListener(ao.IncrementActivator);
 					OnDeactivate.AddListener(ao.DecrementActivator);
 				}
