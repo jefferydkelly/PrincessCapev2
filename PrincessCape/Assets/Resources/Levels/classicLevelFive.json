@@ -74,7 +74,7 @@
 "Position": "(-3.0, 0.0, 0.0)",
 "Rotation": "(0.0, 0.0, 270.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Starts Active": "True",
+"Starts Active": "False",
 "Required Activators": "1",
 },
 {
@@ -362,7 +362,7 @@
 },
 {
 "Name": "Gate",
-"ID": "0",
+"ID": "25",
 "Position": "(13.0, -15.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 2.0, 1.0)",
@@ -410,6 +410,11 @@
 "Activator": "18",
 "Activated": "11",
 "Inverted": "False",
+},
+{
+"Activator": "18",
+"Activated": "9",
+"Inverted": "True",
 },
 ]
 }

@@ -15,9 +15,10 @@ public class ActivatorObject : ActivatedObject {
 
 	public override void Init()
 	{
-		base.Init();
 		onActivate = new UnityEvent();
-		onDeactivate = new UnityEvent();
+        onDeactivate = new UnityEvent();
+		base.Init();
+
 
 		if (connections == null)
 		{
