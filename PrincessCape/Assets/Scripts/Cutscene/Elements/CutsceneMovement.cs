@@ -92,12 +92,21 @@ public class CutsceneMovement : CutsceneElement
 
                     runTimer.OnTick.AddListener(() =>
                     {
-                        gameObject.transform.position = startPosition + dist * runTimer.RunPercent;
+						if (gameObject)
+						{
+							gameObject.transform.position = startPosition + dist * runTimer.RunPercent;
+						} else {
+							runTimer.Stop();
+							runTimer.OnComplete.Invoke();
+						}
                     });
 
                     runTimer.OnComplete.AddListener(() =>
                     {
-                        gameObject.transform.position = new Vector3(x, y, gameObject.transform.position.z);
+						if (gameObject)
+						{
+							gameObject.transform.position = new Vector3(x, y, gameObject.transform.position.z);
+						}
                     });
                 }
                 else if (moveType == MoveTypes.Rotate)

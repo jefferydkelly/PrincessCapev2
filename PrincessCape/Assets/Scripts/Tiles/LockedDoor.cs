@@ -17,4 +17,24 @@ public class LockedDoor : MapTile {
             Destroy(collision.gameObject);
         }
     }
+
+	public override void ScaleY(bool up)
+	{
+		if (up)
+        {
+            transform.localScale += Vector3.up / 2.0f;
+        }
+        else if (transform.localScale.y > 1)
+        {
+            transform.localScale -= Vector3.up / 2.0f;
+        }
+	}
+
+	public override Vector3 Center
+    {
+        get
+        {
+            return transform.position + transform.up * Bounds.y / 2;
+        }
+    }
 }

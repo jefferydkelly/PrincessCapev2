@@ -136,7 +136,7 @@ public class Cutscene:Manager
 		}
 		else if (p == "create")
 		{
-			return new CutsceneCreation(parts[1], parts[2], parts[3], parts[4]);
+			return new CutsceneCreation(parts[1], parts[2], parts[3], parts.Length == 5 ? parts[4] : "0");
 		}
 		else if (p == "destroy")
 		{
