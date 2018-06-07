@@ -7,16 +7,14 @@ public class Metal : MonoBehaviour{
     Rigidbody2D myRigidbody;
     Vector3 startPosition;
     static Metal highlighted;
-    public void Awake()
-    {
-        Init();
-    }
 
-    public void Init() {
-		if (!IsStatic)
-		{
-			startPosition = transform.position;
-		}
+	public void Start()
+	{
+		Init();
+	}
+
+	public void Init() {
+
 		myRenderer = GetComponent<SpriteRenderer>();
 		myRigidbody = GetComponent<Rigidbody2D>();
 		if (!IsStatic)
@@ -31,7 +29,9 @@ public class Metal : MonoBehaviour{
     /// </summary>
     private void Reset()
     {
+		Debug.Log("Resetting to " + startPosition);
         transform.position = startPosition;
+		Clear();
     }
 
     /// <summary>

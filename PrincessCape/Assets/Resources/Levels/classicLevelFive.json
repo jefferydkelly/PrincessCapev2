@@ -74,7 +74,7 @@
 "Position": "(-3.0, 0.0, 0.0)",
 "Rotation": "(0.0, 0.0, 270.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Starts Active": "False",
+"Starts Active": "True",
 "Required Activators": "1",
 },
 {
@@ -414,7 +414,7 @@
 {
 "Activator": "18",
 "Activated": "9",
-"Inverted": "True",
+"Inverted": "False",
 },
 ]
 }

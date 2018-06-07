@@ -5,6 +5,7 @@ using UnityEngine;
 public class HealthBar : MonoBehaviour {
     [SerializeField]
     GameObject heartPrefab;
+	float baseWidth = 1360.0f;
 
 	public int MaxHealth {
 		get {
@@ -18,6 +19,7 @@ public class HealthBar : MonoBehaviour {
 					GameObject heart = Instantiate(heartPrefab);
 					heart.transform.SetParent(transform);
 					heart.transform.localPosition = Vector3.right * 66 * transform.childCount;
+					heart.transform.localScale *= Screen.width / baseWidth;
 				}
 			}
 		}
