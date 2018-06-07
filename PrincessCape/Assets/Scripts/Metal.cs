@@ -29,7 +29,6 @@ public class Metal : MonoBehaviour{
     /// </summary>
     private void Reset()
     {
-		Debug.Log("Resetting to " + startPosition);
         transform.position = startPosition;
 		Clear();
     }

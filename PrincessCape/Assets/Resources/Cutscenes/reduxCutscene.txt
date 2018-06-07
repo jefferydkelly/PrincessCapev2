@@ -27,8 +27,10 @@ animate Elwynn Excited and
 pan 8.5 0 1 and
 Elwynn: Sir Matthew?
 Sir Matthew: I'm here to save you from that dragon.
-show Slog -2 5.5 0
-Slog: Raaaaaaaaaaaaaaaw!
+show Slog 3 5.5 0
+Slog: Raaaaaaaaaaaaaaaw! and
+activate Gate true and
+move-x Slog -2 2.5
 flip-x Elwynn
 animate Elwynn Scared and
 move-x Elwynn -5 1 and
@@ -41,7 +43,8 @@ create DragonFire -3 5 0
 animate Matthew Fire
 wait 1
 destroy DragonFire and
-move-x Slog 5 2.5
+move-x Slog 5 2.5 and
+activate Gate false
 hide Slog
 flip-x Elwynn
 move-x Matthew -7 1.0 and

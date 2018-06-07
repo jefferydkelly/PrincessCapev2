@@ -169,7 +169,6 @@ public class Game : MonoBehaviour {
             }
             else
             {
-				//Debug.Log("Load the next level");
 				//Clear the map and load the next scene before starting the next level
 				player.IsFrozen = true;
                 map.Clear();

@@ -183,7 +183,7 @@ public class Cutscene:Manager
 				ActivatedObject ao = go.GetComponent<ActivatedObject>();
 				if (ao != null)
 				{
-					return new CutsceneActivate(ao, parts[2].Trim() == "true");
+					return new CutsceneActivate(parts[1].Trim(), parts[2].Trim() == "true");
 				}
 			}
 		}

@@ -13,7 +13,7 @@ Elwynn: How many times does that make it this year?
 flip-x Elwynn
 move-x Elwynn -8 3.5 and
 Elwynn: No matter.  I'm sure Father will send some brave knights to rescue me.
-show Matthew -27 1.5
+show Matthew -27 1.5 and
 pan -12 0 1 and
 move Matthew -21.25 0.5 1 and
 align left and
@@ -25,8 +25,10 @@ animate Elwynn Excited and
 pan 8.5 0 1 and
 Elwynn: Sir Matthew?
 Sir Matthew: I'm here to save you from that dragon.
-show Slog -2 5.5 0
-Slog: Raaaaaaaaaaaaaaaw!
+show Slog 3 5.5 0
+Slog: Raaaaaaaaaaaaaaaw! and
+activate DragonGate true and
+move-x Slog -2 2.5
 flip-x Elwynn
 animate Elwynn Scared and
 move-x Elwynn -5 1 and
@@ -39,7 +41,8 @@ create DragonFire -3 5 0
 animate Matthew Fire
 wait 1
 destroy DragonFire and
-move-x Slog 5 2.5
+move-x Slog 5 2.5 and
+activate DragonGate false
 hide Slog
 flip-x Elwynn
 move-x Matthew -7 1.0 and

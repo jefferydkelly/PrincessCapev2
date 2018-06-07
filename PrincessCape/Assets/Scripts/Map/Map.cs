@@ -313,8 +313,8 @@ public class Map : MonoBehaviour
                     
 					foreach (TileStruct t in mapFile.Tiles)
                     {
-                        MapTile tile = Instantiate(prefabs[t.name]).GetComponent<MapTile>();
-                        tile.name = tile.name.Replace("(Clone)", "");
+						MapTile tile = Instantiate(prefabs[t.prefabName]).GetComponent<MapTile>();
+						tile.name = t.tileName;
                         tile.FromData(t);
                         tile.Init();
 						AddTile(tile);

@@ -163,6 +163,7 @@ public class PCLParser {
 		nextInd = lastInd + 1;
 		ind += 2;//json.LastIndexOf(']');
         json = json.Substring(ind, lastInd - ind);
+	
         string[] tilesList = json.Split('\n');
 
         for (int i = 0; i < tilesList.Length; i++)
@@ -194,8 +195,10 @@ public class PCLParser {
          
 			if (s.Contains("\"Name\": "))
 			{
-				ts.name = ParseLine(s);
-            } else if (s.Contains("\"ID\":")) {
+				ts.tileName = ParseLine(s);
+			} else if (s.Contains("\"Prefab\": ")) {
+				ts.prefabName = ParseLine(s);
+			} else if (s.Contains("\"ID\":")) {
                 ts.id = ParseInt(s);
             }
 			else if (IsLine(s))
@@ -203,7 +206,9 @@ public class PCLParser {
                 ts.AddInfo(s);
 			}
         }
-     
+		if (ts.prefabName == null || ts.prefabName.Length == 0) {
+			ts.prefabName = ts.tileName;
+		}
         return ts;
     }
 
@@ -268,7 +273,8 @@ public class PCLParser {
 }
 
 public class TileStruct {
-    public string name;
+	public string tileName;
+    public string prefabName;
     public int id;
     public List<string> info;
     private int currentIndex;

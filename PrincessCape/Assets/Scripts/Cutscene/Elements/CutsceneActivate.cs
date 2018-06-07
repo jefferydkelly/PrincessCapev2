@@ -6,6 +6,7 @@ public class CutsceneActivate : CutsceneElement
 {
     bool activate;
     ActivatedObject ao;
+	string objectName;
 
     public CutsceneActivate(ActivatedObject aObj, bool activated)
     {
@@ -15,8 +16,18 @@ public class CutsceneActivate : CutsceneElement
         canSkip = false;
     }
 
+	public CutsceneActivate(string objName, bool activated) {
+		objectName = objName;
+        activate = activated;
+        autoAdvance = true;
+        canSkip = false;
+	}
+
     public override Timer Run()
     {
+		if (ao == null) {
+			ao = Cutscene.Instance.FindGameObject(objectName).GetComponent<ActivatedObject>();
+		}
         if (activate)
         {
             ao.Activate();
