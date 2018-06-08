@@ -200,9 +200,18 @@ public class Player : MonoBehaviour {
                         transform.position += Vector3.down * 2;
                     }
 
-                    if (!aboveLadder)
+					if (!aboveLadder)
                     {
-                        myRigidbody.velocity = myRigidbody.velocity.SetY(Controller.Instance.Vertical * maxSpeed / 1.5f);
+						
+						Vector2 input = Controller.Instance.DirectionalInput;
+						if (!onGround)
+						{
+							input = input.SetY(input.y * maxSpeed / 1.5f);
+							myRigidbody.velocity = input;
+
+						} else {
+							myRigidbody.velocity = myRigidbody.velocity.SetY(Controller.Instance.Vertical * maxSpeed / 1.5f);
+						}
                     }
                 }
                 else if (CanJump && Controller.Instance.Jump)
