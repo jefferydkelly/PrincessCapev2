@@ -6,6 +6,7 @@
 "Tiles": [
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "40",
 "Position": "(1.5, -3.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -13,6 +14,7 @@
 },
 {
 "Name": "Checkpoint",
+"Prefab": "Checkpoint",
 "ID": "1",
 "Position": "(4.0, -2.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -21,6 +23,7 @@
 },
 {
 "Name": "OrbSwitch",
+"Prefab": "OrbSwitch",
 "ID": "2",
 "Position": "(-8.0, 3.0, 1.0)",
 "Rotation": "(0.0, 0.0, 180.0)",
@@ -30,6 +33,7 @@
 },
 {
 "Name": "Remains",
+"Prefab": "Remains",
 "ID": "3",
 "Position": "(-14.0, -2.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -40,6 +44,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "4",
 "Position": "(7.0, -6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -47,6 +52,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "5",
 "Position": "(-10.0, 4.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -54,6 +60,7 @@
 },
 {
 "Name": "Switch",
+"Prefab": "Switch",
 "ID": "6",
 "Position": "(-4.0, -3.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -63,6 +70,7 @@
 },
 {
 "Name": "Cannon",
+"Prefab": "Cannon",
 "ID": "7",
 "Position": "(-4.0, 3.0, 0.0)",
 "Rotation": "(0.0, 0.0, 180.0)",
@@ -72,6 +80,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "8",
 "Position": "(-13.5, -3.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -79,6 +88,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "10",
 "Position": "(-10.0, 2.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -86,6 +96,7 @@
 },
 {
 "Name": "Cannon",
+"Prefab": "Cannon",
 "ID": "11",
 "Position": "(-21.0, -2.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -95,6 +106,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "12",
 "Position": "(-27.0, -6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -102,6 +114,7 @@
 },
 {
 "Name": "Ladder",
+"Prefab": "Ladder",
 "ID": "13",
 "Position": "(-23.0, -3.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -112,6 +125,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "14",
 "Position": "(-13.0, -9.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -119,6 +133,7 @@
 },
 {
 "Name": "Checkpoint",
+"Prefab": "Checkpoint",
 "ID": "15",
 "Position": "(-21.0, -8.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -127,6 +142,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "16",
 "Position": "(-19.0, -8.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -134,6 +150,7 @@
 },
 {
 "Name": "Cannon",
+"Prefab": "Cannon",
 "ID": "17",
 "Position": "(-12.0, -8.0, 0.0)",
 "Rotation": "(0.0, 0.0, 180.0)",
@@ -143,6 +160,7 @@
 },
 {
 "Name": "OrbSwitch",
+"Prefab": "OrbSwitch",
 "ID": "18",
 "Position": "(-16.0, -4.0, 1.0)",
 "Rotation": "(0.0, 0.0, 180.0)",
@@ -152,6 +170,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "20",
 "Position": "(-9.0, -4.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -159,6 +178,7 @@
 },
 {
 "Name": "OrbSwitch",
+"Prefab": "OrbSwitch",
 "ID": "21",
 "Position": "(-4.0, -7.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -168,6 +188,7 @@
 },
 {
 "Name": "Stairs",
+"Prefab": "Stairs",
 "ID": "22",
 "Position": "(-4.0, -8.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -176,6 +197,7 @@
 },
 {
 "Name": "Switch",
+"Prefab": "Switch",
 "ID": "23",
 "Position": "(1.0, -9.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -185,6 +207,7 @@
 },
 {
 "Name": "Cannon",
+"Prefab": "Cannon",
 "ID": "24",
 "Position": "(1.0, -4.0, 0.0)",
 "Rotation": "(0.0, 0.0, 270.0)",
@@ -194,6 +217,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "25",
 "Position": "(3.0, -9.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -201,6 +225,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "27",
 "Position": "(4.0, -4.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -208,6 +233,7 @@
 },
 {
 "Name": "Ladder",
+"Prefab": "Ladder",
 "ID": "28",
 "Position": "(5.0, -9.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -218,6 +244,7 @@
 },
 {
 "Name": "Checkpoint",
+"Prefab": "Checkpoint",
 "ID": "29",
 "Position": "(-6.0, -8.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -226,6 +253,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "30",
 "Position": "(-15.5, -16.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -233,6 +261,7 @@
 },
 {
 "Name": "Cannon",
+"Prefab": "Cannon",
 "ID": "31",
 "Position": "(-3.0, -10.0, 0.0)",
 "Rotation": "(0.0, 0.0, 270.0)",
@@ -242,6 +271,7 @@
 },
 {
 "Name": "Switch",
+"Prefab": "Switch",
 "ID": "32",
 "Position": "(-3.0, -16.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -251,6 +281,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "33",
 "Position": "(2.5, -16.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -258,6 +289,7 @@
 },
 {
 "Name": "OrbSwitch",
+"Prefab": "OrbSwitch",
 "ID": "34",
 "Position": "(-6.0, -10.0, 1.0)",
 "Rotation": "(0.0, 0.0, 180.0)",
@@ -267,6 +299,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "36",
 "Position": "(-11.0, -11.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -274,6 +307,7 @@
 },
 {
 "Name": "Door",
+"Prefab": "Door",
 "ID": "37",
 "Position": "(-20.5, -14.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -282,6 +316,7 @@
 },
 {
 "Name": "Checkpoint",
+"Prefab": "Checkpoint",
 "ID": "38",
 "Position": "(2.0, -15.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -290,6 +325,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "39",
 "Position": "(-16.0, -2.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -297,6 +333,7 @@
 },
 {
 "Name": "Gate",
+"Prefab": "Gate",
 "ID": "41",
 "Position": "(-10.0, 0.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -306,6 +343,7 @@
 },
 {
 "Name": "Gate",
+"Prefab": "Gate",
 "ID": "44",
 "Position": "(-11.0, -12.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -315,6 +353,7 @@
 },
 {
 "Name": "Gate",
+"Prefab": "Gate",
 "ID": "0",
 "Position": "(-9.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -324,6 +363,7 @@
 },
 {
 "Name": "Gate",
+"Prefab": "Gate",
 "ID": "9",
 "Position": "(4.0, -5.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",

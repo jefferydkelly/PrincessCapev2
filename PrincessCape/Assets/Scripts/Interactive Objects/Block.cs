@@ -4,22 +4,11 @@ using UnityEngine;
 
 public class Block : HeldItem{
 
-    Vector3 startPosition;
 
     private void Awake()
     {
         myRenderer = GetComponent<SpriteRenderer>();
         myRigidbody = GetComponent<Rigidbody2D>();
-		startPosition = transform.position;
-		Map.Instance.OnLevelLoaded.AddListener(() =>
-		{
-			Game.Instance.Player.OnRespawn.AddListener(Reset);
-		});
-    }
-
-    private void Reset()
-    {
-        transform.position = startPosition;
     }
 
 	/// <summary>

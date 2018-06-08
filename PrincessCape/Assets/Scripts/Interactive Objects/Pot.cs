@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Pot : HeldItem {
-    Vector3 startPosition;
   
     private void OnCollisionEnter2D(Collision2D collision)
     {

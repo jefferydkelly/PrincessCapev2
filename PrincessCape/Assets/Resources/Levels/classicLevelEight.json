@@ -6,6 +6,7 @@
 "Tiles": [
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "49",
 "Position": "(1.5, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -13,6 +14,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "1",
 "Position": "(-7.0, 4.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -20,6 +22,7 @@
 },
 {
 "Name": "Checkpoint",
+"Prefab": "Checkpoint",
 "ID": "2",
 "Position": "(-2.0, 0.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -28,6 +31,7 @@
 },
 {
 "Name": "Remains",
+"Prefab": "Remains",
 "ID": "3",
 "Position": "(1.0, 0.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -38,6 +42,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "4",
 "Position": "(7.0, 2.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -45,6 +50,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "5",
 "Position": "(10.0, 5.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -52,6 +58,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "6",
 "Position": "(12.0, 1.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -59,6 +66,7 @@
 },
 {
 "Name": "Switch",
+"Prefab": "Switch",
 "ID": "7",
 "Position": "(11.0, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -68,6 +76,7 @@
 },
 {
 "Name": "Ladder",
+"Prefab": "Ladder",
 "ID": "8",
 "Position": "(6.0, 5.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -78,6 +87,7 @@
 },
 {
 "Name": "MetalBlock",
+"Prefab": "MetalBlock",
 "ID": "9",
 "Position": "(8.0, 0.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -85,6 +95,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "10",
 "Position": "(23.0, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -92,6 +103,7 @@
 },
 {
 "Name": "Ladder",
+"Prefab": "Ladder",
 "ID": "11",
 "Position": "(13.0, 5.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -102,6 +114,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "12",
 "Position": "(28.0, 3.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -109,6 +122,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "13",
 "Position": "(31.5, 6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -116,6 +130,7 @@
 },
 {
 "Name": "Switch",
+"Prefab": "Switch",
 "ID": "14",
 "Position": "(34.0, -1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -125,6 +140,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "15",
 "Position": "(36.5, 2.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -132,6 +148,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "16",
 "Position": "(31.5, 1.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -139,6 +156,7 @@
 },
 {
 "Name": "MetalBlock",
+"Prefab": "MetalBlock",
 "ID": "17",
 "Position": "(30.0, 0.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -146,6 +164,7 @@
 },
 {
 "Name": "Ladder",
+"Prefab": "Ladder",
 "ID": "18",
 "Position": "(27.0, 6.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -156,6 +175,7 @@
 },
 {
 "Name": "Checkpoint",
+"Prefab": "Checkpoint",
 "ID": "19",
 "Position": "(37.0, 7.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -164,6 +184,7 @@
 },
 {
 "Name": "MetalPlatform",
+"Prefab": "MetalPlatform",
 "ID": "20",
 "Position": "(40.0, 6.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -171,6 +192,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "21",
 "Position": "(40.0, 2.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -178,6 +200,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "22",
 "Position": "(42.0, 9.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -185,6 +208,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "23",
 "Position": "(30.0, 14.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -192,6 +216,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "24",
 "Position": "(25.5, 24.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -199,6 +224,7 @@
 },
 {
 "Name": "Checkpoint",
+"Prefab": "Checkpoint",
 "ID": "25",
 "Position": "(35.0, 15.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -207,6 +233,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "26",
 "Position": "(18.0, 22.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -214,6 +241,7 @@
 },
 {
 "Name": "MetalPlatform",
+"Prefab": "MetalPlatform",
 "ID": "27",
 "Position": "(20.0, 29.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -221,6 +249,7 @@
 },
 {
 "Name": "MetalPlatform",
+"Prefab": "MetalPlatform",
 "ID": "28",
 "Position": "(20.0, 14.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -228,6 +257,7 @@
 },
 {
 "Name": "Checkpoint",
+"Prefab": "Checkpoint",
 "ID": "29",
 "Position": "(24.0, 25.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -236,6 +266,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "30",
 "Position": "(26.0, 29.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -243,6 +274,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "31",
 "Position": "(35.0, 19.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -250,6 +282,7 @@
 },
 {
 "Name": "MetalPlatform",
+"Prefab": "MetalPlatform",
 "ID": "32",
 "Position": "(31.0, 24.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -257,6 +290,7 @@
 },
 {
 "Name": "Spike",
+"Prefab": "Spike",
 "ID": "33",
 "Position": "(33.0, 20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -264,6 +298,7 @@
 },
 {
 "Name": "Spike",
+"Prefab": "Spike",
 "ID": "34",
 "Position": "(34.0, 20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -271,6 +306,7 @@
 },
 {
 "Name": "Spike",
+"Prefab": "Spike",
 "ID": "35",
 "Position": "(35.0, 20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -278,6 +314,7 @@
 },
 {
 "Name": "Spike",
+"Prefab": "Spike",
 "ID": "36",
 "Position": "(36.0, 20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -285,6 +322,7 @@
 },
 {
 "Name": "Spike",
+"Prefab": "Spike",
 "ID": "37",
 "Position": "(37.0, 20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -292,6 +330,7 @@
 },
 {
 "Name": "Spike",
+"Prefab": "Spike",
 "ID": "38",
 "Position": "(38.0, 20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -299,6 +338,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "39",
 "Position": "(45.5, 25.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -306,6 +346,7 @@
 },
 {
 "Name": "Door",
+"Prefab": "Door",
 "ID": "40",
 "Position": "(47.5, 32.0, 1.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -314,6 +355,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "41",
 "Position": "(39.5, 38.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -321,6 +363,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "42",
 "Position": "(30.0, 33.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -328,6 +371,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "43",
 "Position": "(7.0, 11.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -335,6 +379,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "44",
 "Position": "(30.5, 21.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -342,6 +387,7 @@
 },
 {
 "Name": "Platform",
+"Prefab": "Platform",
 "ID": "45",
 "Position": "(50.0, 29.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -349,6 +395,7 @@
 },
 {
 "Name": "Spike",
+"Prefab": "Spike",
 "ID": "46",
 "Position": "(39.0, 20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -356,6 +403,7 @@
 },
 {
 "Name": "Spike",
+"Prefab": "Spike",
 "ID": "47",
 "Position": "(40.0, 20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
@@ -363,6 +411,7 @@
 },
 {
 "Name": "Spike",
+"Prefab": "Spike",
 "ID": "48",
 "Position": "(41.0, 20.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",

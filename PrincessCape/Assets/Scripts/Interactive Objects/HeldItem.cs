@@ -7,12 +7,26 @@ public class HeldItem : InteractiveObject
 {
     protected Rigidbody2D myRigidbody;
     protected bool isHeld = false;
+	Vector3 startPosition;
     void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myRenderer = GetComponent<SpriteRenderer>();
-    }
-    public void Drop()
+
+	}
+
+	private void Start()
+	{
+		startPosition = transform.position;
+		Game.Instance.Player.OnRespawn.AddListener(Reset);
+	}
+
+	private void Reset()
+	{
+		gameObject.SetActive(true);
+		transform.position = startPosition;
+	}
+	public void Drop()
     {
         Game.Instance.Player.HeldItem = null;
         UIManager.Instance.SetInteractionText("");

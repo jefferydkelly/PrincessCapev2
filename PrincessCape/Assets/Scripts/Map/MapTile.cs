@@ -327,7 +327,7 @@ public class MapTile : MonoBehaviour {
 	{
 		get
 		{
-			return prefabName;
+			return prefabName.Length > 0 ? prefabName : name;
 		}
         
 		set {

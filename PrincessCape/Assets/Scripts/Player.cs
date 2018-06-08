@@ -296,8 +296,9 @@ public class Player : MonoBehaviour {
         if (IsDead)
         {
             CurrentHealth = maxHealth;
-			OnRespawn.Invoke();
         }
+
+		OnRespawn.Invoke();
         transform.position = Checkpoint.ResetPosition + Vector3.up;
         isFrozen = false;
         myRigidbody.velocity = Vector2.zero;
