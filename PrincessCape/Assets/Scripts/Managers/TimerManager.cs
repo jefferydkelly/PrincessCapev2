@@ -240,6 +240,26 @@ public class Timer
 	}
 
     /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Timer"/> is paused.
+    /// </summary>
+    /// <value><c>true</c> if is paused; otherwise, <c>false</c>.</value>
+	public bool IsPaused {
+		get {
+			return state == TimerState.Paused;
+		}
+	}
+
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Timer"/> has been started.
+    /// </summary>
+    /// <value><c>true</c> if has been started; otherwise, <c>false</c>.</value>
+	public bool HasBeenStarted {
+		get {
+			return state != TimerState.NotStarted;
+		}
+	}
+
+    /// <summary>
     /// Gets the ticks completed.
     /// </summary>
     /// <value>The ticks completed.</value>

@@ -11,7 +11,7 @@ public class MapTile : MonoBehaviour {
     int id = -1;
 
     protected bool initialized = false;
-	protected string prefabName;
+	protected string prefabName = "";
 
 	/// <summary>
 	/// Dehighlights this instance on awake
@@ -327,7 +327,7 @@ public class MapTile : MonoBehaviour {
 	{
 		get
 		{
-			return prefabName.Length > 0 ? prefabName : name;
+			return prefabName.Length > 0 ? prefabName : gameObject.name;
 		}
         
 		set {

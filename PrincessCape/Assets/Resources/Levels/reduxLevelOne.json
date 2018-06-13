@@ -641,6 +641,19 @@
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
 },
+{
+"Name": "MovingPlatform",
+"Prefab": "MovingPlatform",
+"ID": "78",
+"Position": "(-25.5, -5.0, 0.0)",
+"Rotation": "(0.0, 0.0, 0.0)",
+"Scale": "(1.0, 1.0, 1.0)",
+"Starts Active": "True",
+"Required Activators": "1",
+"Direction": "(-1.0, 0.0, 0.0)",
+"Travel Distance": "8",
+"Travel Time": "1",
+},
 ],
 "Connections": [
 ]
