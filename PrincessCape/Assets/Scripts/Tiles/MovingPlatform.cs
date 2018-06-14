@@ -14,11 +14,17 @@ public class MovingPlatform : ActivatedObject {
 	float travelDistance = 2.0f;
 	Timer moveTimer;
 	Animator myAnimator;
-	Rigidbody2D myRigidbody;
 
 	private void Awake()
 	{
 		
+	}
+
+	private void Update()
+	{
+		if (!Game.Instance.IsPaused && moveTimer.IsRunning) {
+			transform.position += direction * travelDistance / travelTime * Time.deltaTime;
+		}
 	}
 	public override void Activate()
 	{
@@ -27,17 +33,13 @@ public class MovingPlatform : ActivatedObject {
 		} else {
 			moveTimer.Start();
 		}
-		if (myRigidbody)
-		{
-			myRigidbody.velocity = direction * travelDistance / travelTime;
-		}
+
 		myAnimator.SetBool("IsActive", true);
 	}
 
 	public override void Deactivate()
 	{
 		moveTimer.Pause();
-		myRigidbody.velocity = Vector2.zero;
 		myAnimator.SetBool("IsActive", false);
 	}
     
@@ -46,16 +48,13 @@ public class MovingPlatform : ActivatedObject {
 		if (!initialized)
 		{
 			myAnimator = GetComponentInChildren<Animator>();
-			myRigidbody = GetComponent<Rigidbody2D>();
-		
 			travelTime = travelTime > 0.0f ? travelTime : 1.0f;
 			moveTimer = new Timer(travelTime, true);
 			moveTimer.OnTick.AddListener(() =>
 			{
 				direction *= -1;
-				myRigidbody.velocity = direction * travelDistance / travelTime;
 			});
-
+            
 			base.Init();
 			initialized = true;
 		}
@@ -113,6 +112,12 @@ public class MovingPlatform : ActivatedObject {
 		travelTime = PCLParser.ParseFloat(tile.NextLine);
 	}
 
+	void OnCollisionStay2D(Collision2D collision)
+	{
+		collision.transform.position += direction * travelDistance / travelTime * Time.deltaTime;
+		//collision.rigidbody.AddForce(direction * 8.875f);
+	}
+    
 #if UNITY_EDITOR
 	public override void RenderInEditor()
     {
