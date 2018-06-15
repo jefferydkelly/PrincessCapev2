@@ -19,9 +19,8 @@ public class Block : HeldItem{
 	{
 		if (collision.collider.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem)
 		{
-            
-            Vector3 dif = collision.transform.position - transform.position;
-            if (Vector3.Dot(Vector3.up, dif) <= 0.55f)
+			Direction closest = collision.GetClosestDirection();
+			if (closest == Direction.Left || closest == Direction.Right)
             {
                 IsHighlighted = true;
             }

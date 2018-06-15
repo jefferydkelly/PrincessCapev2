@@ -132,7 +132,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 128
+    width: 256
     height: 128
   startActive: 0
   isConnected: 0

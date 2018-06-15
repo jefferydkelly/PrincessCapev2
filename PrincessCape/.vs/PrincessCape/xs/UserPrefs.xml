@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/MovingPlatform.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Interactive Objects/HeldItem.cs">
     <Files>
       <File FileName="Assets/Scripts/Map/MapTile.cs" Line="23" Column="8" />
       <File FileName="Assets/Scripts/Tiles/Gate.cs" Line="21" Column="6" />
@@ -11,7 +11,7 @@
       <File FileName="Assets/Scripts/ActivatedObject.cs" Line="140" Column="3" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="315" Column="22" />
       <File FileName="Assets/Scripts/ActivatorObject.cs" Line="19" Column="41" />
-      <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="82" Column="1" />
+      <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="4" Column="23" />
       <File FileName="Assets/Scripts/Items/StarShield.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/UI/AimArrow.cs" Line="27" Column="42" />
       <File FileName="Assets/Scripts/LightField.cs" Line="1" Column="1" />
@@ -49,7 +49,7 @@
       <File FileName="Assets/Scripts/Managers/Game.cs" Line="171" Column="14" />
       <File FileName="Assets/Scripts/UI/ItemBox.cs" Line="37" Column="12" />
       <File FileName="Assets/Scripts/Items/MagicCape.cs" Line="12" Column="59" />
-      <File FileName="Assets/Scripts/Interactive Objects/Block.cs" Line="13" Column="2" />
+      <File FileName="Assets/Scripts/Interactive Objects/Block.cs" Line="27" Column="4" />
       <File FileName="Assets/Scripts/Managers/CameraManager.cs" Line="44" Column="25" />
       <File FileName="Assets/Scripts/Metal.cs" Line="31" Column="6" />
       <File FileName="Assets/Scripts/Items/MagicItem.cs" Line="24" Column="6" />
@@ -68,9 +68,10 @@
       <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="73" Column="1" />
       <File FileName="Assets/Scripts/Menus/LoadInputBrowser.cs" Line="86" Column="17" />
       <File FileName="Assets/Scripts/Tiles/LockedDoor.cs" Line="45" Column="3" />
-      <File FileName="Assets/Scripts/Interactive Objects/HeldItem.cs" Line="20" Column="38" />
+      <File FileName="Assets/Scripts/Interactive Objects/HeldItem.cs" Line="88" Column="30" />
       <File FileName="Assets/Scripts/Interactive Objects/Pot.cs" Line="5" Column="30" />
       <File FileName="Assets/Scripts/Tiles/MovingPlatform.cs" Line="117" Column="92" />
+      <File FileName="Assets/Scripts/Tiles/Trampoline.cs" Line="13" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
