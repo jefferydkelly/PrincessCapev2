@@ -1,6 +1,6 @@
-WindowsStandalone
+OSXStandalone
 PlayerPath?
-/Users/jefferykelly/Desktop/Demos/princessCapeV2-Fullv1/PrincessCapev2 - Windows/PrincessCapev2 - Windows.exe
+/Users/jefferykelly/Desktop/Demos/princessCapeV2-Fullv1/trampolineDemo.app
 SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/Test.unity
@@ -113,6 +113,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 30afa8783a8bbee2e465ec9ce1efaee2 UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 30afa8783a8bbee2e465ec9ce1efaee2 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 607d64d2c4bc76ac9876e6f7b9cc7edf UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
+841df02bc4e62e64ebc1b4418fdbd463 Assembly-CSharp.dll:.Trampoline
 08d89d3dcfdecc7dd964ed748d049444 Assembly-CSharp.dll:.Pot
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
@@ -211,6 +212,7 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.InteractionBox
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.MagicCape
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CutsceneActor
+4373b23f91164015234cd6fc600d98c0 Assembly-CSharp.dll:.MovingPlatform
 5e01d21eed290f2a6404ed19482dbd95 Assembly-CSharp.dll:.KnightRemains
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.AimArrow
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ReflectiveSurface
