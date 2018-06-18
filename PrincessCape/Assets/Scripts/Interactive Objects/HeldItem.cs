@@ -6,11 +6,14 @@ using UnityEngine;
 public class HeldItem : InteractiveObject
 {
     protected Rigidbody2D myRigidbody;
+    protected Collider2D myCollider;
     protected bool isHeld = false;
+    int hitMasks;
 	Vector3 startPosition;
     void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
+        myCollider = GetComponent<Collider2D>();
         myRenderer = GetComponent<SpriteRenderer>();
 
 	}
@@ -19,6 +22,11 @@ public class HeldItem : InteractiveObject
 	{
 		startPosition = transform.position;
 		Game.Instance.Player.OnRespawn.AddListener(Reset);
+
+        myRigidbody = GetComponent<Rigidbody2D>();
+        myCollider = GetComponent<Collider2D>();
+        myRenderer = GetComponent<SpriteRenderer>();
+        hitMasks = ~(1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("UI"));
 	}
 
 	private void Reset()
@@ -89,5 +97,24 @@ public class HeldItem : InteractiveObject
         get {
             return myRenderer.bounds.extents.y;
         }
+    }
+
+    public Vector3 Move(Vector3 direction) {
+        direction *= Time.deltaTime;
+        Vector2 dNormal = direction.normalized;
+        float mag = direction.magnitude;
+        foreach (RaycastHit2D hit in Physics2D.BoxCastAll(transform.position, myCollider.bounds.size, 0, dNormal, mag, hitMasks)) {
+            if (hit.collider != myCollider) {
+                
+                if (hit.distance > mag)
+                {
+                    direction = hit.point - (Vector2)transform.position;
+                    mag = direction.magnitude;
+                }
+            }
+        }
+    
+        transform.position += direction;
+        return direction;
     }
 }

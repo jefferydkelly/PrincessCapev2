@@ -15,7 +15,7 @@
       <File FileName="Assets/Scripts/Items/StarShield.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/UI/AimArrow.cs" Line="27" Column="42" />
       <File FileName="Assets/Scripts/LightField.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player.cs" Line="42" Column="1" />
+      <File FileName="Assets/Scripts/Player.cs" Line="173" Column="55" />
       <File FileName="Assets/Scripts/Managers/Controller.cs" Line="34" Column="24" />
       <File FileName="Assets/Scripts/Projectile.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="74" Column="2" />
@@ -68,10 +68,10 @@
       <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="73" Column="1" />
       <File FileName="Assets/Scripts/Menus/LoadInputBrowser.cs" Line="86" Column="17" />
       <File FileName="Assets/Scripts/Tiles/LockedDoor.cs" Line="45" Column="3" />
-      <File FileName="Assets/Scripts/Interactive Objects/HeldItem.cs" Line="88" Column="30" />
+      <File FileName="Assets/Scripts/Interactive Objects/HeldItem.cs" Line="116" Column="5" />
       <File FileName="Assets/Scripts/Interactive Objects/Pot.cs" Line="5" Column="30" />
       <File FileName="Assets/Scripts/Tiles/MovingPlatform.cs" Line="117" Column="92" />
-      <File FileName="Assets/Scripts/Tiles/Trampoline.cs" Line="13" Column="4" />
+      <File FileName="Assets/Scripts/Tiles/Trampoline.cs" Line="9" Column="85" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

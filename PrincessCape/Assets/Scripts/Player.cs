@@ -165,13 +165,12 @@ public class Player : MonoBehaviour {
                 }
                 if (IsHoldingItem)
                 {
-                    heldItem.transform.position = transform.position + Vector3.right * fwd;
-
                     if (heldItem.IsHeavy)
                     {
                         myRigidbody.ClampXVelocity(maxSpeed / 5.0f);
                         heldItem.transform.position = heldItem.transform.position.SetY(transform.position.y - Height / 2 + heldItem.HalfHeight);
                     }
+                    heldItem.Move(myRigidbody.velocity);
                 }
                 bool onGround = IsOnGround;
 
