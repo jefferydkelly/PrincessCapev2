@@ -206,9 +206,7 @@ public class PCLParser {
                 ts.AddInfo(s);
 			}
         }
-		if (ts.prefabName == null || ts.prefabName.Length == 0) {
-			ts.prefabName = ts.tileName;
-		}
+		
         return ts;
     }
 

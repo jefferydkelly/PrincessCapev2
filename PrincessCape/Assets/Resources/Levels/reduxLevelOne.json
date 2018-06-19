@@ -648,21 +648,28 @@
 "Position": "(-25.5, -8.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 1.0, 1.0)",
-"Starts Active": "True",
+"Starts Active": "False",
 "Required Activators": "1",
 "Direction": "(1.0, 0.0, 0.0)",
 "Travel Distance": "2",
 "Travel Time": "1",
 },
 {
-"Name": "Trampoline",
-"Prefab": "Trampoline",
+"Name": "Lever",
+"Prefab": "Lever",
 "ID": "0",
-"Position": "(-37.0, -8.0, 0.0)",
+"Position": "(-32.0, -8.0, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
-"Scale": "(1.0, 1.0, 1.0)",
+"Scale": "(2.0, 1.0, 1.0)",
+"Starts Active": "False",
+"Required Activators": "1",
 },
 ],
 "Connections": [
+{
+"Activator": "0",
+"Activated": "77",
+"Inverted": "False",
+},
 ]
 }
