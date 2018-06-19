@@ -267,7 +267,7 @@ public class MapTile : MonoBehaviour {
     protected virtual string GenerateSaveData() {
         string info = "";
 		info += PCLParser.CreateAttribute("Name", name.Split('(')[0]);
-		info += PCLParser.CreateAttribute("Prefab", PrefabName);
+		info += PCLParser.CreateAttribute("Prefab", prefabName);
 		info += PCLParser.CreateAttribute("ID", ID);
 		info += PCLParser.CreateAttribute("Position", transform.position);
 		info += PCLParser.CreateAttribute("Rotation", new Vector3(0, 0, transform.eulerAngles.z));
@@ -327,7 +327,7 @@ public class MapTile : MonoBehaviour {
 	{
 		get
 		{
-			return prefabName.Length > 0 ? prefabName : gameObject.name;
+			return prefabName;
 		}
         
 		set {

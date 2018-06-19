@@ -1,8 +1,8 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Map/PCLParser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Map/MapTile.cs">
     <Files>
-      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="280" Column="14" />
+      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="292" Column="51" />
       <File FileName="Assets/Scripts/Tiles/Gate.cs" Line="21" Column="6" />
       <File FileName="Assets/Scripts/Tiles/Mirror.cs" Line="22" Column="6" />
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="122" Column="19" />
@@ -70,7 +70,7 @@
       <File FileName="Assets/Scripts/Tiles/LockedDoor.cs" Line="45" Column="3" />
       <File FileName="Assets/Scripts/Interactive Objects/HeldItem.cs" Line="116" Column="5" />
       <File FileName="Assets/Scripts/Interactive Objects/Pot.cs" Line="5" Column="30" />
-      <File FileName="Assets/Scripts/Tiles/MovingPlatform.cs" Line="117" Column="92" />
+      <File FileName="Assets/Scripts/Tiles/MovingPlatform.cs" Line="118" Column="26" />
       <File FileName="Assets/Scripts/Tiles/Trampoline.cs" Line="9" Column="85" />
       <File FileName="Assets/Scripts/Interactive Objects/Lever.cs" Line="19" Column="52" />
     </Files>

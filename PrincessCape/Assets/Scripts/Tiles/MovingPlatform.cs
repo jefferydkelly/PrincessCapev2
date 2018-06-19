@@ -92,6 +92,7 @@ public class MovingPlatform : ActivatedObject {
 	public override void Rotate(float ang)
 	{
 		direction = ((Vector2)(direction)).RotateDeg(ang);
+        direction = new Vector3(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y));
 		transform.GetChild(0).rotation *= Quaternion.AngleAxis(ang, Vector3.forward);
 	}
 
@@ -114,8 +115,11 @@ public class MovingPlatform : ActivatedObject {
 
 	void OnCollisionStay2D(Collision2D collision)
 	{
-		collision.transform.position += direction * travelDistance / travelTime * Time.deltaTime;
-		//collision.rigidbody.AddForce(direction * 8.875f);
+        if (direction.y <= 0)
+        {
+            collision.transform.position += direction * travelDistance / travelTime * Time.deltaTime;
+        }
+		
 	}
     
 #if UNITY_EDITOR
