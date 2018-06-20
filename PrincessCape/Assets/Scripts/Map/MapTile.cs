@@ -342,8 +342,9 @@ public class MapTile : MonoBehaviour {
 
 public enum EditorLayer
 {
-	Foreground,
-	Background
+	Foreground = 0,
+	Background = 1,
+    Wall = 2
 }
 
 public enum MapHighlightState {

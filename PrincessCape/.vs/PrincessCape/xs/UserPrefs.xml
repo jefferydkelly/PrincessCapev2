@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Map/MapTile.cs">
     <Files>
-      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="292" Column="51" />
+      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="347" Column="13" />
       <File FileName="Assets/Scripts/Tiles/Gate.cs" Line="21" Column="6" />
       <File FileName="Assets/Scripts/Tiles/Mirror.cs" Line="22" Column="6" />
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="122" Column="19" />
