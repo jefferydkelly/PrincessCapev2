@@ -87,4 +87,18 @@ public class Wall : MapTile {
             return transform.position + new Vector3(Width - 1, Height - 1) / 2;
         }
     }
+
+    protected override string GenerateSaveData()
+    {
+        string data = base.GenerateSaveData();
+        data += PCLParser.CreateAttribute<Vector2>("Size", size);
+        return data;
+    }
+
+    public override void FromData(TileStruct tile)
+    {
+        base.FromData(tile);
+        size = PCLParser.ParseVector2(tile.NextLine);
+        Resize();
+    }
 }

@@ -64,6 +64,22 @@ public class PCLParser {
         string enu = ParseLine(json);
         return (T)(System.Enum.Parse(typeof(T), enu));
     }
+
+    /// <summary>
+    /// Parses a Vector2 from the given line of json.
+    /// </summary>
+    /// <returns>The vector2.</returns>
+    /// <param name="json">The Json line.</param>
+    public static Vector2 ParseVector2(string json)
+    {
+
+        string line = ParseLine(json);
+        string firstSub = line.Split('(')[1];
+        firstSub = firstSub.Split(')')[0];
+        string[] xy = firstSub.Split(',');
+        return new Vector2(float.Parse(xy[0].Trim()), float.Parse(xy[1].Trim()));
+    }
+
     /// <summary>
     /// Parses a Vector3 from the given line of json.
     /// </summary>

@@ -53,7 +53,7 @@
       <File FileName="Assets/Scripts/Managers/CameraManager.cs" Line="44" Column="25" />
       <File FileName="Assets/Scripts/Metal.cs" Line="31" Column="6" />
       <File FileName="Assets/Scripts/Items/MagicItem.cs" Line="24" Column="6" />
-      <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="196" Column="65" />
+      <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="17" Column="41" />
       <File FileName="Assets/Scripts/Tiles/SpikePlatform.cs" Line="54" Column="23" />
       <File FileName="Assets/Scripts/Menus/LevelSelect.cs" Line="43" Column="33" />
       <File FileName="Assets/Scripts/Tiles/PressureSwitch.cs" Line="57" Column="6" />
@@ -73,7 +73,7 @@
       <File FileName="Assets/Scripts/Tiles/MovingPlatform.cs" Line="118" Column="26" />
       <File FileName="Assets/Scripts/Tiles/Trampoline.cs" Line="9" Column="85" />
       <File FileName="Assets/Scripts/Interactive Objects/Lever.cs" Line="19" Column="52" />
-      <File FileName="Assets/Scripts/Tiles/Wall.cs" Line="52" Column="14" />
+      <File FileName="Assets/Scripts/Tiles/Wall.cs" Line="94" Column="64" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
