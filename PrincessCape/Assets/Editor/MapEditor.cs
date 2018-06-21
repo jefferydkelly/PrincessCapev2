@@ -601,7 +601,7 @@ public class MapEditor : Editor {
     {
         if (selectedPrefab != null)
         {
-            Vector3 pos = new Vector3(Mathf.Round(_spawnPosition.x), Mathf.Round(_spawnPosition.y), selectedPrefab.gameObject.IsOnLayer("Background") ? 1 : 0);
+            Vector3 pos = new Vector3(Mathf.Round(_spawnPosition.x), Mathf.Round(_spawnPosition.y), selectedPrefab.ZPos);
 
 
             if ((int)selectedPrefab.Bounds.x % 2 == 0)

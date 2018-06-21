@@ -11,7 +11,8 @@ public class MapTile : MonoBehaviour {
     int id = -1;
 
     protected bool initialized = false;
-	protected string prefabName = "";
+    [SerializeField]
+	protected string instanceName = "";
 
 	/// <summary>
 	/// Dehighlights this instance on awake
@@ -266,8 +267,8 @@ public class MapTile : MonoBehaviour {
 
     protected virtual string GenerateSaveData() {
         string info = "";
-		info += PCLParser.CreateAttribute("Name", name.Split('(')[0]);
-		info += PCLParser.CreateAttribute("Prefab", prefabName);
+        info += PCLParser.CreateAttribute("Prefab", name.Split('(')[0]);
+        info += PCLParser.CreateAttribute("Instance Name", instanceName);
 		info += PCLParser.CreateAttribute("ID", ID);
 		info += PCLParser.CreateAttribute("Position", transform.position);
 		info += PCLParser.CreateAttribute("Rotation", new Vector3(0, 0, transform.eulerAngles.z));
@@ -277,7 +278,7 @@ public class MapTile : MonoBehaviour {
 
     public virtual void FromData(TileStruct tile) {
         id = tile.id;
-		prefabName = tile.prefabName;
+        instanceName = tile.instanceName;
         transform.position = PCLParser.ParseVector3(tile.NextLine).SetZ((float)layer);
         Vector3 rot = PCLParser.ParseVector3(tile.NextLine);
 
@@ -323,17 +324,16 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
-	public string PrefabName
+	public string InstanceName
 	{
 		get
 		{
-			return prefabName;
+            return instanceName;
 		}
         
 		set {
 			if (!Application.isPlaying || !initialized) {
-				prefabName = value;
-				name = value;
+				instanceName = value;
 			}
 		}
 	}

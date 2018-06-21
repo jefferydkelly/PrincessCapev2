@@ -135,6 +135,7 @@ public class Map : MonoBehaviour
 		{
 			AssignID(tile);
 		}
+        tile.Init();
     }
 
     /// <summary>
@@ -313,7 +314,7 @@ public class Map : MonoBehaviour
                     
 					foreach (TileStruct t in mapFile.Tiles)
                     {
-						MapTile tile = Instantiate(prefabs[t.prefabName]).GetComponent<MapTile>();
+                        MapTile tile = Instantiate(prefabs[t.tileName]).GetComponent<MapTile>();
 						tile.name = t.tileName;
                         tile.FromData(t);
                         tile.Init();

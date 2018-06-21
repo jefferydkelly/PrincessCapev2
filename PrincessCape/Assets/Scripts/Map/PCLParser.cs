@@ -188,16 +188,16 @@ public class PCLParser {
 
     public static TileStruct ParseTileStruct (List<string> tile) {
         TileStruct ts = new TileStruct();
-     
+        ts.instanceName = "";
         ts.id = -1;
         for (int i = 0; i < tile.Count; i++) {
             string s = tile[i];
          
-			if (s.Contains("\"Name\": "))
+            if (s.Contains("\"Prefab\": ") || s.Contains("\"Name\": "))
 			{
 				ts.tileName = ParseLine(s);
-			} else if (s.Contains("\"Prefab\": ")) {
-				ts.prefabName = ParseLine(s);
+			} else if (s.Contains("\"Instance Name\": ")) {
+                ts.instanceName = ParseLine(s);
 			} else if (s.Contains("\"ID\":")) {
                 ts.id = ParseInt(s);
             }
@@ -206,7 +206,10 @@ public class PCLParser {
                 ts.AddInfo(s);
 			}
         }
-		
+
+        if (ts.instanceName.Length == 0) {
+            ts.instanceName = ts.tileName;
+        }
         return ts;
     }
 
@@ -272,7 +275,7 @@ public class PCLParser {
 
 public class TileStruct {
 	public string tileName;
-    public string prefabName;
+    public string instanceName;
     public int id;
     public List<string> info;
     private int currentIndex;
