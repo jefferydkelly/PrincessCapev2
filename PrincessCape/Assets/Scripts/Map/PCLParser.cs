@@ -149,13 +149,24 @@ public class PCLParser {
         return new KeyValuePair<string, string>(key, val);
     }
 
+    /// <summary>
+    /// Parses a MapFile from the json string passed in.
+    /// </summary>
+    /// <returns>The map file containing a list of TileStructs and ConnectionStructs.</returns>
+    /// <param name="json">The json file containing the map info.</param>
 	public static MapFile ParseMapFile(string json) {
 		int connectionsStart = -1;
         List<TileStruct> tiles = ParseTiles(json, out connectionsStart);
 		List<ConnectionStruct> connections = ParseConnectionsList(json.Substring(connectionsStart));
 		return new MapFile(tiles, connections);
 	}
-    
+
+    /// <summary>
+    /// Finds the end of array.
+    /// </summary>
+    /// <returns>The index of the end of array.</returns>
+    /// <param name="s">The json string to be searched for the end of the array.</param>
+    /// <param name="startInd">The start index of the search.</param>
 	static int FindEndOfArray(string s, int startInd) {
 		int numOpens = 0;
 		int numCloses = 0;
@@ -172,6 +183,13 @@ public class PCLParser {
 
 		return -1;
 	}
+
+    /// <summary>
+    /// Parses json to create a list of TileStructs.
+    /// </summary>
+    /// <returns>A list of Tile Structs.</returns>
+    /// <param name="json">The JSON file to be parsed.</param>
+    /// <param name="nextInd">The index at the end of the tiles array.</param>
 	public static List<TileStruct> ParseTiles(string json, out int nextInd) {
         List<TileStruct> tiles = new List<TileStruct>();
         int ind = json.IndexOf('[');
@@ -202,6 +220,11 @@ public class PCLParser {
         return tiles;
     }
 
+    /// <summary>
+    /// Creates a TileStruct based on the list of string passed in
+    /// </summary>
+    /// <returns>The tile struct.</returns>
+    /// <param name="tile">Tile.</param>
     public static TileStruct ParseTileStruct (List<string> tile) {
         TileStruct ts = new TileStruct();
         ts.instanceName = "";
@@ -229,6 +252,11 @@ public class PCLParser {
         return ts;
     }
 
+    /// <summary>
+    /// Parses the connections list.
+    /// </summary>
+    /// <returns>The connections list.</returns>
+    /// <param name="json">Json.</param>
 	public static List<ConnectionStruct> ParseConnectionsList(string json) {
 		List<ConnectionStruct> connections = new List<ConnectionStruct>();
         int ind = json.IndexOf('[');
@@ -251,6 +279,11 @@ public class PCLParser {
 		return connections;
 	}
 
+    /// <summary>
+    /// Parses the connection struct from the list of strings passed in.
+    /// </summary>
+    /// <returns>The connection.</returns>
+    /// <param name="connections">Connections.</param>
 	public static ConnectionStruct ParseConnection(List<string> connections) {
 		int tor = ParseInt(connections[0]);
 		int ted = ParseInt(connections[1]);
@@ -259,29 +292,50 @@ public class PCLParser {
 	}
 
 
-
+    /// <summary>
+    /// Parses the value of a JSON line.
+    /// </summary>
+    /// <returns>The line.</returns>
+    /// <param name="line">A line of JSON.</param>
     public static string ParseLine(string line) {
         string tName = line.Substring(line.IndexOf(':') + 3);
 		tName = tName.Substring(0, tName.Length - 2);
         return tName;
     }
 
+    /// <summary>
+    /// Determines whether the given string is a complete line of JSON or not
+    /// </summary>
+    /// <returns><c>true</c>, if the string is a line of JSON, <c>false</c> otherwise.</returns>
+    /// <param name="s">S.</param>
     static bool IsLine(string s) {
         return !(s.Contains("{") || s.Contains("}"));
     }
 
+    /// <summary>
+    /// Gets the character for the start of a struct.
+    /// </summary>
+    /// <value>The character for the start of a struct.</value>
     public static string StructStart {
         get {
             return structStart;
         }
     }
 
+    /// <summary>
+    /// Gets the character for the end of a struct.
+    /// </summary>
+    /// <value>The character for the end of a struct.</value>
     public static string StructEnd {
         get {
             return structEnd;
         }
     }
 
+    /// <summary>
+    /// Gets the character for the start of a line.
+    /// </summary>
+    /// <value>The character for the start of a line.</value>
     public static string LineEnd {
         get {
             return lineEnding;
@@ -300,10 +354,19 @@ public class TileStruct {
         currentIndex = 0;
         info = new List<string>();
     }
+
+    /// <summary>
+    /// Adds a new line of information to the struct.
+    /// </summary>
+    /// <param name="s">A line of info.</param>
     public void AddInfo(string s) {
         info.Add(s);
     }
 
+    /// <summary>
+    /// Gets the next line.
+    /// </summary>
+    /// <value>The next line of the struct.</value>
     public string NextLine {
         get {
             if (currentIndex < info.Count)
@@ -318,6 +381,10 @@ public class TileStruct {
         }
     }
 
+    /// <summary>
+    /// Gets the next line without incrementing the index.
+    /// </summary>
+    /// <value>Gets the next line.</value>
 	public string Peek
 	{
 		get
@@ -333,10 +400,17 @@ public class TileStruct {
 		}
 	}
 
+    /// <summary>
+    /// Tosses the line and increments the index.
+    /// </summary>
     public void TossLine() {
         currentIndex++;
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:TileStruct"/> fully read.
+    /// </summary>
+    /// <value><c>true</c> if fully read; otherwise, <c>false</c>.</value>
     public bool FullyRead {
         get {
             return currentIndex >= info.Count;
@@ -352,12 +426,21 @@ public class MapFile {
 		tiles = tileStructs;
 		connections = activatorConnections;
 	}
+
+    /// <summary>
+    /// Gets the tiles.
+    /// </summary>
+    /// <value>The tiles.</value>
 	public List<TileStruct> Tiles {
 		get {
 			return tiles;
 		}
 	}
 
+    /// <summary>
+    /// Gets the connections.
+    /// </summary>
+    /// <value>The connections.</value>
 	public List<ConnectionStruct> Connections {
 		get {
 			return connections;
@@ -376,18 +459,30 @@ public struct ConnectionStruct {
 		inverted = inv;
 	}
 
+    /// <summary>
+    /// Gets the id of the activator object.
+    /// </summary>
+    /// <value>The activator.</value>
 	public int Activator {
 		get {
 			return activatorID;
 		}
 	}
 
+    /// <summary>
+    /// Gets the id of the activated object.
+    /// </summary>
+    /// <value>The activated.</value>
 	public int Activated {
 		get {
 			return activatedID;
 		}
 	}
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:ConnectionStruct"/> is inverted.
+    /// </summary>
+    /// <value><c>true</c> if inverted; otherwise, <c>false</c>.</value>
 	public bool Inverted {
 		get {
 			return inverted;

@@ -23,11 +23,18 @@ public class Map : MonoBehaviour
 
     UnityEvent onLevelLoaded;
     static Map instance;
+
+    /// <summary>
+    /// Event for when the Map wakes
+    /// </summary>
     public void Awake()
     {
 		Init();
     }
 
+    /// <summary>
+    /// Event for when the Map is enabled
+    /// </summary>
 	private void OnEnable()
 	{
 		instance = this;
@@ -434,23 +441,36 @@ public class Map : MonoBehaviour
         return prefab;
     }
 
+    /// <summary>
+    /// Gets the child game object with the name passed in.
+    /// </summary>
+    /// <returns>The child with the name given.</returns>
+    /// <param name="name">Name.</param>
 	public GameObject GetChildByName(string name) {
 		for (int i = 0; i < transform.childCount; i++) {
-			GameObject child = transform.GetChild(i).gameObject;
-			if (child.name == name) {
-				return child;
+            MapTile child = transform.GetChild(i).GetComponent<MapTile>();
+            if (child.name == name || child.InstanceName == name) {
+                return child.gameObject;
 			}
 		}
 
 		return null;
 	}
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Map"/> is loaded.
+    /// </summary>
+    /// <value><c>true</c> if is loaded; otherwise, <c>false</c>.</value>
 	public bool IsLoaded {
 		get {
 			return isLoaded;
 		}
 	}
 
+    /// <summary>
+    /// Gets the map identifier.
+    /// </summary>
+    /// <value>The map identifier.</value>
 	public int MapID {
 		get {
 			return mapID;

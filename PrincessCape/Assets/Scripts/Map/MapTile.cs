@@ -26,6 +26,9 @@ public class MapTile : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Initializes this instance.
+    /// </summary>
     public virtual void Init() {
 		HighlightState = MapHighlightState.Normal;
 		initialized = true;
@@ -43,6 +46,10 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// Gets or sets the identifier.
+    /// </summary>
+    /// <value>The identifier.</value>
 	public int ID
 	{
 		get
@@ -107,6 +114,10 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// Gets or sets the highlighted state of the MapTile.
+    /// </summary>
+    /// <value>The highlighted state of the MapTile..</value>
 	public virtual MapHighlightState HighlightState
 	{
 		get
@@ -265,6 +276,10 @@ public class MapTile : MonoBehaviour {
         return info;
     }
 
+    /// <summary>
+    /// Generates the save data for the tile.
+    /// </summary>
+    /// <returns>The save data for the tile.</returns>
     protected virtual string GenerateSaveData() {
         string info = "";
         info += PCLParser.CreateAttribute("Prefab", name.Split('(')[0]);
@@ -276,6 +291,10 @@ public class MapTile : MonoBehaviour {
         return info;
     }
 
+    /// <summary>
+    /// Sets the values of the MapTile based on the data in the TileStruct
+    /// </summary>
+    /// <param name="tile">Tile struct containing information about the tile.</param>
     public virtual void FromData(TileStruct tile) {
         id = tile.id;
         instanceName = tile.instanceName;
@@ -286,6 +305,10 @@ public class MapTile : MonoBehaviour {
         transform.rotation *= Quaternion.AngleAxis(rot.z, Vector3.forward);
     }
 
+    /// <summary>
+    /// Gets the texture that is draw in the MapEditor.
+    /// </summary>
+    /// <value>The editor texture.</value>
     public Texture EditorTexture {
         get {
             int wid = (int)editorTextureRect.width;
@@ -318,12 +341,20 @@ public class MapTile : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// Gets the center of the obhect.
+    /// </summary>
+    /// <value>The center.</value>
 	public virtual Vector3 Center {
 		get {
 			return transform.position;
 		}
 	}
 
+    /// <summary>
+    /// Gets or sets the name of the instance.
+    /// </summary>
+    /// <value>The name of the instance.</value>
 	public string InstanceName
 	{
 		get
@@ -344,7 +375,8 @@ public enum EditorLayer
 {
 	Foreground = 0,
 	Background = 1,
-    Wall = 2
+    OnWall = 2.
+    Wall = 3
 }
 
 public enum MapHighlightState {

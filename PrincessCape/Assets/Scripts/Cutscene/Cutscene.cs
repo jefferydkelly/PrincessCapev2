@@ -390,9 +390,10 @@ public class Cutscene:Manager
 
 	public CutsceneActor FindActor(string actorName)
 	{
+        string name = actorName.Trim();
 		foreach (CutsceneActor ca in characters)
 		{
-			if (ca.CharacterName.Trim() == actorName.Trim())
+            if (ca.CharacterName.Trim() == name)
 			{
 				return ca;
 			}
