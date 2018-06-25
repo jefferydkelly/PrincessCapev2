@@ -375,7 +375,7 @@ public enum EditorLayer
 {
 	Foreground = 0,
 	Background = 1,
-    OnWall = 2.
+    OnWall = 2,
     Wall = 3
 }
 
