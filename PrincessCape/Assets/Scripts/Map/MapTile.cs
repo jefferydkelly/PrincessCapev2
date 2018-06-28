@@ -311,16 +311,27 @@ public class MapTile : MonoBehaviour {
     /// <value>The editor texture.</value>
     public Texture EditorTexture {
         get {
-            int wid = (int)editorTextureRect.width;
-            int hite = (int)editorTextureRect.height;
-            Color[] pix = GetComponent<SpriteRenderer>().sprite.texture.GetPixels((int)editorTextureRect.x, (int)editorTextureRect.y, wid, hite);
-            Texture2D editorTexture = new Texture2D(wid, hite);
-            editorTexture.SetPixels(pix);
-            editorTexture.Apply();
-            return editorTexture;
+            
+            return CreateTexture();
         }
     }
 
+
+    public Sprite ButtonSprite {
+        get {
+            return Sprite.Create(CreateTexture(), new Rect(Vector2.zero, editorTextureRect.size), Vector2.zero);
+        }
+    }
+
+    Texture2D CreateTexture() {
+        int wid = (int)editorTextureRect.width;
+        int hite = (int)editorTextureRect.height;
+        Color[] pix = GetComponent<SpriteRenderer>().sprite.texture.GetPixels((int)editorTextureRect.x, (int)editorTextureRect.y, wid, hite);
+        Texture2D editorTexture = new Texture2D(wid, hite);
+        editorTexture.SetPixels(pix);
+        editorTexture.Apply();
+        return editorTexture;
+    }
     /// <summary>
     /// Gets the layer the object is on.
     /// </summary>

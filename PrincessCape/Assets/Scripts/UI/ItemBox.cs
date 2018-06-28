@@ -80,7 +80,7 @@ public class ItemBox : MonoBehaviour {
         itemImage.sprite = null;
     }
 
-	bool IsHidden
+	public bool IsHidden
 	{
 		set
 		{

@@ -177,7 +177,6 @@ public class Game : MonoBehaviour {
                 AddItems();
 				player.IsFrozen = false;
 
-				//CameraManager cameraManager = CameraManager.Instance;
                 onReady.Invoke();
 				onReady.RemoveAllListeners();
 
@@ -254,7 +253,13 @@ public class Game : MonoBehaviour {
                 AddItems();
             }
 
-        } else {
+        } else if (newScene.name == "LevelEditor") {
+            state = GameState.LevelEditor;
+            player = FindObjectOfType<Player>();
+            player.Init();
+            map = FindObjectOfType<Map>();
+
+        }else {
             state = GameState.Menu;
         }
 
@@ -329,6 +334,16 @@ public class Game : MonoBehaviour {
     }
 
     /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Game"/> is in level editor.
+    /// </summary>
+    /// <value><c>true</c> if is in level editor; otherwise, <c>false</c>.</value>
+    public bool IsInLevelEditor {
+        get {
+            return state == GameState.LevelEditor;
+        }
+    }
+
+    /// <summary>
     /// Handles the transition between cutscene and gameplay
     /// </summary>
     void EndCutscene() {
@@ -363,5 +378,6 @@ public enum GameState {
     Paused,
     Cutscene,
     Message,
-    Inventory
+    Inventory,
+    LevelEditor
 }

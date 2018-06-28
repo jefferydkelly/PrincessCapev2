@@ -9,7 +9,7 @@ public class Controller:Manager {
     protected Dictionary<string, KeyCode> keys;
     UnityEvent anyKey;
     UnityEvent onPause;
-   
+
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Controller"/> class.
     /// </summary>
@@ -199,7 +199,6 @@ public class Controller:Manager {
     /// <param name="dt">The time since the last update.</param>
     public virtual void Update(float dt)
     {
-
         if (Input.anyKeyDown) {
             anyKey.Invoke();
         }
@@ -252,6 +251,10 @@ public class Controller:Manager {
 
 	}
 
+    /// <summary>
+    /// Creates a json file of 
+    /// </summary>
+    /// <value>The info.</value>
     public string Info {
         get {
             string info = PCLParser.StructStart;
@@ -263,6 +266,10 @@ public class Controller:Manager {
         }
     }
 
+    /// <summary>
+    /// Gets the dictionary mapping keys to in game actions.
+    /// </summary>
+    /// <value>The dictionary.</value>
     public Dictionary<string, KeyCode> KeyDict {
         get {
             return keys;
@@ -298,24 +305,40 @@ public class Controller:Manager {
         return "";
     }
 
+    /// <summary>
+    /// Gets an event triggered when AnyKey is pressed.
+    /// </summary>
+    /// <value>An event triggered when AnyKey is pressed.</value>
     public UnityEvent AnyKey {
         get {
             return anyKey;
         }
     }
 
+    /// <summary>
+    /// Gets the on pause event.
+    /// </summary>
+    /// <value>The on pause event.</value>
     public UnityEvent OnPause {
         get {
             return onPause;
         }
     }
 
+    /// <summary>
+    /// Gets the mouse position in the world coordinate systems.
+    /// </summary>
+    /// <value>The mouse position.</value>
 	public Vector3 MousePosition {
 		get {
 			return Camera.main.ScreenToWorldPoint(Input.mousePosition.SetZ(-Camera.main.transform.position.z));
 		}
 	}
 
+    /// <summary>
+    /// Gets the aim vector between the player and the mouse position.
+    /// </summary>
+    /// <value>The aim.</value>
 	public Vector2 Aim {
 		get {
 			return (MousePosition - Game.Instance.Player.transform.position).normalized;

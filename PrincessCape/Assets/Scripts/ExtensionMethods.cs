@@ -281,6 +281,19 @@ public static class ExtensionMethods {
 
 		return (Direction)ind;
 	}
+
+    public static string SplitCamelCase(this string s) {
+        string cpy = s;
+        string upper = s.ToUpper();
+        int spacesAdded = 0;
+        for (int i = 1; i < s.Length; i++) {
+            if (s[i].Equals(upper[i])) {
+                cpy = cpy.Insert(i + spacesAdded, " ");
+                spacesAdded++;
+            }
+        }
+        return cpy;
+    }
 }
 
 public enum Direction {

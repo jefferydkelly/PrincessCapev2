@@ -61,6 +61,8 @@ public class Player : MonoBehaviour {
 		onRespawn = new UnityEvent();
 		onLand = new UnityEvent();
 		onDie = new UnityEvent();
+
+
     }
 
     /// <summary>
@@ -105,6 +107,10 @@ public class Player : MonoBehaviour {
                 }
 
             });
+
+            if(Game.Instance.IsInLevelEditor) {
+                myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            }
         }
     }
 

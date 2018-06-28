@@ -73,6 +73,19 @@ public class UIManager : MonoBehaviour
 
         EventManager.StartListening("LevelOver", ToggleLoadingScreen);
         UpdateKeys();
+
+
+    }
+
+    private void Start()
+    {
+        if (Game.Instance.IsInLevelEditor)
+        {
+            HealthBar.gameObject.SetActive(false);
+            itemOneBox.IsHidden = true;
+            itemTwoBox.IsHidden = true;
+            interaction.IsHidden = true;
+        }
     }
 
     /// <summary>
