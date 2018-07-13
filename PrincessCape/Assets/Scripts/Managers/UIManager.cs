@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-
 public class UIManager : MonoBehaviour
 {
     static UIManager instance;
@@ -28,6 +27,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Image loadingScreen;
     Timer loadFadeoutTimer;
+    bool isHidden = false;
+
     private void Awake()
     {
         instance = this;
@@ -74,18 +75,11 @@ public class UIManager : MonoBehaviour
         EventManager.StartListening("LevelOver", ToggleLoadingScreen);
         UpdateKeys();
 
-
     }
 
     private void Start()
     {
-        if (Game.Instance.IsInLevelEditor)
-        {
-            HealthBar.gameObject.SetActive(false);
-            itemOneBox.IsHidden = true;
-            itemTwoBox.IsHidden = true;
-            interaction.IsHidden = true;
-        }
+        IsHidden = Game.Instance.IsInLevelEditor;
     }
 
     /// <summary>
@@ -223,4 +217,18 @@ public class UIManager : MonoBehaviour
 			return mainText.IsRevealing;
 		}
 	}
+
+    public bool IsHidden {
+        get {
+            return isHidden;
+        }
+
+        set {
+            isHidden = value;
+            HealthBar.gameObject.SetActive(!value);
+            itemOneBox.IsHidden = value;
+            itemTwoBox.IsHidden = value;
+            interaction.IsHidden = value;
+        }
+    }
 }

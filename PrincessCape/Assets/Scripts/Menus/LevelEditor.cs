@@ -24,8 +24,10 @@ public class LevelEditor : MonoBehaviour {
 
     float cameraSpeed = 2.0f;
 
+    static LevelEditor instance;
 	// Use this for initialization
 	void Start () {
+        instance = this;
         Object[] obj = Resources.LoadAll("Tiles", typeof(GameObject));
 
         prefabs = new Dictionary<string, GameObject>(obj.Length);
@@ -57,78 +59,88 @@ public class LevelEditor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 mousePos = Controller.Instance.MousePosition;
-        Vector3 pos = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-
-        MapTile atLoc = Map.Instance.GetObjectAtLocation(pos);
-        if (selected)
+        if (!Game.Instance.IsPlaying)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                if (atLoc != null)
-                {
-                    if (atLoc == SecondaryMapTile)
-                    {
-                        if (!IsShiftDown)
-                        {
-                            SwapPrimaryAndSecondary();
-                            foreach (MapTile mt in selectedObjects)
-                            {
-                                mt.HighlightState = MapHighlightState.Normal;
-                            }
-                            selectedObjects.Clear();
-                        }
-                        else
-                        {
-                            secondaryMapTile.HighlightState = MapHighlightState.Primary;
-                            selectedObjects.Add(secondaryMapTile);
-                            secondaryMapTile = null;
-                        }
-                    }
-                    else
-                    {
-                        if (IsShiftDown)
-                        {
-                            PrimaryMapTile = atLoc;
+            Camera.main.transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * cameraSpeed * Time.deltaTime;
+            Vector3 mousePos = Controller.Instance.MousePosition;
+            Vector3 pos = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
 
-                        }
-                        else if (atLoc)
+            MapTile atLoc = Map.Instance.GetObjectAtLocation(pos);
+            if (selected)
+            {
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    if (atLoc != null)
+                    {
+                        if (atLoc == SecondaryMapTile)
                         {
-                            if (!selectedObjects.Contains(atLoc))
+                            if (!IsShiftDown)
                             {
-                                atLoc.HighlightState = MapHighlightState.Backup;
-                                selectedObjects.Add(atLoc);
+                                SwapPrimaryAndSecondary();
+                                foreach (MapTile mt in selectedObjects)
+                                {
+                                    mt.HighlightState = MapHighlightState.Normal;
+                                }
+                                selectedObjects.Clear();
                             }
                             else
                             {
-                                atLoc.HighlightState = MapHighlightState.Normal;
-                                selectedObjects.Remove(atLoc);
-                                if (selectedObjects.Count > 0)
+                                secondaryMapTile.HighlightState = MapHighlightState.Primary;
+                                selectedObjects.Add(secondaryMapTile);
+                                secondaryMapTile = null;
+                            }
+                        }
+                        else
+                        {
+                            if (IsShiftDown)
+                            {
+                                PrimaryMapTile = atLoc;
+
+                            }
+                            else if (atLoc)
+                            {
+                                if (!selectedObjects.Contains(atLoc))
                                 {
-                                    PrimaryMapTile = selectedObjects[0];
-                                    for (int i = 1; i < selectedObjects.Count; i++)
+                                    atLoc.HighlightState = MapHighlightState.Backup;
+                                    selectedObjects.Add(atLoc);
+                                }
+                                else
+                                {
+                                    atLoc.HighlightState = MapHighlightState.Normal;
+                                    selectedObjects.Remove(atLoc);
+                                    if (selectedObjects.Count > 0)
                                     {
-                                        selectedObjects[i].HighlightState = MapHighlightState.Backup;
+                                        PrimaryMapTile = selectedObjects[0];
+                                        for (int i = 1; i < selectedObjects.Count; i++)
+                                        {
+                                            selectedObjects[i].HighlightState = MapHighlightState.Backup;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                } else {
-                    Spawn(pos);
+                    else
+                    {
+                        Spawn(pos);
+                    }
                 }
-            } else if (Input.GetKeyDown(KeyCode.Mouse1)) {
-                if (atLoc == PrimaryMapTile)
+                else if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    SwapPrimaryAndSecondary();
+                    if (atLoc == PrimaryMapTile)
+                    {
+                        SwapPrimaryAndSecondary();
+                    }
+                    else
+                    {
+                        SecondaryMapTile = atLoc != secondaryMapTile ? atLoc : null;
+                    }
                 }
-                else
+                else if (Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace))
                 {
-                    SecondaryMapTile = atLoc != secondaryMapTile ? atLoc : null;
+                    DeleteTile();
                 }
-            }else if (Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace)) {
-                DeleteTile();
-            } 
+            }
         }
 
 	}
@@ -334,6 +346,22 @@ public class LevelEditor : MonoBehaviour {
     bool IsShiftDown {
         get {
             return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        }
+    }
+
+    public static LevelEditor Instance {
+        get {
+            return instance;
+        }
+    }
+
+    public bool IsHidden {
+        get {
+            return gameObject.activeSelf;
+        }
+
+        set {
+            gameObject.SetActive(!value);
         }
     }
 }

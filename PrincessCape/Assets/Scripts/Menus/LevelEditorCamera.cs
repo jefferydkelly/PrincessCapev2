@@ -13,6 +13,9 @@ public class LevelEditorCamera : MonoBehaviour {
 
     private void LateUpdate()
     {
-        transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * moveSpeed * Time.deltaTime;
+        if (!Game.Instance.IsPlaying)
+        {
+            transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * moveSpeed * Time.deltaTime;
+        }
     }
 }

@@ -303,6 +303,8 @@ public class Map : MonoBehaviour
         if (prefabs == null) {
             LoadPrefabs();
         }
+      
+
         if (file.Length > 0)
         {
             Clear();
@@ -314,11 +316,11 @@ public class Map : MonoBehaviour
             if (text)
             {
                 string json = text.text;
+               
                 if (json.Length > 0)
                 {
 					MapFile mapFile = LoadFromFile(json);
 
-                    
 					foreach (TileStruct t in mapFile.Tiles)
                     {
                         MapTile tile = Instantiate(prefabs[t.tileName]).GetComponent<MapTile>();
@@ -327,27 +329,23 @@ public class Map : MonoBehaviour
                         tile.Init();
 						AddTile(tile);
                     }
-				
+				    
 					foreach(ConnectionStruct akon in mapFile.Connections) {
 						ActivatorObject activator = GetTileByID(akon.Activator) as ActivatorObject;
 						ActivatedObject activated = GetTileByID(akon.Activated) as ActivatedObject;
 						activator.AddConnection(activated, akon.Inverted);
 					}
-                    /*
-                    foreach (ActivatorObject ao in GetComponentsInChildren<ActivatorObject>())
-                    {
-                        ao.Reconnect();
-                    }*/
-				
+				    
                     if (Application.isPlaying) {
 						isLoaded = true;
                         OnLevelLoaded.Invoke();
 						Game.Instance.Player.transform.position = Checkpoint.ResetPosition;
                     }
+
                 }
 
-
             }
+
         }
     }
 
@@ -408,6 +406,19 @@ public class Map : MonoBehaviour
         AssignIDs();
         onLevelLoaded = new UnityEvent();
         instance = this;
+    }
+
+    public void PlayInEditor() {
+        foreach (MapTile mt in tiles)
+        {
+            if (!mt.IsInitialized)
+            {
+                mt.Init();
+            }
+        }
+
+        ClearHighlights();
+        Game.Instance.transform.position = Checkpoint.ResetPosition;
     }
 
     /// <summary>

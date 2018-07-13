@@ -316,6 +316,7 @@ public class Player : MonoBehaviour {
         transform.position = Checkpoint.ResetPosition + Vector3.up;
         isFrozen = false;
         myRigidbody.velocity = Vector2.zero;
+        myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         state = PlayerState.Normal;
 		myRenderer.color = myRenderer.color.SetAlpha(0.5f);
 		invincibilityTimer.Start(); ;

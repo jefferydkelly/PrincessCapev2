@@ -77,12 +77,14 @@ public class CameraManager : Manager
             {
 				if (!Game.Instance.Player.IsOnScreen) {
 					Position = Game.Instance.Player.transform.position.SetZ(Position.z);
-				}
-                if (Game.Instance.IsPlaying  && (Game.Instance.Player.IsOnLadder || (Game.Instance.Player.IsFloating)|| (Game.Instance.Player.IsUsingMagneticGloves && Mathf.Abs(Game.Instance.Player.Velocity.y) > 0)))
-                {
-                    Position = Game.Instance.Player.transform.position.SetZ(Position.z);
-                } else if (!Game.Instance.IsInLevelEditor){
-                    Position = Position.SetX(target.transform.position.x);
+                } else if (Game.Instance.IsPlaying) {
+                    if (Game.Instance.Player.IsOnLadder || (Game.Instance.Player.IsFloating) || (Game.Instance.Player.IsUsingMagneticGloves && Mathf.Abs(Game.Instance.Player.Velocity.y) > 0))
+                    {
+                        Position = Game.Instance.Player.transform.position.SetZ(Position.z);
+                    } else if (Game.Instance.IsPlaying)
+                    {
+                        Position = Position.SetX(target.transform.position.x);
+                    } 
                 }
             }
         }

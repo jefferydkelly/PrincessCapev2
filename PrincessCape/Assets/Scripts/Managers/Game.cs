@@ -17,9 +17,16 @@ public class Game : MonoBehaviour {
     Map map;
     string levelToLoad = "classicLevelOne.json";
     string lastScene = "Test";
-    GameState state = GameState.Menu;
+    GameState gameState = GameState.None;
+    ScreenState screenState = ScreenState.Menu;
 
 	UnityEvent onReady = new UnityEvent();
+    UnityEvent onEditorPlay = new UnityEvent();
+    UnityEvent onEditorPause = new UnityEvent();
+    UnityEvent onEditorResume = new UnityEvent();
+    UnityEvent onEditorStop = new UnityEvent();
+
+    bool alreadyPaused = false;
 	// Use this for initialization
 	void Awake () {
 		
@@ -37,19 +44,31 @@ public class Game : MonoBehaviour {
             DontDestroyOnLoad(gameObject);
          
             SceneManager.sceneLoaded += OnSceneLoaded;
-            Controller.Instance.OnPause.AddListener(() => { IsPaused = !IsPaused; });
+          
+            Controller.Instance.OnPause.AddListener(() =>
+            {
+                if (!IsInLevelEditor)
+                {
+                    IsPaused = !IsPaused;
+                } else if (!alreadyPaused)
+                {
+                    alreadyPaused = true;
+                    PauseInEditor();
+                }
+            });
+            
          
             Cutscene.Instance.OnStart.AddListener(()=> {
-                state = GameState.Cutscene;
+                gameState = GameState.Cutscene;
             });
 
 			Cutscene.Instance.OnEnd.AddListener(EndCutscene);
 
             EventManager.StartListening("Inventory", ()=> {
-                if (state == GameState.Playing) {
-                    state = GameState.Inventory;
-                } else if (state == GameState.Inventory) {
-                    state = GameState.Playing;
+                if (gameState == GameState.Playing) {
+                    gameState = GameState.Inventory;
+                } else if (gameState == GameState.Inventory) {
+                    gameState = GameState.Playing;
                 }
             });
             if (canvas)
@@ -59,7 +78,7 @@ public class Game : MonoBehaviour {
 
 			if (SceneManager.GetActiveScene().name == "Test")
 			{
-				state = GameState.Playing;
+                gameState = GameState.Playing;
                 map = FindObjectOfType<Map>();
 				map.OnLevelLoaded.AddListener(() =>
 				{
@@ -67,7 +86,7 @@ public class Game : MonoBehaviour {
 					UIManager.Instance.OnMessageStart.AddListener(() => {
                         if (!IsInCutscene)
                         {
-                            state = GameState.Message;
+                            gameState = GameState.Message;
                         }
                     });
 
@@ -75,10 +94,10 @@ public class Game : MonoBehaviour {
                     UIManager.Instance.OnMessageEnd.AddListener(() => {
                         if (!IsInCutscene)
                         {
-                            state = GameState.Playing;
+                            gameState = GameState.Playing;
                         }
                     });
-					state = GameState.Playing;
+                    gameState = GameState.Playing;
 					AddItems();
 				});
             }
@@ -105,10 +124,58 @@ public class Game : MonoBehaviour {
         levelToLoad = "classicLevelOne.json";
     }
 
+    public void PlayInEditor() {
+     
+        if (IsInLevelEditor) {
+            
+            if (IsPaused) {
+                PauseInEditor();
+            } else if (!IsPlaying)
+            {
+                gameState = GameState.Playing;
+                Map.Instance.PlayInEditor();
+                UIManager.Instance.IsHidden = false;
+                LevelEditor.Instance.IsHidden = true;
+                OnEditorPlay.Invoke();
+
+            } else {
+                gameState = GameState.None;
+                LevelEditor.Instance.IsHidden = false;
+                UIManager.Instance.IsHidden = true;
+                OnEditorStop.Invoke();
+            }
+            Reset();
+        }
+    }
+
+    public void PauseInEditor() {
+        if (IsInLevelEditor) {
+            if (IsPlaying)
+            {
+                gameState = GameState.Paused;
+                LevelEditor.Instance.IsHidden = false;
+                UIManager.Instance.IsHidden = true;
+                OnEditorPause.Invoke();
+
+            } else {
+                gameState = GameState.Playing;
+                LevelEditor.Instance.IsHidden = true;
+                UIManager.Instance.IsHidden = false;
+                OnEditorPlay.Invoke();
+            }
+            if (!alreadyPaused)
+            {
+                alreadyPaused = true;
+                Controller.Instance.OnPause.Invoke();
+            }
+
+
+        }
+    }
     // Update is called once per frame
     void Update () {
 
-		if (state != GameState.Menu)
+        if (screenState !=ScreenState.Menu)
 		{
 			if (managers == null)
 			{
@@ -128,6 +195,8 @@ public class Game : MonoBehaviour {
 				m.Update(Time.deltaTime);
 			}
 		}
+
+        alreadyPaused = false;
 	}
 
     /// <summary>
@@ -159,37 +228,38 @@ public class Game : MonoBehaviour {
     /// <param name="sceneName">Scene name.</param>
     public void LoadScene(string sceneName)
     {
-     
         if (sceneName.Length > 6 && sceneName.Substring(sceneName.Length - 5) == ".json")
         {
             if (SceneManager.GetActiveScene().name != "Test")
             {
                 levelToLoad = sceneName;
                 SceneManager.LoadScene("Test");
+
             }
             else
             {
 				//Clear the map and load the next scene before starting the next level
 				player.IsFrozen = true;
                 map.Clear();
-
                 map.Load(sceneName);
+
                 AddItems();
+
 				player.IsFrozen = false;
+
 
                 onReady.Invoke();
 				onReady.RemoveAllListeners();
-
+                gameState = GameState.Playing;
             }
+
         }
         else
         {
-            state = sceneName == "Test" ? GameState.Playing : GameState.Menu;
+            screenState = sceneName == "Test" ? ScreenState.Level : ScreenState.Menu;
             SceneManager.LoadScene(sceneName);
             Destroy(player);
         }
-
-       
     }
 
     /// <summary>
@@ -233,7 +303,7 @@ public class Game : MonoBehaviour {
 
         if (newScene.name == "Test")
         {
-            
+            screenState = ScreenState.Level;
             player = FindObjectOfType<Player>();
             player.Init();
             map = FindObjectOfType<Map>();
@@ -241,11 +311,13 @@ public class Game : MonoBehaviour {
 
             if (lastScene != "Test")
             {
+                /*
 				map.OnLevelLoaded.AddListener(() =>
 				{
-					state = GameState.Playing;
+				    //gameState = GameState.Playing;
 					AddItems();
-				});
+				});*/
+				
                 lastScene = SceneManager.GetActiveScene().name;
                 LoadScene(levelToLoad);
                 return;
@@ -254,13 +326,13 @@ public class Game : MonoBehaviour {
             }
 
         } else if (newScene.name == "LevelEditor") {
-            state = GameState.LevelEditor;
+            screenState = ScreenState.Editor;
             player = FindObjectOfType<Player>();
             player.Init();
             map = FindObjectOfType<Map>();
 
         }else {
-            state = GameState.Menu;
+            screenState = ScreenState.Menu;
         }
 
         lastScene = SceneManager.GetActiveScene().name;
@@ -295,14 +367,14 @@ public class Game : MonoBehaviour {
     /// <value><c>true</c> if is paused; otherwise, <c>false</c>.</value>
     public bool IsPaused {
         get {
-            return state == GameState.Paused;
+            return gameState == GameState.Paused;
         }
 
         set {
-            if (value && state == GameState.Playing) {
-                state = GameState.Paused;
-            } else if (!value && state == GameState.Paused) {
-                state = GameState.Playing;
+            if (value && gameState == GameState.Playing) {
+                gameState = GameState.Paused;
+            } else if (!value && gameState == GameState.Paused) {
+                gameState = GameState.Playing;
             }
         }
     }
@@ -313,13 +385,13 @@ public class Game : MonoBehaviour {
     /// <value><c>true</c> if is in cutscene; otherwise, <c>false</c>.</value>
     public bool IsInCutscene {
         get {
-            return state == GameState.Cutscene;
+            return gameState == GameState.Cutscene;
         }
     }
 
     public bool IsInInventory {
         get {
-            return state == GameState.Inventory;
+            return gameState == GameState.Inventory;
         }
     }
 
@@ -329,7 +401,7 @@ public class Game : MonoBehaviour {
     /// <value><c>true</c> if is playing; otherwise, <c>false</c>.</value>
     public bool IsPlaying {
         get {
-            return state == GameState.Playing && !player.IsDead;
+            return gameState == GameState.Playing && !player.IsDead;
         }
     }
 
@@ -339,7 +411,7 @@ public class Game : MonoBehaviour {
     /// <value><c>true</c> if is in level editor; otherwise, <c>false</c>.</value>
     public bool IsInLevelEditor {
         get {
-            return state == GameState.LevelEditor;
+            return screenState == ScreenState.Editor;
         }
     }
 
@@ -347,7 +419,7 @@ public class Game : MonoBehaviour {
     /// Handles the transition between cutscene and gameplay
     /// </summary>
     void EndCutscene() {
-        state = GameState.Playing;
+        gameState = GameState.Playing;
     }
 
     /// <summary>
@@ -370,14 +442,48 @@ public class Game : MonoBehaviour {
 			return onReady;
 		}
 	}
+
+    public UnityEvent OnEditorPlay {
+        get {
+            return onEditorPlay;
+        }
+    }
+
+    public UnityEvent OnEditorPause
+    {
+        get
+        {
+            return onEditorPause;
+        }
+    }
+
+    public UnityEvent OnEditorStop {
+        get {
+            return onEditorStop;
+        }
+    }
+
+    public UnityEvent OnEditorResume
+    {
+        get
+        {
+            return onEditorResume;
+        }
+    }
 }
 
 public enum GameState {
-    Menu,
+    None,
     Playing,
     Paused,
     Cutscene,
     Message,
-    Inventory,
-    LevelEditor
+    Inventory
+}
+
+public enum ScreenState {
+    Menu,
+    Level,
+    GameOver,
+    Editor
 }

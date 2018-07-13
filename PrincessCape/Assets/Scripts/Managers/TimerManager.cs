@@ -94,6 +94,7 @@ public class Timer
 	public UnityEvent OnTick;
 	public UnityEvent OnComplete;
 	public string name = "Timer";
+    public bool runWhilePaused = false;
 	/// <summary>
 	/// Initializes a new instance of the <see cref="T:Timer"/> class.
 	/// </summary>
@@ -183,7 +184,7 @@ public class Timer
 	/// <param name="dt">Dt.</param>
 	public void Update(float dt)
 	{
-		if (state == TimerState.Running)
+        if (state == TimerState.Running && (!Game.Instance.IsPaused || runWhilePaused))
 		{
 			curTime += dt;
 			if (curTime >= runTime)

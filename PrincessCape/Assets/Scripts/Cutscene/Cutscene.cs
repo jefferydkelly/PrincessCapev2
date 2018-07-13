@@ -35,6 +35,7 @@ public class Cutscene:Manager
 
     public void Load(string cutscenePath) {
         TextAsset text = Resources.Load<TextAsset>(cutscenePath);
+
         if (text) {
             Load(text);
         }
@@ -183,9 +184,11 @@ public class Cutscene:Manager
 				ActivatedObject ao = go.GetComponent<ActivatedObject>();
 				if (ao != null)
 				{
-					return new CutsceneActivate(parts[1].Trim(), parts[2].Trim() == "true");
+					return new CutsceneActivate(ao, parts[2].Trim() == "true");
 				}
 			}
+
+            return new CutsceneActivate(parts[1].Trim(), parts[2].Trim() == "true");
 		}
 		else if (p == "align")
 		{
@@ -236,25 +239,27 @@ public class Cutscene:Manager
 	{
 		elements = new List<List<CutsceneElement>>();
         string[] lines = text.text.Split('\n');
-
+      
         for (int i = 0; i < lines.Length; i++)
         {
             
 
             List<CutsceneElement> elems = new List<CutsceneElement>();
             bool seq = false;
+           
             do
             {
                 string line = lines[i].Trim();
 
-                seq = line.Substring(line.Length - 3) == "and";
+                seq = line.Substring(line.Length - 4) == " and";
 
                 if (seq)
                 {
                     line = line.Substring(0, line.Length - 4);
                 }
-               
+
                 CutsceneElement e = Parse(line);
+               
 
                 if (e != null)
                 {
@@ -262,15 +267,17 @@ public class Cutscene:Manager
                     if (seq) {
                         i++;
                     }
-                } 
-               
-            } while (seq);
+                }
+
+                seq = false;
+            } while (seq && i < lines.Length);
 
             if (elems.Count > 0)
             {
                 elements.Add(elems);
             }
         }
+
 	}
 
 	public void StartCutscene()

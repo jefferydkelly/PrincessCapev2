@@ -14,7 +14,7 @@ public class PauseMenu : MonoBehaviour
 
     void Toggle()
     {
-        if (!Game.Instance.IsInCutscene)
+        if (!Game.Instance.IsInCutscene && !Game.Instance.IsInLevelEditor)
         {
             gameObject.SetActive(!gameObject.activeSelf);
         }
