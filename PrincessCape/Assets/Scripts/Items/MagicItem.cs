@@ -22,6 +22,18 @@ public abstract class MagicItem: ScriptableObject {
             cooldownTimer.Stop();
             Reset();
 		});
+
+        Game.Instance.OnEditorStop.AddListener(() =>
+        {
+            
+            if (slot == MagicItemSlot.First) {
+                DeregisterItemOne();
+                EventManager.TriggerEvent("UnequipItemOne");
+            } else if (slot == MagicItemSlot.Second) {
+                DeregisterItemTwo();
+                EventManager.TriggerEvent("UnequipItemTwo");
+            }
+        });
 	}
 
     /// <summary>

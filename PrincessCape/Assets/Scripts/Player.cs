@@ -261,9 +261,15 @@ public class Player : MonoBehaviour {
     /// Kill the player and reset the game.
     /// </summary>
     public void Die() {
+        
 		OnDie.Invoke();
-        state = PlayerState.Dead;
-        BeginReset();
+        if (!Game.Instance.IsInLevelEditor)
+        {
+            state = PlayerState.Dead;
+            BeginReset();
+        } else {
+            Game.Instance.StopInEditor();
+        }
     }
 
     /// <summary>

@@ -42,7 +42,8 @@ public class KnightRemains : InteractiveObject
         });
 
         fadeOutTimer.OnComplete.AddListener(()=> {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         });
 
         fadeOutTimer.Start();
@@ -80,12 +81,15 @@ public class KnightRemains : InteractiveObject
         }
     }
 
-    public TextAsset Message {
-        get {
+    public TextAsset Message
+    {
+        get
+        {
             return messageFile;
         }
 
-        set {
+        set
+        {
             messageFile = value;
         }
     }

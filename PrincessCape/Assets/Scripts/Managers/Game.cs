@@ -137,17 +137,25 @@ public class Game : MonoBehaviour {
                 UIManager.Instance.IsHidden = false;
                 LevelEditor.Instance.IsHidden = true;
                 OnEditorPlay.Invoke();
+                player.Inventory.Clear();
+                AddItems();
 
             } else {
-                gameState = GameState.None;
-                LevelEditor.Instance.IsHidden = false;
-                UIManager.Instance.IsHidden = true;
-                OnEditorStop.Invoke();
+                StopInEditor();
+
             }
             Reset();
         }
     }
 
+    public void StopInEditor() {
+        gameState = GameState.None;
+        LevelEditor.Instance.IsHidden = false;
+        UIManager.Instance.IsHidden = true;
+        OnEditorStop.Invoke();
+        player.transform.position = Checkpoint.ResetPosition;
+        map.Reload();
+    }
     public void PauseInEditor() {
         if (IsInLevelEditor) {
             if (IsPlaying)
@@ -220,6 +228,8 @@ public class Game : MonoBehaviour {
         {
             player.Reset();
         }
+
+       
     }
 
     /// <summary>

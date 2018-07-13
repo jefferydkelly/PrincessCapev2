@@ -78,6 +78,7 @@ public class ItemBox : MonoBehaviour {
 
     void Clear() {
         itemImage.sprite = null;
+        WhiteOut();
     }
 
 	public bool IsHidden
