@@ -1,9 +1,9 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/Game.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/Checkpoint.cs">
     <Files>
       <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="76" Column="22" />
-      <File FileName="Assets/Scripts/Managers/Game.cs" Line="130" Column="13" />
+      <File FileName="Assets/Scripts/Managers/Game.cs" Line="216" Column="14" />
       <File FileName="Assets/Scripts/UI/ItemBox.cs" Line="83" Column="9" />
       <File FileName="Assets/Scripts/UI/TileSelectButton.cs" Line="50" Column="35" />
       <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="290" Column="41" />
@@ -24,6 +24,8 @@
       <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="62" Column="28" />
       <File FileName="Assets/Scripts/UI/InteractionBox.cs" Line="17" Column="17" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneActivate.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/Manager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Tiles/Checkpoint.cs" Line="28" Column="54" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

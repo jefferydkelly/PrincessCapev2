@@ -35,6 +35,19 @@ public class Checkpoint : MapTile
 		else if (isFirstCheckpoint)
 		{
 			activeCheckpoint = this;
+
+            if (Game.Instance.IsInLevelEditor) {
+                Game.Instance.Player.OnDie.AddListener(() =>
+                {
+                    activeCheckpoint = this;
+                });
+
+                Game.Instance.OnEditorStop.AddListener(() =>
+                {
+                    activeCheckpoint = this;
+
+                });
+            }
 		}
     }
 
