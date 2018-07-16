@@ -13,6 +13,7 @@ public class LevelEditor : MonoBehaviour {
 
     List<MapTile> selectedObjects;
     MapTile secondaryMapTile;
+    MapEditMode mode = MapEditMode.None;
 
     Dictionary<string, GameObject> prefabs;
 
@@ -61,7 +62,10 @@ public class LevelEditor : MonoBehaviour {
 	void Update () {
         if (!Game.Instance.IsPlaying)
         {
-            Camera.main.transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * cameraSpeed * Time.deltaTime;
+            if (mode == MapEditMode.None)
+            {
+                Camera.main.transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * cameraSpeed * Time.deltaTime;
+            }
             Vector3 mousePos = Controller.Instance.MousePosition;
             Vector3 pos = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
 
@@ -364,4 +368,57 @@ public class LevelEditor : MonoBehaviour {
             gameObject.SetActive(!value);
         }
     }
+
+    public MapEditMode Mode {
+        set {
+            mode = value;
+        }
+
+        get {
+            return mode;
+        }
+    }
+
+    public void ToggleTranslate() {
+        ToggleMode(MapEditMode.Translate);
+    }
+
+    public void ToggleRotate()
+    {
+        ToggleMode(MapEditMode.Rotate);
+    }
+
+    public void ToggleScale()
+    {
+        ToggleMode(MapEditMode.Scale);
+    }
+
+    public void ToggleAlign()
+    {
+        ToggleMode(MapEditMode.Align);
+    }
+
+    public void ToggleFlip()
+    {
+        ToggleMode(MapEditMode.Flip);
+    }
+
+
+    void ToggleMode(MapEditMode mem) {
+        if (mode == mem) {
+            mode = MapEditMode.None;
+        } else {
+            mode = mem;
+        }
+    }
+}
+
+public enum MapEditMode
+{
+    Translate,
+    Rotate,
+    Scale,
+    Flip,
+    Align,
+    None
 }

@@ -762,10 +762,4 @@ public class MapEditor : Editor {
     }
 }
 
-public enum MapEditMode {
-    Translate,
-    Rotate,
-    Scale,
-    Flip,
-    Align
-}
+
