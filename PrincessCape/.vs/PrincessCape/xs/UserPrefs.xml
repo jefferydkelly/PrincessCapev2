@@ -21,12 +21,12 @@
       <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="278" Column="14" />
       <File FileName="Assets/Scripts/Player.cs" Line="271" Column="42" />
       <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="19" Column="6" />
-      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="159" Column="43" />
+      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="96" Column="30" />
       <File FileName="Assets/Scripts/UI/InteractionBox.cs" Line="17" Column="17" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneActivate.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/Manager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Tiles/Checkpoint.cs" Line="28" Column="54" />
-      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="361" Column="1" />
+      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="148" Column="55" />
       <File FileName="Assets/Scripts/Tiles/Corpse.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Interactive Objects/KnightRemains.cs" Line="95" Column="6" />
       <File FileName="Assets/Scripts/Items/MagicItem.cs" Line="29" Column="47" />
