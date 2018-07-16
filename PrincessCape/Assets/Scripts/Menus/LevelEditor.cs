@@ -62,10 +62,7 @@ public class LevelEditor : MonoBehaviour {
 	void Update () {
         if (!Game.Instance.IsPlaying)
         {
-            if (mode == MapEditMode.None)
-            {
-                Camera.main.transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * cameraSpeed * Time.deltaTime;
-            }
+            ProcessInput();
             Vector3 mousePos = Controller.Instance.MousePosition;
             Vector3 pos = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
 
@@ -148,6 +145,84 @@ public class LevelEditor : MonoBehaviour {
         }
 
 	}
+
+    void ProcessInput() {
+        if (mode == MapEditMode.None)
+        {
+            Camera.main.transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * cameraSpeed * Time.deltaTime;
+        } else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+            switch(mode) {
+                case MapEditMode.Translate:
+                    PrimaryMapTile.Translate(Vector3.left);
+                    break;
+                case MapEditMode.Rotate:
+                    PrimaryMapTile.Rotate(90);
+                    break;
+                case MapEditMode.Scale:
+                    PrimaryMapTile.ScaleX(false);
+                    break;
+                case MapEditMode.Flip:
+                    PrimaryMapTile.FlipX();
+                    break;
+                case MapEditMode.Align:
+                    //Spawn aligned left
+                    break;
+            }
+        } else if  (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)){
+            switch (mode)
+            {
+                case MapEditMode.Translate:
+                    PrimaryMapTile.Translate(Vector3.right);
+                    break;
+                case MapEditMode.Rotate:
+                    PrimaryMapTile.Rotate(-90);
+                    break;
+                case MapEditMode.Scale:
+                    PrimaryMapTile.ScaleX(true);
+                    break;
+                case MapEditMode.Flip:
+                    PrimaryMapTile.FlipX();
+                    break;
+                case MapEditMode.Align:
+                    //Spawn aligned right
+                    break;
+            }
+        } else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            switch (mode)
+            {
+                case MapEditMode.Translate:
+                    PrimaryMapTile.Translate(Vector3.up);
+                    break;
+                case MapEditMode.Scale:
+                    PrimaryMapTile.ScaleY(true);
+                    break;
+                case MapEditMode.Flip:
+                    PrimaryMapTile.FlipY();
+                    break;
+                case MapEditMode.Align:
+                    //Spawn aligned up
+                    break;
+            }
+        } else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            switch (mode)
+            {
+                case MapEditMode.Translate:
+                    PrimaryMapTile.Translate(Vector3.down);
+                    break;
+                case MapEditMode.Scale:
+                    PrimaryMapTile.ScaleY(false);
+                    break;
+                case MapEditMode.Flip:
+                    PrimaryMapTile.FlipY();
+                    break;
+                case MapEditMode.Align:
+                    //Spawn aligned down
+                    break;
+            }
+        } 
+    }
 
     void Spawn(Vector3 pos) {
         if (IsSpawnPositionOpen(pos))
