@@ -70,7 +70,6 @@ public class LevelEditor : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                Debug.Log(atLoc != null);
                 if (atLoc != null)
                 {
                     if (atLoc == SecondaryMapTile)
@@ -165,7 +164,7 @@ public class LevelEditor : MonoBehaviour {
                     PrimaryMapTile.FlipX();
                     break;
                 case MapEditMode.Align:
-                    //Spawn aligned left
+                    SpawnAligned(Direction.Left);
                     break;
             }
         } else if  (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)){
@@ -184,7 +183,7 @@ public class LevelEditor : MonoBehaviour {
                     PrimaryMapTile.FlipX();
                     break;
                 case MapEditMode.Align:
-                    //Spawn aligned right
+                    SpawnAligned(Direction.Right);
                     break;
             }
         } else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -201,7 +200,7 @@ public class LevelEditor : MonoBehaviour {
                     PrimaryMapTile.FlipY();
                     break;
                 case MapEditMode.Align:
-                    //Spawn aligned up
+                    SpawnAligned(Direction.Up);
                     break;
             }
         } else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
@@ -218,7 +217,7 @@ public class LevelEditor : MonoBehaviour {
                     PrimaryMapTile.FlipY();
                     break;
                 case MapEditMode.Align:
-                    //Spawn aligned down
+                    SpawnAligned(Direction.Down);
                     break;
             }
         } 
@@ -235,6 +234,45 @@ public class LevelEditor : MonoBehaviour {
             go.transform.position = pos;
             go.name = selectedPrefab.name;
             Map.Instance.AddTile(PrimaryMapTile);
+        }
+    }
+
+    /// <summary>
+    /// Spawns an instance of the selected prefab aligned with the selected object.
+    /// </summary>
+    /// <param name="dir">Dir.</param>
+    void SpawnAligned(Direction dir)
+    {
+        if (selectedPrefab != null && PrimaryMapTile != null)
+        {
+            SpriteRenderer spSpr = selectedPrefab.GetComponent<SpriteRenderer>();
+            SpriteRenderer sgoSpr = PrimaryMapTile.GetComponent<SpriteRenderer>();
+            float selectedGameObjectWidth = sgoSpr.bounds.size.x;
+            float selectedGameObjectHeight = sgoSpr.bounds.size.y;
+            float selectedPrefabWidth = spSpr.bounds.size.x;
+            float selectedPrefabHeight = spSpr.bounds.size.y;
+            Vector3 spawnPosition = Vector3.zero;
+            switch (dir)
+            {
+                case Direction.Up:
+                    spawnPosition = new Vector3(PrimaryMapTile.transform.position.x,
+                                                PrimaryMapTile.transform.position.y + (selectedGameObjectHeight + selectedPrefabHeight) / 2.0f, 0);
+                    break;
+                case Direction.Down:
+                    spawnPosition = new Vector3(PrimaryMapTile.transform.position.x,
+                                                PrimaryMapTile.transform.position.y - (selectedGameObjectHeight + selectedPrefabHeight) / 2.0f, 0);
+                    break;
+                case Direction.Left:
+                    spawnPosition = new Vector3(PrimaryMapTile.transform.position.x - (selectedGameObjectWidth + selectedPrefabWidth) / 2.0f,
+                                            PrimaryMapTile.transform.position.y, 0);
+                    break;
+                case Direction.Right:
+                    spawnPosition = new Vector3(PrimaryMapTile.transform.position.x + (selectedGameObjectWidth + selectedPrefabWidth) / 2.0f,
+                                                PrimaryMapTile.transform.position.y, 0);
+                    break;
+            }
+
+            Spawn(spawnPosition);
         }
     }
 

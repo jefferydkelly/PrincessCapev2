@@ -7,7 +7,7 @@
       <File FileName="Assets/Scripts/UI/ItemBox.cs" Line="83" Column="1" />
       <File FileName="Assets/Scripts/UI/TileSelectButton.cs" Line="50" Column="35" />
       <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="290" Column="41" />
-      <File FileName="Assets/Editor/MapEditor.cs" Line="87" Column="28" />
+      <File FileName="Assets/Editor/MapEditor.cs" Line="584" Column="6" />
       <File FileName="Assets/Scripts/Managers/Controller.cs" Line="243" Column="26" />
       <File FileName="Assets/Scripts/Menus/LevelEditorCamera.cs" Line="18" Column="132" />
       <File FileName="Assets/Scripts/Managers/CameraManager.cs" Line="84" Column="46" />
@@ -21,7 +21,7 @@
       <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="278" Column="14" />
       <File FileName="Assets/Scripts/Player.cs" Line="271" Column="42" />
       <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="19" Column="6" />
-      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="96" Column="30" />
+      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="72" Column="14" />
       <File FileName="Assets/Scripts/UI/InteractionBox.cs" Line="17" Column="17" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneActivate.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/Manager.cs" Line="1" Column="1" />
