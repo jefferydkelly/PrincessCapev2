@@ -9,6 +9,14 @@ using System.IO;
 public class LevelEditor : MonoBehaviour {
     [SerializeField]
     GameObject tileButtonPrefab;
+    [SerializeField]
+    GameObject levelBrowser;
+    [SerializeField]
+    GameObject toolUI;
+    [SerializeField]
+    GameObject playbackUI;
+    [SerializeField]
+    GameObject tileBrowser;
     MapTile selectedPrefab;
 
     List<MapTile> selectedObjects;
@@ -45,7 +53,7 @@ public class LevelEditor : MonoBehaviour {
         for (int i = 0; i < numButtons; i++)
         {
             TileSelectButton button = Instantiate(tileButtonPrefab).GetComponent<TileSelectButton>();
-            button.transform.SetParent(transform);
+            button.transform.SetParent(tileBrowser.transform);
             button.transform.localScale = Vector3.one;
             button.transform.localPosition = buttonStart + Vector3.right * 300 * i;
             button.editor = this;
@@ -53,6 +61,8 @@ public class LevelEditor : MonoBehaviour {
         }
 
         UpdateButtons();
+
+        levelBrowser.SetActive(false);
 
         selectedObjects = new List<MapTile>();
 
@@ -323,21 +333,34 @@ public class LevelEditor : MonoBehaviour {
 
     public void StartLoadingLevel() {
         if (Application.isEditor) {
+            #if UNITY_EDITOR
             string path  = EditorUtility.OpenFilePanel("Open a Level File", Application.absoluteURL + "/Assets/Resources/Levels", "json");
 
-            if (path.Length > 0) {
+            if (path.Length > 0)
+            {
                 Map.Instance.Load(path);
+
             }
+            #endif
+        } else {
+            playbackUI.SetActive(false);
+            toolUI.SetActive(false);
+            tileBrowser.SetActive(false);
+            levelBrowser.SetActive(true);
         }
     }
 
     public void SaveLevel() {
-        if (Application.isEditor) {
+        if (Application.isEditor)
+        {
+            #if UNITY_EDITOR
             string path = EditorUtility.SaveFilePanel("Save the Level", Application.absoluteURL + "/Assets/Resources/Levels", Map.Instance.FileName, "json");
 
-            if (path.Length > 0) {
+            if (path.Length > 0)
+            {
                 File.WriteAllText(path, Map.Instance.SaveToFile());
             }
+            #endif
         }
     }
 
