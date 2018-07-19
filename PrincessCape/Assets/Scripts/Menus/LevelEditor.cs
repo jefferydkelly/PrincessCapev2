@@ -441,7 +441,7 @@ public class LevelEditor : MonoBehaviour {
                 selectedObjects.Add(value);
 
                 activateButton.gameObject.SetActive(value.GetComponent<ActivatedObject>());
-                CheckForConnectionPossibility();
+                connectButton.gameObject.SetActive(ShowConnectButton);
             } else {
                 activateButton.gameObject.SetActive(false);
                 connectButton.gameObject.SetActive(false);
@@ -482,22 +482,14 @@ public class LevelEditor : MonoBehaviour {
             {
                 secondaryMapTile.HighlightState = MapHighlightState.Secondary;
 
-                CheckForConnectionPossibility();
+                connectButton.gameObject.SetActive(ShowConnectButton);
             } else {
                 connectButton.gameObject.SetActive(false);
             }
         }
     }
 
-    void CheckForConnectionPossibility() {
-        if (PrimaryMapTile && SecondaryMapTile) {
-            if (PrimaryMapTile.HasCompnent<ActivatorObject>()) {
-                connectButton.gameObject.SetActive(SecondaryMapTile.HasCompnent<ActivatedObject>());
-            } else if (SecondaryMapTile.HasCompnent<ActivatorObject>()) {
-                connectButton.gameObject.SetActive(PrimaryMapTile.HasCompnent<ActivatedObject>());
-            }
-        }
-    }
+
     /// <summary>
     /// Swaps the Primary and Secondary MapTiles.
     /// </summary>
@@ -573,6 +565,28 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+    public void TogglePrimaryActivation() {
+        ActivatedObject activatedObject = PrimaryMapTile.GetComponent<ActivatedObject>();
+        activatedObject.StartsActive = !activatedObject.StartsActive;
+    }
+
+    public void ToggleConnection() {
+        ActivatorObject activator = PrimaryMapTile.GetComponent<ActivatorObject>();
+        ActivatedObject activated = SecondaryMapTile.GetComponent<ActivatedObject>();
+        if (activator == null) {
+            activator = SecondaryMapTile.GetComponent<ActivatorObject>();
+            activated = PrimaryMapTile.GetComponent<ActivatedObject>();
+        }
+
+        if (activator.HasConnection(activated))
+        {
+            activator.RemoveConnection(activated);
+        }
+        else
+        {
+            activator.AddConnection(activated);
+        }
+    }
     bool ShowLevelBrowser {
         get {
             return levelBrowser.activeSelf;
@@ -585,6 +599,26 @@ public class LevelEditor : MonoBehaviour {
             levelBrowser.SetActive(value);
         }
     }
+
+    bool ShowConnectButton {
+        get {
+            if (PrimaryMapTile && SecondaryMapTile)
+            {
+                if (PrimaryMapTile.HasCompnent<ActivatorObject>())
+                {
+                    return SecondaryMapTile.HasCompnent<ActivatedObject>();
+                }
+                else if (SecondaryMapTile.HasCompnent<ActivatorObject>())
+                {
+                    return PrimaryMapTile.HasCompnent<ActivatedObject>();
+                }
+            }
+
+            return false;
+        }
+    }
+
+
 }
 
 public enum MapEditMode

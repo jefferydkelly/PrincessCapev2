@@ -625,7 +625,7 @@ Prefab:
     - target: {fileID: 114516926917079668, guid: 92f8314c56ce34b4ba0fbbbfedefecf3,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ToggleAlign
+      value: ToggleConnection
       objectReference: {fileID: 0}
     - target: {fileID: 114516926917079668, guid: 92f8314c56ce34b4ba0fbbbfedefecf3,
         type: 2}
@@ -2606,7 +2606,7 @@ Prefab:
     - target: {fileID: 114516926917079668, guid: 92f8314c56ce34b4ba0fbbbfedefecf3,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ToggleAlign
+      value: TogglePrimaryActivation
       objectReference: {fileID: 0}
     - target: {fileID: 114516926917079668, guid: 92f8314c56ce34b4ba0fbbbfedefecf3,
         type: 2}

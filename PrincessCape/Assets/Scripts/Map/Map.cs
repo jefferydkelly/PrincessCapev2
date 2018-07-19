@@ -40,10 +40,20 @@ public class Map : MonoBehaviour
 		instance = this;
 	}
 
-	/// <summary>
-	/// Loads the Tile prefabs from the appropriate folder
-	/// </summary>
-	void LoadPrefabs() {
+    /*
+    private void Update()
+    {
+        if (Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying) {
+            foreach(MapTile mt in tiles) {
+                mt.RenderInEditor();
+            }
+        }
+    }*/
+
+    /// <summary>
+    /// Loads the Tile prefabs from the appropriate folder
+    /// </summary>
+    void LoadPrefabs() {
 		Object[] obj = Resources.LoadAll("Tiles", typeof(GameObject));
 
 		prefabs = new Dictionary<string, GameObject>(obj.Length);
