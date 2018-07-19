@@ -294,6 +294,17 @@ public static class ExtensionMethods {
         }
         return cpy;
     }
+
+    public static bool HasCompnent<T>(this GameObject go) {
+        T  comp = go.GetComponent<T>();
+        return  (comp != null);
+    }
+
+    public static bool HasCompnent<T>(this MonoBehaviour mo)
+    {
+        T comp = mo.GetComponent<T>();
+        return (comp != null);
+    }
 }
 
 public enum Direction {

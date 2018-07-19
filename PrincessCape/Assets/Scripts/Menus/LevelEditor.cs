@@ -18,6 +18,10 @@ public class LevelEditor : MonoBehaviour {
     [SerializeField]
     GameObject tileBrowser;
     MapTile selectedPrefab;
+    [SerializeField]
+    Button activateButton;
+    [SerializeField]
+    Button connectButton;
 
     List<MapTile> selectedObjects;
     MapTile secondaryMapTile;
@@ -27,7 +31,7 @@ public class LevelEditor : MonoBehaviour {
 
     int currentIndex = 0;
     int numButtons = 8;
-    Vector3 buttonStart = new Vector3(-1050, 600);
+    Vector3 buttonStart = new Vector3(-1050, 0);
     List<TileSelectButton> tileButtons;
     TileSelectButton selected;
 
@@ -59,7 +63,8 @@ public class LevelEditor : MonoBehaviour {
             button.editor = this;
             tileButtons.Add(button);
         }
-
+        activateButton.gameObject.SetActive(false);
+        connectButton.gameObject.SetActive(false);
         UpdateButtons();
 
         levelBrowser.SetActive(false);
@@ -314,7 +319,7 @@ public class LevelEditor : MonoBehaviour {
             return false;
         }
 
-        if (screenPos.y > buttonStart.y) {
+        if (screenPos.y > tileBrowser.transform.position.y) {
             return false;
         }
 
@@ -434,6 +439,12 @@ public class LevelEditor : MonoBehaviour {
             {
                 value.HighlightState = MapHighlightState.Primary;
                 selectedObjects.Add(value);
+
+                activateButton.gameObject.SetActive(value.GetComponent<ActivatedObject>());
+                CheckForConnectionPossibility();
+            } else {
+                activateButton.gameObject.SetActive(false);
+                connectButton.gameObject.SetActive(false);
             }
         }
         get
@@ -470,10 +481,23 @@ public class LevelEditor : MonoBehaviour {
             if (secondaryMapTile)
             {
                 secondaryMapTile.HighlightState = MapHighlightState.Secondary;
+
+                CheckForConnectionPossibility();
+            } else {
+                connectButton.gameObject.SetActive(false);
             }
         }
     }
 
+    void CheckForConnectionPossibility() {
+        if (PrimaryMapTile && SecondaryMapTile) {
+            if (PrimaryMapTile.HasCompnent<ActivatorObject>()) {
+                connectButton.gameObject.SetActive(SecondaryMapTile.HasCompnent<ActivatedObject>());
+            } else if (SecondaryMapTile.HasCompnent<ActivatorObject>()) {
+                connectButton.gameObject.SetActive(PrimaryMapTile.HasCompnent<ActivatedObject>());
+            }
+        }
+    }
     /// <summary>
     /// Swaps the Primary and Secondary MapTiles.
     /// </summary>
