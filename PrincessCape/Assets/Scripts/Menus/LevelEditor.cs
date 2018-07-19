@@ -343,13 +343,14 @@ public class LevelEditor : MonoBehaviour {
             }
             #endif
         } else {
-            playbackUI.SetActive(false);
-            toolUI.SetActive(false);
-            tileBrowser.SetActive(false);
-            levelBrowser.SetActive(true);
+            ShowLevelBrowser = true;
         }
     }
 
+    public void LoadLevel(string path) {
+        Map.Instance.Load(path);
+        ShowLevelBrowser = false;
+    }
     public void SaveLevel() {
         if (Application.isEditor)
         {
@@ -545,6 +546,19 @@ public class LevelEditor : MonoBehaviour {
             mode = MapEditMode.None;
         } else {
             mode = mem;
+        }
+    }
+
+    bool ShowLevelBrowser {
+        get {
+            return levelBrowser.activeSelf;
+        }
+
+        set {
+            playbackUI.SetActive(!value);
+            toolUI.SetActive(!value);
+            tileBrowser.SetActive(!value);
+            levelBrowser.SetActive(value);
         }
     }
 }

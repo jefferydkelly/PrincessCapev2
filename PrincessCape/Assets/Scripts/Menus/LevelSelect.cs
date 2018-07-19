@@ -9,6 +9,10 @@ public class LevelSelect : MainMenu {
 
     [SerializeField]
     int numButtons;
+    [SerializeField]
+    float startY = 150.0f;
+    [SerializeField]
+    float spacing = 100.0f;
 
     List<Text> buttonText;
 	List<Button> buttons;
@@ -34,14 +38,21 @@ public class LevelSelect : MainMenu {
             Button b = Instantiate(baseButton).GetComponent<Button>();
             b.transform.SetParent(transform);
             b.transform.localScale = Vector3.one;
-            b.transform.localPosition = new Vector3(0, 150 - (i * 100));
+            b.transform.localPosition = new Vector3(0, startY - (i * spacing));
            
             Text t = b.GetComponentInChildren<Text>();
             buttonText.Add(t);
 			buttons.Add(b);
 
 			b.onClick.AddListener(() => {
-				Game.Instance.LoadScene(maps[topIndex + buttons.IndexOf(b)].File);
+                if (Game.Instance.IsInLevelEditor)
+                {
+                    LevelEditor.Instance.LoadLevel(maps[topIndex + buttons.IndexOf(b)].File);
+                }
+                else
+                {
+                    Game.Instance.LoadScene(maps[topIndex + buttons.IndexOf(b)].File);
+                }
                 //Game.Instance.LoadScene(mapsAndFiles[t.text] + ".json");
 			});
         }
