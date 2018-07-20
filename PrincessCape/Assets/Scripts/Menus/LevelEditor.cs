@@ -82,8 +82,8 @@ public class LevelEditor : MonoBehaviour {
             Vector3 pos = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
 
             MapTile atLoc = Map.Instance.GetObjectAtLocation(pos);
-
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
+            if (Input.GetKeyDown(KeyCode.Mouse0) && screenPos.y < tileBrowser.transform.position.y)
             {
                 if (atLoc != null)
                 {
@@ -140,7 +140,7 @@ public class LevelEditor : MonoBehaviour {
                     Spawn(pos);
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.Mouse1))
+            else if (Input.GetKeyDown(KeyCode.Mouse1) && screenPos.y < tileBrowser.transform.position.y)
             {
                 if (atLoc == PrimaryMapTile)
                 {
@@ -319,6 +319,7 @@ public class LevelEditor : MonoBehaviour {
             return false;
         }
 
+      
         if (screenPos.y > tileBrowser.transform.position.y) {
             return false;
         }
@@ -441,6 +442,9 @@ public class LevelEditor : MonoBehaviour {
                 selectedObjects.Add(value);
 
                 activateButton.gameObject.SetActive(value.GetComponent<ActivatedObject>());
+                if (activateButton.gameObject.activeSelf) {
+                    activateButton.GetComponentInChildren<Text>().text = value.GetComponent<ActivatedObject>().StartsActive ? "Deactivate" : "Activate";
+                }
                 connectButton.gameObject.SetActive(ShowConnectButton);
             } else {
                 activateButton.gameObject.SetActive(false);
@@ -568,6 +572,7 @@ public class LevelEditor : MonoBehaviour {
     public void TogglePrimaryActivation() {
         ActivatedObject activatedObject = PrimaryMapTile.GetComponent<ActivatedObject>();
         activatedObject.StartsActive = !activatedObject.StartsActive;
+        activateButton.GetComponentInChildren<Text>().text = activatedObject.StartsActive ? "Deactivate" : "Activate";
     }
 
     public void ToggleConnection() {
