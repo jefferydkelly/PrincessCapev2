@@ -52,6 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e13cbed6e6f448e5b495d7c91b4aec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectionLink: {fileID: 1139980410034240, guid: df2417f89bfcc4e92995c7e6f6cee34a,
+    type: 2}
 --- !u!212 &212704914181278320
 SpriteRenderer:
   m_ObjectHideFlags: 1

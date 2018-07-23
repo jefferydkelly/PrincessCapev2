@@ -7,8 +7,8 @@
       <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="304" Column="6" />
       <File FileName="Assets/Editor/MapEditor.cs" Line="110" Column="77" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="493" Column="48" />
-      <File FileName="Assets/Scripts/ActivatedObject.cs" Line="119" Column="34" />
-      <File FileName="Assets/Scripts/UI/ConnectionLine.cs" Line="35" Column="48" />
+      <File FileName="Assets/Scripts/ActivatedObject.cs" Line="114" Column="1" />
+      <File FileName="Assets/Scripts/UI/ConnectionLine.cs" Line="52" Column="31" />
       <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="488" Column="3" />
       <File FileName="Assets/Scripts/Managers/EventManager.cs" Line="111" Column="2" />
     </Files>
