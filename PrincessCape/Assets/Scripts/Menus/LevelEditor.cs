@@ -161,6 +161,29 @@ public class LevelEditor : MonoBehaviour {
 	}
 
     void ProcessInput() {
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            mode = MapEditMode.Translate;
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            mode = MapEditMode.Rotate;
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            mode = MapEditMode.Scale;
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
+        {
+            mode = MapEditMode.Flip;
+        }
+        else if (Input.GetKey(KeyCode.B))
+        {
+            mode = MapEditMode.Align;
+        }
+
+
         if (mode == MapEditMode.None)
         {
             Camera.main.transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * cameraSpeed * Time.deltaTime;
