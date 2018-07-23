@@ -2858,6 +2858,8 @@ MonoBehaviour:
   tileBrowser: {fileID: 489743496}
   activateButton: {fileID: 1696005752}
   connectButton: {fileID: 1661796370}
+  connectionPrefab: {fileID: 1726829324804928, guid: 0d399dd43ea144492a1279ab1eb61808,
+    type: 2}
 --- !u!1 &1115857859
 GameObject:
   m_ObjectHideFlags: 0

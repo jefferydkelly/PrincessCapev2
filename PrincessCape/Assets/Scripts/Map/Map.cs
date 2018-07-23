@@ -19,6 +19,7 @@ public class Map : MonoBehaviour
 	bool isLoaded = false;
 
     List<MapTile> tiles;
+    List<ConnectionStruct> connections;
     Dictionary<string, GameObject> prefabs;
 
     UnityEvent onLevelLoaded;
@@ -39,16 +40,6 @@ public class Map : MonoBehaviour
 	{
 		instance = this;
 	}
-
-    /*
-    private void Update()
-    {
-        if (Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying) {
-            foreach(MapTile mt in tiles) {
-                mt.RenderInEditor();
-            }
-        }
-    }*/
 
     /// <summary>
     /// Loads the Tile prefabs from the appropriate folder
@@ -339,8 +330,9 @@ public class Map : MonoBehaviour
                         tile.Init();
 						AddTile(tile);
                     }
-				    
-					foreach(ConnectionStruct akon in mapFile.Connections) {
+
+                    connections = mapFile.Connections;
+                    foreach(ConnectionStruct akon in connections) {
 						ActivatorObject activator = GetTileByID(akon.Activator) as ActivatorObject;
 						ActivatedObject activated = GetTileByID(akon.Activated) as ActivatedObject;
 						activator.AddConnection(activated, akon.Inverted);
@@ -498,6 +490,11 @@ public class Map : MonoBehaviour
 		}
 	}
 
+    public List<ConnectionStruct> Connections {
+        get {
+            return connections;
+        }
+    }
     /// <summary>
     /// Gets the instance.
     /// </summary>

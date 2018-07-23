@@ -469,6 +469,14 @@ public struct ConnectionStruct {
 		}
 	}
 
+    public MapTile ActivatorTile
+    {
+        get
+        {
+            return Map.Instance.GetTileByID(activatorID);
+        }
+    }
+
     /// <summary>
     /// Gets the id of the activated object.
     /// </summary>
@@ -478,6 +486,12 @@ public struct ConnectionStruct {
 			return activatedID;
 		}
 	}
+
+    public MapTile ActivatedTile {
+        get {
+            return Map.Instance.GetTileByID(activatedID);
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether this <see cref="T:ConnectionStruct"/> is inverted.

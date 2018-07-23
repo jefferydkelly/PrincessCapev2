@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 using System.IO;
+using UnityEngine.Events;
 
 public class LevelEditor : MonoBehaviour {
     [SerializeField]
@@ -22,7 +23,10 @@ public class LevelEditor : MonoBehaviour {
     Button activateButton;
     [SerializeField]
     Button connectButton;
+    [SerializeField]
+    GameObject connectionPrefab;
 
+    List<ConnectionLine> connectionLines;
     List<MapTile> selectedObjects;
     MapTile secondaryMapTile;
     MapEditMode mode = MapEditMode.None;
@@ -37,10 +41,14 @@ public class LevelEditor : MonoBehaviour {
 
     float cameraSpeed = 2.0f;
 
+    //MapTile Events
+    MapTileEvent onTileMoved = new MapTileEvent();
+
     static LevelEditor instance;
 	// Use this for initialization
 	void Start () {
         instance = this;
+        connectionLines = new List<ConnectionLine>();
         Object[] obj = Resources.LoadAll("Tiles", typeof(GameObject));
 
         prefabs = new Dictionary<string, GameObject>(obj.Length);
@@ -191,6 +199,7 @@ public class LevelEditor : MonoBehaviour {
             switch(mode) {
                 case MapEditMode.Translate:
                     PrimaryMapTile.Translate(Vector3.left);
+                    OnTileMoved.Invoke(PrimaryMapTile);
                     break;
                 case MapEditMode.Rotate:
                     PrimaryMapTile.Rotate(90);
@@ -210,6 +219,7 @@ public class LevelEditor : MonoBehaviour {
             {
                 case MapEditMode.Translate:
                     PrimaryMapTile.Translate(Vector3.right);
+                    OnTileMoved.Invoke(PrimaryMapTile);
                     break;
                 case MapEditMode.Rotate:
                     PrimaryMapTile.Rotate(-90);
@@ -230,6 +240,7 @@ public class LevelEditor : MonoBehaviour {
             {
                 case MapEditMode.Translate:
                     PrimaryMapTile.Translate(Vector3.up);
+                    OnTileMoved.Invoke(PrimaryMapTile);
                     break;
                 case MapEditMode.Scale:
                     PrimaryMapTile.ScaleY(true);
@@ -247,6 +258,7 @@ public class LevelEditor : MonoBehaviour {
             {
                 case MapEditMode.Translate:
                     PrimaryMapTile.Translate(Vector3.down);
+                    OnTileMoved.Invoke(PrimaryMapTile);
                     break;
                 case MapEditMode.Scale:
                     PrimaryMapTile.ScaleY(false);
@@ -368,6 +380,11 @@ public class LevelEditor : MonoBehaviour {
             if (path.Length > 0)
             {
                 Map.Instance.Load(path);
+                foreach (ConnectionStruct c in Map.Instance.Connections)
+                {
+                    ConnectionLine connectionLine = Instantiate(connectionPrefab).GetComponent<ConnectionLine>();
+                    connectionLine.Connection = c;
+                }
 
             }
             #endif
@@ -378,6 +395,11 @@ public class LevelEditor : MonoBehaviour {
 
     public void LoadLevel(string path) {
         Map.Instance.Load(path);
+
+        foreach(ConnectionStruct c in Map.Instance.Connections) {
+            ConnectionLine connectionLine = Instantiate(connectionPrefab).GetComponent<ConnectionLine>();
+            connectionLine.Connection = c;
+        }
         ShowLevelBrowser = false;
     }
     public void SaveLevel() {
@@ -646,6 +668,11 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+    public MapTileEvent OnTileMoved {
+        get {
+            return onTileMoved;
+        }
+    }
 
 }
 
@@ -657,4 +684,8 @@ public enum MapEditMode
     Flip,
     Align,
     None
+}
+
+[SerializeField]
+public class MapTileEvent: UnityEvent<MapTile> {
 }
