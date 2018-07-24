@@ -1248,6 +1248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 489743497}
+  - component: {fileID: 489743498}
   m_Layer: 5
   m_Name: Tile Browser
   m_TagString: Untagged
@@ -1275,6 +1276,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 500}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &489743498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 489743496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b5be3341518748a3bcccf80938af4c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileButtonPrefab: {fileID: 1110608502001172, guid: d94cc352615a844028c4d6ccf9c5a5a2,
+    type: 2}
 --- !u!1 &504797960
 GameObject:
   m_ObjectHideFlags: 0
@@ -1476,7 +1490,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1063866275}
+      - m_Target: {fileID: 489743498}
         m_MethodName: Increment
         m_Mode: 1
         m_Arguments:
@@ -2988,12 +3002,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c82d20e85b254b289b89f75708a8497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileButtonPrefab: {fileID: 1110608502001172, guid: d94cc352615a844028c4d6ccf9c5a5a2,
-    type: 2}
   levelBrowser: {fileID: 265692929}
   toolsUI: {fileID: 1646511305}
   playbackUI: {fileID: 137561827}
-  tileBrowser: {fileID: 489743496}
+  tileBrowser: {fileID: 489743498}
   activateButton: {fileID: 1696005752}
   connectButton: {fileID: 1661796370}
   connectionPrefab: {fileID: 1726829324804928, guid: 0d399dd43ea144492a1279ab1eb61808,
@@ -5675,7 +5687,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1063866275}
+      - m_Target: {fileID: 489743498}
         m_MethodName: Decrement
         m_Mode: 1
         m_Arguments:

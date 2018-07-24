@@ -9,7 +9,7 @@ public class TileSelectButton : Button
     MapTile tilePrefab;
     Image tileSprite;
     Text tileText;
-    public LevelEditor editor;
+    public TileBrowser editor;
     protected override void Awake()
     {
         base.Awake();
@@ -27,6 +27,7 @@ public class TileSelectButton : Button
 
         set {
             isSelected = value;
+            image.color = value ? Color.red : Color.white;
         }
     }
 

@@ -8,8 +8,7 @@ using System.IO;
 using UnityEngine.Events;
 
 public class LevelEditor : MonoBehaviour {
-    [SerializeField]
-    GameObject tileButtonPrefab;
+    
     [SerializeField]
     GameObject levelBrowser;
     [SerializeField]
@@ -17,8 +16,8 @@ public class LevelEditor : MonoBehaviour {
     [SerializeField]
     GameObject playbackUI;
     [SerializeField]
-    GameObject tileBrowser;
-    MapTile selectedPrefab;
+    TileBrowser tileBrowser;
+
     [SerializeField]
     Button activateButton;
     [SerializeField]
@@ -31,13 +30,7 @@ public class LevelEditor : MonoBehaviour {
     MapTile secondaryMapTile;
     MapEditMode mode = MapEditMode.None;
 
-    Dictionary<string, GameObject> prefabs;
 
-    int currentIndex = 0;
-    int numButtons = 8;
-    Vector3 buttonStart = new Vector3(-1050, 0);
-    List<TileSelectButton> tileButtons;
-    TileSelectButton selected;
 
     float cameraSpeed = 2.0f;
 
@@ -49,31 +42,14 @@ public class LevelEditor : MonoBehaviour {
 	void Start () {
         instance = this;
         connectionLines = new List<ConnectionLine>();
-        Object[] obj = Resources.LoadAll("Tiles", typeof(GameObject));
-
-        prefabs = new Dictionary<string, GameObject>(obj.Length);
-
-        for (int i = 0; i < obj.Length; i++)
-        {
-            GameObject go = (GameObject)obj[i];
-            prefabs.Add(go.name, go);
-        }
+       
 
         Map.Instance.Init();
 
-        tileButtons = new List<TileSelectButton>();
-        for (int i = 0; i < numButtons; i++)
-        {
-            TileSelectButton button = Instantiate(tileButtonPrefab).GetComponent<TileSelectButton>();
-            button.transform.SetParent(tileBrowser.transform);
-            button.transform.localScale = Vector3.one;
-            button.transform.localPosition = buttonStart + Vector3.right * 300 * i;
-            button.editor = this;
-            tileButtons.Add(button);
-        }
+       
         activateButton.gameObject.SetActive(false);
         connectButton.gameObject.SetActive(false);
-        UpdateButtons();
+
 
         levelBrowser.SetActive(false);
 
@@ -143,7 +119,7 @@ public class LevelEditor : MonoBehaviour {
                         }
                     }
                 }
-                else if (selected)
+                else if (tileBrowser.IsTileSelected)
                 {
                     Spawn(pos);
                 }
@@ -274,15 +250,16 @@ public class LevelEditor : MonoBehaviour {
     }
 
     void Spawn(Vector3 pos) {
+        
         if (IsSpawnPositionOpen(pos))
         {
-            GameObject go = Instantiate(selectedPrefab.gameObject);
+            GameObject go = Instantiate(tileBrowser.SelectedPrefab.gameObject);
             PrimaryMapTile = go.GetComponent<MapTile>();
 
 
             //pos.z = SelectedMapTile.ZPos;
             go.transform.position = pos;
-            go.name = selectedPrefab.name;
+            go.name = tileBrowser.SelectedPrefab.name;
             Map.Instance.AddTile(PrimaryMapTile);
         }
     }
@@ -293,9 +270,9 @@ public class LevelEditor : MonoBehaviour {
     /// <param name="dir">Dir.</param>
     void SpawnAligned(Direction dir)
     {
-        if (selectedPrefab != null && PrimaryMapTile != null)
+        if (tileBrowser.IsTileSelected && PrimaryMapTile != null)
         {
-            SpriteRenderer spSpr = selectedPrefab.GetComponent<SpriteRenderer>();
+            SpriteRenderer spSpr = tileBrowser.SelectedPrefab.GetComponent<SpriteRenderer>();
             SpriteRenderer sgoSpr = PrimaryMapTile.GetComponent<SpriteRenderer>();
             float selectedGameObjectWidth = sgoSpr.bounds.size.x;
             float selectedGameObjectHeight = sgoSpr.bounds.size.y;
@@ -349,7 +326,7 @@ public class LevelEditor : MonoBehaviour {
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(spawnPos);
        
-        if (selectedPrefab == null)
+        if (!tileBrowser.IsTileSelected)
         {
             return false;
         }
@@ -363,7 +340,7 @@ public class LevelEditor : MonoBehaviour {
         {
             MapTile tile = Map.Instance.GetTile(i);
 
-            if (tile.Overlaps(selectedPrefab,spawnPos))
+            if (tile.Overlaps(tileBrowser.SelectedPrefab,spawnPos))
             {
                 return false;
             }
@@ -422,55 +399,7 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
-    public void Increment() {
-        currentIndex = Mathf.Min(currentIndex + 1, prefabs.Count - numButtons - 1);
-        UpdateButtons();
-    }
 
-    public void Decrement() {
-        currentIndex = Mathf.Max(currentIndex - 1, 0);
-        UpdateButtons();
-    }
-
-    void UpdateButtons() {
-        int i = 0;
-
-        foreach (KeyValuePair<string, GameObject> kvp in prefabs)
-        {
-            
-
-            if (i >= currentIndex)
-            {
-                tileButtons[i - currentIndex].Tile = kvp.Value.GetComponent<MapTile>();
-
-
-                if (i >= currentIndex + numButtons - 1)
-                {
-                    break;
-                }
-
-            }
-
-            i++;
-        }    
-    }
-
-    public void SelectButton(TileSelectButton button) {
-        if (selected != button)
-        {
-            if (selected)
-            {
-                selected.IsSelected = false;
-            }
-            selected = button;
-            selected.IsSelected = true;
-            selectedPrefab = selected.Tile;
-        } else {
-            selected.IsSelected = false;
-            selected = null;
-            selectedPrefab = null;
-        }
-    }
 
     /// <summary>
     /// Gets or sets the selected game object.
@@ -654,7 +583,7 @@ public class LevelEditor : MonoBehaviour {
         set {
             playbackUI.SetActive(!value);
             toolsUI.gameObject.SetActive(!value);
-            tileBrowser.SetActive(!value);
+            tileBrowser.gameObject.SetActive(!value);
             levelBrowser.SetActive(value);
         }
     }
