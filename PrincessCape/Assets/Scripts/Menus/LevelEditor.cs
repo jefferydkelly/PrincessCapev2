@@ -380,11 +380,7 @@ public class LevelEditor : MonoBehaviour {
             if (path.Length > 0)
             {
                 Map.Instance.Load(path);
-                foreach (ConnectionStruct c in Map.Instance.Connections)
-                {
-                    ConnectionLine connectionLine = Instantiate(connectionPrefab).GetComponent<ConnectionLine>();
-                    connectionLine.Connection = c;
-                }
+                AddConnectionLines();
 
             }
             #endif
@@ -395,12 +391,22 @@ public class LevelEditor : MonoBehaviour {
 
     public void LoadLevel(string path) {
         Map.Instance.Load(path);
+        AddConnectionLines();
+        ShowLevelBrowser = false;
+    }
 
-        foreach(ConnectionStruct c in Map.Instance.Connections) {
+    void AddConnectionLines() {
+        foreach (ConnectionLine cl in connectionLines) {
+            Destroy(cl.gameObject);
+        }
+
+        connectionLines.Clear();
+        foreach (ConnectionStruct c in Map.Instance.Connections)
+        {
             ConnectionLine connectionLine = Instantiate(connectionPrefab).GetComponent<ConnectionLine>();
             connectionLine.Connection = c;
+            connectionLines.Add(connectionLine);
         }
-        ShowLevelBrowser = false;
     }
     public void SaveLevel() {
         if (Application.isEditor)

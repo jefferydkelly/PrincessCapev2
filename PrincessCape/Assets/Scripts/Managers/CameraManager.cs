@@ -71,17 +71,17 @@ public class CameraManager : Manager
     /// <param name="dt">Dt.</param>
     public void Update(float dt)
     {
-		if (target)
+        if (target && Game.Instance.IsPlaying)
         {
             if (state == CameraState.Following)
             {
-				if (!Game.Instance.Player.IsOnScreen) {
+                if (!Game.Instance.Player.IsOnScreen) {
 					Position = Game.Instance.Player.transform.position.SetZ(Position.z);
-                } else if (Game.Instance.IsPlaying) {
+                } else {
                     if (Game.Instance.Player.IsOnLadder || (Game.Instance.Player.IsFloating) || (Game.Instance.Player.IsUsingMagneticGloves && Mathf.Abs(Game.Instance.Player.Velocity.y) > 0))
                     {
                         Position = Game.Instance.Player.transform.position.SetZ(Position.z);
-                    } else if (Game.Instance.IsPlaying)
+                    } else
                     {
                         Position = Position.SetX(target.transform.position.x);
                     } 
