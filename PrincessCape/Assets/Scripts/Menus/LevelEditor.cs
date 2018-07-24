@@ -13,7 +13,7 @@ public class LevelEditor : MonoBehaviour {
     [SerializeField]
     GameObject levelBrowser;
     [SerializeField]
-    GameObject toolUI;
+    ToolsUI toolsUI;
     [SerializeField]
     GameObject playbackUI;
     [SerializeField]
@@ -172,23 +172,23 @@ public class LevelEditor : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            mode = MapEditMode.Translate;
+            Mode = MapEditMode.Translate;
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            mode = MapEditMode.Rotate;
+            Mode = MapEditMode.Rotate;
         }
         else if (Input.GetKeyDown(KeyCode.C))
         {
-            mode = MapEditMode.Scale;
+            Mode = MapEditMode.Scale;
         }
         else if (Input.GetKeyDown(KeyCode.V))
         {
-            mode = MapEditMode.Flip;
+            Mode = MapEditMode.Flip;
         }
         else if (Input.GetKey(KeyCode.B))
         {
-            mode = MapEditMode.Align;
+            Mode = MapEditMode.Align;
         }
 
 
@@ -574,6 +574,7 @@ public class LevelEditor : MonoBehaviour {
     public MapEditMode Mode {
         set {
             mode = value;
+            toolsUI.Mode = mode;
         }
 
         get {
@@ -608,10 +609,12 @@ public class LevelEditor : MonoBehaviour {
 
     void ToggleMode(MapEditMode mem) {
         if (mode == mem) {
-            mode = MapEditMode.None;
+            Mode = MapEditMode.None;
         } else {
-            mode = mem;
+            Mode = mem;
         }
+
+
     }
 
     public void TogglePrimaryActivation() {
@@ -644,7 +647,7 @@ public class LevelEditor : MonoBehaviour {
 
         set {
             playbackUI.SetActive(!value);
-            toolUI.SetActive(!value);
+            toolsUI.gameObject.SetActive(!value);
             tileBrowser.SetActive(!value);
             levelBrowser.SetActive(value);
         }
