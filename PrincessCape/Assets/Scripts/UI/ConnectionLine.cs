@@ -8,6 +8,7 @@ public class ConnectionLine : MonoBehaviour
     [SerializeField]
     GameObject connectionLink;
     ConnectionStruct connection;
+    bool deleteConnection;
 
     public ConnectionStruct Connection
     {
@@ -25,6 +26,11 @@ public class ConnectionLine : MonoBehaviour
                 if (mt == connection.ActivatedTile || mt == connection.ActivatorTile) {
                     UpdateConnection();
                 }
+            });
+
+            LevelEditor.Instance.OnTileDestroyed.AddListener((MapTile mt) =>
+            {
+                deleteConnection = (mt == connection.ActivatedTile || mt == connection.ActivatorTile);
             });
         }
     }
@@ -64,5 +70,11 @@ public class ConnectionLine : MonoBehaviour
             }
         }
 
+    }
+
+    public bool ToBeDeleted {
+        get {
+            return deleteConnection;
+        }
     }
 }

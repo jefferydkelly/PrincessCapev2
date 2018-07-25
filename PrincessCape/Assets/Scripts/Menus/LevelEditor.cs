@@ -36,7 +36,7 @@ public class LevelEditor : MonoBehaviour {
 
     //MapTile Events
     MapTileEvent onTileMoved = new MapTileEvent();
-
+    MapTileEvent onTileDestroyed = new MapTileEvent();
     static LevelEditor instance;
 	// Use this for initialization
 	void Start () {
@@ -61,6 +61,19 @@ public class LevelEditor : MonoBehaviour {
 	void Update () {
         if (!Game.Instance.IsPlaying)
         {
+            List<ConnectionLine> toBeDeleted = new List<ConnectionLine>();
+            foreach(ConnectionLine cl in connectionLines) {
+                if (cl.ToBeDeleted) {
+                    toBeDeleted.Add(cl);
+                }
+            }
+
+            foreach (ConnectionLine cl in toBeDeleted)
+            {
+                connectionLines.Remove(cl);
+                Destroy(cl.gameObject);
+            }
+
             ProcessInput();
             Vector3 mousePos = Controller.Instance.MousePosition;
             Vector3 pos = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
@@ -306,6 +319,7 @@ public class LevelEditor : MonoBehaviour {
     void DeleteTile() {
         if (PrimaryMapTile)
         {
+            OnTileDestroyed.Invoke(PrimaryMapTile);
             Map.Instance.RemoveTile(PrimaryMapTile);
             selectedObjects.Remove(PrimaryMapTile);
             if (Map.Instance.NumberOfTiles > 0)
@@ -612,6 +626,13 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+    public MapTileEvent OnTileDestroyed
+    {
+        get
+        {
+            return onTileDestroyed;
+        }
+    }
 }
 
 public enum MapEditMode
