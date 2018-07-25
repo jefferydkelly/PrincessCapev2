@@ -336,7 +336,7 @@ public class LevelEditor : MonoBehaviour {
     /// </summary>
     /// <returns><c>true</c>, if spawn position open was ised, <c>false</c> otherwise.</returns>
     /// <param name="spawnPos">Spawn position.</param>
-    bool IsSpawnPositionOpen(Vector3 spawnPos)
+    public bool IsSpawnPositionOpen(Vector3 spawnPos)
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(spawnPos);
        

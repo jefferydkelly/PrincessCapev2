@@ -229,7 +229,7 @@ public static class ExtensionMethods {
     /// <param name="col">Col.</param>
     /// <param name="r">The red component.</param>
     public static Color SetRed(this Color col, float r) {
-        return new Color(r, col.g, col.b);
+        return new Color(r, col.g, col.b, col.a);
     }
 
     /// <summary>
@@ -240,7 +240,7 @@ public static class ExtensionMethods {
     /// <param name="g">The green component.</param>
 	public static Color SetGreen(this Color col, float g)
 	{
-		return new Color(col.r, g, col.b);
+		return new Color(col.r, g, col.b, col.a);
 	}
 
     /// <summary>
@@ -251,7 +251,7 @@ public static class ExtensionMethods {
     /// <param name="b">The blue component.</param>
 	public static Color SetBlue(this Color col, float b)
 	{
-		return new Color(col.r, col.g, b);
+		return new Color(col.r, col.g, b, col.a);
 	}
 
     /// <summary>

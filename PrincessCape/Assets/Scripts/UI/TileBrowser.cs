@@ -15,6 +15,9 @@ public class TileBrowser : MonoBehaviour {
     TileSelectButton selected;
     MapTile selectedPrefab;
 
+    [SerializeField]
+    PrefabCursor cursor;
+
 	// Use this for initialization
 	void Awake () {
 
@@ -41,13 +44,6 @@ public class TileBrowser : MonoBehaviour {
 
         UpdateButtons();
 	}
-
-    private void Update()
-    {
-        if (selectedPrefab) {
-            selectedPrefab.transform.position = Controller.Instance.MousePosition;
-        }
-    }
 
     public void Increment()
     {
@@ -98,24 +94,18 @@ public class TileBrowser : MonoBehaviour {
             selected = button;
             selected.IsSelected = true;
 
-            if (selectedPrefab) {
-                Destroy(selectedPrefab.gameObject);
-            }
+           
 
-            selectedPrefab = Instantiate(selected.Tile);
-            selectedPrefab.GetComponent<SpriteRenderer>().color = selectedPrefab.GetComponent<SpriteRenderer>().color.SetAlpha(0.25f);
+            selectedPrefab = button.Tile;
+            cursor.Sprite = selectedPrefab.GetComponent<SpriteRenderer>().sprite;
         }
         else
         {
             selected.IsSelected = false;
             selected = null;
 
-            if (selectedPrefab)
-            {
-                Destroy(selectedPrefab.gameObject);
-            }
-
             selectedPrefab = null;
+            cursor.Sprite = null;
         }
     }
 
@@ -130,4 +120,6 @@ public class TileBrowser : MonoBehaviour {
             return selectedPrefab;
         }
     }
+
+
 }
