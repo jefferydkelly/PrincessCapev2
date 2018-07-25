@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Interactive Objects/Block.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/TileBrowser.cs">
     <Files>
       <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="269" Column="67" />
       <File FileName="Assets/Scripts/Menus/LevelSelect.cs" Line="50" Column="94" />
@@ -15,7 +15,7 @@
       <File FileName="Assets/Scripts/Managers/Manager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/CameraManager.cs" Line="90" Column="10" />
       <File FileName="Assets/Scripts/Player.cs" Line="739" Column="23" />
-      <File FileName="Assets/Scripts/UI/TileBrowser.cs" Line="48" Column="46" />
+      <File FileName="Assets/Scripts/UI/TileBrowser.cs" Line="115" Column="50" />
       <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="39" Column="40" />
       <File FileName="Assets/Scripts/Interactive Objects/Block.cs" Line="20" Column="49" />
     </Files>

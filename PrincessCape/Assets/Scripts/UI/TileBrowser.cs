@@ -99,7 +99,7 @@ public class TileBrowser : MonoBehaviour {
             selected.IsSelected = true;
 
             if (selectedPrefab) {
-                Destroy(selectedPrefab);
+                Destroy(selectedPrefab.gameObject);
             }
 
             selectedPrefab = Instantiate(selected.Tile);
@@ -112,7 +112,7 @@ public class TileBrowser : MonoBehaviour {
 
             if (selectedPrefab)
             {
-                Destroy(selectedPrefab);
+                Destroy(selectedPrefab.gameObject);
             }
 
             selectedPrefab = null;
