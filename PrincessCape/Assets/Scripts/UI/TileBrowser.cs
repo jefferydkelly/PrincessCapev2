@@ -42,6 +42,13 @@ public class TileBrowser : MonoBehaviour {
         UpdateButtons();
 	}
 
+    private void Update()
+    {
+        if (selectedPrefab) {
+            selectedPrefab.transform.position = Controller.Instance.MousePosition;
+        }
+    }
+
     public void Increment()
     {
         currentIndex = Mathf.Min(currentIndex + 1, prefabs.Count - numButtons - 1);
@@ -90,12 +97,24 @@ public class TileBrowser : MonoBehaviour {
          
             selected = button;
             selected.IsSelected = true;
-            selectedPrefab = selected.Tile;
+
+            if (selectedPrefab) {
+                Destroy(selectedPrefab);
+            }
+
+            selectedPrefab = Instantiate(selected.Tile);
+            selectedPrefab.GetComponent<SpriteRenderer>().color = selectedPrefab.GetComponent<SpriteRenderer>().color.SetAlpha(0.25f);
         }
         else
         {
             selected.IsSelected = false;
             selected = null;
+
+            if (selectedPrefab)
+            {
+                Destroy(selectedPrefab);
+            }
+
             selectedPrefab = null;
         }
     }

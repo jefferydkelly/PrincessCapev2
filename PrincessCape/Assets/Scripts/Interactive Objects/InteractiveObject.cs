@@ -23,7 +23,7 @@ public abstract class InteractiveObject : MonoBehaviour {
     /// <param name="collision">Collision.</param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem) {
+        if (Game.Instance.IsPlaying && collision.collider.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem) {
             IsHighlighted = true;
         }
     }
@@ -36,7 +36,7 @@ public abstract class InteractiveObject : MonoBehaviour {
     /// <param name="collision">Collision.</param>
     private void OnCollisionExit2D(Collision2D collision)
     {
-		if (collision.collider.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem)
+        if (Game.Instance.IsPlaying && collision.collider.CompareTag("Player") && !Game.Instance.Player.IsHoldingItem)
 		{
             IsHighlighted = false;
 		}
