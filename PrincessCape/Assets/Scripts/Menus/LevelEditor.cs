@@ -17,11 +17,18 @@ public class LevelEditor : MonoBehaviour {
     GameObject playbackUI;
     [SerializeField]
     TileBrowser tileBrowser;
+    [SerializeField]
+    LevelSaver saveUI;
 
     [SerializeField]
     Button activateButton;
     [SerializeField]
     Button connectButton;
+
+    [SerializeField]
+    Button saveButton;
+    [SerializeField]
+    Button loadButton;
     [SerializeField]
     GameObject connectionPrefab;
 
@@ -52,6 +59,7 @@ public class LevelEditor : MonoBehaviour {
 
 
         levelBrowser.SetActive(false);
+        saveUI.gameObject.SetActive(false);
 
         selectedObjects = new List<MapTile>();
 
@@ -59,7 +67,7 @@ public class LevelEditor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!Game.Instance.IsPlaying)
+        if (!Game.Instance.IsPlaying && mode != MapEditMode.Save)
         {
             List<ConnectionLine> toBeDeleted = new List<ConnectionLine>();
             foreach(ConnectionLine cl in connectionLines) {
@@ -400,6 +408,7 @@ public class LevelEditor : MonoBehaviour {
         }
     }
     public void SaveLevel() {
+        /*
         if (Application.isEditor)
         {
             #if UNITY_EDITOR
@@ -410,6 +419,26 @@ public class LevelEditor : MonoBehaviour {
                 File.WriteAllText(path, Map.Instance.SaveToFile());
             }
             #endif
+        }*/
+        mode = MapEditMode.Save;
+        ShowSaveUI = true;
+
+
+    }
+
+    public void EndSave() {
+        mode = MapEditMode.None;
+        ShowSaveUI = false;
+    }
+
+    bool ShowSaveUI {
+        set {
+            saveUI.gameObject.SetActive(value);
+            toolsUI.gameObject.SetActive(!value);
+            playbackUI.gameObject.SetActive(!value);
+            tileBrowser.gameObject.SetActive(!value);
+            saveButton.gameObject.SetActive(!value);
+            loadButton.gameObject.SetActive(!value);
         }
     }
 
@@ -642,6 +671,8 @@ public enum MapEditMode
     Scale,
     Flip,
     Align,
+    Save,
+    Load,
     None
 }
 
