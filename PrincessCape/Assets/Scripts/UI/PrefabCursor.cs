@@ -5,11 +5,16 @@ using UnityEngine;
 public class PrefabCursor : MonoBehaviour {
 
     SpriteRenderer myRenderer;
+    SpriteRenderer circleRenderer;
     BoxCollider2D myCollider;
     private void Awake()
     {
         myRenderer = GetComponent<SpriteRenderer>();
-        myRenderer.color = myRenderer.color.SetAlpha(0.25f).SetRed(0.0f).SetGreen(0.0f);
+        circleRenderer = GetComponentsInChildren<SpriteRenderer>()[1];
+
+        myRenderer.color = myRenderer.color.SetAlpha(0.25f);
+        circleRenderer.color = new Color(0, 1, 0, 0.25f);
+        circleRenderer.gameObject.SetActive(false);
 
         myCollider = GetComponent<BoxCollider2D>();
     }
@@ -18,15 +23,15 @@ public class PrefabCursor : MonoBehaviour {
 	void Update () {
         if (myRenderer.sprite) {
             transform.position = Controller.Instance.MousePosition;
-            float blue = LevelEditor.Instance.IsSpawnPositionOpen(transform.position) ? 1 : 0;
-            myRenderer.color = myRenderer.color.SetBlue(blue).SetRed(1 - blue);
+            float green = LevelEditor.Instance.IsSpawnPositionOpen(transform.position) ? 1 : 0;
+            circleRenderer.color = circleRenderer.color.SetGreen(green).SetRed(1 - green);
         }
 	}
 
     public Sprite Sprite {
         set {
             myRenderer.sprite = value;
-
+            circleRenderer.gameObject.SetActive(value);
             if (value) {
                 myCollider.size = value.bounds.size;
                 myRenderer.color = myRenderer.color.SetAlpha(0.25f);

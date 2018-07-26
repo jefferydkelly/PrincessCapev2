@@ -18,7 +18,7 @@
       <File FileName="Assets/Scripts/UI/TileBrowser.cs" Line="105" Column="29" />
       <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="39" Column="40" />
       <File FileName="Assets/Scripts/Interactive Objects/Block.cs" Line="20" Column="49" />
-      <File FileName="Assets/Scripts/UI/PrefabCursor.cs" Line="22" Column="78" />
+      <File FileName="Assets/Scripts/UI/PrefabCursor.cs" Line="44" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
