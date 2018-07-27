@@ -372,6 +372,7 @@ public class LevelEditor : MonoBehaviour {
     }
 
     public void StartLoadingLevel() {
+        /*
         if (Application.isEditor) {
             #if UNITY_EDITOR
             string path  = EditorUtility.OpenFilePanel("Open a Level File", Application.absoluteURL + "/Assets/Resources/Levels", "json");
@@ -384,13 +385,18 @@ public class LevelEditor : MonoBehaviour {
             }
             #endif
         } else {
+        */
             ShowLevelBrowser = true;
-        }
+        //}
     }
 
     public void LoadLevel(string path) {
         Map.Instance.Load(path);
         AddConnectionLines();
+        ShowLevelBrowser = false;
+    }
+
+    public void CancelLoad() {
         ShowLevelBrowser = false;
     }
 
