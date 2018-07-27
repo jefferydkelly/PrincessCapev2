@@ -45,6 +45,16 @@ public class TileBrowser : MonoBehaviour {
         UpdateButtons();
 	}
 
+    private void OnEnable()
+    {
+        cursor.gameObject.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        cursor.gameObject.SetActive(false);
+    }
+
     public void Increment()
     {
         currentIndex = Mathf.Min(currentIndex + 1, prefabs.Count - numButtons - 1);
