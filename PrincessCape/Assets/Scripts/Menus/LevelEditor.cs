@@ -67,7 +67,7 @@ public class LevelEditor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!Game.Instance.IsPlaying && mode != MapEditMode.Save)
+        if (!Game.Instance.IsPlaying && mode != MapEditMode.Save && mode != MapEditMode.Load)
         {
             List<ConnectionLine> toBeDeleted = new List<ConnectionLine>();
             foreach(ConnectionLine cl in connectionLines) {
@@ -387,6 +387,7 @@ public class LevelEditor : MonoBehaviour {
         } else {
         */
             ShowLevelBrowser = true;
+        mode = MapEditMode.Load;
         //}
     }
 
@@ -394,10 +395,12 @@ public class LevelEditor : MonoBehaviour {
         Map.Instance.Load(path);
         AddConnectionLines();
         ShowLevelBrowser = false;
+        mode = MapEditMode.None;
     }
 
     public void CancelLoad() {
         ShowLevelBrowser = false;
+        mode = MapEditMode.None;
     }
 
     void AddConnectionLines() {
