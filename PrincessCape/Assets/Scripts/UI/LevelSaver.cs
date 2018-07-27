@@ -100,6 +100,7 @@ public class LevelSaver : MonoBehaviour {
         }
     }
 
+    public void Cancel() {
         LevelEditor.Instance.EndSave();
     }
 }
