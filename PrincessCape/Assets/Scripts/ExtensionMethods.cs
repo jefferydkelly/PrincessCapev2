@@ -282,6 +282,11 @@ public static class ExtensionMethods {
 		return (Direction)ind;
 	}
 
+    /// <summary>
+    /// Splits the a camel case string into a string with spaces in it.
+    /// </summary>
+    /// <returns>The camel case.</returns>
+    /// <param name="s">S.</param>
     public static string SplitCamelCase(this string s) {
         string cpy = s;
         string upper = s.ToUpper();
@@ -295,11 +300,23 @@ public static class ExtensionMethods {
         return cpy;
     }
 
+    /// <summary>
+    /// Gets whether or not the game object has the given component
+    /// </summary>
+    /// <returns><c>true</c>, if compnent was hased, <c>false</c> otherwise.</returns>
+    /// <param name="go">Go.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
     public static bool HasCompnent<T>(this GameObject go) {
         T  comp = go.GetComponent<T>();
         return  (comp != null);
     }
 
+    /// <summary>
+    /// Gets whether or not the monobehaviour's game object has the given component
+    /// </summary>
+    /// <returns><c>true</c>, if compnent was hased, <c>false</c> otherwise.</returns>
+    /// <param name="mo">Mo.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
     public static bool HasCompnent<T>(this MonoBehaviour mo)
     {
         T comp = mo.GetComponent<T>();

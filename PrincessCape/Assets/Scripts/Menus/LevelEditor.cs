@@ -165,6 +165,9 @@ public class LevelEditor : MonoBehaviour {
 
 	}
 
+    /// <summary>
+    /// Processes the input and determines the action to be taken in the editor.
+    /// </summary>
     void ProcessInput() {
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -270,6 +273,10 @@ public class LevelEditor : MonoBehaviour {
         } 
     }
 
+    /// <summary>
+    /// Spawn the selected prefab the given position.
+    /// </summary>
+    /// <param name="pos">Position.</param>
     void Spawn(Vector3 pos) {
         
         if (IsSpawnPositionOpen(pos))
@@ -324,6 +331,9 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Deletes the selected tile.
+    /// </summary>
     void DeleteTile() {
         if (PrimaryMapTile)
         {
@@ -371,8 +381,11 @@ public class LevelEditor : MonoBehaviour {
         return true;
     }
 
-    public void StartLoadingLevel() {
-        /*
+    /// <summary>
+    /// Opens the level select menu.
+    /// </summary>
+    public void OpenLevelSelect() {
+        
         if (Application.isEditor) {
             #if UNITY_EDITOR
             string path  = EditorUtility.OpenFilePanel("Open a Level File", Application.absoluteURL + "/Assets/Resources/Levels", "json");
@@ -385,12 +398,15 @@ public class LevelEditor : MonoBehaviour {
             }
             #endif
         } else {
-        */
             ShowLevelBrowser = true;
-        mode = MapEditMode.Load;
-        //}
+            mode = MapEditMode.Load;
+        }
     }
 
+    /// <summary>
+    /// Loads the level at the given path.
+    /// </summary>
+    /// <param name="path">Path.</param>
     public void LoadLevel(string path) {
         Map.Instance.Load(path);
         AddConnectionLines();
@@ -398,11 +414,17 @@ public class LevelEditor : MonoBehaviour {
         mode = MapEditMode.None;
     }
 
+    /// <summary>
+    /// Goes back to the editor from the loading screen
+    /// </summary>
     public void CancelLoad() {
         ShowLevelBrowser = false;
         mode = MapEditMode.None;
     }
 
+    /// <summary>
+    /// Adds the lines that show the connections between activated objects and activators in the editor.
+    /// </summary>
     void AddConnectionLines() {
         foreach (ConnectionLine cl in connectionLines) {
             Destroy(cl.gameObject);
@@ -416,8 +438,11 @@ public class LevelEditor : MonoBehaviour {
             connectionLines.Add(connectionLine);
         }
     }
+    /// <summary>
+    /// Opens the menu for saving the level.
+    /// </summary>
     public void SaveLevel() {
-        /*
+
         if (Application.isEditor)
         {
             #if UNITY_EDITOR
@@ -428,18 +453,28 @@ public class LevelEditor : MonoBehaviour {
                 File.WriteAllText(path, Map.Instance.SaveToFile());
             }
             #endif
-        }*/
-        mode = MapEditMode.Save;
-        ShowSaveUI = true;
+        }
+        else
+        {
+            mode = MapEditMode.Save;
+            ShowSaveUI = true;
+        }
 
 
     }
 
+    /// <summary>
+    /// Takes the menu out of the save menu
+    /// </summary>
     public void EndSave() {
         mode = MapEditMode.None;
         ShowSaveUI = false;
     }
 
+    /// <summary>
+    /// Sets a value indicating whether or not to <see cref="T:LevelEditor"/> show the save user interface.
+    /// </summary>
+    /// <value><c>true</c> if show save user interface; otherwise, <c>false</c>.</value>
     bool ShowSaveUI {
         set {
             saveUI.gameObject.SetActive(value);
@@ -536,18 +571,30 @@ public class LevelEditor : MonoBehaviour {
         PrimaryMapTile = temp;
     }
 
+    /// <summary>
+    /// Gets a value indicating whether the <see cref="T:LevelEditor"/> shift key is held down.
+    /// </summary>
+    /// <value><c>true</c> if is shift down; otherwise, <c>false</c>.</value>
     bool IsShiftDown {
         get {
             return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         }
     }
 
+    /// <summary>
+    /// Gets the instance on the Level Editor.
+    /// </summary>
+    /// <value>The instance.</value>
     public static LevelEditor Instance {
         get {
             return instance;
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:LevelEditor"/> is hidden.
+    /// </summary>
+    /// <value><c>true</c> if is hidden; otherwise, <c>false</c>.</value>
     public bool IsHidden {
         get {
             return gameObject.activeSelf;
@@ -558,6 +605,11 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+
+    /// <summary>
+    /// Gets or sets the current mode of the editor.
+    /// </summary>
+    /// <value>The mode.</value>
     public MapEditMode Mode {
         set {
             mode = value;
@@ -569,31 +621,49 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Switches the mode to or from Translate
+    /// </summary>
     public void ToggleTranslate() {
         ToggleMode(MapEditMode.Translate);
     }
 
+    /// <summary>
+    /// Switches the mode to or from Rotate
+    /// </summary>
     public void ToggleRotate()
     {
         ToggleMode(MapEditMode.Rotate);
     }
 
+    /// <summary>
+    /// Switches the mode to or from Scale
+    /// </summary>
     public void ToggleScale()
     {
         ToggleMode(MapEditMode.Scale);
     }
 
+    /// <summary>
+    /// Switches the mode to or from Align
+    /// </summary>
     public void ToggleAlign()
     {
         ToggleMode(MapEditMode.Align);
     }
 
+    /// <summary>
+    /// Switches the mode to or from Flip
+    /// </summary>
     public void ToggleFlip()
     {
         ToggleMode(MapEditMode.Flip);
     }
 
-
+    /// <summary>
+    /// Toggles the mode on/off.
+    /// </summary>
+    /// <param name="mem">Mem.</param>
     void ToggleMode(MapEditMode mem) {
         if (mode == mem) {
             Mode = MapEditMode.None;
@@ -604,12 +674,18 @@ public class LevelEditor : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Toggles the activation state of the primary map tile if possible.
+    /// </summary>
     public void TogglePrimaryActivation() {
         ActivatedObject activatedObject = PrimaryMapTile.GetComponent<ActivatedObject>();
         activatedObject.StartsActive = !activatedObject.StartsActive;
         activateButton.GetComponentInChildren<Text>().text = activatedObject.StartsActive ? "Deactivate" : "Activate";
     }
 
+    /// <summary>
+    /// Creates or destroys a connection between the Primary Map Tile to the Secondary Tile if possible
+    /// </summary>
     public void ToggleConnection() {
         ActivatorObject activator = PrimaryMapTile.GetComponent<ActivatorObject>();
         ActivatedObject activated = SecondaryMapTile.GetComponent<ActivatedObject>();
@@ -627,6 +703,11 @@ public class LevelEditor : MonoBehaviour {
             activator.AddConnection(activated);
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether or not the <see cref="T:LevelEditor"/> level browser is shown.
+    /// </summary>
+    /// <value><c>true</c> if show level browser; otherwise, <c>false</c>.</value>
     bool ShowLevelBrowser {
         get {
             return levelBrowser.activeSelf;
@@ -640,6 +721,10 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether or not <see cref="T:LevelEditor"/> the connect button is shown.
+    /// </summary>
+    /// <value><c>true</c> if show connect button; otherwise, <c>false</c>.</value>
     bool ShowConnectButton {
         get {
             if (PrimaryMapTile && SecondaryMapTile)
@@ -658,12 +743,20 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets the on tile moved event.
+    /// </summary>
+    /// <value>The on tile moved.</value>
     public MapTileEvent OnTileMoved {
         get {
             return onTileMoved;
         }
     }
 
+    /// <summary>
+    /// Gets the on tile destroyed event.
+    /// </summary>
+    /// <value>The on tile destroyed.</value>
     public MapTileEvent OnTileDestroyed
     {
         get
@@ -673,6 +766,9 @@ public class LevelEditor : MonoBehaviour {
     }
 }
 
+/// <summary>
+/// Map edit mode.
+/// </summary>
 public enum MapEditMode
 {
     Translate,

@@ -55,6 +55,9 @@ public class TileBrowser : MonoBehaviour {
         cursor.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Increment the index of the current tiles 
+    /// </summary>
     public void Increment()
     {
         currentIndex = Mathf.Min(currentIndex + 1, prefabs.Count - numButtons - 1);
@@ -67,6 +70,9 @@ public class TileBrowser : MonoBehaviour {
         UpdateButtons();
     }
 
+    /// <summary>
+    /// Updates the button sprites and backgrounds.
+    /// </summary>
     void UpdateButtons()
     {
         int i = 0;
@@ -92,6 +98,10 @@ public class TileBrowser : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Selects the button.
+    /// </summary>
+    /// <param name="button">Button.</param>
     public void SelectButton(TileSelectButton button)
     {
         if (selected != button)
@@ -119,12 +129,20 @@ public class TileBrowser : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether a tile is selected.
+    /// </summary>
+    /// <value><c>true</c> if is tile selected; otherwise, <c>false</c>.</value>
     public bool IsTileSelected {
         get {
             return selected != null;
         }
     }
 
+    /// <summary>
+    /// Gets the selected prefab.
+    /// </summary>
+    /// <value>The selected prefab.</value>
     public MapTile SelectedPrefab {
         get {
             return selectedPrefab;
