@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/TileBrowser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Menus/LevelEditor.cs">
     <Files>
       <File FileName="Assets/Editor/MapEditor.cs" Line="110" Column="77" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="493" Column="48" />
@@ -12,11 +12,12 @@
       <File FileName="Assets/Scripts/Managers/Manager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/CameraManager.cs" Line="90" Column="10" />
       <File FileName="Assets/Scripts/Player.cs" Line="739" Column="23" />
-      <File FileName="Assets/Scripts/UI/TileBrowser.cs" Line="66" Column="5" />
+      <File FileName="Assets/Scripts/UI/TileBrowser.cs" Line="66" Column="1" />
       <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="39" Column="40" />
       <File FileName="Assets/Scripts/Interactive Objects/Block.cs" Line="20" Column="49" />
       <File FileName="Assets/Scripts/UI/PrefabCursor.cs" Line="44" Column="6" />
       <File FileName="Assets/Scripts/UI/LevelSaver.cs" Line="104" Column="40" />
+      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="385" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
