@@ -81,7 +81,7 @@ public class ActivatorObject : ActivatedObject {
 					OnDeactivate.AddListener(ao.DecrementActivator);
 				}
 			}
-			else
+            if (Game.Instance.IsInLevelEditor)
 			{
 				ActivatorConnection akon = new ActivatorConnection(this, ao, inverted);
 				Connections.Add(akon);
@@ -97,7 +97,7 @@ public class ActivatorObject : ActivatedObject {
 				return true;
 			}
 		}
-        
+
 		return false;
 	}
     
@@ -113,7 +113,9 @@ public class ActivatorObject : ActivatedObject {
         
 		if (index > -1) {
 			ao.IsConnected = false;
-			Connections.RemoveAt(index);
+            ActivatorConnection activator = Connections[index];
+            LevelEditor.Instance.OnConnectionRemoved.Invoke(activator);
+            Connections.RemoveAt(index);
 		}
 	}
 

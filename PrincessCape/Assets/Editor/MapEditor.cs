@@ -97,7 +97,7 @@ public class MapEditor : Editor {
 				{
 					ActivatorObject activator = (ao is ActivatorObject ? ao : bo) as ActivatorObject;
 					ActivatedObject activated = ao is ActivatorObject ? bo : ao;
-					string buttonMessage = activator.HasConnection(activated) ? "Disconnect" : "Connect";
+                    string buttonMessage = (activator.HasConnection(activated) ? "Disconnect" : "Connect") + " (Space)";
 					if (GUILayout.Button(buttonMessage))
 					{
 						Connect(activator, activated);

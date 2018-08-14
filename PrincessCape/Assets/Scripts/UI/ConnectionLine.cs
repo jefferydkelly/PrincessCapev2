@@ -32,6 +32,11 @@ public class ConnectionLine : MonoBehaviour
             {
                 deleteConnection = (mt == connection.ActivatedTile || mt == connection.ActivatorTile);
             });
+
+            LevelEditor.Instance.OnConnectionRemoved.AddListener((ActivatorConnection ac) =>
+            {
+                deleteConnection = (ac.Activated == connection.ActivatedTile) && (ac.Activator == connection.ActivatorTile);
+            });
         }
     }
 

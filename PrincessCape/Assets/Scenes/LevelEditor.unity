@@ -732,9 +732,7 @@ Prefab:
     - target: {fileID: 114439078939097262, guid: 92f8314c56ce34b4ba0fbbbfedefecf3,
         type: 2}
       propertyPath: m_Text
-      value: 'Connect
-
-'
+      value: Connect (Space)
       objectReference: {fileID: 0}
     - target: {fileID: 114516926917079668, guid: 92f8314c56ce34b4ba0fbbbfedefecf3,
         type: 2}
@@ -783,7 +781,7 @@ Prefab:
     - target: {fileID: 114439078939097262, guid: 92f8314c56ce34b4ba0fbbbfedefecf3,
         type: 2}
       propertyPath: m_FontData.m_FontSize
-      value: 48
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 114516926917079668, guid: 92f8314c56ce34b4ba0fbbbfedefecf3,
         type: 2}

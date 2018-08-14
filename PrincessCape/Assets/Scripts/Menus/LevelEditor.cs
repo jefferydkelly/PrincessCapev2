@@ -44,6 +44,7 @@ public class LevelEditor : MonoBehaviour {
     //MapTile Events
     MapTileEvent onTileMoved = new MapTileEvent();
     MapTileEvent onTileDestroyed = new MapTileEvent();
+    ConnectionEvent onConnectionRemoved = new ConnectionEvent();
     static LevelEditor instance;
 	// Use this for initialization
 	void Start () {
@@ -189,6 +190,8 @@ public class LevelEditor : MonoBehaviour {
         else if (Input.GetKey(KeyCode.B))
         {
             Mode = MapEditMode.Align;
+        } else if (Input.GetKeyDown(KeyCode.Space) && ShowConnectButton) {
+            ToggleConnection();
         }
 
 
@@ -513,6 +516,11 @@ public class LevelEditor : MonoBehaviour {
                     activateButton.GetComponentInChildren<Text>().text = value.GetComponent<ActivatedObject>().StartsActive ? "Deactivate" : "Activate";
                 }
                 connectButton.gameObject.SetActive(ShowConnectButton);
+
+                if (ShowConnectButton) {
+                    UpdateConnectButtonText();
+                }
+
             } else {
                 activateButton.gameObject.SetActive(false);
                 connectButton.gameObject.SetActive(false);
@@ -554,6 +562,11 @@ public class LevelEditor : MonoBehaviour {
                 secondaryMapTile.HighlightState = MapHighlightState.Secondary;
 
                 connectButton.gameObject.SetActive(ShowConnectButton);
+
+                if (ShowConnectButton)
+                {
+                    UpdateConnectButtonText();
+                }
             } else {
                 connectButton.gameObject.SetActive(false);
             }
@@ -687,9 +700,13 @@ public class LevelEditor : MonoBehaviour {
     /// Creates or destroys a connection between the Primary Map Tile to the Secondary Tile if possible
     /// </summary>
     public void ToggleConnection() {
-        ActivatorObject activator = PrimaryMapTile.GetComponent<ActivatorObject>();
-        ActivatedObject activated = SecondaryMapTile.GetComponent<ActivatedObject>();
-        if (activator == null) {
+        
+        ActivatorObject activator = null;
+        ActivatedObject activated = null;
+        if (PrimaryMapTile.HasCompnent<ActivatorObject>()) {
+            activator = PrimaryMapTile.GetComponent<ActivatorObject>();
+            activated = SecondaryMapTile.GetComponent<ActivatedObject>();
+        } else {
             activator = SecondaryMapTile.GetComponent<ActivatorObject>();
             activated = PrimaryMapTile.GetComponent<ActivatedObject>();
         }
@@ -702,6 +719,8 @@ public class LevelEditor : MonoBehaviour {
         {
             activator.AddConnection(activated);
         }
+
+        UpdateConnectButtonText();
     }
 
     /// <summary>
@@ -732,6 +751,7 @@ public class LevelEditor : MonoBehaviour {
                 if (PrimaryMapTile.HasCompnent<ActivatorObject>())
                 {
                     return SecondaryMapTile.HasCompnent<ActivatedObject>();
+                  
                 }
                 else if (SecondaryMapTile.HasCompnent<ActivatorObject>())
                 {
@@ -741,6 +761,20 @@ public class LevelEditor : MonoBehaviour {
 
             return false;
         }
+    }
+
+    void UpdateConnectButtonText() {
+        ActivatorObject activator;
+        ActivatedObject activated;
+        if (PrimaryMapTile.HasCompnent<ActivatorObject>()) {
+            activator = PrimaryMapTile.GetComponent<ActivatorObject>();
+            activated = SecondaryMapTile.GetComponent<ActivatedObject>();
+        }  else {
+            activator = SecondaryMapTile.GetComponent<ActivatorObject>();
+            activated = PrimaryMapTile.GetComponent<ActivatedObject>();
+        }
+
+        connectButton.GetComponentInChildren<Text>().text = (activator.HasConnection(activated) ? "Disconnect" : "Connect") + " (Space)";
     }
 
     /// <summary>
@@ -764,6 +798,12 @@ public class LevelEditor : MonoBehaviour {
             return onTileDestroyed;
         }
     }
+
+    public ConnectionEvent OnConnectionRemoved {
+        get {
+            return onConnectionRemoved;
+        }
+    }
 }
 
 /// <summary>
@@ -783,4 +823,8 @@ public enum MapEditMode
 
 [SerializeField]
 public class MapTileEvent: UnityEvent<MapTile> {
+}
+
+[SerializeField]
+public class ConnectionEvent: UnityEvent<ActivatorConnection> {
 }
