@@ -47,12 +47,18 @@ public class TileBrowser : MonoBehaviour {
 
     private void OnEnable()
     {
-        cursor.gameObject.SetActive(true);
+        if (cursor)
+        {
+            cursor.gameObject.SetActive(true);
+        }
     }
 
     private void OnDisable()
     {
-        cursor.gameObject.SetActive(false);
+        if (cursor)
+        {
+            cursor.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>

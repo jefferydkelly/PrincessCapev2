@@ -490,6 +490,10 @@ public class Map : MonoBehaviour
 		}
 	}
 
+    /// <summary>
+    /// Gets the connections.
+    /// </summary>
+    /// <value>The connections.</value>
     public List<ConnectionStruct> Connections {
         get {
             return connections;

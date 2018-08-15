@@ -41,6 +41,10 @@ public class ActivatorObject : ActivatedObject {
 		onDeactivate.Invoke();
     }
 
+    /// <summary>
+    /// Gets the number of connections.
+    /// </summary>
+    /// <value>The number connections.</value>
 	protected int NumConnections
 	{
 		get
@@ -48,19 +52,32 @@ public class ActivatorObject : ActivatedObject {
 			return Connections.Count;
 		}
 	}
-    
+
+    /// <summary>
+    /// Gets the on activate event.
+    /// </summary>
+    /// <value>The on activate.</value>
 	public UnityEvent OnActivate {
 		get {
 			return onActivate;
 		}
 	}
 
+    /// <summary>
+    /// Gets the on deactivate event.
+    /// </summary>
+    /// <value>The on deactivate.</value>
 	public UnityEvent OnDeactivate {
 		get {
 			return onDeactivate;
 		}
 	}
 
+    /// <summary>
+    /// Creates a connection with the ActivatedObject
+    /// </summary>
+    /// <param name="ao">Ao.</param>
+    /// <param name="inverted">If set to <c>true</c> inverted.</param>
 	public void AddConnection(ActivatedObject ao, bool inverted = false)
 	{
 		if (ao && !HasConnection(ao))
@@ -91,6 +108,11 @@ public class ActivatorObject : ActivatedObject {
 		}
 	}
 
+    /// <summary>
+    /// Gets whether this Activator has a connection to the Activated object
+    /// </summary>
+    /// <returns><c>true</c>, if they are connected, <c>false</c> otherwise.</returns>
+    /// <param name="ao">Ao.</param>
 	public bool HasConnection(ActivatedObject ao) {
 		foreach(ActivatorConnection akon in Connections) {
 			if (akon.Activated.ID == ao.ID) {
@@ -100,7 +122,11 @@ public class ActivatorObject : ActivatedObject {
 
 		return false;
 	}
-    
+
+    /// <summary>
+    /// Removes the connection.
+    /// </summary>
+    /// <param name="ao">Ao.</param>
 	public void RemoveConnection(ActivatedObject ao) {
 		int index = -1;
 
@@ -119,6 +145,10 @@ public class ActivatorObject : ActivatedObject {
 		}
 	}
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:ActivatorObject"/> starts active.
+    /// </summary>
+    /// <value><c>true</c> if starts active; otherwise, <c>false</c>.</value>
 	public override bool StartsActive
 	{
 		get
@@ -138,6 +168,10 @@ public class ActivatorObject : ActivatedObject {
 		}
 	}
 
+    /// <summary>
+    /// Gets the connections.
+    /// </summary>
+    /// <value>The connections.</value>
 	public List<ActivatorConnection> Connections {
 		get {
 			if (connections == null) {

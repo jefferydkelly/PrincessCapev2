@@ -436,10 +436,14 @@ public class LevelEditor : MonoBehaviour {
         connectionLines.Clear();
         foreach (ConnectionStruct c in Map.Instance.Connections)
         {
-            ConnectionLine connectionLine = Instantiate(connectionPrefab).GetComponent<ConnectionLine>();
-            connectionLine.Connection = c;
-            connectionLines.Add(connectionLine);
+            CreateConnectionLine(c);
         }
+    }
+
+    void CreateConnectionLine(ConnectionStruct c) {
+        ConnectionLine connectionLine = Instantiate(connectionPrefab).GetComponent<ConnectionLine>();
+        connectionLine.Connection = c;
+        connectionLines.Add(connectionLine);
     }
     /// <summary>
     /// Opens the menu for saving the level.
@@ -718,6 +722,9 @@ public class LevelEditor : MonoBehaviour {
         else
         {
             activator.AddConnection(activated);
+            ConnectionStruct connection = new ConnectionStruct(activator.ID, activated.ID, false);
+            CreateConnectionLine(connection);
+            Map.Instance.Connections.Add(connection);
         }
 
         UpdateConnectButtonText();
@@ -763,6 +770,9 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Updates the connect button text.
+    /// </summary>
     void UpdateConnectButtonText() {
         ActivatorObject activator;
         ActivatedObject activated;
@@ -799,6 +809,10 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets the on connection removed event.
+    /// </summary>
+    /// <value>The on connection removed event.</value>
     public ConnectionEvent OnConnectionRemoved {
         get {
             return onConnectionRemoved;
