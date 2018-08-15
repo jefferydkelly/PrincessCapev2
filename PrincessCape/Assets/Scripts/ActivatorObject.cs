@@ -11,12 +11,14 @@ public class ActivatorObject : ActivatedObject {
    
 	UnityEvent onActivate;
 	UnityEvent onDeactivate;
+  
 	List<ActivatorConnection> connections;
 
 	public override void Init()
 	{
 		onActivate = new UnityEvent();
         onDeactivate = new UnityEvent();
+
 		base.Init();
 
 
@@ -107,6 +109,19 @@ public class ActivatorObject : ActivatedObject {
             
 		}
 	}
+
+    public bool InvertConnection(ActivatedObject ao) {
+        if (HasConnection(ao)) {
+            foreach(ActivatorConnection ac in Connections) {
+                if (ac.Activated == ao) {
+                    ac.IsInverted = !ac.IsInverted;
+                    return ac.IsInverted;
+                }
+            }
+        }
+
+        return false;
+    }
 
     /// <summary>
     /// Gets whether this Activator has a connection to the Activated object
@@ -200,6 +215,7 @@ public class ActivatorConnection
 {
 	ActivatorObject activator;
 	ActivatedObject activated;
+    UnityEvent onInvert;
 	bool inverted;
 
 	public ActivatorConnection(ActivatorObject tor, ActivatedObject ted, bool invert = false)
@@ -216,6 +232,7 @@ public class ActivatorConnection
 		{
 			activated.StartsActive = !activator.StartsActive;
 		}
+        onInvert = new UnityEvent();
 	}
 
 	public ActivatedObject Activated
@@ -248,6 +265,7 @@ public class ActivatorConnection
             {
                 activated.StartsActive = !activator.StartsActive;
             }
+            onInvert.Invoke();
 		}
 	}
 

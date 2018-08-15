@@ -47,6 +47,7 @@ public class LevelEditor : MonoBehaviour {
     MapTileEvent onTileMoved = new MapTileEvent();
     MapTileEvent onTileDestroyed = new MapTileEvent();
     ConnectionEvent onConnectionRemoved = new ConnectionEvent();
+    InversionEvent onConnectionInverted = new InversionEvent();
     static LevelEditor instance;
 	// Use this for initialization
 	void Start () {
@@ -736,6 +737,23 @@ public class LevelEditor : MonoBehaviour {
         UpdateConnectButtonText();
     }
 
+    public void ToggleInverted() {
+        ActivatorObject activator = null;
+        ActivatedObject activated = null;
+        if (PrimaryMapTile.HasCompnent<ActivatorObject>())
+        {
+            activator = PrimaryMapTile.GetComponent<ActivatorObject>();
+            activated = SecondaryMapTile.GetComponent<ActivatedObject>();
+        }
+        else
+        {
+            activator = SecondaryMapTile.GetComponent<ActivatorObject>();
+            activated = PrimaryMapTile.GetComponent<ActivatedObject>();
+        }
+
+        onConnectionInverted.Invoke(activator.ID, activated.ID, activator.InvertConnection(activated));
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether or not the <see cref="T:LevelEditor"/> level browser is shown.
     /// </summary>
@@ -826,6 +844,12 @@ public class LevelEditor : MonoBehaviour {
             return onConnectionRemoved;
         }
     }
+
+    public InversionEvent OnConnectionInverted {
+        get {
+            return onConnectionInverted;
+        }
+    }
 }
 
 /// <summary>
@@ -849,4 +873,8 @@ public class MapTileEvent: UnityEvent<MapTile> {
 
 [SerializeField]
 public class ConnectionEvent: UnityEvent<ActivatorConnection> {
+}
+
+[SerializeField]
+public class InversionEvent: UnityEvent<int, int, bool> {
 }

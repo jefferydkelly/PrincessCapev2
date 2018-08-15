@@ -448,7 +448,7 @@ public class MapFile {
 	}
 }
 
-public struct ConnectionStruct {
+public class ConnectionStruct {
 	int activatorID;
 	int activatedID;
 	bool inverted;
@@ -457,6 +457,17 @@ public struct ConnectionStruct {
 		activatorID = tor;
 		activatedID = ted;
 		inverted = inv;
+
+        if (Game.Instance.IsInLevelEditor)
+        {
+            
+            LevelEditor.Instance.OnConnectionInverted.AddListener((int vator, int vated, bool flipped) => { 
+                
+                if (vator == activatorID && vated == activatedID) {
+                    inverted = flipped;
+                }
+            });
+        }
 	}
 
     /// <summary>
