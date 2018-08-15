@@ -24,6 +24,8 @@ public class LevelEditor : MonoBehaviour {
     Button activateButton;
     [SerializeField]
     Button connectButton;
+    [SerializeField]
+    Button invertButton;
 
     [SerializeField]
     Button saveButton;
@@ -57,6 +59,7 @@ public class LevelEditor : MonoBehaviour {
        
         activateButton.gameObject.SetActive(false);
         connectButton.gameObject.SetActive(false);
+        invertButton.gameObject.SetActive(false);
 
 
         levelBrowser.SetActive(false);
@@ -523,11 +526,14 @@ public class LevelEditor : MonoBehaviour {
 
                 if (ShowConnectButton) {
                     UpdateConnectButtonText();
+                } else {
+                    invertButton.gameObject.SetActive(false);
                 }
 
             } else {
                 activateButton.gameObject.SetActive(false);
                 connectButton.gameObject.SetActive(false);
+                invertButton.gameObject.SetActive(false);
             }
         }
         get
@@ -785,6 +791,8 @@ public class LevelEditor : MonoBehaviour {
         }
 
         connectButton.GetComponentInChildren<Text>().text = (activator.HasConnection(activated) ? "Disconnect" : "Connect") + " (Space)";
+        invertButton.gameObject.SetActive(activator.HasConnection(activated));
+
     }
 
     /// <summary>

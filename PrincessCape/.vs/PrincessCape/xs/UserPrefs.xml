@@ -17,7 +17,7 @@
       <File FileName="Assets/Scripts/Interactive Objects/Block.cs" Line="20" Column="49" />
       <File FileName="Assets/Scripts/UI/PrefabCursor.cs" Line="44" Column="6" />
       <File FileName="Assets/Scripts/UI/LevelSaver.cs" Line="104" Column="40" />
-      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="720" Column="51" />
+      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="536" Column="58" />
       <File FileName="Assets/Scripts/ActivatorObject.cs" Line="103" Column="76" />
     </Files>
   </MonoDevelop.Ide.Workbench>
