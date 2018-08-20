@@ -7,7 +7,6 @@ using UnityEditor;
 
 public class PressureSwitch : ActivatorObject {
     Animator myAnimator;
-    int itemsOnTop = 0;
 
     public override void Init() {
 		base.Init();
@@ -35,26 +34,6 @@ public class PressureSwitch : ActivatorObject {
 			DecrementActivator();
 		}
 	}
-
-    /// <summary>
-    /// Gets or sets the number items on top.  If value > 0, Activate.  Else, Deactive.
-    /// </summary>
-    /// <value>The items on top.</value>
-    int ItemsOnTop {
-        get {
-            return itemsOnTop;
-        }
-
-        set {
-            itemsOnTop = Mathf.Max(value, 0);
-
-            if (itemsOnTop > 0) {
-                Activate();
-            } else {
-                Deactivate();
-            }
-         }
-    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this <see cref="T:PressureSwitch"/> is activated.

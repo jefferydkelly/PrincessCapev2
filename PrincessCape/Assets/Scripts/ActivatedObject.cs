@@ -146,9 +146,8 @@ public abstract class ActivatedObject : MapTile
 
 	public void DecrementActivator() {
 		currentActivators = Mathf.Max(currentActivators-1, 0);
-
+   
 		if (isActivated && currentActivators < requiredActivators) {
-			
 			IsActivated = false;
 			Deactivate();
 		}

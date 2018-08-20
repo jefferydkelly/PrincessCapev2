@@ -19,7 +19,7 @@ public class Map : MonoBehaviour
 	bool isLoaded = false;
 
     List<MapTile> tiles;
-    List<ConnectionStruct> connections;
+    List<ActivatorConnection> connections;
     Dictionary<string, GameObject> prefabs;
 
     UnityEvent onLevelLoaded;
@@ -332,10 +332,8 @@ public class Map : MonoBehaviour
                     }
 
                     connections = mapFile.Connections;
-                    foreach(ConnectionStruct akon in connections) {
-						ActivatorObject activator = GetTileByID(akon.Activator) as ActivatorObject;
-						ActivatedObject activated = GetTileByID(akon.Activated) as ActivatedObject;
-						activator.AddConnection(activated, akon.Inverted);
+                    foreach(ActivatorConnection akon in connections) {
+                        akon.Activator.AddConection(akon);
 					}
 				    
                     if (Application.isPlaying) {
@@ -413,7 +411,7 @@ public class Map : MonoBehaviour
     public void PlayInEditor() {
         foreach (MapTile mt in tiles)
         {
-            if (!mt.IsInitialized)
+            if (mt.IsInitialized)
             {
                 mt.Init();
             }
@@ -494,10 +492,19 @@ public class Map : MonoBehaviour
     /// Gets the connections.
     /// </summary>
     /// <value>The connections.</value>
-    public List<ConnectionStruct> Connections {
+    public List<ActivatorConnection> Connections {
         get {
             return connections;
         }
+    }
+
+    public ActivatorConnection GetConnection(ActivatorObject activator, ActivatedObject activated) {
+        foreach(ActivatorConnection ac in connections) {
+            if (ac.Activator == activator && ac.Activated == activated) {
+                return ac;
+            }
+        }
+        return null;
     }
     /// <summary>
     /// Gets the instance.

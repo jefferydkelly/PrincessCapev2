@@ -26,8 +26,6 @@ public class Launcher : ActivatedObject
 		}
 		base.Init();  
         initialized = true;
-        
-
     }
     void Launch() {
         Projectile proj = Instantiate(projectile.gameObject).GetComponent<Projectile>();
@@ -37,8 +35,10 @@ public class Launcher : ActivatedObject
 
     public override void Activate()
     {
-        
-        launchTimer.Start();
+        if (!Game.Instance.IsInLevelEditor || Game.Instance.IsPlaying)
+        {
+            launchTimer.Start();
+        }
         myAnimator.SetTrigger("Activate");
     }
 

@@ -47,12 +47,31 @@ public class LevelEditor : MonoBehaviour {
     MapTileEvent onTileMoved = new MapTileEvent();
     MapTileEvent onTileDestroyed = new MapTileEvent();
     ConnectionEvent onConnectionRemoved = new ConnectionEvent();
-    InversionEvent onConnectionInverted = new InversionEvent();
+    ConnectionEvent onConnectionInverted = new ConnectionEvent();
     static LevelEditor instance;
 	// Use this for initialization
 	void Start () {
         instance = this;
         connectionLines = new List<ConnectionLine>();
+
+        Game.Instance.OnEditorPlay.AddListener(() =>
+        {
+            HideConnections = true;
+        });
+
+
+
+        Game.Instance.OnEditorPause.AddListener(() =>
+        {
+            HideConnections = false;
+
+        });
+
+        Game.Instance.OnEditorStop.AddListener(() =>
+        {
+            HideConnections = true;
+
+        });
        
 
         Map.Instance.Init();
@@ -438,13 +457,13 @@ public class LevelEditor : MonoBehaviour {
         }
 
         connectionLines.Clear();
-        foreach (ConnectionStruct c in Map.Instance.Connections)
+        foreach (ActivatorConnection c in Map.Instance.Connections)
         {
             CreateConnectionLine(c);
         }
     }
 
-    void CreateConnectionLine(ConnectionStruct c) {
+    void CreateConnectionLine(ActivatorConnection c) {
         ConnectionLine connectionLine = Instantiate(connectionPrefab).GetComponent<ConnectionLine>();
         connectionLine.Connection = c;
         connectionLines.Add(connectionLine);
@@ -728,15 +747,18 @@ public class LevelEditor : MonoBehaviour {
         }
         else
         {
-            activator.AddConnection(activated);
-            ConnectionStruct connection = new ConnectionStruct(activator.ID, activated.ID, false);
+            ActivatorConnection connection = new ActivatorConnection(activator.ID, activated.ID, false);
             CreateConnectionLine(connection);
             Map.Instance.Connections.Add(connection);
+            activator.AddConection(connection);
         }
 
         UpdateConnectButtonText();
     }
 
+    /// <summary>
+    /// Toggles the inverted status of the connection between the select objects.
+    /// </summary>
     public void ToggleInverted() {
         ActivatorObject activator = null;
         ActivatedObject activated = null;
@@ -751,7 +773,9 @@ public class LevelEditor : MonoBehaviour {
             activated = PrimaryMapTile.GetComponent<ActivatedObject>();
         }
 
-        onConnectionInverted.Invoke(activator.ID, activated.ID, activator.InvertConnection(activated));
+        ActivatorConnection connection = Map.Instance.GetConnection(activator, activated);
+        connection.IsInverted = !connection.IsInverted;
+        onConnectionInverted.Invoke(connection);
     }
 
     /// <summary>
@@ -845,9 +869,21 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
-    public InversionEvent OnConnectionInverted {
+    /// <summary>
+    /// Gets the event that is triggered whenever a connection is inverted.
+    /// </summary>
+    /// <value>The on connection inverted.</value>
+    public ConnectionEvent OnConnectionInverted {
         get {
             return onConnectionInverted;
+        }
+    }
+
+    bool HideConnections {
+        set {
+            foreach(ConnectionLine cl in connectionLines) {
+                cl.IsHidden = value;
+            }
         }
     }
 }
@@ -873,8 +909,4 @@ public class MapTileEvent: UnityEvent<MapTile> {
 
 [SerializeField]
 public class ConnectionEvent: UnityEvent<ActivatorConnection> {
-}
-
-[SerializeField]
-public class InversionEvent: UnityEvent<int, int, bool> {
 }

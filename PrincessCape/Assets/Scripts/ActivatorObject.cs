@@ -16,9 +16,6 @@ public class ActivatorObject : ActivatedObject {
 
 	public override void Init()
 	{
-		onActivate = new UnityEvent();
-        onDeactivate = new UnityEvent();
-
 		base.Init();
 
 
@@ -26,6 +23,8 @@ public class ActivatorObject : ActivatedObject {
 		{
 			connections = new List<ActivatorConnection>();
 		}
+
+        RegisterAllEvents();
 	}
 	/// <summary>
 	/// Activate this instance.
@@ -86,23 +85,11 @@ public class ActivatorObject : ActivatedObject {
 		{
 			ao.StartsActive = startActive;
 			ao.IsConnected = true;
-			if (Application.isPlaying)
-			{
-				
-				if (inverted)
-				{
-					OnActivate.AddListener(ao.DecrementActivator);
-					OnDeactivate.AddListener(ao.IncrementActivator);
-				}
-				else
-				{
-					OnActivate.AddListener(ao.IncrementActivator);
-					OnDeactivate.AddListener(ao.DecrementActivator);
-				}
-			}
+			
             if (Game.Instance.IsInLevelEditor)
 			{
 				ActivatorConnection akon = new ActivatorConnection(this, ao, inverted);
+                RegisterEvent(akon);
 				Connections.Add(akon);
 			}
 
@@ -110,17 +97,11 @@ public class ActivatorObject : ActivatedObject {
 		}
 	}
 
-    public bool InvertConnection(ActivatedObject ao) {
-        if (HasConnection(ao)) {
-            foreach(ActivatorConnection ac in Connections) {
-                if (ac.Activated == ao) {
-                    ac.IsInverted = !ac.IsInverted;
-                    return ac.IsInverted;
-                }
-            }
+    public void AddConection(ActivatorConnection connection) {
+        if (!connections.Contains(connection)) {
+            RegisterEvent(connection);
+            connections.Add(connection);
         }
-
-        return false;
     }
 
     /// <summary>
@@ -155,10 +136,45 @@ public class ActivatorObject : ActivatedObject {
 		if (index > -1) {
 			ao.IsConnected = false;
             ActivatorConnection activator = Connections[index];
+            DeregisterConnection(activator);
             LevelEditor.Instance.OnConnectionRemoved.Invoke(activator);
             Connections.RemoveAt(index);
 		}
 	}
+
+    void RegisterAllEvents() {
+        onActivate = new UnityEvent();
+        onDeactivate = new UnityEvent();
+
+        foreach(ActivatorConnection ac in connections) {
+            RegisterEvent(ac);
+        }
+    }
+
+    void RegisterEvent(ActivatorConnection connection) {
+        if (connection.IsInverted)
+        {
+            onActivate.AddListener(connection.Activated.DecrementActivator);
+            onDeactivate.AddListener(connection.Activated.IncrementActivator);
+        }
+        else
+        {
+            onActivate.AddListener(connection.Activated.IncrementActivator);
+            onDeactivate.AddListener(connection.Activated.DecrementActivator);
+        }
+    }
+
+    void DeregisterConnection(ActivatorConnection connection) {
+        if (connection.IsInverted) {
+            onActivate.RemoveListener(connection.Activated.DecrementActivator);
+            onDeactivate.RemoveListener(connection.Activated.IncrementActivator);
+        }
+        else
+        {
+            onActivate.RemoveListener(connection.Activated.IncrementActivator);
+            onDeactivate.RemoveListener(connection.Activated.DecrementActivator);
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this <see cref="T:ActivatorObject"/> starts active.
@@ -213,86 +229,131 @@ public class ActivatorObject : ActivatedObject {
 
 public class ActivatorConnection
 {
-	ActivatorObject activator;
-	ActivatedObject activated;
-    UnityEvent onInvert;
-	bool inverted;
+    int activatorID;
+    int activatedID;
+    bool inverted;
 
-	public ActivatorConnection(ActivatorObject tor, ActivatedObject ted, bool invert = false)
-	{
-		activator = tor;
-		activated = ted;
-		inverted = invert;
+    public ActivatorConnection(int tor, int ted, bool inv)
+    {
+        activatorID = tor;
+        activatedID = ted;
+        inverted = inv;
+    }
 
-		if (!inverted)
-		{
-			activated.StartsActive = activator.StartsActive;
-		}
-		else
-		{
-			activated.StartsActive = !activator.StartsActive;
-		}
-        onInvert = new UnityEvent();
-	}
+    public ActivatorConnection(ActivatorObject tor, ActivatedObject ted, bool invert = false)
+    {
+        activatorID = tor.ID;
+        activatedID = ted.ID;
+        inverted = invert;
 
-	public ActivatedObject Activated
-	{
-		get
-		{
-			return activated;
-		}
-	}
-
-	public ActivatorObject Activator {
-		get {
-			return activator;
-		}
-	}
-
-	public bool IsInverted {
-		get {
-			return inverted;
-		}
-
-		set {
-			inverted = value;
-
-			if (!inverted)
-            {
-                activated.StartsActive = activator.StartsActive;
-            }
-            else
-            {
-                activated.StartsActive = !activator.StartsActive;
-            }
-            onInvert.Invoke();
-		}
-	}
-
-	public void Update() {
-		if (!inverted)
+        if (!inverted)
         {
-            activated.StartsActive = activator.StartsActive;
+            ted.StartsActive = tor.StartsActive;
         }
         else
         {
-            activated.StartsActive = !activator.StartsActive;
+            ted.StartsActive = !tor.StartsActive;
         }
-	}
 
-	public string GenerateSaveData() {
-		string data = PCLParser.StructStart;
-		data += PCLParser.CreateAttribute<int>("Activator", activator.ID);
-		data += PCLParser.CreateAttribute<int>("Activated", activated.ID);
-		data += PCLParser.CreateAttribute<bool>("Inverted", inverted);
-		data += PCLParser.StructEnd;
-		return data;
-	}
+    }
+
+    public ActivatorObject Activator {
+        get {
+            return ActivatorTile.GetComponent<ActivatorObject>();
+        }
+    }
+    /// <summary>
+    /// Gets the id of the activator object.
+    /// </summary>
+    /// <value>The activator.</value>
+    public int ActivatorID
+    {
+        get
+        {
+            return activatorID;
+        }
+    }
+
+    public MapTile ActivatorTile
+    {
+        get
+        {
+            return Map.Instance.GetTileByID(activatorID);
+        }
+    }
+
+
+    public ActivatedObject Activated
+    {
+        get
+        {
+            return ActivatedTile.GetComponent<ActivatedObject>();
+        }
+    }
+
+    /// <summary>
+    /// Gets the id of the activated object.
+    /// </summary>
+    /// <value>The activated.</value>
+    public int ActivatedID
+    {
+        get
+        {
+            return activatedID;
+        }
+    }
+
+    public MapTile ActivatedTile
+    {
+        get
+        {
+            return Map.Instance.GetTileByID(activatedID);
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:ConnectionStruct"/> is inverted.
+    /// </summary>
+    /// <value><c>true</c> if inverted; otherwise, <c>false</c>.</value>
+    public bool IsInverted
+    {
+        get
+        {
+            return inverted;
+        }
+
+        set {
+            inverted = value;
+            Update();
+        }
+    }
+
+    public void Update()
+    {
+        if (!inverted)
+        {
+            Activated.StartsActive = Activator.StartsActive;
+        }
+        else
+        {
+            Activated.StartsActive = !Activator.StartsActive;
+        }
+    }
+
+    public string GenerateSaveData()
+    {
+        string data = PCLParser.StructStart;
+        data += PCLParser.CreateAttribute<int>("Activator", activatorID);
+        data += PCLParser.CreateAttribute<int>("Activated", activatedID);
+        data += PCLParser.CreateAttribute<bool>("Inverted", inverted);
+        data += PCLParser.StructEnd;
+        return data;
+    }
 #if UNITY_EDITOR
-	public void RenderInEditor()
-	{
-		Handles.color = inverted ? Color.red : Color.green;
-		Handles.DrawDottedLine(activator.Center, activated.Center, 8.0f);
-	}
+    public void RenderInEditor()
+    {
+        Handles.color = inverted ? Color.red : Color.green;
+        Handles.DrawDottedLine(ActivatorTile.Center, ActivatedTile.Center, 8.0f);
+    }
 #endif
 }

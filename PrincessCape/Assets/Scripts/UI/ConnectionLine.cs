@@ -7,11 +7,11 @@ public class ConnectionLine : MonoBehaviour
 
     [SerializeField]
     GameObject connectionLink;
-    ConnectionStruct connection;
+    ActivatorConnection connection;
     SpriteRenderer myRenderer;
     bool deleteConnection;
 
-    public ConnectionStruct Connection
+    public ActivatorConnection Connection
     {
         get
         {
@@ -36,17 +36,16 @@ public class ConnectionLine : MonoBehaviour
 
             LevelEditor.Instance.OnConnectionRemoved.AddListener((ActivatorConnection ac) =>
             {
-                deleteConnection = (ac.Activated == connection.ActivatedTile) && (ac.Activator == connection.ActivatorTile);
+                deleteConnection = (ac == Connection);
             });
 
-            LevelEditor.Instance.OnConnectionInverted.AddListener((int vator, int vated, bool flipped) => {
-
-                if (vator == connection.Activator && vated == connection.Activated)
+            LevelEditor.Instance.OnConnectionInverted.AddListener((ActivatorConnection ac) =>
+            {
+                if (ac == Connection)
                 {
-                    Color = flipped ? Color.red : Color.blue;
+                    Color = Connection.IsInverted ? Color.red : Color.blue;
                 }
             });
-
         }
     }
 
@@ -61,7 +60,7 @@ public class ConnectionLine : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(dif.y, dif.x).ToDegrees(), Vector3.forward);
         transform.position = activator.Center.SetZ(-1);
         SetLength(dif.magnitude);
-        Color = connection.Inverted ? Color.red : Color.blue;
+        Color = connection.IsInverted ? Color.red : Color.blue;
     }
 
     void SetLength(float length) {
@@ -100,6 +99,12 @@ public class ConnectionLine : MonoBehaviour
             foreach(SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>()) {
                 sr.color = value;
             }
+        }
+    }
+
+    public bool IsHidden {
+        set {
+            gameObject.SetActive(!value);
         }
     }
 }

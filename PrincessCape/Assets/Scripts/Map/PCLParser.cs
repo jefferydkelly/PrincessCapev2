@@ -157,7 +157,7 @@ public class PCLParser {
 	public static MapFile ParseMapFile(string json) {
 		int connectionsStart = -1;
         List<TileStruct> tiles = ParseTiles(json, out connectionsStart);
-		List<ConnectionStruct> connections = ParseConnectionsList(json.Substring(connectionsStart));
+        List<ActivatorConnection> connections = ParseConnectionsList(json.Substring(connectionsStart));
 		return new MapFile(tiles, connections);
 	}
 
@@ -257,8 +257,8 @@ public class PCLParser {
     /// </summary>
     /// <returns>The connections list.</returns>
     /// <param name="json">Json.</param>
-	public static List<ConnectionStruct> ParseConnectionsList(string json) {
-		List<ConnectionStruct> connections = new List<ConnectionStruct>();
+    public static List<ActivatorConnection> ParseConnectionsList(string json) {
+        List<ActivatorConnection> connections = new List<ActivatorConnection>();
         int ind = json.IndexOf('[');
         int lastInd = FindEndOfArray(json, ind);
        
@@ -284,11 +284,11 @@ public class PCLParser {
     /// </summary>
     /// <returns>The connection.</returns>
     /// <param name="connections">Connections.</param>
-	public static ConnectionStruct ParseConnection(List<string> connections) {
+    public static ActivatorConnection ParseConnection(List<string> connections) {
 		int tor = ParseInt(connections[0]);
 		int ted = ParseInt(connections[1]);
 		bool inv = ParseBool(connections[2]);
-		return new ConnectionStruct(tor, ted, inv);
+        return new ActivatorConnection(tor, ted, inv);
 	}
 
 
@@ -420,9 +420,9 @@ public class TileStruct {
 
 public class MapFile {
 	List<TileStruct> tiles;
-	List<ConnectionStruct> connections;
+    List<ActivatorConnection> connections;
 
-	public MapFile(List<TileStruct> tileStructs, List<ConnectionStruct> activatorConnections) {
+    public MapFile(List<TileStruct> tileStructs, List<ActivatorConnection> activatorConnections) {
 		tiles = tileStructs;
 		connections = activatorConnections;
 	}
@@ -441,76 +441,10 @@ public class MapFile {
     /// Gets the connections.
     /// </summary>
     /// <value>The connections.</value>
-	public List<ConnectionStruct> Connections {
+    public List<ActivatorConnection> Connections {
 		get {
 			return connections;
 		}
 	}
 }
 
-public class ConnectionStruct {
-	int activatorID;
-	int activatedID;
-	bool inverted;
-
-	public ConnectionStruct(int tor, int ted, bool inv) {
-		activatorID = tor;
-		activatedID = ted;
-		inverted = inv;
-
-        if (Game.Instance.IsInLevelEditor)
-        {
-            
-            LevelEditor.Instance.OnConnectionInverted.AddListener((int vator, int vated, bool flipped) => { 
-                
-                if (vator == activatorID && vated == activatedID) {
-                    inverted = flipped;
-                }
-            });
-        }
-	}
-
-    /// <summary>
-    /// Gets the id of the activator object.
-    /// </summary>
-    /// <value>The activator.</value>
-	public int Activator {
-		get {
-			return activatorID;
-		}
-	}
-
-    public MapTile ActivatorTile
-    {
-        get
-        {
-            return Map.Instance.GetTileByID(activatorID);
-        }
-    }
-
-    /// <summary>
-    /// Gets the id of the activated object.
-    /// </summary>
-    /// <value>The activated.</value>
-	public int Activated {
-		get {
-			return activatedID;
-		}
-	}
-
-    public MapTile ActivatedTile {
-        get {
-            return Map.Instance.GetTileByID(activatedID);
-        }
-    }
-
-    /// <summary>
-    /// Gets a value indicating whether this <see cref="T:ConnectionStruct"/> is inverted.
-    /// </summary>
-    /// <value><c>true</c> if inverted; otherwise, <c>false</c>.</value>
-	public bool Inverted {
-		get {
-			return inverted;
-		}
-	}
-}
