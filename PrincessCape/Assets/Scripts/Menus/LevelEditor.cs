@@ -54,23 +54,8 @@ public class LevelEditor : MonoBehaviour {
         instance = this;
         connectionLines = new List<ConnectionLine>();
 
-        Game.Instance.OnEditorPlay.AddListener(() =>
-        {
-            HideConnections = true;
-        });
-
-
-
-        Game.Instance.OnEditorPause.AddListener(() =>
-        {
-            HideConnections = false;
-
-        });
-
-        Game.Instance.OnEditorStop.AddListener(() =>
-        {
-            HideConnections = true;
-
+        Game.Instance.OnGameStateChanged.AddListener((GameState state) => {
+            HideConnections = state != GameState.Paused;
         });
        
 

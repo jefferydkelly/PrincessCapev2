@@ -8,25 +8,10 @@ public class PlaybackUI : MonoBehaviour {
 	void Start () {
         buttons = GetComponentsInChildren<Button>();
         if (Game.Instance.IsInLevelEditor) {
-         
-            Game.Instance.OnEditorPlay.AddListener(() =>
+
+            Game.Instance.OnGameStateChanged.AddListener((GameState state) =>
             {
-                NavActive = false;
-            
-            });
-
-
-
-            Game.Instance.OnEditorPause.AddListener(() =>
-            {
-                NavActive = true;
-
-            });
-
-            Game.Instance.OnEditorStop.AddListener(() =>
-            {
-                NavActive = true;
-
+                NavActive = state != GameState.Playing;
             });
         }
 	}
