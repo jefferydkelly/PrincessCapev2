@@ -25,6 +25,7 @@ public class Game : MonoBehaviour {
     UnityEvent onEditorPause = new UnityEvent();
     UnityEvent onEditorResume = new UnityEvent();
     UnityEvent onEditorStop = new UnityEvent();
+    GameStateEvent onGameStateChanged = new GameStateEvent();
 
     bool alreadyPaused = false;
 	// Use this for initialization
@@ -137,6 +138,7 @@ public class Game : MonoBehaviour {
                 UIManager.Instance.IsHidden = false;
                 LevelEditor.Instance.IsHidden = true;
                 OnEditorPlay.Invoke();
+                onGameStateChanged.Invoke(gameState);
                 player.Inventory.Clear();
                 AddItems();
 
@@ -153,6 +155,7 @@ public class Game : MonoBehaviour {
         LevelEditor.Instance.IsHidden = false;
         UIManager.Instance.IsHidden = true;
         OnEditorStop.Invoke();
+        onGameStateChanged.Invoke(gameState);
         player.transform.position = Checkpoint.ResetPosition;
         map.Reload();
     }
@@ -164,12 +167,14 @@ public class Game : MonoBehaviour {
                 LevelEditor.Instance.IsHidden = false;
                 UIManager.Instance.IsHidden = true;
                 OnEditorPause.Invoke();
+                onGameStateChanged.Invoke(gameState);
 
             } else {
                 gameState = GameState.Playing;
                 LevelEditor.Instance.IsHidden = true;
                 UIManager.Instance.IsHidden = false;
                 OnEditorPlay.Invoke();
+                onGameStateChanged.Invoke(gameState);
             }
             if (!alreadyPaused)
             {
@@ -480,6 +485,12 @@ public class Game : MonoBehaviour {
             return onEditorResume;
         }
     }
+
+    public GameStateEvent OnGameStateChanged {
+        get {
+            return onGameStateChanged;
+        }
+    }
 }
 
 public enum GameState {
@@ -496,4 +507,8 @@ public enum ScreenState {
     Level,
     GameOver,
     Editor
+}
+
+public class GameStateEvent:UnityEvent<GameState> {
+    
 }

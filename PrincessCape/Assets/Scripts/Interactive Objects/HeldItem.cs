@@ -10,12 +10,12 @@ public class HeldItem : InteractiveObject
     protected bool isHeld = false;
     int hitMasks;
 	Vector3 startPosition;
+
     void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
         myRenderer = GetComponent<SpriteRenderer>();
-
 	}
 
 	private void Start()
@@ -30,6 +30,11 @@ public class HeldItem : InteractiveObject
 
         if (Game.Instance.IsInLevelEditor) {
             myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+
+            Game.Instance.OnGameStateChanged.AddListener((GameState gameState) =>
+            {
+                myRigidbody.constraints = (gameState == GameState.Playing) ? RigidbodyConstraints2D.FreezeRotation : RigidbodyConstraints2D.FreezeAll;
+            });
         }
 	}
 

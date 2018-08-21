@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Block : HeldItem{
 
-
+   
     private void Awake()
     {
         myRenderer = GetComponent<SpriteRenderer>();
@@ -26,5 +26,4 @@ public class Block : HeldItem{
             }
 		}
 	}
-
 }
