@@ -142,21 +142,25 @@ public class MapTile : MonoBehaviour {
 
 		set
 		{
+            SpriteRenderer myRenderer = GetComponent<SpriteRenderer>();
 			if (value == MapHighlightState.Normal)
 			{
-                float oldA = GetComponent<SpriteRenderer>().color.a;
-                GetComponent<SpriteRenderer>().color = Color.white.SetAlpha(Application.isPlaying ? 1 : oldA);
+                float oldA = myRenderer.color.a;
+                if (oldA < 1.0f) {
+                    print(name);
+                }
+                myRenderer.color = Color.white.SetAlpha(Application.isPlaying ? 1 : oldA);
 			}
 			else if (value == MapHighlightState.Primary)
 			{
-				GetComponent<SpriteRenderer>().color = Color.blue;
+                myRenderer.color = Color.blue;
 			}
             else if (value == MapHighlightState.Backup) {
-                GetComponent<SpriteRenderer>().color = Color.cyan;
+                myRenderer.color = Color.cyan;
             }
 			else
 			{
-				GetComponent<SpriteRenderer>().color = Color.red;
+                myRenderer.color = Color.red;
 			}
 		}
 	}

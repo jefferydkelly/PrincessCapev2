@@ -40,7 +40,6 @@ public class LevelEditor : MonoBehaviour {
     MapEditMode mode = MapEditMode.None;
 
 
-
     float cameraSpeed = 2.0f;
 
     //MapTile Events
@@ -71,7 +70,6 @@ public class LevelEditor : MonoBehaviour {
         saveUI.gameObject.SetActive(false);
 
         selectedObjects = new List<MapTile>();
-
 	}
 	
 	// Update is called once per frame
@@ -403,8 +401,7 @@ public class LevelEditor : MonoBehaviour {
 
             if (path.Length > 0)
             {
-                Map.Instance.Load(path);
-                AddConnectionLines();
+                LoadLevel(path);
 
             }
             #endif
@@ -423,6 +420,9 @@ public class LevelEditor : MonoBehaviour {
         AddConnectionLines();
         ShowLevelBrowser = false;
         mode = MapEditMode.None;
+        Debug.Log(Game.Instance.Player.transform.position);
+        Game.Instance.Player.transform.position = Checkpoint.ResetPosition + Vector3.up / 2.0f;
+        Debug.Log(Game.Instance.Player.transform.position);
     }
 
     /// <summary>
