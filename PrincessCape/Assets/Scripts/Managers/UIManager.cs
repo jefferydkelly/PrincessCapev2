@@ -29,10 +29,12 @@ public class UIManager : MonoBehaviour
     Timer loadFadeoutTimer;
     bool isHidden = false;
 
+    Timer showTimer;
+
     private void Awake()
     {
         instance = this;
-        Timer showTimer = new Timer(2.0f);
+        showTimer = new Timer(2.0f);
         showTimer.OnTick.AddListener(() =>
         {
             minorText.gameObject.SetActive(true);
@@ -50,11 +52,7 @@ public class UIManager : MonoBehaviour
 		OnMessageEnd.AddListener(itemOneBox.StartListening);
 		OnMessageEnd.AddListener(itemTwoBox.StartListening);
         
-		Controller.Instance.AnyKey.AddListener(() =>
-		{
-			showTimer.Stop();
-			minorText.gameObject.SetActive(false);
-		});
+        Controller.Instance.AnyKey.AddListener(HideText);
         //EventManager.StartListening("AnyKey", );
 
         interaction.Text = "";
@@ -75,6 +73,22 @@ public class UIManager : MonoBehaviour
         EventManager.StartListening("LevelOver", ToggleLoadingScreen);
         UpdateKeys();
 
+    }
+
+    /// <summary>
+    /// Hides the text.
+    /// </summary>
+    void HideText() {
+        showTimer.Stop();
+        minorText.gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        OnLineEnd.RemoveAllListeners();
+        OnMessageStart.RemoveAllListeners();
+        OnMessageEnd.RemoveAllListeners();
+        Controller.Instance.AnyKey.RemoveListener(HideText);
     }
 
     private void Start()
@@ -124,6 +138,12 @@ public class UIManager : MonoBehaviour
 		minorText.text = line;
     }
 
+    /// <summary>
+    /// Shows the message.
+    /// </summary>
+    /// <returns>The message.</returns>
+    /// <param name="line">Line.</param>
+    /// <param name="speaker">Speaker.</param>
 	public Timer ShowMessage(string line, string speaker = "") {
 		SetMainText(line);
 		if (speaker != null && speaker.Length > 0)
@@ -134,6 +154,12 @@ public class UIManager : MonoBehaviour
 		return mainText.StartReveal();
 	}
 
+    /// <summary>
+    /// Shows the message.
+    /// </summary>
+    /// <returns>The message.</returns>
+    /// <param name="line">Line.</param>
+    /// <param name="speaker">Speaker.</param>
 	public Timer ShowMessage(List<string> line, string speaker = "")
     {
         SetMainText(line);
@@ -146,6 +172,10 @@ public class UIManager : MonoBehaviour
         return mainText.StartReveal();
     }
 
+    /// <summary>
+    /// Sets the interaction text.
+    /// </summary>
+    /// <param name="line">Line.</param>
     public void SetInteractionText(string line)
     {
         if (interaction.IsHidden)
@@ -155,23 +185,37 @@ public class UIManager : MonoBehaviour
         interaction.Text = line;
     }
 
+    /// <summary>
+    /// Toggles the loading screen.
+    /// </summary>
     void ToggleLoadingScreen()
     {
         loadingScreen.color = loadingScreen.color.SetAlpha(1 - loadingScreen.color.a);
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:UIManager"/> is loading screen up.
+    /// </summary>
+    /// <value><c>true</c> if is loading screen up; otherwise, <c>false</c>.</value>
     public bool IsLoadingScreenUp {
         get {
             return loadingScreen.color.a <= 0.0f;
         }
     }
 
+    /// <summary>
+    /// Updates the key text.
+    /// </summary>
     public void UpdateKeys() {
         itemOneBox.KeyText = Controller.Instance.GetKey("ItemOne");
         itemTwoBox.KeyText = Controller.Instance.GetKey("ItemTwo");
         interaction.KeyText = Controller.Instance.GetKey("Interact");
     }
 
+    /// <summary>
+    /// Gets or sets the alignment of text in the main text.
+    /// </summary>
+    /// <value>The alignment.</value>
 	public TextAnchor Alignment {
 		get {
 			return mainText.Alignment;
@@ -182,18 +226,30 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+    /// <summary>
+    /// Gets the health bar.
+    /// </summary>
+    /// <value>The health bar.</value>
 	public HealthBar HealthBar {
 		get {
 			return healthBar;
 		}
 	}
 
+    /// <summary>
+    /// Gets the event for when the message starts.
+    /// </summary>
+    /// <value>The onMessageStart event.</value>
 	public UnityEvent OnMessageStart {
 		get {
 			return mainText.OnMessageStart;
 		}
 	}
-    
+
+    /// <summary>
+    /// Gets the event for when the message ends.
+    /// </summary>
+    /// <value>The onMessageEnd event.</value>
 	public UnityEvent OnMessageEnd
     {
         get
@@ -202,6 +258,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the event for when a line in the message ends.
+    /// </summary>
+    /// <value>The onLineEnd event.</value>
 	public UnityEvent OnLineEnd {
 		get {
 			return mainText.OnLineEnd;
@@ -218,6 +278,10 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:UIManager"/> is hidden.
+    /// </summary>
+    /// <value><c>true</c> if is hidden; otherwise, <c>false</c>.</value>
     public bool IsHidden {
         get {
             return isHidden;

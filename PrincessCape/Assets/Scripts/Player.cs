@@ -55,7 +55,7 @@ public class Player : MonoBehaviour {
         Cutscene.Instance.OnEnd.AddListener(EndCutscene);
        
         shieldField.gameObject.SetActive(false);
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
 		//Initialize events
 		onRespawn = new UnityEvent();
@@ -712,30 +712,50 @@ public class Player : MonoBehaviour {
 		}
     }
 
+    /// <summary>
+    /// Gets the height of the player.
+    /// </summary>
+    /// <value>The height.</value>
     float Height {
         get {
             return myRenderer.bounds.size.y;
         }
     }
 
+    /// <summary>
+    /// Gets the event for when the player respawns.
+    /// </summary>
+    /// <value>The onRespawnEvent.</value>
 	public UnityEvent OnRespawn {
 		get {
 			return onRespawn;
 		}
 	}
 
+    /// <summary>
+    /// Gets the event for when the player dies.
+    /// </summary>
+    /// <value>The onDie event.</value>
 	public UnityEvent OnDie {
 		get {
 			return onDie;
 		}
 	}
 
+    /// <summary>
+    /// Gets the event for when the player lands on the ground
+    /// </summary>
+    /// <value>The onLand event.</value>
 	public UnityEvent OnLand {
 		get {
 			return onLand;
 		}
 	}
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Player"/> is on screen.
+    /// </summary>
+    /// <value><c>true</c> if is on screen; otherwise, <c>false</c>.</value>
 	public bool IsOnScreen {
 		get {
 			return myRenderer.isVisible;

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEditor;
 using System.IO;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class LevelEditor : MonoBehaviour {
     
@@ -171,6 +172,16 @@ public class LevelEditor : MonoBehaviour {
 
 
 	}
+
+    public void ExitEditor() {
+        ClearSelectedTiles();
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    void ClearSelectedTiles() {
+        PrimaryMapTile = null;
+        SecondaryMapTile = null;
+    }
 
     /// <summary>
     /// Processes the input and determines the action to be taken in the editor.
@@ -418,15 +429,13 @@ public class LevelEditor : MonoBehaviour {
     /// </summary>
     /// <param name="path">Path.</param>
     public void LoadLevel(string path) {
-        PrimaryMapTile = null;
-        SecondaryMapTile = null;
+        ClearSelectedTiles();
         Map.Instance.Load(path);
         AddConnectionLines();
         ShowLevelBrowser = false;
         mode = MapEditMode.None;
-        Debug.Log(Game.Instance.Player.transform.position);
+
         Game.Instance.Player.transform.position = Checkpoint.ResetPosition + Vector3.up / 2.0f;
-        Debug.Log(Game.Instance.Player.transform.position);
     }
 
     /// <summary>
