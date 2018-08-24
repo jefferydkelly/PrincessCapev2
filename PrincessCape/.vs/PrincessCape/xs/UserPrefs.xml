@@ -8,7 +8,7 @@
       <File FileName="Assets/Scripts/Player.cs" Line="80" Column="13" />
       <File FileName="Assets/Scripts/UI/ConnectionLine.cs" Line="125" Column="9" />
       <File FileName="Assets/Scripts/UI/PrefabCursor.cs" Line="8" Column="20" />
-      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="302" Column="13" />
+      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="422" Column="33" />
       <File FileName="Assets/Scripts/ActivatedObject.cs" Line="91" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>

@@ -418,6 +418,8 @@ public class LevelEditor : MonoBehaviour {
     /// </summary>
     /// <param name="path">Path.</param>
     public void LoadLevel(string path) {
+        PrimaryMapTile = null;
+        SecondaryMapTile = null;
         Map.Instance.Load(path);
         AddConnectionLines();
         ShowLevelBrowser = false;
