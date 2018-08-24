@@ -11,6 +11,10 @@ public class ConnectionLine : MonoBehaviour
     SpriteRenderer myRenderer;
     bool deleteConnection;
 
+    /// <summary>
+    /// Gets or sets the connection this line represents.
+    /// </summary>
+    /// <value>The connection.</value>
     public ActivatorConnection Connection
     {
         get
@@ -49,6 +53,9 @@ public class ConnectionLine : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the line based on the connection.
+    /// </summary>
     void UpdateConnection()
     {
         MapTile activator = connection.ActivatorTile;
@@ -63,6 +70,10 @@ public class ConnectionLine : MonoBehaviour
         Color = connection.IsInverted ? Color.red : Color.blue;
     }
 
+    /// <summary>
+    /// Sets the length of the connection.
+    /// </summary>
+    /// <param name="length">Length of the connection.</param>
     void SetLength(float length) {
         if (length < transform.childCount)
         {
@@ -88,12 +99,20 @@ public class ConnectionLine : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:ConnectionLine"/> to be deleted.
+    /// </summary>
+    /// <value><c>true</c> if to be deleted; otherwise, <c>false</c>.</value>
     public bool ToBeDeleted {
         get {
             return deleteConnection;
         }
     }
 
+    /// <summary>
+    /// Sets the color.
+    /// </summary>
+    /// <value>The color.</value>
     Color Color {
         set {
             foreach(SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>()) {
@@ -102,6 +121,10 @@ public class ConnectionLine : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets a value indicating whether this <see cref="T:ConnectionLine"/> is hidden.
+    /// </summary>
+    /// <value><c>true</c> if is hidden; otherwise, <c>false</c>.</value>
     public bool IsHidden {
         set {
             gameObject.SetActive(!value);

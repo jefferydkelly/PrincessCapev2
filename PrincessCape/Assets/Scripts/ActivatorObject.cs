@@ -227,12 +227,21 @@ public class ActivatorObject : ActivatedObject {
 #endif
 }
 
+/// <summary>
+/// For storing the connection between an ActivatorObject and an ActivatedObject
+/// </summary>
 public class ActivatorConnection
 {
     int activatorID;
     int activatedID;
     bool inverted;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:ActivatorConnection"/> class.
+    /// </summary>
+    /// <param name="tor">The ID of the ActivatorObject.</param>
+    /// <param name="ted">The ID of the ActivatedObject.</param>
+    /// <param name="inv">If set to <c>true</c> the conection is inverted.</param>
     public ActivatorConnection(int tor, int ted, bool inv)
     {
         activatorID = tor;
@@ -240,6 +249,12 @@ public class ActivatorConnection
         inverted = inv;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:ActivatorConnection"/> class.
+    /// </summary>
+    /// <param name="tor">The ActivatorObject.</param>
+    /// <param name="ted">The ActivatedObject.</param>
+    /// <param name="invert">If set to <c>true</c> the connection is inverted.</param>
     public ActivatorConnection(ActivatorObject tor, ActivatedObject ted, bool invert = false)
     {
         activatorID = tor.ID;
@@ -257,6 +272,10 @@ public class ActivatorConnection
 
     }
 
+    /// <summary>
+    /// Gets the ActivatorObject.
+    /// </summary>
+    /// <value>The ActivatorObject.</value>
     public ActivatorObject Activator {
         get {
             return ActivatorTile.GetComponent<ActivatorObject>();
@@ -274,6 +293,10 @@ public class ActivatorConnection
         }
     }
 
+    /// <summary>
+    /// Gets the MapTile component of the ActivatorObject.
+    /// </summary>
+    /// <value>The MapTile component of the ActivatorObject.</value>
     public MapTile ActivatorTile
     {
         get
@@ -282,7 +305,10 @@ public class ActivatorConnection
         }
     }
 
-
+    /// <summary>
+    /// Gets the ActivatedObject.
+    /// </summary>
+    /// <value>The ActivatedObject.</value>
     public ActivatedObject Activated
     {
         get
@@ -303,6 +329,10 @@ public class ActivatorConnection
         }
     }
 
+    /// <summary>
+    /// Gets the MapTile component of the ActivatedObject.
+    /// </summary>
+    /// <value>The MapTile component of the ActivatedObject.</value>
     public MapTile ActivatedTile
     {
         get
@@ -328,6 +358,9 @@ public class ActivatorConnection
         }
     }
 
+    /// <summary>
+    /// Update this connection and whether or not the ActivatedObject starts activated based on the inversion state of the connection
+    /// </summary>
     public void Update()
     {
         if (!inverted)
@@ -340,6 +373,10 @@ public class ActivatorConnection
         }
     }
 
+    /// <summary>
+    /// Generates the save data.
+    /// </summary>
+    /// <returns>The save data.</returns>
     public string GenerateSaveData()
     {
         string data = PCLParser.StructStart;
@@ -350,6 +387,9 @@ public class ActivatorConnection
         return data;
     }
 #if UNITY_EDITOR
+    /// <summary>
+    /// Renders the in editor.
+    /// </summary>
     public void RenderInEditor()
     {
         Handles.color = inverted ? Color.red : Color.green;

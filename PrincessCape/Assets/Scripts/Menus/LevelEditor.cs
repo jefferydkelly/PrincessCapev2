@@ -290,14 +290,16 @@ public class LevelEditor : MonoBehaviour {
         
         if (IsSpawnPositionOpen(pos))
         {
-            GameObject go = Instantiate(tileBrowser.SelectedPrefab.gameObject);
-            PrimaryMapTile = go.GetComponent<MapTile>();
-
+            MapTile tile = Instantiate(tileBrowser.SelectedPrefab.gameObject).GetComponent<MapTile>();
 
             //pos.z = SelectedMapTile.ZPos;
-            go.transform.position = pos;
-            go.name = tileBrowser.SelectedPrefab.name;
-            Map.Instance.AddTile(PrimaryMapTile);
+            tile.transform.position = pos;
+            tile.name = tileBrowser.SelectedPrefab.name;
+            Map.Instance.AddTile(tile);
+            PrimaryMapTile = tile;
+           
+
+
         }
     }
 
@@ -512,7 +514,6 @@ public class LevelEditor : MonoBehaviour {
 
         set
         {
-
             foreach (MapTile mt in selectedObjects)
             {
                 mt.HighlightState = MapHighlightState.Normal;
@@ -864,6 +865,10 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Sets a value indicating whether <see cref="T:LevelEditor"/> connections should be hidden.
+    /// </summary>
+    /// <value><c>true</c> if connections should be hidden; otherwise, <c>false</c>.</value>
     bool HideConnections {
         set {
             foreach(ConnectionLine cl in connectionLines) {

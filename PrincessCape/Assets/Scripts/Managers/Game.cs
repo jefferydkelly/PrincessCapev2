@@ -109,6 +109,9 @@ public class Game : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Handles the closing of the game
+    /// </summary>
     private void OnApplicationQuit()
     {
         if (EventManager.Instance != null)
@@ -119,12 +122,18 @@ public class Game : MonoBehaviour {
         instance = null;
     }
 
+    /// <summary>
+    /// Starts the game.
+    /// </summary>
     public void StartGame()
     {
         SceneManager.LoadScene("Test");
         levelToLoad = "classicLevelOne.json";
     }
 
+    /// <summary>
+    /// Starts the game while in the LevelEditor or stops if it is already playing
+    /// </summary>
     public void PlayInEditor() {
      
         if (IsInLevelEditor) {
@@ -150,6 +159,9 @@ public class Game : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Stops the game while in the LevelEditor.
+    /// </summary>
     public void StopInEditor() {
         gameState = GameState.None;
         LevelEditor.Instance.IsHidden = false;
@@ -159,6 +171,10 @@ public class Game : MonoBehaviour {
         player.transform.position = Checkpoint.ResetPosition;
         map.Reload();
     }
+
+    /// <summary>
+    /// Pauses the game while in the LevelEditor.
+    /// </summary>
     public void PauseInEditor() {
         if (IsInLevelEditor) {
             if (IsPlaying)
@@ -452,18 +468,30 @@ public class Game : MonoBehaviour {
         EventManager.TriggerEvent(eventName);
     }
 
+    /// <summary>
+    /// Gets the onReady event.
+    /// </summary>
+    /// <value>The onReady event.</value>
 	public UnityEvent OnReady {
 		get {
 			return onReady;
 		}
 	}
 
+    /// <summary>
+    /// Gets the event for when the game begins playing in the LevelEditor.
+    /// </summary>
+    /// <value>The onEditorPlay event.</value>
     public UnityEvent OnEditorPlay {
         get {
             return onEditorPlay;
         }
     }
 
+    /// <summary>
+    /// Gets the event for when the game is paused in the LevelEditor
+    /// </summary>
+    /// <value>The onEditorPause event.</value>
     public UnityEvent OnEditorPause
     {
         get
@@ -472,12 +500,20 @@ public class Game : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets the event for when the game is stopped while in the LevelEditor.
+    /// </summary>
+    /// <value>The onEditorStop event.</value>
     public UnityEvent OnEditorStop {
         get {
             return onEditorStop;
         }
     }
 
+    /// <summary>
+    /// Gets the event for when the game resumes while in the LevelEditor
+    /// </summary>
+    /// <value>The onEditorResume event.</value>
     public UnityEvent OnEditorResume
     {
         get
@@ -486,6 +522,10 @@ public class Game : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets the event for any change in GameState.
+    /// </summary>
+    /// <value>The onGameStateChanged event.</value>
     public GameStateEvent OnGameStateChanged {
         get {
             return onGameStateChanged;

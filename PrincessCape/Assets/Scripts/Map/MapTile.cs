@@ -13,6 +13,7 @@ public class MapTile : MonoBehaviour {
     protected bool initialized = false;
     [SerializeField]
 	protected string instanceName = "";
+    protected MapHighlightState highlightState = MapHighlightState.Normal;
 
 	/// <summary>
 	/// Dehighlights this instance on awake
@@ -122,26 +123,12 @@ public class MapTile : MonoBehaviour {
 	{
 		get
 		{
-			Color myCol = GetComponent<SpriteRenderer>().color;
-
-			if (myCol == Color.white)
-			{
-				return MapHighlightState.Normal;
-			}
-			else if (myCol == Color.blue)
-			{
-				return MapHighlightState.Primary;
-            } else if (myCol == Color.cyan) {
-                return MapHighlightState.Backup;
-            }
-			else
-			{
-				return MapHighlightState.Secondary;
-			}
+            return highlightState;
 		}
 
 		set
 		{
+            highlightState = value;
             SpriteRenderer myRenderer = GetComponent<SpriteRenderer>();
 			if (value == MapHighlightState.Normal)
 			{
@@ -320,13 +307,20 @@ public class MapTile : MonoBehaviour {
         }
     }
 
-
+    /// <summary>
+    /// Gets the Sprite to be used for buttons in the Unity Editor.
+    /// </summary>
+    /// <value>The button sprite.</value>
     public Sprite ButtonSprite {
         get {
             return Sprite.Create(CreateTexture(), new Rect(Vector2.zero, editorTextureRect.size), Vector2.zero);
         }
     }
 
+    /// <summary>
+    /// Creates the texture.
+    /// </summary>
+    /// <returns>The texture.</returns>
     Texture2D CreateTexture() {
         int wid = (int)editorTextureRect.width;
         int hite = (int)editorTextureRect.height;

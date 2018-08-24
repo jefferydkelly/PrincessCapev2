@@ -53,6 +53,9 @@ public class LevelSaver : MonoBehaviour {
         warningText.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Makes sure the input is valid.  
+    /// </summary>
     public void CheckInput() {
         if (!CanSaveToFile) {
             input.textComponent.color = Color.red;
@@ -67,6 +70,9 @@ public class LevelSaver : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Saves the level.
+    /// </summary>
     public void SaveLevel() {
         if (customFileNames.Contains(input.text.ToLower())) {
             if (!warningText.text.Contains("overwrite")) {
@@ -82,24 +88,39 @@ public class LevelSaver : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:LevelSaver"/> can be saved to file.
+    /// </summary>
+    /// <value><c>true</c> if can save to file; otherwise, <c>false</c>.</value>
     bool CanSaveToFile {
         get {
             return !( HasBaseFileName || HasInappropriateCharacter);
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:LevelSaver"/> has the same name as a base file.
+    /// </summary>
+    /// <value><c>true</c> if has base file name; otherwise, <c>false</c>.</value>
     bool HasBaseFileName {
         get {
             return baseFileNames.Contains(input.text.ToLower());
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:LevelSaver"/> has an inappropriate character.
+    /// </summary>
+    /// <value><c>true</c> if has an inappropriate character; otherwise, <c>false</c>.</value>
     bool HasInappropriateCharacter {
         get {
             return input.text.Contains(".") || input.text.Contains("/");
         }
     }
 
+    /// <summary>
+    /// Goes back to the Level Editor.
+    /// </summary>
     public void Cancel() {
         LevelEditor.Instance.EndSave();
     }

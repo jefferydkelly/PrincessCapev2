@@ -62,6 +62,10 @@ public abstract class ActivatedObject : MapTile
     /// </summary>
     public abstract void Deactivate();
 
+    /// <summary>
+    /// Generates the save data.
+    /// </summary>
+    /// <returns>The save data.</returns>
     protected override string GenerateSaveData()
     {
         string data = base.GenerateSaveData();
@@ -70,6 +74,10 @@ public abstract class ActivatedObject : MapTile
         return data;
     }
 
+    /// <summary>
+    /// Sets the information of the ActivatedObject from the given data.
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public override void FromData(TileStruct tile)
     {
 		base.FromData(tile);
@@ -136,6 +144,10 @@ public abstract class ActivatedObject : MapTile
 		}
 	}
 
+    /// <summary>
+    /// Increments the number of on activators.  
+    /// If it is above the number required to activate this object, Activate will be called.
+    /// </summary>
 	public void IncrementActivator() {
 		currentActivators++;
 		if (currentActivators >= requiredActivators && !isActivated) {
@@ -144,6 +156,10 @@ public abstract class ActivatedObject : MapTile
 		}
 	}
 
+    /// <summary>
+    /// Decrements the number of activators that are on for this object.
+    /// If the number is fewer than the number required to keep it active, Deactivate will be called
+    /// </summary>
 	public void DecrementActivator() {
 		currentActivators = Mathf.Max(currentActivators-1, 0);
    

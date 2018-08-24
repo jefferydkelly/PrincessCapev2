@@ -28,6 +28,10 @@ public class PrefabCursor : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Gets or sets the sprite of the prefab cursor.
+    /// </summary>
+    /// <value>The sprite.</value>
     public Sprite Sprite {
         set {
             myRenderer.sprite = value;
