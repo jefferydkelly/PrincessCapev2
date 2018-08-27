@@ -88,7 +88,11 @@ public class UIManager : MonoBehaviour
         OnLineEnd.RemoveAllListeners();
         OnMessageStart.RemoveAllListeners();
         OnMessageEnd.RemoveAllListeners();
-        Controller.Instance.AnyKey.RemoveListener(HideText);
+
+        if (Controller.Instance != null)
+        {
+            Controller.Instance.AnyKey.RemoveListener(HideText);
+        }
     }
 
     private void Start()
