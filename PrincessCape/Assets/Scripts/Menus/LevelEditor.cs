@@ -406,10 +406,7 @@ public class LevelEditor : MonoBehaviour {
     /// Opens the level select menu.
     /// </summary>
     public void OpenLevelSelect() {
-
-        ShowLevelBrowser = true;
-        mode = MapEditMode.Load;
-        /*
+        
         if (Application.isEditor) {
             #if UNITY_EDITOR
             string path  = EditorUtility.OpenFilePanel("Open a Level File", Application.absoluteURL + "/Assets/Resources/Levels", "json");
@@ -423,7 +420,7 @@ public class LevelEditor : MonoBehaviour {
         } else {
             ShowLevelBrowser = true;
             mode = MapEditMode.Load;
-        }*/
+        }
     }
 
     /// <summary>
@@ -432,7 +429,7 @@ public class LevelEditor : MonoBehaviour {
     /// <param name="file">The text of the level file.</param>
     public void LoadLevel(string file) {
         ClearSelectedTiles();
-        Map.Instance.LoadFromFile(file);
+        Map.Instance.Load(file);
         AddConnectionLines();
         ShowLevelBrowser = false;
         mode = MapEditMode.None;
@@ -474,7 +471,7 @@ public class LevelEditor : MonoBehaviour {
     /// </summary>
     public void SaveLevel() {
 
-        /*
+
         if (Application.isEditor)
         {
             #if UNITY_EDITOR
@@ -490,10 +487,7 @@ public class LevelEditor : MonoBehaviour {
         {
             mode = MapEditMode.Save;
             ShowSaveUI = true;
-        }*/
-
-        mode = MapEditMode.Save;
-        ShowSaveUI = true;
+        }
     }
 
     /// <summary>

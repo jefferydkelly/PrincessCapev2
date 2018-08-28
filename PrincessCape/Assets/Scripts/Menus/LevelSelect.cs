@@ -40,7 +40,7 @@ public class LevelSelect : MainMenu {
 			b.onClick.AddListener(() => {
                 if (Game.Instance.IsInLevelEditor)
                 {
-                    LevelEditor.Instance.LoadLevel(maps[topIndex + buttons.IndexOf(b)].Text);
+                    LevelEditor.Instance.LoadLevel(maps[topIndex + buttons.IndexOf(b)].File);
                 }
                 else
                 {

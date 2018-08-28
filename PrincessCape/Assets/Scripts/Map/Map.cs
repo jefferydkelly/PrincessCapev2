@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
+using System.IO;
 
 public class Map : MonoBehaviour
 {
@@ -342,19 +343,33 @@ public class Map : MonoBehaviour
         {
             Clear();
 
-            fileName = file.Split('/').Last();
-            string scenePath = "Levels/" + fileName.Substring(0, fileName.Length - 5);
-            TextAsset text = Resources.Load<TextAsset>(scenePath);
 
-            if (text)
+            if (file.Contains(Application.persistentDataPath))
             {
-                string json = text.text;
-               
-                if (json.Length > 0)
-                {
-					LoadFromFile(json);
-                }
+                FileStream stream = new FileStream(file, FileMode.Open);
+                StreamReader reader = new StreamReader(stream);
+                string text = reader.ReadToEnd();
 
+                if (text.Length > 0) {
+                    LoadFromFile(text);
+                }
+            }
+            else
+            {
+                fileName = file.Split('/').Last();
+                string scenePath = "Levels/" + fileName.Substring(0, fileName.Length - 5);
+                TextAsset text = Resources.Load<TextAsset>(scenePath);
+
+                if (text)
+                {
+                    string json = text.text;
+
+                    if (json.Length > 0)
+                    {
+                        LoadFromFile(json);
+                    }
+
+                }
             }
 
         }
