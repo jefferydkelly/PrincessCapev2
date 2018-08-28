@@ -3788,6 +3788,11 @@
         <para>Constructor.</para>
       </summary>
     </member>
+    <member name="T:UnityEngine.Experimental.UIElements.UxmlAttributeDescription.Use">
+      <summary>
+        <para>An enum to describe attribute use.</para>
+      </summary>
+    </member>
     <member name="F:UnityEngine.Experimental.UIElements.UxmlAttributeDescription.Use.None">
       <summary>
         <para>There is no restriction on the use of this attribute with the element.</para>

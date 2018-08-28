@@ -20,6 +20,8 @@ public class LevelEditor : MonoBehaviour {
     TileBrowser tileBrowser;
     [SerializeField]
     LevelSaver saveUI;
+    [SerializeField]
+    GameObject navigationUI;
 
     [SerializeField]
     Button activateButton;
@@ -28,10 +30,7 @@ public class LevelEditor : MonoBehaviour {
     [SerializeField]
     Button invertButton;
 
-    [SerializeField]
-    Button saveButton;
-    [SerializeField]
-    Button loadButton;
+
     [SerializeField]
     GameObject connectionPrefab;
 
@@ -509,8 +508,7 @@ public class LevelEditor : MonoBehaviour {
             toolsUI.gameObject.SetActive(!value);
             playbackUI.gameObject.SetActive(!value);
             tileBrowser.gameObject.SetActive(!value);
-            saveButton.gameObject.SetActive(!value);
-            loadButton.gameObject.SetActive(!value);
+            navigationUI.gameObject.SetActive(!value);
         }
     }
 
@@ -788,6 +786,7 @@ public class LevelEditor : MonoBehaviour {
             playbackUI.SetActive(!value);
             toolsUI.gameObject.SetActive(!value);
             tileBrowser.gameObject.SetActive(!value);
+            navigationUI.gameObject.SetActive(!value);
             levelBrowser.SetActive(value);
         }
     }
