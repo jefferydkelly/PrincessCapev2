@@ -20,6 +20,7 @@ public class LevelSaver : MonoBehaviour {
     // Use this for initialization
     void Awake()
     {
+        
         baseFileNames = new List<string>();
         customFileNames = new List<string>();
 
@@ -81,8 +82,8 @@ public class LevelSaver : MonoBehaviour {
                 return;
             }
         }
-       
-        File.WriteAllText(customLevelPath + "/" + input.text + ".json", Map.Instance.SaveToFile());
+        Map.Instance.LevelName = input.text;
+        File.WriteAllText(customLevelPath + "/" + input.text + ".json", Map.Instance.SaveData);
         warningText.gameObject.SetActive(false);
         Cancel();
 

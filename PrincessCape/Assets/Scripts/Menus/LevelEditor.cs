@@ -406,7 +406,10 @@ public class LevelEditor : MonoBehaviour {
     /// Opens the level select menu.
     /// </summary>
     public void OpenLevelSelect() {
-        
+
+        ShowLevelBrowser = true;
+        mode = MapEditMode.Load;
+        /*
         if (Application.isEditor) {
             #if UNITY_EDITOR
             string path  = EditorUtility.OpenFilePanel("Open a Level File", Application.absoluteURL + "/Assets/Resources/Levels", "json");
@@ -420,16 +423,16 @@ public class LevelEditor : MonoBehaviour {
         } else {
             ShowLevelBrowser = true;
             mode = MapEditMode.Load;
-        }
+        }*/
     }
 
     /// <summary>
-    /// Loads the level at the given path.
+    /// Loads the level from the given text.
     /// </summary>
-    /// <param name="path">Path.</param>
-    public void LoadLevel(string path) {
+    /// <param name="file">The text of the level file.</param>
+    public void LoadLevel(string file) {
         ClearSelectedTiles();
-        Map.Instance.Load(path);
+        Map.Instance.LoadFromFile(file);
         AddConnectionLines();
         ShowLevelBrowser = false;
         mode = MapEditMode.None;
@@ -454,6 +457,7 @@ public class LevelEditor : MonoBehaviour {
         }
 
         connectionLines.Clear();
+
         foreach (ActivatorConnection c in Map.Instance.Connections)
         {
             CreateConnectionLine(c);
@@ -470,6 +474,7 @@ public class LevelEditor : MonoBehaviour {
     /// </summary>
     public void SaveLevel() {
 
+        /*
         if (Application.isEditor)
         {
             #if UNITY_EDITOR
@@ -477,7 +482,7 @@ public class LevelEditor : MonoBehaviour {
 
             if (path.Length > 0)
             {
-                File.WriteAllText(path, Map.Instance.SaveToFile());
+                File.WriteAllText(path, Map.Instance.SaveData);
             }
             #endif
         }
@@ -485,9 +490,10 @@ public class LevelEditor : MonoBehaviour {
         {
             mode = MapEditMode.Save;
             ShowSaveUI = true;
-        }
+        }*/
 
-
+        mode = MapEditMode.Save;
+        ShowSaveUI = true;
     }
 
     /// <summary>

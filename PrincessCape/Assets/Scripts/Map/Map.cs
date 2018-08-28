@@ -221,25 +221,31 @@ public class Map : MonoBehaviour
 	/// Converts the map into a json-ish file string for saving to file
 	/// </summary>
 	/// <returns> A json-ish file string.</returns>
-	public string SaveToFile() {
-        string info = "{\n";
-        info += PCLParser.CreateAttribute("MapName", levelName);
-		info += PCLParser.CreateAttribute("MapID", mapID);
-        info += PCLParser.CreateAttribute("Show In Level Select", showInLevelSelect);
-        info += PCLParser.CreateAttribute("Items", items);
-        info += PCLParser.CreateArray("Tiles");
-        foreach(MapTile tile in tiles) {
-            info += tile.SaveData();
+	public string SaveData {
+        get
+        {
+            string info = "{\n";
+            info += PCLParser.CreateAttribute("MapName", levelName);
+            info += PCLParser.CreateAttribute("MapID", mapID);
+            info += PCLParser.CreateAttribute("Show In Level Select", showInLevelSelect);
+            info += PCLParser.CreateAttribute("Items", items);
+            info += PCLParser.CreateArray("Tiles");
+            foreach (MapTile tile in tiles)
+            {
+                info += tile.SaveData();
+            }
+            info += PCLParser.ArrayEnding;
+            info += PCLParser.CreateArray("Connections");
+            foreach (ActivatorObject ao in GetComponentsInChildren<ActivatorObject>())
+            {
+                foreach (ActivatorConnection akon in ao.Connections)
+                {
+                    info += akon.GenerateSaveData();
+                }
+            }
+            info += "]\n}";
+            return info;
         }
-		info += PCLParser.ArrayEnding;
-		info += PCLParser.CreateArray("Connections");
-		foreach(ActivatorObject ao in GetComponentsInChildren<ActivatorObject>()) {
-			foreach(ActivatorConnection akon in ao.Connections) {
-				info += akon.GenerateSaveData();
-			}
-		}
-        info += "]\n}";
-        return info;
     }
 
 	/// <summary>
@@ -247,16 +253,46 @@ public class Map : MonoBehaviour
 	/// </summary>
 	/// <returns> List of Tile Struct information based on the json passed in.</returns>
 	/// <param name="json">Json.</param>
-	public MapFile LoadFromFile(string json) {
-        string[] lines = json.Split('\n');
+	public void LoadFromFile(string json) {
+        if (json.Length > 0)
+        {
+            if (prefabs == null)
+            {
+                LoadPrefabs();
+            }
 
-        levelName = PCLParser.ParseLine(lines[1]);
-		mapID = PCLParser.ParseInt(lines[2]);
-        showInLevelSelect = PCLParser.ParseBool(lines[3]);
-        items = PCLParser.ParseEnum<ItemLevel>(lines[4]);
-        int ind = json.IndexOf(',');
-        string mapData = json.Substring(ind);
-		return PCLParser.ParseMapFile(mapData);
+            string[] lines = json.Split('\n');
+
+            levelName = PCLParser.ParseLine(lines[1]);
+            mapID = PCLParser.ParseInt(lines[2]);
+            showInLevelSelect = PCLParser.ParseBool(lines[3]);
+            items = PCLParser.ParseEnum<ItemLevel>(lines[4]);
+            int ind = json.IndexOf(',');
+            string mapData = json.Substring(ind);
+            MapFile mapFile = PCLParser.ParseMapFile(mapData);
+
+            foreach (TileStruct t in mapFile.Tiles)
+            {
+                MapTile tile = Instantiate(prefabs[t.tileName]).GetComponent<MapTile>();
+                tile.name = t.tileName;
+                tile.FromData(t);
+                tile.Init();
+                AddTile(tile);
+            }
+
+            connections = mapFile.Connections;
+            foreach (ActivatorConnection akon in connections)
+            {
+                akon.Activator.AddConection(akon);
+            }
+
+            if (Application.isPlaying)
+            {
+                isLoaded = true;
+                OnLevelLoaded.Invoke();
+                Game.Instance.Player.transform.position = Checkpoint.ResetPosition;
+            }
+        }
     }
 
     /// <summary>
@@ -300,10 +336,6 @@ public class Map : MonoBehaviour
     /// <param name="file">File.</param>
     public void Load(string file) {
 		isLoaded = false;
-
-        if (prefabs == null) {
-            LoadPrefabs();
-        }
       
 
         if (file.Length > 0)
@@ -320,28 +352,7 @@ public class Map : MonoBehaviour
                
                 if (json.Length > 0)
                 {
-					MapFile mapFile = LoadFromFile(json);
-
-					foreach (TileStruct t in mapFile.Tiles)
-                    {
-                        MapTile tile = Instantiate(prefabs[t.tileName]).GetComponent<MapTile>();
-						tile.name = t.tileName;
-                        tile.FromData(t);
-                        tile.Init();
-						AddTile(tile);
-                    }
-
-                    connections = mapFile.Connections;
-                    foreach(ActivatorConnection akon in connections) {
-                        akon.Activator.AddConection(akon);
-					}
-				    
-                    if (Application.isPlaying) {
-						isLoaded = true;
-                        OnLevelLoaded.Invoke();
-						Game.Instance.Player.transform.position = Checkpoint.ResetPosition;
-                    }
-
+					LoadFromFile(json);
                 }
 
             }
@@ -364,6 +375,12 @@ public class Map : MonoBehaviour
     public string LevelName {
         get {
             return levelName;
+        }
+
+        set {
+            if (Game.Instance.IsInLevelEditor) {
+                levelName = value;
+            }
         }
     }
 

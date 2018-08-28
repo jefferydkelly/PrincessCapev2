@@ -722,7 +722,7 @@ public class MapEditor : Editor {
         string path = EditorUtility.SaveFilePanel("Save Level To File", "Assets/Resources/Levels", map.FileName, "json");
 
         if (path.Length > 0) {
-            string json = map.SaveToFile();
+            string json = map.SaveData;
 
             File.WriteAllText(path, json);
         }

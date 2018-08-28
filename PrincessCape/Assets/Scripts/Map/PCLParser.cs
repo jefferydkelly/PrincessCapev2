@@ -157,6 +157,7 @@ public class PCLParser {
 	public static MapFile ParseMapFile(string json) {
 		int connectionsStart = -1;
         List<TileStruct> tiles = ParseTiles(json, out connectionsStart);
+
         List<ActivatorConnection> connections = ParseConnectionsList(json.Substring(connectionsStart));
 		return new MapFile(tiles, connections);
 	}
