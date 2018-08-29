@@ -34,6 +34,7 @@ public class CameraManager : Manager
 
              
         Game.Instance.Map.OnLevelLoaded.AddListener(PanToPlayer);
+        //Game.Instance.OnEditorStop.AddListener(CenterOnPlayer);
         //EventManager.StartListening("LevelLoaded", PanToPlayer);
 
     }
@@ -47,6 +48,10 @@ public class CameraManager : Manager
             Vector3 panPos = Game.Instance.Player.transform.position.SetZ(Position.z) + offset;
 			PanTo(panPos, 0.25f).Start();
         }
+    }
+
+    public void CenterOnPlayer() {
+        Position = Game.Instance.Player.transform.position.SetZ(Position.z) + offset;
     }
     /// <summary>
     /// Pans to the respawn point when the player dies

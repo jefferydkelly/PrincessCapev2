@@ -148,7 +148,7 @@ public class Game : MonoBehaviour {
                 LevelEditor.Instance.IsHidden = true;
                 OnEditorPlay.Invoke();
                 onGameStateChanged.Invoke(gameState);
-                player.Inventory.Clear();
+                player.ClearItems();
                 AddItems();
 
             } else {
@@ -168,8 +168,8 @@ public class Game : MonoBehaviour {
         UIManager.Instance.IsHidden = true;
         OnEditorStop.Invoke();
         onGameStateChanged.Invoke(gameState);
-        player.transform.position = Checkpoint.ResetPosition;
         map.Reload();
+        CameraManager.Instance.CenterOnPlayer();
     }
 
     /// <summary>
@@ -301,7 +301,6 @@ public class Game : MonoBehaviour {
 		for (int i = (int)player.Items + 1; i <= (int)map.Items; i++)
 		{
 			string itemName = ((ItemLevel)(i)).ToString();
-
 			player.AddItem(ScriptableObject.CreateInstance(itemName) as MagicItem);
 		}
     }

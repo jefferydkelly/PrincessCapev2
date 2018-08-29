@@ -38,12 +38,12 @@ public class OrbSwitch : ActivatorObject
     public override void Activate()
     {
         base.Activate();
-        myAnimatior.SetTrigger("Activate");
+        myAnimatior.SetBool("IsActivated", true);
     }
 
     public override void Deactivate()
     {
         base.Deactivate();
-        myAnimatior.SetTrigger("Deactivate");
+        myAnimatior.SetBool("IsActivated", false);
     }
 }

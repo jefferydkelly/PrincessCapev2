@@ -640,6 +640,11 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public void ClearItems() {
+        items = ItemLevel.None;
+        inventory.Clear();
+    }
+
     /// <summary>
     /// Event Handler for the end of a cutscene
     /// </summary>

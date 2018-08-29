@@ -6,6 +6,8 @@ using System.IO;
 public class LevelSelect : MainMenu {
     [SerializeField]
     GameObject baseButton;
+    [SerializeField]
+    GameObject customLevelButton;
 
     [SerializeField]
     int numButtons;
@@ -48,6 +50,10 @@ public class LevelSelect : MainMenu {
                 }
 			});
         }
+
+        string inputPath = Application.persistentDataPath + "/CustomLevels";
+       
+        customLevelButton.SetActive(Directory.Exists(inputPath)&& Directory.GetFiles(inputPath).Length > 1);
 
         ShowLevels(true);
 	}

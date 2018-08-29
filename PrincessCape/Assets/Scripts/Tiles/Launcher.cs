@@ -39,12 +39,12 @@ public class Launcher : ActivatedObject
         {
             launchTimer.Start();
         }
-        myAnimator.SetTrigger("Activate");
+        myAnimator.SetBool("IsActivated", true);
     }
 
     public override void Deactivate()
     {
         launchTimer.Stop();
-        myAnimator.SetTrigger("Deactivate");
+        myAnimator.SetBool("IsActivated", false);
     }
 }

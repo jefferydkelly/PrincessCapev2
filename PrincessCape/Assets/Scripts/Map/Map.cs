@@ -380,6 +380,7 @@ public class Map : MonoBehaviour
     /// </summary>
     public void Reload() {
         Load(fileName);
+        OnLevelLoaded.Invoke();
     }
 
 
