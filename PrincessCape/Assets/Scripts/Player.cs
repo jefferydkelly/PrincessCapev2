@@ -62,6 +62,8 @@ public class Player : MonoBehaviour {
 		onLand = new UnityEvent();
 		onDie = new UnityEvent();
 
+        Game.Instance.OnEditorPlay.AddListener(HealToFull);
+
 
     }
 
@@ -126,6 +128,7 @@ public class Player : MonoBehaviour {
         if (!Game.isClosing)
         {
             Controller.Instance.OnPause.RemoveListener(Pause);
+            Game.Instance.OnEditorPlay.RemoveListener(HealToFull);
         }
 		//EventManager.StopListening("Pause", Pause);
 	}
@@ -309,13 +312,17 @@ public class Player : MonoBehaviour {
         resetTimer.Start();
     }
 
+    void HealToFull() {
+        CurrentHealth = maxHealth;
+    }
+
     /// <summary>
     /// Reset the player to the last checkpoint.
     /// </summary>
     public void Reset() {
         if (IsDead)
         {
-            CurrentHealth = maxHealth;
+            HealToFull();
         }
 
 		OnRespawn.Invoke();
