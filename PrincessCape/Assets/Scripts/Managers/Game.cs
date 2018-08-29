@@ -163,6 +163,7 @@ public class Game : MonoBehaviour {
     /// Stops the game while in the LevelEditor.
     /// </summary>
     public void StopInEditor() {
+        player.Rigidbody.velocity = Vector2.zero;
         gameState = GameState.None;
         LevelEditor.Instance.IsHidden = false;
         UIManager.Instance.IsHidden = true;
