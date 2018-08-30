@@ -627,7 +627,7 @@ public class Player : MonoBehaviour {
     /// <param name="mi">Mi.</param>
     public void AddItem(MagicItem mi, bool showMessage = false) {
         inventory.Add(mi);
-        Debug.Log(mi.ItemName);
+
         if (Inventory.Count == 1) {
             mi.RegisterItemOne();
         } else if (Inventory.Count == 2) {

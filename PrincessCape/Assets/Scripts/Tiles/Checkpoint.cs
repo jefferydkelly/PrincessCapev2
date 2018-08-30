@@ -9,6 +9,7 @@ using UnityEngine.Events;
 public class Checkpoint : MapTile
 {
     static Checkpoint activeCheckpoint;
+    static UnityEvent onCheckpointActivate = new UnityEvent();
     bool isActive = false;
     Animator myAnimator;
     [SerializeField]
@@ -53,7 +54,7 @@ public class Checkpoint : MapTile
 
     private void OnDisable()
     {
-        EventManager.StopListening("CheckpointActivated", Deactivate);
+        onCheckpointActivate.RemoveListener(Deactivate);
     }
 
     /// <summary>
@@ -104,15 +105,15 @@ public class Checkpoint : MapTile
         {
             activeCheckpoint = this;
             IsActive = true;
-            EventManager.TriggerEvent("CheckpointActivated");
-            EventManager.StartListening("CheckpointActivated", Deactivate);
+            onCheckpointActivate.Invoke();
+            onCheckpointActivate.AddListener(Deactivate);
         }
     }
 
     void Deactivate()
     {
         IsActive = false;
-        EventManager.StopListening("CheckpointActivated", Deactivate);
+        onCheckpointActivate.RemoveListener(Deactivate);
     }
 
     /// <summary>
