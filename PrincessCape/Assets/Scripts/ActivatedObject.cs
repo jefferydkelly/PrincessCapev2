@@ -119,7 +119,7 @@ public abstract class ActivatedObject : MapTile
         set {
             startActive = value;
 
-            if (Game.Instance.IsInLevelEditor) {
+            if (Application.isPlaying && Game.Instance.IsInLevelEditor) {
                 if (value)
                 {
                     Activate();

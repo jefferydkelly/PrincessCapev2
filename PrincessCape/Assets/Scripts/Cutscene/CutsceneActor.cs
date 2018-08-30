@@ -19,9 +19,6 @@ public class CutsceneActor : MonoBehaviour
     Timer CreateTimer(float time) {
 		int totalTicks = Mathf.FloorToInt(time / 0.03f);
 		Timer timer = new Timer(0.03f, totalTicks);
-        timer.OnComplete.AddListener(()=> {
-            EventManager.TriggerEvent("ElementCompleted");
-        });
         return timer;
     }
 	
@@ -205,8 +202,8 @@ public class CutsceneActor : MonoBehaviour
 
     public void Animate(string trigger) {
         myAnimator.SetTrigger(trigger);
-        EventManager.TriggerEvent("ElementCompleted");
     }
+
 	public string CharacterName
 	{
 		get
@@ -264,8 +261,7 @@ public class CutsceneActor : MonoBehaviour
 		set
 		{
 			isHidden = value;
-
-            mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(value ? 0 : 1);
+            mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(value ? 0 : 255);
 		}
 	}
 

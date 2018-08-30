@@ -30,9 +30,9 @@ public class CutsceneEffect : CutsceneElement
     public override Timer Run()
     {
         CutsceneActor myActor = Cutscene.Instance.FindActor(affected);
-
         if (type == EffectType.Show)
         {
+           
             if (myActor)
             {
 

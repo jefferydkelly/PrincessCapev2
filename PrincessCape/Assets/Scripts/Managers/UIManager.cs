@@ -125,8 +125,15 @@ public class UIManager : MonoBehaviour
     /// <param name="line">Line.</param>
     public void SetMainText(string line)
     {
-        //mainText.Message = new List<string>() { line };
-        mainText.Text = line;
+        //
+        if (Game.Instance.IsInCutscene)
+        {
+            mainText.Message = new List<string>() { line };
+        }
+        else
+        {
+            mainText.Text = line;
+        }
     }
 
     /// <summary>

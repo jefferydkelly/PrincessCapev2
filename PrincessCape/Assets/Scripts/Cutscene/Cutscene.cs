@@ -47,6 +47,7 @@ public class Cutscene:Manager
       
 		if (p == "show")
 		{
+            Debug.Log("show " + parts[1]);
 			return new CutsceneEffect(parts[1], EffectType.Show, float.Parse(parts[2]), float.Parse(parts[3]));
 		}
 		else if (p == "hide")
@@ -235,7 +236,7 @@ public class Cutscene:Manager
 
 	}
 	// Use this for initialization
-	public void Load(TextAsset text)
+	public void Load(TextAsset text, bool autoStart = false)
 	{
 		elements = new List<List<CutsceneElement>>();
         string[] lines = text.text.Split('\n');
@@ -250,9 +251,8 @@ public class Cutscene:Manager
             do
             {
                 string line = lines[i].Trim();
-
-                seq = line.Substring(line.Length - 4) == " and";
-
+                seq = line.Substring(line.Length - 3) == "and";
+                Debug.Log(line);
                 if (seq)
                 {
                     line = line.Substring(0, line.Length - 4);
@@ -269,15 +269,20 @@ public class Cutscene:Manager
                     }
                 }
 
-                seq = false;
+                //seq = false;
             } while (seq && i < lines.Length);
 
+            Debug.Log("Sequence Done");
             if (elems.Count > 0)
             {
                 elements.Add(elems);
             }
         }
 
+        if (autoStart)
+        {
+            StartCutscene();
+        }
 	}
 
 	public void StartCutscene()

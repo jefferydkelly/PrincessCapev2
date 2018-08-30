@@ -25,8 +25,10 @@ public class CutsceneActivate : CutsceneElement
 
     public override Timer Run()
     {
+        
 		if (ao == null) {
-			ao = Cutscene.Instance.FindGameObject(objectName).GetComponent<ActivatedObject>();
+            GameObject gameObject = Cutscene.Instance.FindGameObject(objectName);
+            ao = gameObject.GetComponent<ActivatedObject>();
 		}
         if (activate)
         {

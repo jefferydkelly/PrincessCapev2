@@ -233,10 +233,10 @@ public class PCLParser {
         for (int i = 0; i < tile.Count; i++) {
             string s = tile[i];
          
-            if (s.Contains("\"Prefab\": ") || s.Contains("\"Name\": "))
+            if (s.Contains("\"Prefab\": "))
 			{
 				ts.tileName = ParseLine(s);
-			} else if (s.Contains("\"Instance Name\": ")) {
+			} else if (s.Contains("\"Name\": ")) {
                 ts.instanceName = ParseLine(s);
 			} else if (s.Contains("\"ID\":")) {
                 ts.id = ParseInt(s);
