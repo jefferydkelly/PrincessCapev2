@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Cutscene/Elements/CutsceneEffect.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Menus/LevelSelect.cs">
     <Files>
       <File FileName="Assets/Editor/MapEditor.cs" Line="725" Column="39" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="383" Column="32" />
@@ -14,7 +14,7 @@
       <File FileName="Assets/Scripts/Managers/Game.cs" Line="68" Column="41" />
       <File FileName="Assets/Scripts/Tiles/Launcher.cs" Line="48" Column="48" />
       <File FileName="Assets/Scripts/Map/MapTile.cs" Line="291" Column="23" />
-      <File FileName="Assets/Scripts/Menus/LevelSelect.cs" Line="56" Column="107" />
+      <File FileName="Assets/Scripts/Menus/LevelSelect.cs" Line="56" Column="1" />
       <File FileName="Assets/Scripts/UI/LevelSaver.cs" Line="34" Column="76" />
       <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="236" Column="43" />
       <File FileName="Assets/Scripts/Tiles/Door.cs" Line="18" Column="46" />
@@ -32,7 +32,7 @@
       <File FileName="Assets/Scripts/Menus/ControlsMenu.cs" Line="65" Column="22" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="263" Column="21" />
       <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="272" Column="19" />
-      <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="16" Column="5" />
+      <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="16" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneActivate.cs" Line="30" Column="82" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEffect.cs" Line="32" Column="71" />
     </Files>
