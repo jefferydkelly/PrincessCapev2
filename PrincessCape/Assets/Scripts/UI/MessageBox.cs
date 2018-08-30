@@ -24,25 +24,21 @@ public class MessageBox : MonoBehaviour {
 		onLineEnd = new UnityEvent();
 		onMessageEnd = new UnityEvent();
 		onMessageStart = new UnityEvent();
-		/*
-        EventManager.StartListening("ShowDialog", DisplayMessage);
-        EventManager.StartListening("ShowMessage", DisplayMessage);
-        EventManager.StartListening("ShowLine", DisplayLine);
-        EventManager.StartListening("AlignLeft", ()=>{
-            textbox.alignment = TextAnchor.UpperLeft;
-        });
+    }
 
-        EventManager.StartListening("AlignRight", () => {
-            textbox.alignment = TextAnchor.UpperRight;
-        });
-        */
-        
+    public string Text {
+        get {
+            return textbox.text;
+        }
+
+        set {
+            textbox.text = value;
+        }
     }
 
     public void DisplayLine() {
         if (!gameObject.activeSelf)
         {
-            EventManager.StartListening("Inventory", Hide);
             Cutscene.Instance.OnEnd.AddListener(Hide);
             gameObject.SetActive(true);
         }

@@ -36,7 +36,7 @@ public class StarShield : MagicItem
 				{
 					EventManager.TriggerEvent("ItemTwoActivatedSuccessfully");
 				}
-                EventManager.TriggerEvent("ShowAim");
+                UIManager.Instance.OnAimStatusChange.Invoke(true);
 				state = MagicItemState.Activated;
                 Game.Instance.Player.IsUsingShield = true;
 			}
@@ -60,7 +60,7 @@ public class StarShield : MagicItem
 				{
 					EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
 				}
-                EventManager.TriggerEvent("HideAim");
+                UIManager.Instance.OnAimStatusChange.Invoke(false);
                 Game.Instance.Player.IsUsingShield = false;
 				cooldownTimer.Start();
 				state = MagicItemState.OnCooldown;

@@ -5030,6 +5030,7 @@ MonoBehaviour:
   itemTwoBox: {fileID: 1418582618}
   interaction: {fileID: 1707311457}
   healthBar: {fileID: 782313727}
+  inventory: {fileID: 1886071917}
   loadingScreen: {fileID: 339393798}
 --- !u!1 &1357454885
 GameObject:

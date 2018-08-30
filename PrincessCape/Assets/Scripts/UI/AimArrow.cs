@@ -6,9 +6,13 @@ public class AimArrow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        EventManager.StartListening("ShowAim", Activate);
-        EventManager.StartListening("HideAim", ()=> {
-            gameObject.SetActive(false);
+        UIManager.Instance.OnAimStatusChange.AddListener((bool show) =>
+        {
+            gameObject.SetActive(show);
+
+            if (show) {
+                Rotate();
+            }
         });
         gameObject.SetActive(false);
 	}
@@ -17,11 +21,6 @@ public class AimArrow : MonoBehaviour {
 	void Update () {
         Rotate();
 	}
-
-    void Activate() {
-        gameObject.SetActive(true);
-        Rotate();
-    }
 
     void Rotate() {
 		Vector2 input = Controller.Instance.Aim;

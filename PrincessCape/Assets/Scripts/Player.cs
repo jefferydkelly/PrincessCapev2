@@ -44,13 +44,12 @@ public class Player : MonoBehaviour {
         //EventManager.StartListening("LevelLoaded", Reset);
 
 
-
-        EventManager.StartListening("ShowAim", ()=> {
-            shieldField.transform.localScale = Vector3.one;
-        });
-
-        EventManager.StartListening("HideAim", ()=> {
-            shieldField.gameObject.SetActive(false);
+        UIManager.Instance.OnAimStatusChange.AddListener((bool show) => { 
+            if (show) {
+                shieldField.transform.localScale = Vector3.one;
+            } else {
+                shieldField.gameObject.SetActive(false);
+            }
         });
         Cutscene.Instance.OnEnd.AddListener(EndCutscene);
        
@@ -628,7 +627,7 @@ public class Player : MonoBehaviour {
     /// <param name="mi">Mi.</param>
     public void AddItem(MagicItem mi, bool showMessage = false) {
         inventory.Add(mi);
-
+        Debug.Log(mi.ItemName);
         if (Inventory.Count == 1) {
             mi.RegisterItemOne();
         } else if (Inventory.Count == 2) {

@@ -236,7 +236,7 @@ public class Controller:Manager {
         {
             if (IsKeyDown("Inventory"))
             {
-                EventManager.TriggerEvent("Inventory");
+                UIManager.Instance.ShowInventory = !UIManager.Instance.ShowInventory;
             }
         }
 

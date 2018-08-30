@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
     InteractionBox interaction;
 	[SerializeField]
 	HealthBar healthBar;
+    [SerializeField]
+    ItemMenu inventory;
 
     [SerializeField]
     Image loadingScreen;
@@ -30,6 +32,8 @@ public class UIManager : MonoBehaviour
     bool isHidden = false;
 
     Timer showTimer;
+
+    BoolEvent onAimStatusChange = new BoolEvent();
 
     private void Awake()
     {
@@ -121,7 +125,8 @@ public class UIManager : MonoBehaviour
     /// <param name="line">Line.</param>
     public void SetMainText(string line)
     {
-        mainText.Message = new List<string>() { line };
+        //mainText.Message = new List<string>() { line };
+        mainText.Text = line;
     }
 
     /// <summary>
@@ -299,4 +304,34 @@ public class UIManager : MonoBehaviour
             interaction.IsHidden = value;
         }
     }
+
+    /// <summary>
+    /// Gets the on aim status change event.
+    /// </summary>
+    /// <value>The on aim status change.</value>
+    public BoolEvent OnAimStatusChange {
+        get {
+            return onAimStatusChange;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the Inventory menu is shown
+    /// </summary>
+    /// <value><c>true</c> if the inventory is shown; otherwise, <c>false</c>.</value>
+    public bool ShowInventory {
+        get {
+            return inventory.gameObject.activeSelf;
+        }
+
+        set {
+            inventory.gameObject.SetActive(value);
+            mainText.gameObject.SetActive(value);
+            SetMainText("");
+        }
+    }
+}
+
+public class BoolEvent: UnityEvent<bool> {
+    
 }

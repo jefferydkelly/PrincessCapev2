@@ -51,7 +51,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         if (item != null)
         {
             UIManager.Instance.SetMainText(item.Description);
-            EventManager.TriggerEvent("ShowLine");
+            //EventManager.TriggerEvent("ShowLine");
             image.color = Color.gray;
         }
     }
