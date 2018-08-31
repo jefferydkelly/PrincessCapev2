@@ -13,12 +13,18 @@ public class Elevator : ActivatedObject
 	float moveTime = 1.0f;
 	[SerializeField]
 	float moveDistance = 3.0f;
+    [SerializeField]
+    GameObject rangeIndicator;
+    [SerializeField]
+    GameObject rangeLine;
 	Vector3 startLocation;
 
 	int ticksPerSec = 60;
 	public override void Init()
 	{
 		base.Init();
+        rangeIndicator.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
+        rangeLine.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
 		startLocation = transform.position;
 		moveTimer = new Timer(1.0f / ticksPerSec, (int)(moveTime * ticksPerSec));
 
@@ -68,6 +74,8 @@ public class Elevator : ActivatedObject
 		} else if (moveDistance > 1) {
 			moveDistance--;
 		}
+        rangeIndicator.transform.localPosition = Vector3.up * (moveDistance + 0.5f);
+        rangeLine.transform.localScale = Vector3.one + Vector3.up * (moveDistance - 1);
 	}
 
 #if UNITY_EDITOR

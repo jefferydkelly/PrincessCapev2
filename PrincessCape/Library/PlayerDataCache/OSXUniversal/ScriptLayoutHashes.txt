@@ -176,7 +176,7 @@ d6b92fcbf54909a75a722f07ab8aa6c0 Assembly-CSharp.dll:.ToolsUI
 ef988918947b3375f4dc44dd24d8bb98 Assembly-CSharp.dll:.MapTile
 eaf0bcdb10d442a4029d615f41d09957 Unity.TextMeshPro.dll:TMPro.TextContainer
 3aaf2e8345e62413b09e49239196dde9 Assembly-CSharp.dll:.Checkpoint
-f62e7400ed3629dec8ed622e4aa46c32 Assembly-CSharp.dll:.UIManager
+e7ecb178515348994408c0f44056b6ff Assembly-CSharp.dll:.UIManager
 50f8909ebc2a208b9db731079d164590 Assembly-CSharp.dll:.InputSaveLoadMenu
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.PlaybackUI
 ef988918947b3375f4dc44dd24d8bb98 Assembly-CSharp.dll:.LockedDoor
