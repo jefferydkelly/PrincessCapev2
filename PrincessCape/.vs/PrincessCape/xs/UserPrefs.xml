@@ -38,7 +38,7 @@
       <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="74" Column="33" />
       <File FileName="Assets/Scripts/UI/TileBrowser.cs" Line="11" Column="44" />
       <File FileName="Assets/Scripts/UI/TileSelectButton.cs" Line="10" Column="22" />
-      <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="110" Column="18" />
+      <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="74" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

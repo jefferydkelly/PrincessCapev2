@@ -8,6 +8,7 @@ public class Ladder : ActivatedObject
 {
     [SerializeField]
     GameObject plainLadder;
+    [SerializeField]
     BoxCollider2D myCollider;
     Timer revealTimer;
     float revealTime = 0.25f;
@@ -22,8 +23,11 @@ public class Ladder : ActivatedObject
     /// Initializes this instance setting the collider, reveal timer and determining whether or not it appears at the start of the game.
     /// </summary>
     public override void Init() {
-		myCollider = GetComponent<BoxCollider2D>();
-		revealTimer = new Timer(revealTime, transform.childCount - 1);
+        if (myCollider == null)
+        {
+           // myCollider = GetComponent<BoxCollider2D>();
+        }
+		revealTimer = new Timer(revealTime, transform.childCount - 2);
 		revealTimer.OnTick.AddListener(RevealLadderSection);
         activationCircle.gameObject.SetActive(Game.Instance.IsInLevelEditor);
 
@@ -68,7 +72,7 @@ public class Ladder : ActivatedObject
             transform.position += Vector3.up;
             SpawnLadderSection();
         }
-        else if (transform.childCount > 1)
+        else if (transform.childCount > 2)
         {
             DestroyImmediate(transform.GetChild(transform.childCount - 1).gameObject);
             transform.position += Vector3.down;
@@ -165,8 +169,8 @@ public class Ladder : ActivatedObject
             Deactivate();
         }
 
-		myCollider = GetComponent<BoxCollider2D>();
-		revealTimer = new Timer(revealTime, transform.childCount - 1);
+		//myCollider = GetComponent<BoxCollider2D>();
+		revealTimer = new Timer(revealTime, transform.childCount - 2);
 		revealTimer.OnTick.AddListener(RevealLadderSection);
 		
     }
@@ -203,10 +207,10 @@ public class Ladder : ActivatedObject
 	{
         GameObject tile = Instantiate(plainLadder);
 		tile.transform.SetParent(transform);
-        tile.transform.localPosition = (transform.childCount - 1) * Vector3.down;
+        tile.transform.localPosition = (transform.childCount - 2) * Vector3.down;
         tile.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
 		myCollider.size = myCollider.size.SetY(transform.childCount);
-		myCollider.offset = new Vector2(0, -(myCollider.size.y - 1) / 2);
+		myCollider.offset = new Vector2(0, -(myCollider.size.y - 2) / 2);
 	}
 
     /// <summary>
