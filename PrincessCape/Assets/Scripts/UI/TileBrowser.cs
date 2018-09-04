@@ -7,8 +7,8 @@ public class TileBrowser : MonoBehaviour {
     GameObject tileButtonPrefab;
 
     int currentIndex = 0;
-    int numButtons = 8;
-    Vector3 buttonStart = new Vector3(-1050, 0);
+    int numButtons = 16;
+    Vector3 buttonStart = new Vector3(-1125, 0);
     List<TileSelectButton> tileButtons;
     Dictionary<string, GameObject> prefabs;
   
@@ -37,7 +37,7 @@ public class TileBrowser : MonoBehaviour {
             TileSelectButton button = Instantiate(tileButtonPrefab).GetComponent<TileSelectButton>();
             button.transform.SetParent(transform);
             button.transform.localScale = Vector3.one;
-            button.transform.localPosition = buttonStart + Vector3.right * 300 * i;
+            button.transform.localPosition = buttonStart + Vector3.right * 150 * i;
             button.editor = this;
             tileButtons.Add(button);
         }

@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/Elevator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/Ladder.cs">
     <Files>
       <File FileName="Assets/Editor/MapEditor.cs" Line="725" Column="39" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="383" Column="32" />
@@ -36,6 +36,9 @@
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneActivate.cs" Line="30" Column="82" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEffect.cs" Line="32" Column="71" />
       <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="74" Column="33" />
+      <File FileName="Assets/Scripts/UI/TileBrowser.cs" Line="11" Column="44" />
+      <File FileName="Assets/Scripts/UI/TileSelectButton.cs" Line="10" Column="22" />
+      <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="110" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

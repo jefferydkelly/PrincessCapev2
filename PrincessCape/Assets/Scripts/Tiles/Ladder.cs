@@ -11,6 +11,8 @@ public class Ladder : ActivatedObject
     BoxCollider2D myCollider;
     Timer revealTimer;
     float revealTime = 0.25f;
+    [SerializeField]
+    SpriteRenderer activationCircle;
     public void Awake()
     {
         Init();
@@ -23,7 +25,9 @@ public class Ladder : ActivatedObject
 		myCollider = GetComponent<BoxCollider2D>();
 		revealTimer = new Timer(revealTime, transform.childCount - 1);
 		revealTimer.OnTick.AddListener(RevealLadderSection);
-		if (Application.isPlaying)
+        activationCircle.gameObject.SetActive(Game.Instance.IsInLevelEditor);
+
+        if (Application.isPlaying && !Game.Instance.IsInLevelEditor)
 		{
             
 			if (!startActive)
@@ -37,6 +41,7 @@ public class Ladder : ActivatedObject
 		else
 		{
             RevealEverything();
+            activationCircle.color = startActive ? Color.green : Color.red;
 		}
     }
 
@@ -100,7 +105,9 @@ public class Ladder : ActivatedObject
 
             foreach (SpriteRenderer spr in GetComponentsInChildren<SpriteRenderer>())
             {
-                spr.color = nextColor;
+                if (spr != activationCircle) {
+                    spr.color = nextColor;
+                }
             }
         }
     }
@@ -211,4 +218,15 @@ public class Ladder : ActivatedObject
         myCollider.size = myCollider.size.SetY(revealTimer.TicksCompleted);
         myCollider.offset = new Vector2(0, -revealTimer.TicksCompleted / 2);
 	}
+
+    public override bool StartsActive
+    {
+        set
+        {
+            base.StartsActive = value;
+            if (Game.Instance.IsInLevelEditor) {
+                activationCircle.color = startActive ? Color.green : Color.red;
+            }
+        }
+    }
 }

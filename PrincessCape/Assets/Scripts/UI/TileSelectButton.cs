@@ -8,13 +8,11 @@ public class TileSelectButton : Button
     bool isSelected = false;
     MapTile tilePrefab;
     Image tileSprite;
-    Text tileText;
     public TileBrowser editor;
     protected override void Awake()
     {
         base.Awake();
         tileSprite = GetComponentsInChildren<Image>()[1];
-        tileText = GetComponentInChildren<Text>();
 
     }
 
@@ -42,7 +40,6 @@ public class TileSelectButton : Button
         {
             tilePrefab = value;
             tileSprite.sprite = tilePrefab.ButtonSprite;
-            tileText.text = tilePrefab.name.SplitCamelCase();
         }
     }
 
