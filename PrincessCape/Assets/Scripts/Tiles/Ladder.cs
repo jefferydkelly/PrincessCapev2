@@ -8,7 +8,6 @@ public class Ladder : ActivatedObject
 {
     [SerializeField]
     GameObject plainLadder;
-    [SerializeField]
     BoxCollider2D myCollider;
     Timer revealTimer;
     float revealTime = 0.25f;
@@ -23,32 +22,45 @@ public class Ladder : ActivatedObject
     /// Initializes this instance setting the collider, reveal timer and determining whether or not it appears at the start of the game.
     /// </summary>
     public override void Init() {
-        if (myCollider == null)
-        {
-           // myCollider = GetComponent<BoxCollider2D>();
-        }
-		revealTimer = new Timer(revealTime, transform.childCount - 2);
+        int numLinks = transform.childCount - 2;
+        revealTimer = new Timer(revealTime, numLinks);
 		revealTimer.OnTick.AddListener(RevealLadderSection);
-        activationCircle.gameObject.SetActive(Game.Instance.IsInLevelEditor);
+        activationCircle = GetComponentsInChildren<SpriteRenderer>()[1];
+        myCollider = GetComponent<BoxCollider2D>();
+        myCollider.size = new Vector2(1, numLinks);
 
-        if (Application.isPlaying && !Game.Instance.IsInLevelEditor)
+
+        if (Application.isPlaying)
 		{
-            
-			if (!startActive)
-			{
-				gameObject.SetActive(false);
-				Deactivate();
-            } else {
+            if (Game.Instance.IsInLevelEditor)
+            {
                 RevealEverything();
+                activationCircle.color = startActive ? Color.green : Color.red;
+                Game.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
             }
-		}
-		else
-		{
-            RevealEverything();
-            activationCircle.color = startActive ? Color.green : Color.red;
+            else
+            {
+                if (!startActive)
+                {
+                    gameObject.SetActive(false);
+                    Deactivate();
+                }
+                else
+                {
+                    RevealEverything();
+                }
+            }
 		}
     }
 
+    void OnGameStateChanged(GameState state) {
+        activationCircle.gameObject.SetActive(state != GameState.Playing);
+    }
+
+    private void OnDestroy()
+    {
+        Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+    }
     /// <summary>
     /// Reveals every component of the ladder at once.
     /// </summary>
@@ -58,8 +70,15 @@ public class Ladder : ActivatedObject
 		{
 			transform.GetChild(i).gameObject.SetActive(true);
 		}
+
+        AdjustSize(transform.childCount - 1);
     }
 
+    void AdjustSize(int numLinks) {
+        myCollider.size = myCollider.size.SetY(numLinks);
+
+        myCollider.offset = new Vector2(0, -(numLinks - 1) / 2.0f);
+    }
     /// <summary>
     /// Scales the Ladder vertically.
     /// </summary>
@@ -76,9 +95,10 @@ public class Ladder : ActivatedObject
         {
             DestroyImmediate(transform.GetChild(transform.childCount - 1).gameObject);
             transform.position += Vector3.down;
-			myCollider.size = myCollider.size.SetY(transform.childCount);
-			myCollider.offset = new Vector2(0, -(myCollider.size.y - 1) / 2);
+
         }
+
+        AdjustSize(transform.childCount - 1);
 
 
     }
@@ -157,6 +177,7 @@ public class Ladder : ActivatedObject
     /// <param name="tile">A struct containing the information for the ladder.</param>
     public override void FromData(TileStruct tile)
     {
+        initialized = false;
         base.FromData(tile);
        
         int numLinks = PCLParser.ParseInt(tile.NextLine);
@@ -169,9 +190,11 @@ public class Ladder : ActivatedObject
             Deactivate();
         }
 
-		//myCollider = GetComponent<BoxCollider2D>();
-		revealTimer = new Timer(revealTime, transform.childCount - 2);
+		myCollider = GetComponent<BoxCollider2D>();
+        AdjustSize(transform.childCount - 1);
+        revealTimer = new Timer(revealTime, numLinks);
 		revealTimer.OnTick.AddListener(RevealLadderSection);
+        initialized = true;
 		
     }
 
@@ -180,8 +203,13 @@ public class Ladder : ActivatedObject
     /// </summary>
     public override void Activate()
     {
-        gameObject.SetActive(true);
-        revealTimer.Start();
+        if (initialized)
+        {
+            gameObject.SetActive(true);
+            revealTimer.Start();
+        } else {
+            RevealEverything();
+        }
     }
 
     /// <summary>
@@ -196,8 +224,7 @@ public class Ladder : ActivatedObject
 		{
 			transform.GetChild(i).gameObject.SetActive(false);
 		}
-        myCollider.size = Vector2.one;
-        myCollider.offset = Vector2.zero;
+        AdjustSize(1);
     }
 
     /// <summary>
@@ -209,8 +236,7 @@ public class Ladder : ActivatedObject
 		tile.transform.SetParent(transform);
         tile.transform.localPosition = (transform.childCount - 2) * Vector3.down;
         tile.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
-		myCollider.size = myCollider.size.SetY(transform.childCount);
-		myCollider.offset = new Vector2(0, -(myCollider.size.y - 2) / 2);
+        AdjustSize(transform.childCount - 1);
 	}
 
     /// <summary>
@@ -218,9 +244,11 @@ public class Ladder : ActivatedObject
     /// </summary>
 	void RevealLadderSection()
 	{
-		transform.GetChild(revealTimer.TicksCompleted).gameObject.SetActive(true);
-        myCollider.size = myCollider.size.SetY(revealTimer.TicksCompleted);
-        myCollider.offset = new Vector2(0, -revealTimer.TicksCompleted / 2);
+        if (revealTimer.IsRunning)
+        {
+            transform.GetChild(revealTimer.TicksCompleted).gameObject.SetActive(true);
+            AdjustSize(revealTimer.TicksCompleted);
+        }
 	}
 
     public override bool StartsActive
