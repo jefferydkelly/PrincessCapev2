@@ -156,7 +156,7 @@ public class Ladder : ActivatedObject
 	{
 		get
 		{
-			return myCollider.size;
+            return new Vector2(1, transform.childCount - 1);
 		}
 	}
 
