@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MagneticField : MapTile{
     SpriteRenderer myRenderer;
+    Animator myAnimator;
     [SerializeField]
     bool pull = true;
     float force = 15f;
@@ -20,6 +21,10 @@ public class MagneticField : MapTile{
 	public override void Init()
 	{
         myRenderer = GetComponent<SpriteRenderer>();
+        myAnimator = GetComponent<Animator>();
+        myAnimator.SetBool("Activated", Game.Instance.IsPlaying);
+
+        Game.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
 
         maxScale = (int)transform.localScale.y;
 
@@ -31,7 +36,18 @@ public class MagneticField : MapTile{
 
 	}
 
-	private void OnTriggerStay2D(Collider2D collision)
+    void OnGameStateChanged(GameState state) {
+        myAnimator.SetBool("Activated", Game.Instance.IsPlaying);
+    }
+
+    private void OnDestroy()
+    {
+        if (!Game.isClosing) {
+            Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
 	{
 		if (collision.CompareTag("Metal"))
 		{
@@ -41,11 +57,15 @@ public class MagneticField : MapTile{
 
     private void OnEnable()
     {
-        if (transform.localScale.y > maxScale) {
-            maxScale = Mathf.RoundToInt(transform.localScale.y);
+        if (!Game.Instance.IsInLevelEditor)
+        {
+            if (transform.localScale.y > maxScale)
+            {
+                maxScale = Mathf.RoundToInt(transform.localScale.y);
+            }
+            transform.localScale = Vector3.one;
+            expandTimer.Start();
         }
-        transform.localScale = Vector3.one;
-        expandTimer.Start();
     }
     private void OnDisable()
     {
