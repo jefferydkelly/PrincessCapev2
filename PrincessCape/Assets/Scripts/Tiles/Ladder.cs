@@ -59,7 +59,10 @@ public class Ladder : ActivatedObject
 
     private void OnDestroy()
     {
-        Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        if (!Game.isClosing)
+        {
+            Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        }
     }
     /// <summary>
     /// Reveals every component of the ladder at once.
