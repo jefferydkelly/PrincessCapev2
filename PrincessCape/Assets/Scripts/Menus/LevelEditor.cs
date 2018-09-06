@@ -377,15 +377,15 @@ public class LevelEditor : MonoBehaviour {
     /// <param name="spawnPos">Spawn position.</param>
     public bool IsSpawnPositionOpen(Vector3 spawnPos)
     {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(spawnPos);
+        
        
         if (!tileBrowser.IsTileSelected)
         {
             return false;
         }
 
-      
-        if (screenPos.y > tileBrowser.transform.position.y) {
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(spawnPos + Vector3.up * tileBrowser.SelectedPrefab.Bounds.y / 2);
+        if (screenPos.y >= tileBrowser.transform.position.y) {
             return false;
         }
 
