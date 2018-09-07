@@ -8,31 +8,22 @@ using UnityEditor;
 public class MovingPlatform : ActivatedObject {
 
 	[SerializeField]
-	Vector3 direction = Vector3.right;
+	protected Vector3 direction = Vector3.right;
 	[SerializeField]
-	float travelTime = 1.0f;
-	float travelDistance = 2.0f;
-	Timer moveTimer;
-	Animator myAnimator;
+	protected float travelTime = 1.0f;
+	protected float travelDistance = 2.0f;
+    protected float minimumDistance = 2.0f;
+	protected Timer moveTimer;
+
 
     [SerializeField]
-    GameObject rangeIndicator;
+    protected GameObject rangeIndicator;
     [SerializeField]
-    GameObject rangeLine;
+    protected GameObject rangeLine;
 
 	private void Awake()
 	{
         Init();
-	}
-
-    /// <summary>
-    /// Update this instance.
-    /// </summary>
-	private void Update()
-	{
-		if (!Game.Instance.IsPaused && moveTimer.IsRunning) {
-			transform.position += direction * travelDistance / travelTime * Time.deltaTime;
-		}
 	}
 
     /// <summary>
@@ -46,7 +37,7 @@ public class MovingPlatform : ActivatedObject {
 			moveTimer.Start();
 		}
 
-		myAnimator.SetBool("IsActive", true);
+		
 	}
 
     /// <summary>
@@ -55,7 +46,6 @@ public class MovingPlatform : ActivatedObject {
 	public override void Deactivate()
 	{
 		moveTimer.Pause();
-		myAnimator.SetBool("IsActive", false);
 	}
 
     /// <summary>
@@ -65,13 +55,8 @@ public class MovingPlatform : ActivatedObject {
 	{
 		if (!initialized)
 		{
-			myAnimator = GetComponentInChildren<Animator>();
 			travelTime = travelTime > 0.0f ? travelTime : 1.0f;
-			moveTimer = new Timer(travelTime, true);
-			moveTimer.OnTick.AddListener(() =>
-			{
-				direction *= -1;
-			});
+			
 
             rangeIndicator.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
             rangeLine.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
@@ -106,7 +91,7 @@ public class MovingPlatform : ActivatedObject {
 	{
 		if (up) {
 			TravelDistance++;
-		} else if (travelDistance > transform.localScale.x + 1){
+		} else {
 			TravelDistance--;
 		}
 	}
@@ -137,11 +122,28 @@ public class MovingPlatform : ActivatedObject {
         }
 
         set {
-            travelDistance = Mathf.Max(value, 1);
-            rangeIndicator.transform.localPosition = direction * travelDistance;
-            rangeLine.transform.localScale = Vector3.one + Vector3.up * (travelDistance - 1);
+            travelDistance = Mathf.Max(value, minimumDistance);
+            UpdateIndicator();
 
         }
+    }
+
+    public Vector3 EndPoint {
+        get {
+            return rangeIndicator.transform.position;
+        }
+
+        set {
+            Vector3 ep = (value - transform.position);
+            direction = ep.normalized;
+            TravelDistance = ep.magnitude;
+            rangeLine.transform.rotation = Quaternion.AngleAxis(((Vector2)ep).Angle().ToDegrees(), Vector3.forward);
+        }
+    }
+
+    protected virtual void UpdateIndicator() {
+        rangeIndicator.transform.localPosition = direction * travelDistance;
+        rangeLine.transform.localScale = Vector3.one + Vector3.right * (travelDistance - 1);
     }
 
     /// <summary>
@@ -155,6 +157,12 @@ public class MovingPlatform : ActivatedObject {
 		transform.GetChild(0).rotation *= Quaternion.AngleAxis(ang, Vector3.forward);
         rangeLine.transform.rotation *= Quaternion.AngleAxis(ang, Vector3.forward);
         rangeIndicator.transform.localPosition = direction * travelDistance;
+
+        if (Equals(direction, Vector3.up)) {
+            minimumDistance = 1.0f;
+        } else {
+            minimumDistance = 2.0f;
+        }
 	}
 
     /// <summary>
@@ -180,19 +188,6 @@ public class MovingPlatform : ActivatedObject {
 		direction = PCLParser.ParseVector3(tile.NextLine);
 		travelDistance = PCLParser.ParseFloat(tile.NextLine);
 		travelTime = PCLParser.ParseFloat(tile.NextLine);
-	}
-
-    /// <summary>
-    /// Event for when a collision between this and another object continues
-    /// </summary>
-    /// <param name="collision">Collision.</param>
-	void OnCollisionStay2D(Collision2D collision)
-	{
-        if (Game.Instance.IsPlaying && direction.y <= 0)
-        {
-            collision.transform.position += direction * travelDistance / travelTime * Time.deltaTime;
-        }
-		
 	}
     
 #if UNITY_EDITOR

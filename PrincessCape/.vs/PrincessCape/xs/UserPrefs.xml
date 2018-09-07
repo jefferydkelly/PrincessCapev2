@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/MovingPlatform.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/Elevator.cs">
     <Files>
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="25" Column="21" />
       <File FileName="Assets/Scripts/Enemy.cs" Line="23" Column="17" />
@@ -14,8 +14,10 @@
       <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="91" Column="1" />
       <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="27" Column="82" />
       <File FileName="Assets/Scripts/Interactive Objects/HeldItem.cs" Line="34" Column="13" />
-      <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="84" Column="88" />
-      <File FileName="Assets/Scripts/Tiles/MovingPlatform.cs" Line="25" Column="16" />
+      <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="25" Column="53" />
+      <File FileName="Assets/Scripts/Tiles/MovingPlatform.cs" Line="59" Column="4" />
+      <File FileName="Assets/Scripts/UI/RangeIndicator.cs" Line="22" Column="48" />
+      <File FileName="Assets/Scripts/Tiles/BackAndForthPlatform.cs" Line="17" Column="12" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

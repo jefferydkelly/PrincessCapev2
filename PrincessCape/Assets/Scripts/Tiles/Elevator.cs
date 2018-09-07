@@ -5,95 +5,33 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-public class Elevator : ActivatedObject
+public class Elevator : MovingPlatform
 {
 	bool up = true;
-	Timer moveTimer;
-	[SerializeField]
-	float moveTime = 1.0f;
-	[SerializeField]
-	float moveDistance = 3.0f;
-    [SerializeField]
-    GameObject rangeIndicator;
-    [SerializeField]
-    GameObject rangeLine;
 	Vector3 startLocation;
-
 	int ticksPerSec = 60;
+    int fwd = 1;
 	public override void Init()
 	{
 		base.Init();
-        rangeIndicator.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
-        rangeLine.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
 		startLocation = transform.position;
-		moveTimer = new Timer(1.0f / ticksPerSec, (int)(moveTime * ticksPerSec));
-
+        //direction = Vector3.up;
+        minimumDistance = 1.0f;
+       
+        moveTimer = new Timer(1.0f / (float)ticksPerSec, (int)(travelTime * ticksPerSec));
+      
 		moveTimer.OnTick.AddListener(() =>
 		{
-			if (up)
-			{
-				transform.position += Vector3.up * moveDistance / (moveTime * ticksPerSec);
-				if (transform.position.y - startLocation.y >= moveDistance)
-				{
-					moveTimer.Stop();
-					up = false;
-					transform.position = transform.position.SetY(startLocation.y + moveDistance);
-				}
-			}
-			else
-			{
-				transform.position += Vector3.up * moveDistance / ticksPerSec;
+            transform.position += direction * fwd * travelDistance / (travelTime * ticksPerSec);
+            Vector3 dif = transform.position - startLocation;
+            float dot = Vector3.Dot(dif, direction) / travelDistance;
 
-				if (transform.position.y <= startLocation.y)
-				{
-					transform.position = transform.position.SetY(startLocation.y);
-				}
-			}
+            if (dot > 1 || dot < 0) {
+                moveTimer.Stop();
+                transform.position = startLocation + direction * travelDistance * Mathf.Clamp01(dot);
+                fwd *= -1;
+            }
 		});
 
-	}
-
-    protected override void OnGameStateChanged(GameState state)
-    {
-        rangeIndicator.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
-        rangeLine.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
     }
-    public override void Activate()
-	{
-		moveTimer.Start();
-	}
-
-	public override void Deactivate()
-	{
-		moveTimer.Stop();
-	}
-
-	private void OnDestroy()
-	{
-		moveTimer.Stop();
-	}
-
-	public override void ScaleY(bool up)
-	{
-		if (up) {
-			moveDistance++;
-		} else if (moveDistance > 1) {
-			moveDistance--;
-		}
-        rangeIndicator.transform.localPosition = Vector3.up * (moveDistance + 0.5f);
-        rangeLine.transform.localScale = Vector3.one + Vector3.up * (moveDistance - 1);
-	}
-
-#if UNITY_EDITOR
-	public override void RenderInEditor()
-	{
-		base.RenderInEditor();
-        
-		Handles.color = Color.black;
-		Handles.DrawLine(transform.position, transform.position + Vector3.up * moveDistance);
-		Handles.DrawSolidArc(transform.position + Vector3.up * moveDistance, -Vector3.forward, Vector3.up, 360, 0.33f);
-		Handles.color = Color.white;
-
-	}
-#endif
 }
