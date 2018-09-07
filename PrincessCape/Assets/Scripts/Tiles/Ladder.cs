@@ -22,6 +22,7 @@ public class Ladder : ActivatedObject
     /// Initializes this instance setting the collider, reveal timer and determining whether or not it appears at the start of the game.
     /// </summary>
     public override void Init() {
+        base.Init();
         int numLinks = transform.childCount - 2;
         revealTimer = new Timer(revealTime, numLinks);
 		revealTimer.OnTick.AddListener(RevealLadderSection);
@@ -36,7 +37,6 @@ public class Ladder : ActivatedObject
             {
                 RevealEverything();
                 activationCircle.color = startActive ? Color.green : Color.red;
-                Game.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
             }
             else
             {
@@ -53,7 +53,8 @@ public class Ladder : ActivatedObject
 		}
     }
 
-    void OnGameStateChanged(GameState state) {
+    protected override void OnGameStateChanged(GameState state)
+    {
         activationCircle.gameObject.SetActive(state != GameState.Playing);
     }
 

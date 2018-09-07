@@ -24,8 +24,6 @@ public class MagneticField : MapTile{
         myAnimator = GetComponent<Animator>();
         myAnimator.SetBool("Activated", Game.Instance.IsPlaying);
 
-        Game.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
-
         maxScale = (int)transform.localScale.y;
 
         expandTimer = new Timer(expandTime, (maxScale - 1) * 4);
@@ -36,7 +34,7 @@ public class MagneticField : MapTile{
 
 	}
 
-    void OnGameStateChanged(GameState state) {
+    protected override void OnGameStateChanged(GameState state) {
         myAnimator.SetBool("Activated", Game.Instance.IsPlaying);
     }
 

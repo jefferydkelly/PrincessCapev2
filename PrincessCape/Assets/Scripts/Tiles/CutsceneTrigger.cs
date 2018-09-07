@@ -5,6 +5,7 @@ using UnityEngine;
 public class CutsceneTrigger : MapTile{
     [SerializeField]
     TextAsset cutscene;
+    SpriteRenderer myRenderer;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,7 +17,14 @@ public class CutsceneTrigger : MapTile{
 
     public override void Init()
     {
-        GetComponent<SpriteRenderer>().enabled = !Application.isPlaying;
+        base.Init();
+        myRenderer = GetComponent<SpriteRenderer>();
+        myRenderer.enabled = !(Application.isPlaying && Game.Instance.IsPlaying);
+    }
+
+    protected override void OnGameStateChanged(GameState state)
+    {
+        myRenderer.enabled = !(Application.isPlaying && Game.Instance.IsPlaying);
     }
 
     protected override string GenerateSaveData()

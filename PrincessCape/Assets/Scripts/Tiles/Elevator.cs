@@ -52,7 +52,13 @@ public class Elevator : ActivatedObject
 		});
 
 	}
-	public override void Activate()
+
+    protected override void OnGameStateChanged(GameState state)
+    {
+        rangeIndicator.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
+        rangeLine.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
+    }
+    public override void Activate()
 	{
 		moveTimer.Start();
 	}

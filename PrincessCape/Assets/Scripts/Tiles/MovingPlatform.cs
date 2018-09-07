@@ -15,17 +15,29 @@ public class MovingPlatform : ActivatedObject {
 	Timer moveTimer;
 	Animator myAnimator;
 
+    [SerializeField]
+    GameObject rangeIndicator;
+    [SerializeField]
+    GameObject rangeLine;
+
 	private void Awake()
 	{
-		
+        Init();
 	}
 
+    /// <summary>
+    /// Update this instance.
+    /// </summary>
 	private void Update()
 	{
 		if (!Game.Instance.IsPaused && moveTimer.IsRunning) {
 			transform.position += direction * travelDistance / travelTime * Time.deltaTime;
 		}
 	}
+
+    /// <summary>
+    /// Activate this instance.
+    /// </summary>
 	public override void Activate()
 	{
 		if (moveTimer.IsPaused) {
@@ -37,12 +49,18 @@ public class MovingPlatform : ActivatedObject {
 		myAnimator.SetBool("IsActive", true);
 	}
 
+    /// <summary>
+    /// Deactivate this instance.
+    /// </summary>
 	public override void Deactivate()
 	{
 		moveTimer.Pause();
 		myAnimator.SetBool("IsActive", false);
 	}
-    
+
+    /// <summary>
+    /// Initializes the Moving Platform
+    /// </summary>
 	public override void Init()
 	{
 		if (!initialized)
@@ -54,22 +72,42 @@ public class MovingPlatform : ActivatedObject {
 			{
 				direction *= -1;
 			});
-            
+
+            rangeIndicator.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
+            rangeLine.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
+
 			base.Init();
 			initialized = true;
 		}
 	}
 
+    /// <summary>
+    /// Handles the changing of the game state.
+    /// </summary>
+    /// <param name="state">State.</param>
+    protected override void OnGameStateChanged(GameState state)
+    {
+        rangeIndicator.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
+        rangeLine.SetActive(Game.Instance.IsInLevelEditor && !Game.Instance.IsPlaying);
+    }
+
+    /// <summary>
+    /// An event for when the game object is destroyed
+    /// </summary>
 	private void OnDestroy()
 	{
 		moveTimer.Stop();
 	}
+    /// <summary>
+    /// Increases or decreases the distance this travels by one
+    /// </summary>
+    /// <param name="up">If set to <c>true</c> increases the the distance, otherwise dercreases it..</param>
 	public override void ScaleY(bool up)
 	{
 		if (up) {
-			travelDistance++;
+			TravelDistance++;
 		} else if (travelDistance > transform.localScale.x + 1){
-			travelDistance--;
+			TravelDistance--;
 		}
 	}
 
@@ -80,22 +118,49 @@ public class MovingPlatform : ActivatedObject {
 		{
 			if (right)
 			{
-				travelDistance++;
+				TravelDistance++;
 			}
 			else
 			{
-				travelDistance--;
+				TravelDistance--;
 			}
 		}
 	}
 
+    /// <summary>
+    /// Gets or sets the travel distance.
+    /// </summary>
+    /// <value>The travel distance.</value>
+    float TravelDistance {
+        get {
+            return travelDistance;
+        }
+
+        set {
+            travelDistance = Mathf.Max(value, 1);
+            rangeIndicator.transform.localPosition = direction * travelDistance;
+            rangeLine.transform.localScale = Vector3.one + Vector3.up * (travelDistance - 1);
+
+        }
+    }
+
+    /// <summary>
+    /// Rotates the travel direction by the given angle
+    /// </summary>
+    /// <param name="ang">Ang.</param>
 	public override void Rotate(float ang)
 	{
 		direction = ((Vector2)(direction)).RotateDeg(ang);
         direction = new Vector3(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y));
 		transform.GetChild(0).rotation *= Quaternion.AngleAxis(ang, Vector3.forward);
+        rangeLine.transform.rotation *= Quaternion.AngleAxis(ang, Vector3.forward);
+        rangeIndicator.transform.localPosition = direction * travelDistance;
 	}
 
+    /// <summary>
+    /// Generates the save data for this tile/
+    /// </summary>
+    /// <returns>The save data.</returns>
 	protected override string GenerateSaveData()
 	{
 		string data = base.GenerateSaveData();
@@ -105,6 +170,10 @@ public class MovingPlatform : ActivatedObject {
 		return data;
 	}
 
+    /// <summary>
+    /// Creates an instance of the tile from the given data
+    /// </summary>
+    /// <param name="tile">Tile.</param>
 	public override void FromData(TileStruct tile)
 	{
 		base.FromData(tile);
@@ -113,9 +182,13 @@ public class MovingPlatform : ActivatedObject {
 		travelTime = PCLParser.ParseFloat(tile.NextLine);
 	}
 
+    /// <summary>
+    /// Event for when a collision between this and another object continues
+    /// </summary>
+    /// <param name="collision">Collision.</param>
 	void OnCollisionStay2D(Collision2D collision)
 	{
-        if (direction.y <= 0)
+        if (Game.Instance.IsPlaying && direction.y <= 0)
         {
             collision.transform.position += direction * travelDistance / travelTime * Time.deltaTime;
         }

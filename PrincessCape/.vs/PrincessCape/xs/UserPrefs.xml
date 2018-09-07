@@ -1,16 +1,21 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/MagneticField.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/MovingPlatform.cs">
     <Files>
-      <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="52" Column="14" />
-      <File FileName="Assets/Scripts/Enemy.cs" Line="29" Column="31" />
+      <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="25" Column="21" />
+      <File FileName="Assets/Scripts/Enemy.cs" Line="23" Column="17" />
       <File FileName="Assets/Scripts/Managers/TimerManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/ActivatedObject.cs" Line="122" Column="42" />
       <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="387" Column="84" />
-      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="75" Column="63" />
+      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="254" Column="14" />
       <File FileName="Assets/Scripts/Tiles/AirColumn.cs" Line="12" Column="66" />
-      <File FileName="Assets/Scripts/Tiles/MagneticField.cs" Line="17" Column="3" />
+      <File FileName="Assets/Scripts/Tiles/MagneticField.cs" Line="39" Column="1" />
+      <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="91" Column="1" />
+      <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="27" Column="82" />
+      <File FileName="Assets/Scripts/Interactive Objects/HeldItem.cs" Line="34" Column="13" />
+      <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="84" Column="88" />
+      <File FileName="Assets/Scripts/Tiles/MovingPlatform.cs" Line="25" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

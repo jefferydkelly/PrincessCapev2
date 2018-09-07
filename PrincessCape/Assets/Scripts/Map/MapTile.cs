@@ -31,8 +31,12 @@ public class MapTile : MonoBehaviour {
     /// Initializes this instance.
     /// </summary>
     public virtual void Init() {
-		HighlightState = MapHighlightState.Normal;
-		initialized = true;
+        if (!initialized)
+        {
+            HighlightState = MapHighlightState.Normal;
+            Game.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
+            initialized = true;
+        }
 
     }
     /// <summary>
@@ -243,12 +247,24 @@ public class MapTile : MonoBehaviour {
         }
 	}
 
-	
+    /// <summary>
+    /// An event for when the game state changes
+    /// </summary>
+    /// <param name="state">State.</param>
+    protected virtual void OnGameStateChanged(GameState state) {
+        
+    }
 
-	/// <summary>
-	/// Renders the in editor.
-	/// </summary>
-	public virtual void RenderInEditor()
+    private void OnDestroy()
+    {
+        if (!Game.isClosing) {
+            Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        }
+    }
+    /// <summary>
+    /// Renders the in editor.
+    /// </summary>
+    public virtual void RenderInEditor()
 	{
 
 	}
