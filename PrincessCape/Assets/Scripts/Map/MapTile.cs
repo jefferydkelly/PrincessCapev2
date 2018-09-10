@@ -257,7 +257,7 @@ public class MapTile : MonoBehaviour {
 
     private void OnDestroy()
     {
-        if (!Game.isClosing) {
+        if (!Game.isClosing && Game.Instance) {
             Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
         }
     }

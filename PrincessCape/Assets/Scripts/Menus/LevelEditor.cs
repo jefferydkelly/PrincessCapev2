@@ -210,14 +210,75 @@ public class LevelEditor : MonoBehaviour {
             ToggleConnection();
         }
 
-
         if (mode == MapEditMode.None)
         {
             Camera.main.transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * cameraSpeed * Time.deltaTime;
-        } else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+        } else if (IsShiftDown)
+        {
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            {
+                switch (mode)
+                {
+                    case MapEditMode.Translate:
+                        PrimaryMapTile.Translate(Vector3.left * Time.deltaTime);
+                        OnTileMoved.Invoke(PrimaryMapTile);
+                        break;
+                    case MapEditMode.Rotate:
+                        PrimaryMapTile.Rotate(90 * Time.deltaTime);
+                        break;
+                    case MapEditMode.Scale:
+                        //PrimaryMapTile.ScaleX(false);
+                        break;
+                }
+            }
+            else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+                switch (mode)
+                {
+                    case MapEditMode.Translate:
+                        PrimaryMapTile.Translate(Vector3.right * Time.deltaTime);
+                        OnTileMoved.Invoke(PrimaryMapTile);
+                        break;
+                    case MapEditMode.Rotate:
+                        PrimaryMapTile.Rotate(-90 * Time.deltaTime);
+                        break;
+                    case MapEditMode.Scale:
+                        //PrimaryMapTile.ScaleX(true);
+                        break;
+                }
+            }
+            else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            {
+                switch (mode)
+                {
+                    case MapEditMode.Translate:
+                        PrimaryMapTile.Translate(Vector3.up * Time.deltaTime);
+                        OnTileMoved.Invoke(PrimaryMapTile);
+                        break;
+                    case MapEditMode.Scale:
+                        //PrimaryMapTile.ScaleY(true);
+                        break;
+                }
+            }
+            else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                switch (mode)
+                {
+                    case MapEditMode.Translate:
+                        PrimaryMapTile.Translate(Vector3.down * Time.deltaTime);
+                        OnTileMoved.Invoke(PrimaryMapTile);
+                        break;
+                    case MapEditMode.Scale:
+                        //PrimaryMapTile.ScaleY(false);
+                        break;
+                }
+            }
+        }else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
             switch(mode) {
                 case MapEditMode.Translate:
+                    
                     PrimaryMapTile.Translate(Vector3.left);
+
                     OnTileMoved.Invoke(PrimaryMapTile);
                     break;
                 case MapEditMode.Rotate:
@@ -289,7 +350,7 @@ public class LevelEditor : MonoBehaviour {
                     SpawnAligned(Direction.Down);
                     break;
             }
-        } 
+        }
     }
 
     /// <summary>
