@@ -76,6 +76,47 @@ public class Ladder : ActivatedObject
 
         myCollider.offset = new Vector2(0, -(numLinks - 1) / 2.0f);
     }
+
+    public override void Scale(Vector3 vec)
+    {
+        base.Scale(vec.SetY(0));
+        Vector3 scale = LastChildTransform.localScale;
+        scale += vec.SetX(0);
+        if (vec.y > 0)
+        {
+            if (scale.y > 1)
+            {
+                LastChildTransform.localScale = LastChildTransform.localScale.SetY(1);
+                SpawnLadderSection();
+                float newY = scale.y - 1;
+                LastChildTransform.localScale = LastChildTransform.localScale.SetY(newY);
+                LastChildTransform.localPosition += Vector3.up * (1 - newY) / 2;
+            }
+            else
+            {
+                
+                LastChildTransform.localScale = scale;
+                LastChildTransform.localPosition -= vec.SetX(0) / 2;
+            }
+        }
+        else if (vec.y < 0)
+        {
+            if (scale.y < 0)
+            {
+                if (transform.childCount > 2)
+                {
+                    DestroyImmediate(LastChild, false);
+                    LastChildTransform.localScale = LastChildTransform.localScale - scale.SetX(0);
+                }
+            }
+            else
+            {
+                LastChildTransform.localScale = scale;
+                LastChildTransform.localPosition -= vec.SetX(0) / 2;
+            }
+        }
+
+    }
     /// <summary>
     /// Scales the Ladder vertically.
     /// </summary>
@@ -255,6 +296,31 @@ public class Ladder : ActivatedObject
             base.StartsActive = value;
             if (Game.Instance.IsInLevelEditor) {
                 activationCircle.color = startActive ? Color.green : Color.red;
+            }
+        }
+    }
+
+    Transform LastChildTransform {
+        get {
+            if (transform.childCount > 2) {
+                return transform.GetChild(transform.childCount - 1);
+            } else {
+                return transform;
+            }
+        }
+    }
+
+    GameObject LastChild
+    {
+        get
+        {
+            if (transform.childCount > 2)
+            {
+                return transform.GetChild(transform.childCount - 1).gameObject;
+            }
+            else
+            {
+                return gameObject;
             }
         }
     }

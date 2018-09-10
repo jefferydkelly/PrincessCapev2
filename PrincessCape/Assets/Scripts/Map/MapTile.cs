@@ -193,6 +193,20 @@ public class MapTile : MonoBehaviour {
 		//transform.Rotate(0, 0, ang);
 	}
 
+    public virtual void Scale(Vector3 vec) {
+        Vector3 newScale = transform.localScale + vec;
+        if (newScale.x < 0) {
+            vec = vec.SetX(0);
+        }
+
+        if (newScale.y < 0) {
+            vec = vec.SetY(0);
+        }
+
+        transform.localScale += vec;
+        transform.position += vec / 2.0f;
+    }
+
 	/// <summary>
 	/// Scales the tile horizontally
 	/// </summary>

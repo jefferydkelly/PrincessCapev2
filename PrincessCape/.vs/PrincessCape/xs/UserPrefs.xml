@@ -1,16 +1,14 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Menus/LevelEditor.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/Ladder.cs">
     <Files>
-      <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="60" Column="1" />
+      <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="115" Column="51" />
       <File FileName="Assets/Scripts/Enemy.cs" Line="23" Column="17" />
       <File FileName="Assets/Scripts/Managers/TimerManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/ActivatedObject.cs" Line="122" Column="42" />
       <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="280" Column="21" />
-      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="268" Column="3" />
-      <File FileName="Assets/Scripts/Tiles/AirColumn.cs" Line="12" Column="66" />
-      <File FileName="Assets/Scripts/Tiles/MagneticField.cs" Line="39" Column="1" />
+      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="230" Column="58" />
+      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="205" Column="9" />
       <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="91" Column="1" />
       <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="27" Column="82" />
       <File FileName="Assets/Scripts/Interactive Objects/HeldItem.cs" Line="34" Column="13" />
@@ -18,6 +16,7 @@
       <File FileName="Assets/Scripts/Tiles/MovingPlatform.cs" Line="59" Column="4" />
       <File FileName="Assets/Scripts/UI/RangeIndicator.cs" Line="22" Column="48" />
       <File FileName="Assets/Scripts/Tiles/BackAndForthPlatform.cs" Line="17" Column="12" />
+      <File FileName="Assets/Scripts/Tiles/Stairs.cs" Line="46" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

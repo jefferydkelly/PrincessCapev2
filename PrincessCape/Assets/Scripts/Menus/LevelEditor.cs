@@ -227,7 +227,7 @@ public class LevelEditor : MonoBehaviour {
                         PrimaryMapTile.Rotate(90 * Time.deltaTime);
                         break;
                     case MapEditMode.Scale:
-                        //PrimaryMapTile.ScaleX(false);
+                        PrimaryMapTile.Scale(Vector3.left * Time.deltaTime);
                         break;
                 }
             }
@@ -243,7 +243,7 @@ public class LevelEditor : MonoBehaviour {
                         PrimaryMapTile.Rotate(-90 * Time.deltaTime);
                         break;
                     case MapEditMode.Scale:
-                        //PrimaryMapTile.ScaleX(true);
+                        PrimaryMapTile.Scale(Vector3.right * Time.deltaTime);
                         break;
                 }
             }
@@ -256,7 +256,7 @@ public class LevelEditor : MonoBehaviour {
                         OnTileMoved.Invoke(PrimaryMapTile);
                         break;
                     case MapEditMode.Scale:
-                        //PrimaryMapTile.ScaleY(true);
+                        PrimaryMapTile.Scale(Vector3.up * Time.deltaTime);
                         break;
                 }
             }
@@ -269,7 +269,7 @@ public class LevelEditor : MonoBehaviour {
                         OnTileMoved.Invoke(PrimaryMapTile);
                         break;
                     case MapEditMode.Scale:
-                        //PrimaryMapTile.ScaleY(false);
+                        PrimaryMapTile.Scale(Vector3.down * Time.deltaTime);
                         break;
                 }
             }

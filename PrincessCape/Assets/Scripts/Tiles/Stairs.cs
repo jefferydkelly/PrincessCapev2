@@ -12,7 +12,59 @@ public class Stairs : MapTile {
         if (right) {
             SpawnChild();
         } else if (transform.childCount > 0) {
-            DestroyImmediate(transform.GetChild(transform.childCount - 1).gameObject, false);
+            DestroyImmediate(LastChild, false);
+        }
+    }
+
+    public override void Scale(Vector3 vec)
+    {
+        base.Scale(vec.SetX(0));
+        Vector3 scale = LastTransform.localScale;
+        scale += vec.SetY(0);
+        if (vec.x > 0) {
+            if (scale.x > 1) {
+                LastTransform.localScale = LastTransform.localScale.SetX(1);
+                SpawnChild();
+                float newX = scale.x - 1;
+                LastTransform.localScale = LastTransform.localScale.SetX(newX);
+                LastTransform.localPosition -= Vector3.right * (1 - newX) / 2;
+            } else {
+                LastTransform.localScale = scale;
+                LastTransform.localPosition += vec.SetY(0) / 2;
+            }
+        } else if (vec.x < 0){
+            if (scale.x < 0) {
+                if (transform.childCount > 0)
+                {
+                    DestroyImmediate(LastChild, false);
+                    LastTransform.localScale = LastTransform.localScale - scale.SetY(0);
+                }
+            } else {
+                LastTransform.localScale = scale;
+                LastTransform.localPosition += vec.SetY(0) / 2;
+            }
+        }
+    }
+
+    GameObject LastChild {
+        get {
+            if (transform.childCount > 0)
+            {
+                return transform.GetChild(transform.childCount - 1).gameObject;
+            } else {
+                return gameObject;
+            }
+        }
+    }
+
+    Transform LastTransform {
+        get {
+            if (transform.childCount > 0)
+            {
+                return transform.GetChild(transform.childCount - 1);
+            } else {
+                return transform;
+            }
         }
     }
 
