@@ -110,6 +110,9 @@ public class SegmentedTile : ActivatedObject
 
     }
 
+    /// <summary>
+    /// Flips the tile horizontally
+    /// </summary>
     public override void FlipX()
     {
         if (spawnDirection == Direction.Left) {
@@ -121,6 +124,9 @@ public class SegmentedTile : ActivatedObject
         }
     }
 
+    /// <summary>
+    /// Flips the tile veritcally
+    /// </summary>
     public override void FlipY()
     {
         if (spawnDirection == Direction.Up)
@@ -135,14 +141,20 @@ public class SegmentedTile : ActivatedObject
         }
     }
 
-    void UpdateSegments() {
+    /// <summary>
+    /// Updates the positions of all the segments of the tile
+    /// </summary>
+    protected virtual void UpdateSegments() {
         for (int i = 0; i < NumSegments; i++)
         {
             Transform child = transform.GetChild(i + segmentStart);
-            child.localPosition = SpawnDirection * i;
+            child.localPosition = SpawnDirection * (i + 1);
         }
     }
 
+    /// <summary>
+    /// Spawns a new segment of the tile
+    /// </summary>
     protected virtual void SpawnSegment()
     {
         GameObject child = Instantiate(segment);
@@ -161,6 +173,9 @@ public class SegmentedTile : ActivatedObject
         }
     }
 
+    /// <summary>
+    /// Reveals all segments of the tile.
+    /// </summary>
     protected virtual void RevealAllSegments() {
         gameObject.SetActive(true);
         for (int i = segmentStart; i < transform.childCount; i++)
@@ -169,12 +184,21 @@ public class SegmentedTile : ActivatedObject
         }
     }
 
+    /// <summary>
+    /// Gets the number of segments.
+    /// </summary>
+    /// <value>The number of segments.</value>
     protected int NumSegments {
         get {
             return transform.childCount - segmentStart;
         }
     }
-    Vector3 SpawnDirection {
+
+    /// <summary>
+    /// Gets the direction in which new elements are spawned.
+    /// </summary>
+    /// <value>The direction in which new elements are spawned.</value>
+    protected Vector3 SpawnDirection {
         get {
             switch(spawnDirection) {
                 case Direction.Up:

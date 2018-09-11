@@ -3,10 +3,9 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/SegmentedTile.cs">
     <Files>
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="46" Column="6" />
-      <File FileName="Assets/Scripts/Tiles/Stairs.cs" Line="45" Column="5" />
-      <File FileName="Assets/Scripts/Tiles/SegmentedTile.cs" Line="29" Column="73" />
+      <File FileName="Assets/Scripts/Tiles/Stairs.cs" Line="58" Column="86" />
+      <File FileName="Assets/Scripts/Tiles/SegmentedTile.cs" Line="243" Column="13" />
       <File FileName="Assets/Scripts/Tiles/Launcher.cs" Line="28" Column="9" />
-      <File FileName="Assets/Scripts/Tiles/MagnetTile.cs" Line="29" Column="56" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="431" Column="14" />
       <File FileName="Assets/Scripts/Tiles/Bridge.cs" Line="83" Column="55" />
     </Files>

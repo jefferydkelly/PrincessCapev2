@@ -49,4 +49,14 @@ public class Stairs : SegmentedTile {
         LastTransform.localScale = Vector3.one + scale ;
         LastTransform.position += scale / 2.0f;
     }
+
+    protected override void UpdateSegments()
+    {
+        for (int i = 0; i < NumSegments; i++)
+        {
+            Transform child = transform.GetChild(i + segmentStart);
+            child.localPosition = SpawnDirection * (i + 1) + Vector3.up * (i + 1) / 8.0f;
+        }
+
+    }
 }
