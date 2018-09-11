@@ -4,13 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class Ladder : ActivatedObject
+public class Ladder : SegmentedTile
 {
-    [SerializeField]
-    GameObject plainLadder;
     BoxCollider2D myCollider;
-    Timer revealTimer;
-    float revealTime = 0.25f;
     [SerializeField]
     SpriteRenderer activationCircle;
     public void Awake()
@@ -23,19 +19,16 @@ public class Ladder : ActivatedObject
     /// </summary>
     public override void Init() {
         base.Init();
-        int numLinks = transform.childCount - 2;
-        revealTimer = new Timer(revealTime, numLinks);
-		revealTimer.OnTick.AddListener(RevealLadderSection);
         activationCircle = GetComponentsInChildren<SpriteRenderer>()[1];
         myCollider = GetComponent<BoxCollider2D>();
-        myCollider.size = new Vector2(1, numLinks);
-
+        myCollider.size = new Vector2(1, NumSegments);
+        /*
 
         if (Application.isPlaying)
 		{
             if (Game.Instance.IsInLevelEditor)
             {
-                RevealEverything();
+                RevealAllSegments();
                 activationCircle.color = startActive ? Color.green : Color.red;
             }
             else
@@ -47,10 +40,10 @@ public class Ladder : ActivatedObject
                 }
                 else
                 {
-                    RevealEverything();
+                    RevealAllSegments();
                 }
             }
-		}
+		}*/
     }
 
     protected override void OnGameStateChanged(GameState state)
@@ -58,17 +51,10 @@ public class Ladder : ActivatedObject
         activationCircle.gameObject.SetActive(state != GameState.Playing);
     }
 
-    /// <summary>
-    /// Reveals every component of the ladder at once.
-    /// </summary>
-    void RevealEverything() {
-        gameObject.SetActive(true);
-		for (int i = 1; i < transform.childCount; i++)
-		{
-			transform.GetChild(i).gameObject.SetActive(true);
-		}
-
-        AdjustSize(transform.childCount - 1);
+    protected override void RevealAllSegments()
+    {
+        base.RevealAllSegments();
+        AdjustSize(NumSegments);
     }
 
     void AdjustSize(int numLinks) {
@@ -80,23 +66,23 @@ public class Ladder : ActivatedObject
     public override void Scale(Vector3 vec)
     {
         base.Scale(vec.SetY(0));
-        Vector3 scale = LastChildTransform.localScale;
+        Vector3 scale = LastTransform.localScale;
         scale += vec.SetX(0);
         if (vec.y > 0)
         {
             if (scale.y > 1)
             {
-                LastChildTransform.localScale = LastChildTransform.localScale.SetY(1);
-                SpawnLadderSection();
+                LastTransform.localScale = LastTransform.localScale.SetY(1);
+                SpawnSegment();
                 float newY = scale.y - 1;
-                LastChildTransform.localScale = LastChildTransform.localScale.SetY(newY);
-                LastChildTransform.localPosition += Vector3.up * (1 - newY) / 2;
+                LastTransform.localScale = LastTransform.localScale.SetY(newY);
+                LastTransform.localPosition += Vector3.up * (1 - newY) / 2;
             }
             else
             {
                 
-                LastChildTransform.localScale = scale;
-                LastChildTransform.localPosition -= vec.SetX(0) / 2;
+                LastTransform.localScale = scale;
+                LastTransform.localPosition -= vec.SetX(0) / 2;
             }
         }
         else if (vec.y < 0)
@@ -106,13 +92,13 @@ public class Ladder : ActivatedObject
                 if (transform.childCount > 2)
                 {
                     DestroyImmediate(LastChild, false);
-                    LastChildTransform.localScale = LastChildTransform.localScale - scale.SetX(0);
+                    LastTransform.localScale = LastTransform.localScale - scale.SetX(0);
                 }
             }
             else
             {
-                LastChildTransform.localScale = scale;
-                LastChildTransform.localPosition -= vec.SetX(0) / 2;
+                LastTransform.localScale = scale;
+                LastTransform.localPosition -= vec.SetX(0) / 2;
             }
         }
 
@@ -127,51 +113,18 @@ public class Ladder : ActivatedObject
         {
 
             transform.position += Vector3.up;
-            SpawnLadderSection();
+            SpawnSegment();
         }
-        else if (transform.childCount > 2)
+        else if (transform.childCount > segmentStart)
         {
-            DestroyImmediate(transform.GetChild(transform.childCount - 1).gameObject);
+            DestroyImmediate(LastChild, false);
             transform.position += Vector3.down;
 
         }
 
-        AdjustSize(transform.childCount - 1);
+        AdjustSize(NumSegments);
 
 
-    }
-
-    /// <summary>
-    /// Gets or sets the state of the highlight.
-    /// </summary>
-    /// <value>The state of the highlight.</value>
-    public override MapHighlightState HighlightState
-    {
-        get
-        {
-            return base.HighlightState;
-        }
-        set
-        {
-            Color nextColor = Color.white;
-            if (value == MapHighlightState.Primary)
-            {
-                nextColor = Color.blue;
-            }
-            else if (value == MapHighlightState.Secondary)
-            {
-                nextColor = Color.red;
-			} else if (value == MapHighlightState.Backup) {
-				nextColor = Color.cyan;
-			}
-
-            foreach (SpriteRenderer spr in GetComponentsInChildren<SpriteRenderer>())
-            {
-                if (spr != activationCircle) {
-                    spr.color = nextColor;
-                }
-            }
-        }
     }
 
     /// <summary>
@@ -194,60 +147,15 @@ public class Ladder : ActivatedObject
 	{
 		get
 		{
-            return new Vector2(1, transform.childCount - 1);
+            return new Vector2(1, NumSegments);
 		}
 	}
 
-    /// <summary>
-    /// Generates the save data for the ladder.
-    /// </summary>
-    /// <returns>The save data.</returns>
-	protected override string GenerateSaveData()
-    {
-        string data = base.GenerateSaveData();
-        data += PCLParser.CreateAttribute("Lines", transform.childCount - 1);
-        return data;
-    }
-
-    /// <summary>
-    /// Creates a ladder from the data given.
-    /// </summary>
-    /// <param name="tile">A struct containing the information for the ladder.</param>
     public override void FromData(TileStruct tile)
     {
-        initialized = false;
         base.FromData(tile);
-       
-        int numLinks = PCLParser.ParseInt(tile.NextLine);
-        for (int i = 0; i < numLinks; i++)
-        {
-            SpawnLadderSection();
-        }
-
-        if (!startActive && Application.isPlaying) {
-            Deactivate();
-        }
-
-		myCollider = GetComponent<BoxCollider2D>();
-        AdjustSize(transform.childCount - 1);
-        revealTimer = new Timer(revealTime, numLinks);
-		revealTimer.OnTick.AddListener(RevealLadderSection);
-        initialized = true;
-		
-    }
-
-    /// <summary>
-    /// Starts the reveal of the ladder sections
-    /// </summary>
-    public override void Activate()
-    {
-        if (initialized)
-        {
-            gameObject.SetActive(true);
-            revealTimer.Start();
-        } else {
-            RevealEverything();
-        }
+        myCollider = GetComponent<BoxCollider2D>();
+        AdjustSize(NumSegments);
     }
 
     /// <summary>
@@ -255,39 +163,9 @@ public class Ladder : ActivatedObject
     /// </summary>
     public override void Deactivate()
     {
-        gameObject.SetActive(false);
-        revealTimer.Stop();
-
-		for (int i = 1; i < transform.childCount; i++)
-		{
-			transform.GetChild(i).gameObject.SetActive(false);
-		}
+        base.Deactivate();
         AdjustSize(1);
     }
-
-    /// <summary>
-    /// Spawns a new section of the ladder.
-    /// </summary>
-	void SpawnLadderSection()
-	{
-        GameObject tile = Instantiate(plainLadder);
-		tile.transform.SetParent(transform);
-        tile.transform.localPosition = (transform.childCount - 2) * Vector3.down;
-        tile.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
-        AdjustSize(transform.childCount - 1);
-	}
-
-    /// <summary>
-    /// Reveals a section of the ladder.
-    /// </summary>
-	void RevealLadderSection()
-	{
-        if (revealTimer.IsRunning)
-        {
-            transform.GetChild(revealTimer.TicksCompleted).gameObject.SetActive(true);
-            AdjustSize(revealTimer.TicksCompleted);
-        }
-	}
 
     public override bool StartsActive
     {
@@ -300,28 +178,19 @@ public class Ladder : ActivatedObject
         }
     }
 
-    Transform LastChildTransform {
-        get {
-            if (transform.childCount > 2) {
-                return transform.GetChild(transform.childCount - 1);
-            } else {
-                return transform;
-            }
-        }
-    }
-
-    GameObject LastChild
+    public override MapHighlightState HighlightState
     {
         get
         {
-            if (transform.childCount > 2)
-            {
-                return transform.GetChild(transform.childCount - 1).gameObject;
-            }
-            else
-            {
-                return gameObject;
-            }
+            return base.HighlightState;
+        }
+
+        set
+        {
+            Color oldColor = activationCircle.color;
+            base.HighlightState = value;
+            activationCircle.color = oldColor;
+
         }
     }
 }

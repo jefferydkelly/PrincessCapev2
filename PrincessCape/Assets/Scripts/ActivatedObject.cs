@@ -32,7 +32,6 @@ public abstract class ActivatedObject : MapTile
         {
             Activate();
 			isActivated = true;
-            //EventManager.StartListening("LevelLoaded", Activate);
         }
 	}
 	/// <summary>

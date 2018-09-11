@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SegmentedTile : MapTile
+public class SegmentedTile : ActivatedObject
 {
     [SerializeField]
     GameObject segment;
@@ -10,6 +10,42 @@ public class SegmentedTile : MapTile
     Direction spawnDirection = Direction.Right;
     [SerializeField]
     protected int segmentStart = 0;
+
+    protected Timer revealTimer;
+    protected float revealTime = 0.25f;
+
+    public override void Init()
+    {
+        initialized = false;
+        revealTimer = new Timer(revealTime, NumSegments);
+        revealTimer.OnTick.AddListener(RevealSegment);
+
+        base.Init();
+        initialized = true;
+    }
+
+    public override void Activate()
+    {
+        if (Game.Instance.IsPlaying && !(startActive && !initialized)) {
+            gameObject.SetActive(true);
+            revealTimer.Start();
+        }
+        else
+        {
+            RevealAllSegments();
+        }
+    }
+
+    public override void Deactivate()
+    {
+        gameObject.SetActive(false);
+        revealTimer.Stop();
+
+        for (int i = segmentStart; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
 
     protected GameObject LastChild
     {
@@ -48,15 +84,30 @@ public class SegmentedTile : MapTile
         return info;
     }
 
+    /// <summary>
+    /// Creates a ladder from the data given.
+    /// </summary>
+    /// <param name="tile">A struct containing the information for the ladder.</param>
     public override void FromData(TileStruct tile)
     {
+        initialized = false;
         base.FromData(tile);
-        int numChildren = PCLParser.ParseInt(tile.NextLine);
 
-        for (int i = 0; i < numChildren; i++)
+        int numLinks = PCLParser.ParseInt(tile.NextLine);
+        for (int i = 0; i < numLinks; i++)
         {
             SpawnSegment();
         }
+
+        if (!startActive && Application.isPlaying)
+        {
+            Deactivate();
+        }
+
+        revealTimer = new Timer(revealTime, numLinks);
+        revealTimer.OnTick.AddListener(RevealSegment);
+        initialized = true;
+
     }
 
     public override void FlipX()
@@ -85,7 +136,7 @@ public class SegmentedTile : MapTile
     }
 
     void UpdateSegments() {
-        for (int i = 0; i < transform.childCount - segmentStart; i++)
+        for (int i = 0; i < NumSegments; i++)
         {
             Transform child = transform.GetChild(i + segmentStart);
             child.localPosition = SpawnDirection * i;
@@ -97,6 +148,25 @@ public class SegmentedTile : MapTile
         GameObject child = Instantiate(segment);
         child.transform.SetParent(transform);
         child.transform.localPosition = SpawnDirection * ((transform.childCount - segmentStart));
+    }
+
+    /// <summary>
+    /// Reveals a segment of the tile
+    /// </summary>
+    protected virtual void RevealSegment()
+    {
+        if (revealTimer.IsRunning)
+        {
+            transform.GetChild(revealTimer.TicksCompleted + segmentStart).gameObject.SetActive(true);
+        }
+    }
+
+    protected virtual void RevealAllSegments() {
+        gameObject.SetActive(true);
+        for (int i = segmentStart; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(true);
+        }
     }
 
     protected int NumSegments {
@@ -117,6 +187,39 @@ public class SegmentedTile : MapTile
                     return Vector3.left;
                 default:
                     return Vector3.zero;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the state of the highlight.
+    /// </summary>
+    /// <value>The state of the highlight.</value>
+    public override MapHighlightState HighlightState
+    {
+        get
+        {
+            return base.HighlightState;
+        }
+        set
+        {
+            Color nextColor = Color.white;
+            if (value == MapHighlightState.Primary)
+            {
+                nextColor = Color.blue;
+            }
+            else if (value == MapHighlightState.Secondary)
+            {
+                nextColor = Color.red;
+            }
+            else if (value == MapHighlightState.Backup)
+            {
+                nextColor = Color.cyan;
+            }
+
+            foreach (SpriteRenderer spr in GetComponentsInChildren<SpriteRenderer>())
+            {
+                spr.color = nextColor;
             }
         }
     }

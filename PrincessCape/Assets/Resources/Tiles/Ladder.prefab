@@ -175,9 +175,9 @@ MonoBehaviour:
   startActive: 0
   isConnected: 0
   requiredActivators: 1
-  plainLadder: {fileID: 1008565809480018, guid: 49848d28462904f02a3570d0038209af,
-    type: 2}
-  myCollider: {fileID: 61349789399222602}
+  segment: {fileID: 1008565809480018, guid: 49848d28462904f02a3570d0038209af, type: 2}
+  spawnDirection: 1
+  segmentStart: 2
   activationCircle: {fileID: 212348882515639688}
 --- !u!212 &212348882515639688
 SpriteRenderer:

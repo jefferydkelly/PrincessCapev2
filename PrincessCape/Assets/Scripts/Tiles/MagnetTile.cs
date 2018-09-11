@@ -24,9 +24,9 @@ public class MagnetTile : ActivatedObject {
     public override void Init() {
         if (Application.isPlaying)
         {
+            base.Init();
             myAnimator = GetComponent<Animator>();
             magField.gameObject.SetActive(startActive);
-            initialized = true;
         }
         
     }

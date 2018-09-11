@@ -13,6 +13,7 @@ public class Wall : MapTile {
     {
         base.Init();
         myCollider = GetComponent<BoxCollider2D>();
+        initialized = true;
     }
 
     public override void ScaleX(bool right)

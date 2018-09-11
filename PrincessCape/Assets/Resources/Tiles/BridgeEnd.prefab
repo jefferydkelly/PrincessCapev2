@@ -84,8 +84,9 @@ MonoBehaviour:
   startActive: 0
   isConnected: 0
   requiredActivators: 1
-  bridgeTile: {fileID: 1314638526992526, guid: 81a76a3e80a44475cb54a1a018e65fb2, type: 2}
-  dir: {x: 1, y: 0, z: 0}
+  segment: {fileID: 1314638526992526, guid: 81a76a3e80a44475cb54a1a018e65fb2, type: 2}
+  spawnDirection: 3
+  segmentStart: 0
 --- !u!212 &212030564812660190
 SpriteRenderer:
   m_ObjectHideFlags: 1

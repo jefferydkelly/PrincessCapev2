@@ -3,51 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bridge : ActivatedObject
+public class Bridge : SegmentedTile
 {
-    [SerializeField]
-    GameObject bridgeTile;
-    [SerializeField]
-    Vector3 dir = Vector3.right;
-    Timer revealTimer;
-    float revealTime = 0.1f;
-
     private void Start()
     {
         Init();
     }
 
-    public override void Init()
-    {
-        if (Application.isPlaying)
-        {
-            revealTimer = new Timer(revealTime, transform.childCount - 1);
-            revealTimer.OnTick.AddListener(RevealTile);
-        }
-		if (!startActive)
-		{
-			Deactivate();
-		}
-
-	}
-    public override void Activate()
-    {
-		revealTimer.Start();
-		isActivated = true;
-    }
-
-    void RevealTile()
-    {
-        transform.GetChild(revealTimer.TicksCompleted).gameObject.SetActive(true);
-
-    }
-
     public override void Deactivate()
     {
-		if (Application.isPlaying)
-		{
-			revealTimer.Stop();
-		}
+        base.Deactivate();
 		for (int i = 0; i < transform.childCount; i++)
 		{
 			transform.GetChild(i).gameObject.SetActive(false);
@@ -65,35 +30,56 @@ public class Bridge : ActivatedObject
     {
         if (right)
         {
-            SpawnChild();
+            SpawnSegment();
         }
         else if (transform.childCount > 0)
         {
-            DestroyImmediate(transform.GetChild(transform.childCount - 1).gameObject);
+            DestroyImmediate(LastChild);
         }
     }
 
-    void SpawnChild() {
-		GameObject tile = Instantiate(bridgeTile);
-		tile.transform.SetParent(transform);
-        tile.transform.localPosition = dir * transform.childCount + Vector3.down * 0.5f;
-    }
-
-    protected override string GenerateSaveData()
+    public override void Scale(Vector3 vec)
     {
-        string data = base.GenerateSaveData();
-        data += PCLParser.CreateAttribute("Children", transform.childCount);
-        return data;
+        base.Scale(vec.SetX(0));
+        Vector3 scale = LastTransform.localScale;
+        scale += vec.SetY(0);
+        if (vec.x > 0)
+        {
+            if (scale.x > 1)
+            {
+                LastTransform.localScale = LastTransform.localScale.SetX(1);
+                SpawnSegment();
+                float newX = scale.x - 1;
+                LastTransform.localScale = LastTransform.localScale.SetX(newX);
+                LastTransform.localPosition -= Vector3.right * (1 - newX) / 2;
+            }
+            else
+            {
+                LastTransform.localScale = scale;
+                LastTransform.localPosition += vec.SetY(0) / 2;
+            }
+        }
+        else if (vec.x < 0)
+        {
+            if (scale.x < 0)
+            {
+                if (transform.childCount > 0)
+                {
+                    DestroyImmediate(LastChild, false);
+                    LastTransform.localScale = LastTransform.localScale - scale.SetY(0);
+                }
+            }
+            else
+            {
+                LastTransform.localScale = scale;
+                LastTransform.localPosition += vec.SetY(0) / 2;
+            }
+        }
     }
 
-	public override void FromData(TileStruct tile)
-	{
-		base.FromData(tile);
-        int numChildren = PCLParser.ParseInt(tile.NextLine);
-
-		for (int i = 0; i < numChildren; i++)
-		{
-			SpawnChild();
-		}
-	}
+    protected override void SpawnSegment()
+    {
+        base.SpawnSegment();
+        LastTransform.position += Vector3.down / 2.0f;
+    }
 }

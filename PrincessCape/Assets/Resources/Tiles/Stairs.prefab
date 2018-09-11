@@ -86,6 +86,9 @@ MonoBehaviour:
     width: 128
     height: 128
   instanceName: 
+  startActive: 1
+  isConnected: 0
+  requiredActivators: 1
   segment: {fileID: 1801493813374524, guid: a188349f49b43494f952d677d8c479d7, type: 2}
   spawnDirection: 3
   segmentStart: 0
