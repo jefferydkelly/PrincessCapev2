@@ -19,7 +19,8 @@ public class Ladder : SegmentedTile
     /// </summary>
     public override void Init() {
         base.Init();
-        activationCircle = GetComponentsInChildren<SpriteRenderer>()[1];
+
+        activationCircle = GetComponentsInChildren<SpriteRenderer>()[0];
         myCollider = GetComponent<BoxCollider2D>();
         myCollider.size = new Vector2(1, NumSegments + 1);
     }
@@ -166,9 +167,11 @@ public class Ladder : SegmentedTile
 
         set
         {
-            Color oldColor = activationCircle.color;
             base.HighlightState = value;
-            activationCircle.color = oldColor;
+            if ((activationCircle != null))
+            {
+                activationCircle.color = startActive ? Color.green : Color.red;
+            }
 
         }
     }

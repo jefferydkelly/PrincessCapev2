@@ -166,7 +166,7 @@ public class SegmentedTile : ActivatedObject
         child.transform.SetParent(transform);
         child.transform.localPosition = SpawnDirection * ((transform.childCount - segmentStart));
         SpriteRenderer spr = child.GetComponent<SpriteRenderer>();
-       
+
         if (HighlightState == MapHighlightState.Primary)
         {
             spr.color = Color.blue;
@@ -239,6 +239,7 @@ public class SegmentedTile : ActivatedObject
         }
         set
         {
+            highlightState = value;
             Color nextColor = Color.white;
             if (value == MapHighlightState.Primary)
             {
