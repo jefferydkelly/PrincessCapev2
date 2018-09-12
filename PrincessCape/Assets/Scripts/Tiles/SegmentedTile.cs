@@ -81,6 +81,7 @@ public class SegmentedTile : ActivatedObject
     {
         string info = base.GenerateSaveData();
         info += PCLParser.CreateAttribute("Segments", transform.childCount - segmentStart);
+        info += PCLParser.CreateAttribute("Final Segment Scale", LastTransform.localScale);
         return info;
     }
 
@@ -97,6 +98,10 @@ public class SegmentedTile : ActivatedObject
         for (int i = 0; i < numLinks; i++)
         {
             SpawnSegment();
+        }
+
+        if (!tile.FullyRead) {
+            LastTransform.localScale = PCLParser.ParseVector3(tile.NextLine);
         }
 
         if (!startActive && Application.isPlaying)
@@ -160,6 +165,13 @@ public class SegmentedTile : ActivatedObject
         GameObject child = Instantiate(segment);
         child.transform.SetParent(transform);
         child.transform.localPosition = SpawnDirection * ((transform.childCount - segmentStart));
+        SpriteRenderer spr = child.GetComponent<SpriteRenderer>();
+       
+        if (HighlightState == MapHighlightState.Primary)
+        {
+            spr.color = Color.blue;
+        }
+
     }
 
     /// <summary>

@@ -21,29 +21,7 @@ public class Ladder : SegmentedTile
         base.Init();
         activationCircle = GetComponentsInChildren<SpriteRenderer>()[1];
         myCollider = GetComponent<BoxCollider2D>();
-        myCollider.size = new Vector2(1, NumSegments);
-        /*
-
-        if (Application.isPlaying)
-		{
-            if (Game.Instance.IsInLevelEditor)
-            {
-                RevealAllSegments();
-                activationCircle.color = startActive ? Color.green : Color.red;
-            }
-            else
-            {
-                if (!startActive)
-                {
-                    gameObject.SetActive(false);
-                    Deactivate();
-                }
-                else
-                {
-                    RevealAllSegments();
-                }
-            }
-		}*/
+        myCollider.size = new Vector2(1, NumSegments + 1);
     }
 
     protected override void OnGameStateChanged(GameState state)
@@ -54,7 +32,7 @@ public class Ladder : SegmentedTile
     protected override void RevealAllSegments()
     {
         base.RevealAllSegments();
-        AdjustSize(NumSegments);
+        AdjustSize(NumSegments + 1);
     }
 
     void AdjustSize(int numLinks) {
@@ -93,6 +71,7 @@ public class Ladder : SegmentedTile
                 {
                     DestroyImmediate(LastChild, false);
                     LastTransform.localScale = LastTransform.localScale - scale.SetX(0);
+                    AdjustSize(NumSegments + 1);
                 }
             }
             else
@@ -122,7 +101,7 @@ public class Ladder : SegmentedTile
 
         }
 
-        AdjustSize(NumSegments);
+        AdjustSize(NumSegments + 1);
 
 
     }
@@ -147,7 +126,7 @@ public class Ladder : SegmentedTile
 	{
 		get
 		{
-            return new Vector2(1, NumSegments);
+            return new Vector2(1, NumSegments + 1);
 		}
 	}
 
