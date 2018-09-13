@@ -20,7 +20,6 @@ public class Ladder : SegmentedTile
     public override void Init() {
         base.Init();
 
-        activationCircle = GetComponentsInChildren<SpriteRenderer>()[0];
         myCollider = GetComponent<BoxCollider2D>();
         myCollider.size = new Vector2(1, NumSegments + 1);
     }

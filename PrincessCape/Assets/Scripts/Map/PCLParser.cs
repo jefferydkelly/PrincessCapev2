@@ -236,7 +236,7 @@ public class PCLParser {
             if (s.Contains("\"Prefab\": "))
 			{
 				ts.tileName = ParseLine(s);
-			} else if (s.Contains("\"Name\": ")) {
+			} else if (s.Contains("\"Instance Name\": ")) {
                 ts.instanceName = ParseLine(s);
 			} else if (s.Contains("\"ID\":")) {
                 ts.id = ParseInt(s);

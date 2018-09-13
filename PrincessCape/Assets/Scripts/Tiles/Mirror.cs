@@ -33,6 +33,7 @@ public class Mirror : MapTile
     {
         string info = "";
         info += PCLParser.CreateAttribute("Name", name.Split('(')[0]);
+        info += PCLParser.CreateAttribute("Instance Name", instanceName);
         info += PCLParser.CreateAttribute("ID", ID);
         info += PCLParser.CreateAttribute("Position", transform.position);
         float ang = 0;

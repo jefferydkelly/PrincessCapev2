@@ -491,7 +491,7 @@ public class LevelEditor : MonoBehaviour {
     public void LoadLevel(string file) {
         ClearSelectedTiles();
         Map.Instance.Load(file);
-        AddConnectionLines();
+        //AddConnectionLines();
         ShowLevelBrowser = false;
         mode = MapEditMode.None;
 
