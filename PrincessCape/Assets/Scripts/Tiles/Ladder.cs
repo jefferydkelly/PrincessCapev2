@@ -21,6 +21,17 @@ public class Ladder : SegmentedTile
         base.Init();
         myCollider = GetComponent<BoxCollider2D>();
         myCollider.size = new Vector2(1, NumSegments + 1);
+
+        if (Application.isPlaying) {
+            if (activationCircle)
+            {
+                activationCircle.gameObject.SetActive(Game.Instance.IsInLevelEditor);
+            }
+            if (!Game.Instance.IsInLevelEditor)
+            {
+                Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            }
+        }
     }
 
     /// <summary>

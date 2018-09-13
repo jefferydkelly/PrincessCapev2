@@ -16,6 +16,9 @@ public class Launcher : ActivatedObject
 		Init();
     }
 
+    /// <summary>
+    /// Initializes this instance.
+    /// </summary>
     public override void Init() {
 		         
 	    myAnimator = GetComponent<Animator>();
@@ -27,12 +30,19 @@ public class Launcher : ActivatedObject
 		base.Init();  
         initialized = true;
     }
+
+    /// <summary>
+    /// Launches a projectile
+    /// </summary>
     void Launch() {
         Projectile proj = Instantiate(projectile.gameObject).GetComponent<Projectile>();
         proj.transform.position = transform.position + transform.right;
         proj.Fwd = transform.right;
     }
 
+    /// <summary>
+    /// Activate this instance.
+    /// </summary>
     public override void Activate()
     {
         if (!Game.Instance.IsInLevelEditor || Game.Instance.IsPlaying)
@@ -42,6 +52,9 @@ public class Launcher : ActivatedObject
         myAnimator.SetBool("IsActivated", true);
     }
 
+    /// <summary>
+    /// Deactivate this instance.
+    /// </summary>
     public override void Deactivate()
     {
         launchTimer.Stop();
