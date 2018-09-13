@@ -6,6 +6,10 @@ public class Mirror : MapTile
 {
     [SerializeField]
     GameObject reflectSurface;
+    /// <summary>
+    /// Rotates the mirror surface by the given angle
+    /// </summary>
+    /// <param name="ang">Ang.</param>
     public override void Rotate(float ang)
     {
         if (Mathf.Abs(reflectSurface.transform.rotation.z + ang) >= 90)
@@ -14,6 +18,11 @@ public class Mirror : MapTile
         }
     }
 
+    /// <summary>
+    /// Whether or not the position overlaps 
+    /// </summary>
+    /// <returns>The overlaps.</returns>
+    /// <param name="pos">Position.</param>
     public override bool Overlaps(Vector3 pos)
     {
         Vector3 dif = pos - transform.position;
@@ -21,6 +30,10 @@ public class Mirror : MapTile
         return dif.x.BetweenEx(-bounds.x, bounds.x) && dif.y.BetweenEx(-bounds.y, bounds.y);
     }
 
+    /// <summary>
+    /// Gets the bounds of the Mirror.
+    /// </summary>
+    /// <value>The bounds.</value>
     public override Vector2 Bounds
     {
         get
@@ -29,6 +42,10 @@ public class Mirror : MapTile
         }
     }
 
+    /// <summary>
+    /// Generates a string of save data for the mirror
+    /// </summary>
+    /// <returns>The save data.</returns>
     protected override string GenerateSaveData()
     {
         string info = "";
@@ -45,6 +62,10 @@ public class Mirror : MapTile
         return info;
     }
 
+    /// <summary>
+    /// Sets the variables of a Mirror from the data in the tile given
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public override void FromData(TileStruct tile)
     {
         ID = tile.id;

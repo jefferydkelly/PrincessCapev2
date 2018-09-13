@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class Elevator : MovingPlatform
 {
-	bool up = true;
 	Vector3 startLocation;
 	int ticksPerSec = 60;
     int fwd = 1;
+
+    /// <summary>
+    /// Initializes the variables of the elevator.
+    /// </summary>
 	public override void Init()
 	{
 		base.Init();

@@ -19,28 +19,45 @@ public class Ladder : SegmentedTile
     /// </summary>
     public override void Init() {
         base.Init();
-
         myCollider = GetComponent<BoxCollider2D>();
         myCollider.size = new Vector2(1, NumSegments + 1);
     }
 
+    /// <summary>
+    /// Handles the state change of the game
+    /// </summary>
+    /// <param name="state">State.</param>
     protected override void OnGameStateChanged(GameState state)
     {
         activationCircle.gameObject.SetActive(state != GameState.Playing);
     }
 
+    /// <summary>
+    /// Reveals all segments.
+    /// </summary>
     protected override void RevealAllSegments()
     {
         base.RevealAllSegments();
         AdjustSize(NumSegments + 1);
     }
 
+    /// <summary>
+    /// Adjusts the size of the collider.
+    /// </summary>
+    /// <param name="numLinks">Number links.</param>
     void AdjustSize(int numLinks) {
-        myCollider.size = myCollider.size.SetY(numLinks);
+        if (myCollider)
+        {
+            myCollider.size = myCollider.size.SetY(numLinks);
 
-        myCollider.offset = new Vector2(0, -(numLinks - 1) / 2.0f);
+            myCollider.offset = new Vector2(0, -(numLinks - 1) / 2.0f);
+        }
     }
 
+    /// <summary>
+    /// Scale the specified ladder by the given vector.
+    /// </summary>
+    /// <param name="vec">Vec.</param>
     public override void Scale(Vector3 vec)
     {
         base.Scale(vec.SetY(0));
@@ -130,6 +147,10 @@ public class Ladder : SegmentedTile
 		}
 	}
 
+    /// <summary>
+    /// Sets the variables of the Ladder using the information in the Tile Struct
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);
@@ -146,6 +167,10 @@ public class Ladder : SegmentedTile
         AdjustSize(1);
     }
 
+    /// <summary>
+    /// Sets a value indicating whether this <see cref="T:Ladder"/> starts active and fully revealed.
+    /// </summary>
+    /// <value><c>true</c> if starts active; otherwise, <c>false</c>.</value>
     public override bool StartsActive
     {
         set
@@ -157,6 +182,10 @@ public class Ladder : SegmentedTile
         }
     }
 
+    /// <summary>
+    /// Gets or sets the state of the highlight.
+    /// </summary>
+    /// <value>The state of the highlight.</value>
     public override MapHighlightState HighlightState
     {
         get

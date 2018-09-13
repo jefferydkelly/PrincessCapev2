@@ -420,6 +420,10 @@ public class Game : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this <see cref="T:Game"/> is in inventory.
+    /// </summary>
+    /// <value><c>true</c> if is in inventory; otherwise, <c>false</c>.</value>
     public bool IsInInventory {
         get {
             return gameState == GameState.Inventory;

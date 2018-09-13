@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class RangeIndicator : MonoBehaviour {
 
-    bool isSelected = false;
     MovingPlatform platform;
 	// Use this for initialization
 	void Awake () {
         platform = GetComponentInParent<MovingPlatform>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
+    /// <summary>
+    /// Change the direction of the moving platform when the indicator is dragged around.
+    /// </summary>
     private void OnMouseDrag()
     {
         transform.position = Controller.Instance.MousePosition;
