@@ -38,11 +38,18 @@ public class HeldItem : InteractiveObject
         }
 	}
 
+    /// <summary>
+    /// Reset this instance to its start position
+    /// </summary>
 	private void Reset()
 	{
 		gameObject.SetActive(true);
 		transform.position = startPosition;
 	}
+
+    /// <summary>
+    /// Drops the held object
+    /// </summary>
 	public void Drop()
     {
         Game.Instance.Player.HeldItem = null;
@@ -60,10 +67,16 @@ public class HeldItem : InteractiveObject
 
     }
 
+    /// <summary>
+    /// Throw the held item according to the player's forward.
+    /// </summary>
     public void Throw() {
         myRigidbody.AddForce(Game.Instance.Player.Forward * 6.25f, ForceMode2D.Impulse);
     }
 
+    /// <summary>
+    /// Picks up the HeldObject
+    /// </summary>
     public override void Interact()
     {
         if (!isHeld)
@@ -77,6 +90,9 @@ public class HeldItem : InteractiveObject
         }   
     }
 
+    /// <summary>
+    /// Update the Interaction Text.
+    /// </summary>
     public void Update()
     {
         if (isHeld)
@@ -102,28 +118,27 @@ public class HeldItem : InteractiveObject
         }
     }
 
+    /// <summary>
+    /// Gets half the height of the Held Item.
+    /// </summary>
+    /// <value>The height of the half.</value>
     public float HalfHeight {
         get {
             return myRenderer.bounds.extents.y;
         }
     }
 
-    public Vector3 Move(Vector3 direction) {
-        direction *= Time.deltaTime;
-        Vector2 dNormal = direction.normalized;
-        float mag = direction.magnitude;
-        foreach (RaycastHit2D hit in Physics2D.BoxCastAll(transform.position, myCollider.bounds.size, 0, dNormal, mag, hitMasks)) {
-            if (hit.collider != myCollider) {
-                
-                if (hit.distance > mag)
-                {
-                    direction = hit.point - (Vector2)transform.position;
-                    mag = direction.magnitude;
-                }
-            }
+    /// <summary>
+    /// Gets or sets the velocity.
+    /// </summary>
+    /// <value>The velocity.</value>
+    public Vector3 Velocity {
+        get {
+            return myRigidbody.velocity;
         }
-    
-        transform.position += direction;
-        return direction;
+
+        set {
+            myRigidbody.velocity = value;
+        }
     }
 }
