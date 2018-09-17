@@ -16,7 +16,7 @@ public class Fan : ActivatedObject
     {
         isActivated = true;
         air.gameObject.SetActive(true);
-        myAnimator.SetBool("isActivated", true);
+        myAnimator.SetBool("IsActivated", true);
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class Fan : ActivatedObject
     {
         isActivated = false;
         air.gameObject.SetActive(false);
-        myAnimator.SetBool("isActivated", false);
+        myAnimator.SetBool("IsActivated", false);
     }
 
     // Use this for initialization

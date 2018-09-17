@@ -18,6 +18,10 @@ public class LightEmitter : ActivatedObject
     {
         Init();
     }
+
+    /// <summary>
+    /// Initializes the Light Emitter.
+    /// </summary>
     public override void Init()
     {
         myAnimator = GetComponent<Animator>();
@@ -29,15 +33,22 @@ public class LightEmitter : ActivatedObject
         }
 
     }
+
+    /// <summary>
+    /// Activate this light field.
+    /// </summary>
     public override void Activate()
     {
-        myAnimator.SetBool("IsActive", true);
+        myAnimator.SetBool("IsActivated", true);
         emission.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Deactivate the light field.
+    /// </summary>
     public override void Deactivate()
     {
-        myAnimator.SetBool("IsActive", false);
+        myAnimator.SetBool("IsActivated", false);
         emission.gameObject.SetActive(false);
     }
 }

@@ -92,4 +92,10 @@ public class LightField : MonoBehaviour {
         }
         return -1;
     }
+
+    public UnityEvent OnFade {
+        get {
+            return onFade;
+        }
+    }
 }

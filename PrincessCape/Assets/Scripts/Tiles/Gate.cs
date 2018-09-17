@@ -11,7 +11,7 @@ public class Gate : ActivatedObject {
     public override void Activate()
     {
         IsActivated = true;
-        myAnimator.SetBool("isOpen", true);
+        myAnimator.SetBool("IsActivated", true);
     }
 
     /// <summary>
@@ -20,7 +20,7 @@ public class Gate : ActivatedObject {
     public override void Deactivate()
     {
         IsActivated = false;
-        myAnimator.SetBool("isOpen", false);
+        myAnimator.SetBool("IsActivated", false);
     }
 
     // Use this for initialization
@@ -30,6 +30,9 @@ public class Gate : ActivatedObject {
         Init();
 	}
 
+    /// <summary>
+    /// Initializes the gate
+    /// </summary>
     public override void Init() {
         myAnimator = GetComponent<Animator>();
         if (startActive) {
@@ -37,6 +40,10 @@ public class Gate : ActivatedObject {
         }
     }
 
+    /// <summary>
+    /// Increases or decreases the height of the gate
+    /// </summary>
+    /// <param name="up">If set to <c>true</c> increase the height.  Decreases it otherwise.</param>
     public override void ScaleY(bool up)
     {
         if (up) {
@@ -48,6 +55,10 @@ public class Gate : ActivatedObject {
         }
     }
 
+    /// <summary>
+    /// Rotates the gate
+    /// </summary>
+    /// <param name="ang">Ang.</param>
     public override void Rotate(float ang)
     {
         base.Rotate(ang);
@@ -57,6 +68,10 @@ public class Gate : ActivatedObject {
         }
     }
 
+    /// <summary>
+    /// Gets the center of the gate.
+    /// </summary>
+    /// <value>The center.</value>
 	public override Vector3 Center
 	{
 		get

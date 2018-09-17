@@ -13,10 +13,13 @@ public class Lever : InteractiveObject {
         myAnimator = GetComponent<Animator>();
 	}
 
+    /// <summary>
+    /// Activates or deactivates the lever.
+    /// </summary>
     public override void Interact()
     {
         activated = !activated;
-        myAnimator.SetBool("activated", activated);
+        myAnimator.SetBool("IsActivated", activated);
         if (activated) {
             activatedObj.IncrementActivator();
         } else {

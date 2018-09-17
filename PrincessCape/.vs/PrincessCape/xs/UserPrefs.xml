@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/SegmentedTile.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/LightEmitter.cs">
     <Files>
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="158" Column="27" />
       <File FileName="Assets/Scripts/Tiles/Stairs.cs" Line="65" Column="9" />
@@ -16,14 +16,20 @@
       <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="12" Column="51" />
       <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="53" Column="83" />
       <File FileName="Assets/Scripts/Managers/Game.cs" Line="424" Column="9" />
-      <File FileName="Assets/Scripts/Tiles/ConveyorBelt.cs" Line="46" Column="13" />
+      <File FileName="Assets/Scripts/Tiles/ConveyorBelt.cs" Line="85" Column="33" />
       <File FileName="Assets/Scripts/Tiles/AirColumn.cs" Line="19" Column="10" />
-      <File FileName="Assets/Scripts/Tiles/Fan.cs" Line="30" Column="6" />
+      <File FileName="Assets/Scripts/Tiles/Fan.cs" Line="19" Column="30" />
       <File FileName="Assets/Scripts/Interactive Objects/Block.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Player.cs" Line="187" Column="50" />
       <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Interactive Objects/HeldItem.cs" Line="24" Column="51" />
       <File FileName="Assets/Scripts/ActivatedObject.cs" Line="113" Column="37" />
+      <File FileName="Assets/Scripts/Tiles/Door.cs" Line="12" Column="28" />
+      <File FileName="Assets/Scripts/Tiles/Gate.cs" Line="72" Column="37" />
+      <File FileName="Assets/Scripts/Interactive Objects/Lever.cs" Line="17" Column="44" />
+      <File FileName="Assets/Scripts/Tiles/LightActivatedObject.cs" Line="44" Column="6" />
+      <File FileName="Assets/Scripts/Tiles/LightEmitter.cs" Line="22" Column="18" />
+      <File FileName="Assets/Scripts/LightField.cs" Line="98" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
