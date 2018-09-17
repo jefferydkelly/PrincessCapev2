@@ -10,6 +10,9 @@ public class Bridge : SegmentedTile
         Init();
     }
 
+    /// <summary>
+    /// Deactivate this bridge and hides all segments.
+    /// </summary>
     public override void Deactivate()
     {
         base.Deactivate();
@@ -21,23 +24,35 @@ public class Bridge : SegmentedTile
 
     }
 
+    /// <summary>
+    /// Keeps the bridge from scaling upwards
+    /// </summary>
+    /// <param name="up">If set to <c>true</c> up.</param>
     public override void ScaleY(bool up)
     {
 
     }
 
+    /// <summary>
+    /// Adds or removes a segment to the bridge.  Doesn't remove the end segment.
+    /// </summary>
+    /// <param name="right">If set to <c>true</c>, adds a new segment.  Removes the last segment (if there is one) otherwise..</param>
     public override void ScaleX(bool right)
     {
         if (right)
         {
             SpawnSegment();
         }
-        else if (transform.childCount > 0)
+        else if (NumSegments > 0)
         {
             DestroyImmediate(LastChild);
         }
     }
 
+    /// <summary>
+    /// Modifies the scale of the bridge by the given vector.
+    /// </summary>
+    /// <param name="vec">Vec.</param>
     public override void Scale(Vector3 vec)
     {
         base.Scale(vec.SetX(0));
@@ -63,7 +78,7 @@ public class Bridge : SegmentedTile
         {
             if (scale.x < 0)
             {
-                if (transform.childCount > 0)
+                if (NumSegments > 0)
                 {
                     DestroyImmediate(LastChild, false);
                     LastTransform.localScale = LastTransform.localScale - scale.SetY(0);
@@ -77,6 +92,9 @@ public class Bridge : SegmentedTile
         }
     }
 
+    /// <summary>
+    /// Spawns a new segment of the bridge.
+    /// </summary>
     protected override void SpawnSegment()
     {
         base.SpawnSegment();

@@ -34,7 +34,10 @@ public class MapTile : MonoBehaviour {
         if (!initialized)
         {
             HighlightState = MapHighlightState.Normal;
-            Game.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
+            if (Game.Instance)
+            {
+                Game.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
+            }
             //initialized = true;
         }
 

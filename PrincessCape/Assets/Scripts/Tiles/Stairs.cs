@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Stairs : SegmentedTile {
+    /// <summary>
+    /// Spawns a new segment or destroys a segment.
+    /// </summary>
+    /// <param name="right">If set to <c>true</c> spawns a new segment or destroys the last segment if there is one.</param>
 	public override void ScaleX(bool right)
     {
         if (right) {
             SpawnSegment();
-        } else if (transform.childCount > 0) {
+        } else if (NumSegments > 0) {
             DestroyImmediate(LastChild, false);
         }
     }
 
+    /// <summary>
+    /// Modifies the scale of the stairs by the given vector
+    /// </summary>
+    /// <param name="vec">Vec.</param>
     public override void Scale(Vector3 vec)
     {
         base.Scale(vec.SetX(0));
@@ -30,7 +38,7 @@ public class Stairs : SegmentedTile {
             }
         } else if (vec.x < 0){
             if (scale.x < 0) {
-                if (transform.childCount > 0)
+                if (NumSegments > 0)
                 {
                     DestroyImmediate(LastChild, false);
                     LastTransform.localScale = LastTransform.localScale - scale.SetY(0);
@@ -42,6 +50,9 @@ public class Stairs : SegmentedTile {
         }
     }
 
+    /// <summary>
+    /// Spawns a new segment.
+    /// </summary>
     protected override void SpawnSegment()
     {
         base.SpawnSegment();
@@ -50,6 +61,9 @@ public class Stairs : SegmentedTile {
         LastTransform.position += scale / 2.0f;
     }
 
+    /// <summary>
+    /// Updates the segments.
+    /// </summary>
     protected override void UpdateSegments()
     {
         for (int i = 0; i < NumSegments; i++)

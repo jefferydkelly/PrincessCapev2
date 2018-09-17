@@ -9,7 +9,9 @@ public class SegmentedTile : ActivatedObject
     [SerializeField]
     Direction spawnDirection = Direction.Right;
     [SerializeField]
-    protected int segmentStart = 0;
+    protected int segmentStart = 1;
+    [SerializeField]
+    SpriteRenderer activationCircle;
 
     protected Timer revealTimer;
     protected float revealTime = 0.25f;
@@ -21,8 +23,46 @@ public class SegmentedTile : ActivatedObject
         revealTimer.OnTick.AddListener(RevealSegment);
 
         base.Init();
+
+        if (Application.isPlaying)
+        {
+            if (activationCircle)
+            {
+                activationCircle.gameObject.SetActive(Game.Instance.IsInLevelEditor);
+            }
+            if (!Game.Instance.IsInLevelEditor)
+            {
+                Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            }
+        }
         initialized = true;
     }
+
+    /// <summary>
+    /// Handles the state change of the game
+    /// </summary>
+    /// <param name="state">State.</param>
+    protected override void OnGameStateChanged(GameState state)
+    {
+        activationCircle.gameObject.SetActive(state != GameState.Playing);
+    }
+
+    /// <summary>
+    /// Sets a value indicating whether this <see cref="T:Ladder"/> starts active and fully revealed.
+    /// </summary>
+    /// <value><c>true</c> if starts active; otherwise, <c>false</c>.</value>
+    public override bool StartsActive
+    {
+        set
+        {
+            base.StartsActive = value;
+            if (Game.Instance.IsInLevelEditor)
+            {
+                activationCircle.color = startActive ? Color.green : Color.red;
+            }
+        }
+    }
+
 
     public override void Activate()
     {
@@ -257,6 +297,11 @@ public class SegmentedTile : ActivatedObject
             foreach (SpriteRenderer spr in GetComponentsInChildren<SpriteRenderer>())
             {
                 spr.color = nextColor;
+            }
+
+            if ((activationCircle != null))
+            {
+                activationCircle.color = startActive ? Color.green : Color.red;
             }
         }
     }

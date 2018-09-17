@@ -7,8 +7,7 @@ using UnityEngine;
 public class Ladder : SegmentedTile
 {
     BoxCollider2D myCollider;
-    [SerializeField]
-    SpriteRenderer activationCircle;
+
     public void Awake()
     {
         Init();
@@ -17,30 +16,11 @@ public class Ladder : SegmentedTile
     /// <summary>
     /// Initializes this instance setting the collider, reveal timer and determining whether or not it appears at the start of the game.
     /// </summary>
-    public override void Init() {
+    public override void Init()
+    {
         base.Init();
         myCollider = GetComponent<BoxCollider2D>();
         myCollider.size = new Vector2(1, NumSegments + 1);
-
-        if (Application.isPlaying) {
-            if (activationCircle)
-            {
-                activationCircle.gameObject.SetActive(Game.Instance.IsInLevelEditor);
-            }
-            if (!Game.Instance.IsInLevelEditor)
-            {
-                Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Handles the state change of the game
-    /// </summary>
-    /// <param name="state">State.</param>
-    protected override void OnGameStateChanged(GameState state)
-    {
-        activationCircle.gameObject.SetActive(state != GameState.Playing);
     }
 
     /// <summary>
@@ -56,7 +36,8 @@ public class Ladder : SegmentedTile
     /// Adjusts the size of the collider.
     /// </summary>
     /// <param name="numLinks">Number links.</param>
-    void AdjustSize(int numLinks) {
+    void AdjustSize(int numLinks)
+    {
         if (myCollider)
         {
             myCollider.size = myCollider.size.SetY(numLinks);
@@ -86,7 +67,7 @@ public class Ladder : SegmentedTile
             }
             else
             {
-                
+
                 LastTransform.localScale = scale;
                 LastTransform.localPosition -= vec.SetX(0) / 2;
             }
@@ -139,24 +120,24 @@ public class Ladder : SegmentedTile
     /// </summary>
     /// <value>The center.</value>
 	public override Vector3 Center
-	{
-		get
-		{
-			return transform.position + (Vector3)myCollider.offset;
-		}
-	}
+    {
+        get
+        {
+            return transform.position + (Vector3)myCollider.offset;
+        }
+    }
 
     /// <summary>
     /// Gets the bounds of the ladder.
     /// </summary>
     /// <value>The bounds.</value>
 	public override Vector2 Bounds
-	{
-		get
-		{
+    {
+        get
+        {
             return new Vector2(1, NumSegments + 1);
-		}
-	}
+        }
+    }
 
     /// <summary>
     /// Sets the variables of the Ladder using the information in the Tile Struct
@@ -176,42 +157,5 @@ public class Ladder : SegmentedTile
     {
         base.Deactivate();
         AdjustSize(1);
-    }
-
-    /// <summary>
-    /// Sets a value indicating whether this <see cref="T:Ladder"/> starts active and fully revealed.
-    /// </summary>
-    /// <value><c>true</c> if starts active; otherwise, <c>false</c>.</value>
-    public override bool StartsActive
-    {
-        set
-        {
-            base.StartsActive = value;
-            if (Game.Instance.IsInLevelEditor) {
-                activationCircle.color = startActive ? Color.green : Color.red;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the state of the highlight.
-    /// </summary>
-    /// <value>The state of the highlight.</value>
-    public override MapHighlightState HighlightState
-    {
-        get
-        {
-            return base.HighlightState;
-        }
-
-        set
-        {
-            base.HighlightState = value;
-            if ((activationCircle != null))
-            {
-                activationCircle.color = startActive ? Color.green : Color.red;
-            }
-
-        }
     }
 }
