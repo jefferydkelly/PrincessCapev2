@@ -13,6 +13,9 @@ public class AirColumn : MapTile {
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        collision.attachedRigidbody.AddForce(transform.up * 15);
+        if (Game.Instance && Game.Instance.IsPlaying)
+        {
+            collision.attachedRigidbody.AddForce(transform.up * 15);
+        }
     }
 }

@@ -43,7 +43,10 @@ public class ConveyorBelt : ActivatedObject
 
     public void OnTriggerStay2D(Collider2D collision)
     {
-        collision.attachedRigidbody.AddForce(pushDir * pushForce);
+        if (Game.Instance && Game.Instance.IsPlaying)
+        {
+            collision.attachedRigidbody.AddForce(pushDir * pushForce);
+        }
     }
 
     public override void FlipX()

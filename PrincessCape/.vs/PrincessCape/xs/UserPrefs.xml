@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/Stairs.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/Fan.cs">
     <Files>
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="161" Column="2" />
       <File FileName="Assets/Scripts/Tiles/Stairs.cs" Line="65" Column="9" />
@@ -16,6 +16,9 @@
       <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="12" Column="51" />
       <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="53" Column="83" />
       <File FileName="Assets/Scripts/Managers/Game.cs" Line="424" Column="9" />
+      <File FileName="Assets/Scripts/Tiles/ConveyorBelt.cs" Line="46" Column="13" />
+      <File FileName="Assets/Scripts/Tiles/AirColumn.cs" Line="19" Column="10" />
+      <File FileName="Assets/Scripts/Tiles/Fan.cs" Line="30" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
