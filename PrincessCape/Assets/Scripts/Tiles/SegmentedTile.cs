@@ -16,6 +16,9 @@ public class SegmentedTile : ActivatedObject
     protected Timer revealTimer;
     protected float revealTime = 0.25f;
 
+    /// <summary>
+    /// Initializes this instance of SegmentedTile.
+    /// </summary>
     public override void Init()
     {
         initialized = false;
@@ -63,7 +66,9 @@ public class SegmentedTile : ActivatedObject
         }
     }
 
-
+    /// <summary>
+    /// Activate this SegmentedTile and starts revealing the segments.
+    /// </summary>
     public override void Activate()
     {
         if (Game.Instance.IsPlaying && !(startActive && !initialized)) {
@@ -76,9 +81,11 @@ public class SegmentedTile : ActivatedObject
         }
     }
 
+    /// <summary>
+    /// Deactivate the SegmentedTile and hides all of the segments.
+    /// </summary>
     public override void Deactivate()
     {
-        gameObject.SetActive(false);
         revealTimer.Stop();
 
         for (int i = segmentStart; i < transform.childCount; i++)
@@ -87,6 +94,10 @@ public class SegmentedTile : ActivatedObject
         }
     }
 
+    /// <summary>
+    /// Gets the last segment.
+    /// </summary>
+    /// <value>The last child.</value>
     protected GameObject LastChild
     {
         get
@@ -102,6 +113,10 @@ public class SegmentedTile : ActivatedObject
         }
     }
 
+    /// <summary>
+    /// Gets the transform of the last segment.
+    /// </summary>
+    /// <value>The last transform.</value>
     protected Transform LastTransform
     {
         get
@@ -117,6 +132,10 @@ public class SegmentedTile : ActivatedObject
         }
     }
 
+    /// <summary>
+    /// Generates the save data for the segmented tile.
+    /// </summary>
+    /// <returns>The save data.</returns>
     protected override string GenerateSaveData()
     {
         string info = base.GenerateSaveData();
@@ -144,7 +163,7 @@ public class SegmentedTile : ActivatedObject
             LastTransform.localScale = PCLParser.ParseVector3(tile.NextLine);
         }
 
-        if (!startActive && Application.isPlaying)
+        if (!startActive && Application.isPlaying && Game.Instance.IsPlaying)
         {
             Deactivate();
         }
@@ -281,6 +300,7 @@ public class SegmentedTile : ActivatedObject
         {
             highlightState = value;
             Color nextColor = Color.white;
+
             if (value == MapHighlightState.Primary)
             {
                 nextColor = Color.blue;

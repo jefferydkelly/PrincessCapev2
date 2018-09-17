@@ -5,20 +5,15 @@ using UnityEngine;
 
 public class Bridge : SegmentedTile
 {
-    private void Start()
-    {
-        Init();
-    }
-
     /// <summary>
     /// Deactivate this bridge and hides all segments.
     /// </summary>
     public override void Deactivate()
     {
         base.Deactivate();
-		for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < NumSegments; i++)
 		{
-			transform.GetChild(i).gameObject.SetActive(false);
+            transform.GetChild(i + segmentStart).gameObject.SetActive(false);
 		}
 		isActivated = false;
 
