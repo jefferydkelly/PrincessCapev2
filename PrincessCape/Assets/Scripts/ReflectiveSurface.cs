@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class ReflectiveSurface : MonoBehaviour {
 
-	GameObject lightSource;
+    [SerializeField]
+    LightField reflection;
     private void Awake()
     {
-        transform.GetChild(0).gameObject.SetActive(false);
+        reflection.gameObject.SetActive(false);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Light") && collision.transform.parent != transform) {
-            transform.GetChild(0).gameObject.SetActive(true);
-			lightSource = collision.gameObject;
+            reflection.gameObject.SetActive(true);
+            reflection.Activate();
+            collision.GetComponent<LightField>().OnFade.AddListener(EndReflection);
 
         }
     }
@@ -22,20 +24,13 @@ public class ReflectiveSurface : MonoBehaviour {
     {
 		if (collision.CompareTag("Light") && collision.transform.parent != transform)
 		{
-			transform.GetChild(0).gameObject.SetActive(true);
-			lightSource = collision.gameObject;
+            reflection.gameObject.SetActive(true);
+            reflection.Activate();
+            collision.GetComponent<LightField>().OnFade.RemoveListener(EndReflection);
 		}
 
 	
     }
-
-	private void Update()
-	{
-		if (lightSource && !lightSource.activeInHierarchy)
-        {
-            EndReflection();
-        }
-	}
 
 	private void OnTriggerExit2D(Collider2D collision)
     {
@@ -46,6 +41,7 @@ public class ReflectiveSurface : MonoBehaviour {
     }
 
 	void EndReflection() {
-		transform.GetChild(0).gameObject.SetActive(false);
+        reflection.Deactivate();
+        reflection.gameObject.SetActive(false);
 	}
 }

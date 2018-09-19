@@ -49,7 +49,7 @@ public class Mirror : MapTile
     protected override string GenerateSaveData()
     {
         string info = "";
-        info += PCLParser.CreateAttribute("Name", name.Split('(')[0]);
+        info += PCLParser.CreateAttribute("Prefab", name.Split('(')[0]);
         info += PCLParser.CreateAttribute("Instance Name", instanceName);
         info += PCLParser.CreateAttribute("ID", ID);
         info += PCLParser.CreateAttribute("Position", transform.position);

@@ -5,27 +5,34 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 public class MagnetTile : ActivatedObject {
-    Animator myAnimator;
     [SerializeField]
     MagneticField magField;
 
+    /// <summary>
+    /// Activates the attached magnetic field
+    /// </summary>
     public override void Activate()
     {
-        myAnimator.SetTrigger("Activate");
+        IsActivated = true;
         magField.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Deactivates the attached magnetic field
+    /// </summary>
     public override void Deactivate()
     {
-        myAnimator.SetTrigger("Deactivate");
+        IsActivated = false;
         magField.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Initializes the magnetic tile
+    /// </summary>
     public override void Init() {
         if (Application.isPlaying)
         {
             base.Init();
-            myAnimator = GetComponent<Animator>();
             magField.gameObject.SetActive(startActive);
         }
         
@@ -44,6 +51,10 @@ public class MagnetTile : ActivatedObject {
         }
     }
 
+    /// <summary>
+    /// Increases the height of the magnetic field
+    /// </summary>
+    /// <param name="up">If set to <c>true</c> increases the height.  Otherwise, decreases it.</param>
     public override void ScaleY(bool up)
     {
         if (!magField) {
@@ -53,6 +64,10 @@ public class MagnetTile : ActivatedObject {
         magField.ScaleY(up);
     }
 
+    /// <summary>
+    /// Generates the save data for the MagnetTile
+    /// </summary>
+    /// <returns>The save data.</returns>
     protected override string GenerateSaveData()
     {
         string data = base.GenerateSaveData();
@@ -60,6 +75,10 @@ public class MagnetTile : ActivatedObject {
         return data;
     }
 
+    /// <summary>
+    /// Creates a MagnetTile from the TileStruct
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);

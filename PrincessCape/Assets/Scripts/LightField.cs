@@ -3,32 +3,71 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class LightField : MonoBehaviour {
+public class LightField : ActivatedObject {
     Timer expandTimer;
     float expandTime = 0.25f;
+    float maxHeight = 1.0f;
     BoxCollider2D myCollider;
 	UnityEvent onFade;
 
+    /// <summary>
+    /// Initializes this instance of Light Field
+    /// </summary>
+    public override void Init()
+    {
+        base.Init();
+
+        expandTimer = new Timer(expandTime, true);
+        expandTimer.OnTick.AddListener(() => {
+            ScaleY(0.5f);
+        });
+        onFade = new UnityEvent();
+    }
     private void Awake()
     {
-        expandTimer = new Timer(expandTime, true);
-        expandTimer.OnTick.AddListener(()=> {
-            SetYScale((float)transform.localScale.y + 0.5f);
-        });
-		onFade = new UnityEvent();
-
+        Init();
     }
 
-    private void OnEnable()
+    /// <summary>
+    /// Activate this instance.
+    /// </summary>
+    public override void Activate()
     {
-        expandTimer.Start();
+        if (!startActive && Game.Instance.IsPlaying)
+        {
+            expandTimer.Start();
+        }
+    }
+
+    /// <summary>
+    /// Deactivate this instance.
+    /// </summary>
+    public override void Deactivate()
+    {
+        if (!startActive && expandTimer.IsRunning && !Game.isClosing)
+        {
+            expandTimer.Stop();
+        }
+    }
+
+    /// <summary>
+    /// Handles the changing of the game state
+    /// </summary>
+    /// <param name="state">State.</param>
+    protected override void OnGameStateChanged(GameState state)
+    {
+        if (state == GameState.Playing) {
+            Activate();
+        } else {
+            Deactivate();
+        }
     }
 
     private void OnDisable()
     {
         if (!Game.isClosing)
         {
-            expandTimer.Stop();
+            Deactivate();
 			transform.localScale = Vector3.one;
         }
 		onFade.Invoke();
@@ -39,7 +78,7 @@ public class LightField : MonoBehaviour {
         
         if (!CanPassThrough(collision))
         {
-            Stop();
+            Deactivate();
             SetYScale(collision.gameObject);
         }
     }
@@ -47,7 +86,7 @@ public class LightField : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!CanPassThrough(collision)) {
-            expandTimer.Start();
+            Activate();
         }
     }
 
@@ -58,31 +97,39 @@ public class LightField : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Determines if the light field can pass through the collider
+    /// </summary>
+    /// <returns><c>true</c>, If the light field can pass through the collider, <c>false</c> otherwise.</returns>
+    /// <param name="col">Col.</param>
     bool CanPassThrough(Collider2D col) {
         ReflectiveSurface surf = col.gameObject.GetComponentInChildren<ReflectiveSurface>();
 		return (surf != null && surf.transform == transform.parent) || (col.transform == transform.parent)|| col.CompareTag("Light") || col.gameObject.IsOnLayer("UI") || col.gameObject.IsOnLayer("Background");
     }
 
-    void Stop() {
-        if (expandTimer.IsRunning && !Game.isClosing)
-        {
-            expandTimer.Stop();
-        }
-
-    }
-
-    void SetYScale(float yScale) {
-        transform.localScale = transform.localScale.SetY(yScale);
-    }
-
+    /// <summary>
+    /// Sets the vertical scale of the light field so that it touches the game object
+    /// </summary>
+    /// <param name="go">Go.</param>
     void SetYScale(GameObject go) {
-        float distance = FindClosestPoint(go);
-        if (distance > 0)
+        if (!startActive)
         {
-            SetYScale(distance);
+            float distance = FindClosestPoint(go);
+            if (distance > 0)
+            {
+                if (transform.parent.name == "Map") {
+                    distance *= 2;
+                }
+                ScaleY(distance - transform.localScale.y);
+            }
         }
     }
 
+    /// <summary>
+    /// Finds the closest point of the game object to this light field.
+    /// </summary>
+    /// <returns>The closest point.</returns>
+    /// <param name="go">Go.</param>
     float FindClosestPoint(GameObject go) {
         
         foreach (RaycastHit2D hit in Physics2D.RaycastAll(transform.position, transform.up, transform.localScale.y)) {
@@ -93,9 +140,23 @@ public class LightField : MonoBehaviour {
         return -1;
     }
 
+    /// <summary>
+    /// An event for responding to when the light goes out
+    /// </summary>
+    /// <value>The on fade.</value>
     public UnityEvent OnFade {
         get {
             return onFade;
         }
+    }
+
+    /// <summary>
+    /// Scales the light field vertically
+    /// </summary>
+    /// <param name="yscale">The amount it will be sacled by.</param>
+    public override void ScaleY(float yscale)
+    {
+        Vector3 addition = Vector3.up * yscale;
+        transform.localScale += addition;
     }
 }

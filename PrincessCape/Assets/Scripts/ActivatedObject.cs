@@ -17,7 +17,7 @@ public abstract class ActivatedObject : MapTile
 	[SerializeField]
 	protected int requiredActivators = 1;
 	protected int currentActivators = 0;
-
+    Animator myAnimator;
     private void Awake()
     {
         Init();
@@ -27,11 +27,11 @@ public abstract class ActivatedObject : MapTile
 	public override void Init()
 	{
 		base.Init();
-
+        myAnimator = GetComponent<Animator>();
 		if (startActive && Application.isPlaying)
         {
             Activate();
-			isActivated = true;
+			IsActivated = true;
         }
 	}
 	/// <summary>
@@ -48,6 +48,10 @@ public abstract class ActivatedObject : MapTile
         protected set
         {
             isActivated = value;
+            if (myAnimator)
+            {
+                myAnimator.SetBool("IsActivated", value);
+            }
         }
     }
 

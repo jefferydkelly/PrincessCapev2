@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Fan : ActivatedObject
 {
-    Animator myAnimator;
     [SerializeField]
     AirColumn air;
 
@@ -14,9 +13,8 @@ public class Fan : ActivatedObject
     /// </summary>
     public override void Activate()
     {
-        isActivated = true;
+        IsActivated = true;
         air.gameObject.SetActive(true);
-        myAnimator.SetBool("IsActivated", true);
     }
 
     /// <summary>
@@ -24,9 +22,8 @@ public class Fan : ActivatedObject
     /// </summary>
     public override void Deactivate()
     {
-        isActivated = false;
+        IsActivated = false;
         air.gameObject.SetActive(false);
-        myAnimator.SetBool("IsActivated", false);
     }
 
     // Use this for initialization
@@ -39,7 +36,6 @@ public class Fan : ActivatedObject
     /// Initializes the Fan.
     /// </summary>
     public override void Init() {
-		myAnimator = GetComponent<Animator>();
         if (Application.isPlaying)
         {
             air.gameObject.SetActive(Game.Instance.IsInLevelEditor);

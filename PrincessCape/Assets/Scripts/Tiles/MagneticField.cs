@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MagneticField : MapTile{
+public class MagneticField : MapTile {
     SpriteRenderer myRenderer;
     Animator myAnimator;
     [SerializeField]
@@ -18,11 +18,14 @@ public class MagneticField : MapTile{
 		Init();
 	}
 
+    /// <summary>
+    /// Initializes the instance of the Magnetic Field
+    /// </summary>
 	public override void Init()
 	{
         myRenderer = GetComponent<SpriteRenderer>();
         myAnimator = GetComponent<Animator>();
-        myAnimator.SetBool("Activated", Game.Instance.IsPlaying);
+        myAnimator.SetBool("IsActivated", Game.Instance.IsPlaying);
 
         maxScale = (int)transform.localScale.y;
 
@@ -34,17 +37,18 @@ public class MagneticField : MapTile{
 
 	}
 
+    /// <summary>
+    /// Handles the changing of the game state.  Animating only when the game is playing
+    /// </summary>
+    /// <param name="state">State.</param>
     protected override void OnGameStateChanged(GameState state) {
-        myAnimator.SetBool("Activated", Game.Instance.IsPlaying);
+        myAnimator.SetBool("IsActivated", Game.Instance.IsPlaying);
     }
 
-    private void OnDestroy()
-    {
-        if (!Game.isClosing) {
-            Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-        }
-    }
-
+    /// <summary>
+    /// Handles the collisions with metal objects
+    /// </summary>
+    /// <param name="collision">Collision.</param>
     private void OnTriggerStay2D(Collider2D collision)
 	{
 		if (collision.CompareTag("Metal"))
@@ -53,6 +57,9 @@ public class MagneticField : MapTile{
 		}
 	}
 
+    /// <summary>
+    /// Shrinks the field and starts expanding it when the field is enabled.
+    /// </summary>
     private void OnEnable()
     {
         if (!Game.Instance.IsInLevelEditor)
@@ -65,6 +72,9 @@ public class MagneticField : MapTile{
             expandTimer.Start();
         }
     }
+    /// <summary>
+    /// Stops any expansion and removes all of the force from Metal objects in the field when it is disabled
+    /// </summary>
     private void OnDisable()
     {
         RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position - (transform.up * myRenderer.bounds.extents.y), Vector2.one, 0, transform.up, myRenderer.bounds.size.y);
@@ -79,12 +89,20 @@ public class MagneticField : MapTile{
         expandTimer.Stop();
     }
 
+    /// <summary>
+    /// Creates a magnetic field from given tile data
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);
         maxScale = Mathf.RoundToInt(transform.localScale.y);
     }
 
+    /// <summary>
+    /// Scales the height of the field.
+    /// </summary>
+    /// <param name="up">If set to <c>true</c> up.</param>
     public override void ScaleY(bool up)
     {
         if (up) {
@@ -94,6 +112,10 @@ public class MagneticField : MapTile{
         }
     }
 
+    /// <summary>
+    /// Sets the vertical scale of the field
+    /// </summary>
+    /// <param name="yscale">Yscale.</param>
 	public override void ScaleY(float yscale)
 	{
 		transform.localScale = transform.localScale.SetY(yscale);

@@ -7,20 +7,12 @@ using UnityEngine;
 
 public class OrbSwitch : ActivatorObject
 {
-
-    Animator myAnimatior;
-
-    public override void Init() {
-		myAnimatior = GetComponent<Animator>();
-		base.Init();
-
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Projectile"))
         {
 			Destroy(collision.gameObject);
-			isActivated = !isActivated;
+			IsActivated = !IsActivated;
             if (isActivated)
             {
                 Activate();
@@ -33,17 +25,5 @@ public class OrbSwitch : ActivatorObject
             }
 
         }
-    }
-
-    public override void Activate()
-    {
-        base.Activate();
-        myAnimatior.SetBool("IsActivated", true);
-    }
-
-    public override void Deactivate()
-    {
-        base.Deactivate();
-        myAnimatior.SetBool("IsActivated", false);
-    }
+    } 
 }

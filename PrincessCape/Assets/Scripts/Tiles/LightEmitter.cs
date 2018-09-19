@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class LightEmitter : ActivatedObject
 {
-    Animator myAnimator;
     [SerializeField]
     LightField emission;
 
@@ -24,8 +23,6 @@ public class LightEmitter : ActivatedObject
     /// </summary>
     public override void Init()
     {
-        myAnimator = GetComponent<Animator>();
-
         if (startActive) {
             Activate();
         } else {
@@ -39,7 +36,7 @@ public class LightEmitter : ActivatedObject
     /// </summary>
     public override void Activate()
     {
-        myAnimator.SetBool("IsActivated", true);
+        IsActivated = true;
         emission.gameObject.SetActive(true);
     }
 
@@ -48,7 +45,7 @@ public class LightEmitter : ActivatedObject
     /// </summary>
     public override void Deactivate()
     {
-        myAnimator.SetBool("IsActivated", false);
+        IsActivated = false;
         emission.gameObject.SetActive(false);
     }
 }

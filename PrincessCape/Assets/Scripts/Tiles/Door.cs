@@ -23,6 +23,10 @@ public class Door : MapTile {
         }
     }
 
+    /// <summary>
+    /// Gets the scene the door leads to.
+    /// </summary>
+    /// <value>The next scene.</value>
     public string NextScene {
         set {
             if (value.Length > 0 && Application.isEditor && !Application.isPlaying)
@@ -36,6 +40,10 @@ public class Door : MapTile {
         }
     }
 
+    /// <summary>
+    /// Creates a save data string for the door
+    /// </summary>
+    /// <returns>The save data.</returns>
     protected override string GenerateSaveData()
     {
         string data = base.GenerateSaveData();
@@ -43,6 +51,10 @@ public class Door : MapTile {
         return data;
     }
 
+    /// <summary>
+    /// Creates a door from given tile.
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);

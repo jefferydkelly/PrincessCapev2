@@ -9,7 +9,6 @@ public class Launcher : ActivatedObject
     Projectile projectile;
     Timer launchTimer;
     float launchTime = 2.0f;
-    Animator myAnimator;
     // Use this for initialization
     void Awake()
     {
@@ -21,7 +20,6 @@ public class Launcher : ActivatedObject
     /// </summary>
     public override void Init() {
 		         
-	    myAnimator = GetComponent<Animator>();
 		if (launchTimer == null)
 		{
 			launchTimer = new Timer(launchTime, true);
@@ -49,7 +47,7 @@ public class Launcher : ActivatedObject
         {
             launchTimer.Start();
         }
-        myAnimator.SetBool("IsActivated", true);
+        IsActivated = true;
     }
 
     /// <summary>
@@ -58,6 +56,6 @@ public class Launcher : ActivatedObject
     public override void Deactivate()
     {
         launchTimer.Stop();
-        myAnimator.SetBool("IsActivated", false);
+        IsActivated = false;
     }
 }

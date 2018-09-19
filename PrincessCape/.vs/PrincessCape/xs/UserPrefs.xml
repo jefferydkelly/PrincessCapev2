@@ -1,35 +1,33 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/LightEmitter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LightField.cs">
     <Files>
-      <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="158" Column="27" />
-      <File FileName="Assets/Scripts/Tiles/Stairs.cs" Line="65" Column="9" />
-      <File FileName="Assets/Scripts/Tiles/SegmentedTile.cs" Line="283" Column="1" />
-      <File FileName="Assets/Scripts/Tiles/Launcher.cs" Line="33" Column="1" />
-      <File FileName="Assets/Scripts/Map/Map.cs" Line="262" Column="31" />
-      <File FileName="Assets/Scripts/Tiles/Bridge.cs" Line="7" Column="2" />
-      <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="324" Column="6" />
-      <File FileName="Assets/Scripts/Map/MapTile.cs" Line="392" Column="1" />
-      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="494" Column="11" />
-      <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="232" Column="20" />
-      <File FileName="Assets/Scripts/Tiles/Mirror.cs" Line="19" Column="6" />
-      <File FileName="Assets/Scripts/Tiles/Elevator.cs" Line="12" Column="51" />
-      <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="53" Column="83" />
-      <File FileName="Assets/Scripts/Managers/Game.cs" Line="424" Column="9" />
-      <File FileName="Assets/Scripts/Tiles/ConveyorBelt.cs" Line="85" Column="33" />
-      <File FileName="Assets/Scripts/Tiles/AirColumn.cs" Line="19" Column="10" />
-      <File FileName="Assets/Scripts/Tiles/Fan.cs" Line="19" Column="30" />
-      <File FileName="Assets/Scripts/Interactive Objects/Block.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player.cs" Line="187" Column="50" />
+      <File FileName="Assets/Scripts/LightField.cs" Line="14" Column="49" />
+      <File FileName="Assets/Scripts/Tiles/SpikePlatform.cs" Line="63" Column="6" />
+      <File FileName="Assets/Scripts/Tiles/MagnetTile.cs" Line="36" Column="1" />
+      <File FileName="Assets/Scripts/Tiles/MagneticField.cs" Line="6" Column="39" />
+      <File FileName="Assets/Scripts/Tiles/LockedDoor.cs" Line="7" Column="14" />
+      <File FileName="Assets/Scripts/Tiles/Corpse.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Tiles/ContainerTile.cs" Line="124" Column="51" />
+      <File FileName="Assets/Scripts/Tiles/Checkpoint.cs" Line="14" Column="14" />
+      <File FileName="Assets/Scripts/Tiles/Wall.cs" Line="92" Column="31" />
+      <File FileName="Assets/Scripts/Tiles/Mirror.cs" Line="52" Column="50" />
+      <File FileName="Assets/Scripts/ReflectiveSurface.cs" Line="28" Column="35" />
+      <File FileName="Assets/Scripts/Tiles/LightEmitter.cs" Line="25" Column="6" />
+      <File FileName="Assets/Scripts/Tiles/LightActivatedObject.cs" Line="36" Column="17" />
+      <File FileName="Assets/Scripts/ActivatedObject.cs" Line="54" Column="14" />
+      <File FileName="Assets/Scripts/ActivatorObject.cs" Line="43" Column="29" />
+      <File FileName="Assets/Scripts/Tiles/OrbSwitch.cs" Line="28" Column="7" />
+      <File FileName="Assets/Scripts/Tiles/AirColumn.cs" Line="7" Column="1" />
+      <File FileName="Assets/Scripts/Tiles/BackAndForthPlatform.cs" Line="18" Column="5" />
+      <File FileName="Assets/Scripts/Tiles/MovingPlatform.cs" Line="50" Column="29" />
+      <File FileName="Assets/Scripts/Tiles/ConveyorBelt.cs" Line="45" Column="6" />
+      <File FileName="Assets/Scripts/Tiles/Fan.cs" Line="38" Column="34" />
+      <File FileName="Assets/Scripts/Tiles/Gate.cs" Line="39" Column="13" />
+      <File FileName="Assets/Scripts/Tiles/Launcher.cs" Line="59" Column="29" />
+      <File FileName="Assets/Scripts/Interactive Objects/Lever.cs" Line="8" Column="7" />
       <File FileName="Assets/Scripts/Interactive Objects/InteractiveObject.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Interactive Objects/HeldItem.cs" Line="24" Column="51" />
-      <File FileName="Assets/Scripts/ActivatedObject.cs" Line="113" Column="37" />
-      <File FileName="Assets/Scripts/Tiles/Door.cs" Line="12" Column="28" />
-      <File FileName="Assets/Scripts/Tiles/Gate.cs" Line="72" Column="37" />
-      <File FileName="Assets/Scripts/Interactive Objects/Lever.cs" Line="17" Column="44" />
-      <File FileName="Assets/Scripts/Tiles/LightActivatedObject.cs" Line="44" Column="6" />
-      <File FileName="Assets/Scripts/Tiles/LightEmitter.cs" Line="22" Column="18" />
-      <File FileName="Assets/Scripts/LightField.cs" Line="98" Column="27" />
+      <File FileName="Assets/Scripts/Tiles/PressureSwitch.cs" Line="31" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

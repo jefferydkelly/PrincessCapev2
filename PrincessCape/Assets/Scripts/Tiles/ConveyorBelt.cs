@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ConveyorBelt : ActivatedObject
 {
-    Animator myAnimator;
     BoxCollider2D theBelt;
     [SerializeField]
     Vector2 pushDir = Vector2.right;
@@ -19,7 +18,6 @@ public class ConveyorBelt : ActivatedObject
     /// Initializes the ConveyorBelt
     /// </summary>
     public override void Init() {
-		myAnimator = GetComponent<Animator>();
 		theBelt = GetComponent<BoxCollider2D>();
         if (startActive)
         {
@@ -36,9 +34,8 @@ public class ConveyorBelt : ActivatedObject
     /// </summary>
     public override void Activate()
     {
-        myAnimator.SetBool("IsActivated", true);
 		theBelt.enabled = true;
-		isActivated = true;
+		IsActivated = true;
     }
 
     /// <summary>
@@ -46,9 +43,8 @@ public class ConveyorBelt : ActivatedObject
     /// </summary>
     public override void Deactivate()
     {
-        myAnimator.SetBool("IsActivated", false);
 		theBelt.enabled = false;
-		isActivated = false;
+		IsActivated = false;
     }
 
     /// <summary>

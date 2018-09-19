@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LightActivatedObject : ActivatorObject {
-    Animator myAnimator;
 	GameObject lightSource;
 
     /// <summary>
@@ -12,7 +11,6 @@ public class LightActivatedObject : ActivatorObject {
     public override void Init()
     {
         base.Init();
-        myAnimator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -23,7 +21,6 @@ public class LightActivatedObject : ActivatorObject {
     {
         if (collision.CompareTag("Light")) {
             Activate();
-            myAnimator.SetBool("IsActivated", true);
             collision.GetComponent<LightField>().OnFade.AddListener(Deactivate);
         }
     }
@@ -37,7 +34,6 @@ public class LightActivatedObject : ActivatorObject {
 		if (collision.CompareTag("Light"))
 		{
 			Deactivate();
-            myAnimator.SetBool("IsActivated", false);
 			lightSource = null;
             collision.GetComponent<LightField>().OnFade.RemoveListener(Deactivate);
 		}

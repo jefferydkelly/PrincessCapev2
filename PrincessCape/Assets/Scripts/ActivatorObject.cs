@@ -31,6 +31,7 @@ public class ActivatorObject : ActivatedObject {
 	/// </summary>
 	public override void Activate()
     {
+        IsActivated = true;
 		onActivate.Invoke();
     }
 
@@ -39,6 +40,7 @@ public class ActivatorObject : ActivatedObject {
     /// </summary>
     public override void Deactivate()
     {
+        IsActivated = false;
 		onDeactivate.Invoke();
     }
 

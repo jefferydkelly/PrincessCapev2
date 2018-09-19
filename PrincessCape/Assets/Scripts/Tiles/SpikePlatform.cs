@@ -4,23 +4,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpikePlatform : ActivatedObject {
-    Animator myAnimator;
+
+    /// <summary>
+    /// Causes the spike to rise up
+    /// </summary>
     public override void Activate()
     {
         if (Application.isPlaying)
         {
-            myAnimator.SetBool("isActivated", true);
+            IsActivated = true;
         }
     }
 
+    /// <summary>
+    /// Lowers the spike
+    /// </summary>
     public override void Deactivate()
 	{
         if (Application.isPlaying)
         {
-            myAnimator.SetBool("isActivated", false);
+            IsActivated = false;
         }
     }
 
+    /// <summary>
+    /// Handles the collision of the spike with the player
+    /// </summary>
+    /// <param name="collision">Collision.</param>
     public void OnTriggerEnter2D(Collider2D collision) {
        
         if (collision.CompareTag("Player")) {
@@ -28,6 +38,10 @@ public class SpikePlatform : ActivatedObject {
         }
     }
 
+    /// <summary>
+    /// Handles the collision with any weighted object that would cause it to activate
+    /// </summary>
+    /// <param name="collision">Collision.</param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
 		if (!isConnected && collision.rigidbody.mass > 0.5f)
@@ -36,6 +50,10 @@ public class SpikePlatform : ActivatedObject {
 		}
     }
 
+    /// <summary>
+    /// Handles the end of the collision with a weighted object and checks if there is nothing on top
+    /// </summary>
+    /// <param name="collision">Collision.</param>
     private void OnCollisionExit2D(Collision2D collision)
     {
 		if (!isConnected && collision.rigidbody.mass > 0.5f)
@@ -44,14 +62,17 @@ public class SpikePlatform : ActivatedObject {
 		}
     }
 
+    /// <summary>
+    /// Initializes the instance of Spike Platform
+    /// </summary>
     public override void Init()
     {
-        myAnimator = GetComponent<Animator>();
+        base.Init();
         initialized = true;
 
 		if (startActive) {
 			Activate();
-			isActivated = true;
+			IsActivated = true;
 		}
     }
 

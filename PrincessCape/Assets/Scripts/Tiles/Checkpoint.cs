@@ -23,6 +23,9 @@ public class Checkpoint : MapTile
         Init();
     }
 
+    /// <summary>
+    /// Initializes the checkpoint
+    /// </summary>
     public override void Init() {
 		myAnimator = GetComponent<Animator>();
 
@@ -52,6 +55,9 @@ public class Checkpoint : MapTile
 		}
     }
 
+    /// <summary>
+    /// Removes the event when the checkpoint is disabled
+    /// </summary>
     private void OnDisable()
     {
         onCheckpointActivate.RemoveListener(Deactivate);
@@ -95,10 +101,13 @@ public class Checkpoint : MapTile
         set
         {
             isActive = value;
-            myAnimator.SetBool("isActive", value);
+            myAnimator.SetBool("IsActivated", value);
         }
     }
 
+    /// <summary>
+    /// Activate this instance.
+    /// </summary>
     void Activate()
     {
         if (!IsActive)
@@ -110,6 +119,9 @@ public class Checkpoint : MapTile
         }
     }
 
+    /// <summary>
+    /// Deactivate this instance.
+    /// </summary>
     void Deactivate()
     {
         IsActive = false;
@@ -144,6 +156,10 @@ public class Checkpoint : MapTile
         }
     }
 
+    /// <summary>
+    /// Generates a save data string for the checkpoint
+    /// </summary>
+    /// <returns>The save data.</returns>
     protected override string GenerateSaveData()
     {
         string data =  base.GenerateSaveData();
@@ -151,6 +167,10 @@ public class Checkpoint : MapTile
         return data;
     }
 
+    /// <summary>
+    /// Creates a Checkpoint from the TileStruct
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);

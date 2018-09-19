@@ -6,12 +6,7 @@ using UnityEditor;
 #endif
 
 public class PressureSwitch : ActivatorObject {
-    Animator myAnimator;
 
-    public override void Init() {
-		base.Init();
-        myAnimator = GetComponent<Animator>();
-    }
     /// <summary>
     /// When a Rigidbody with a great enough mass collides with the switch, increment ItemsOnTop.
     /// </summary>
@@ -34,22 +29,4 @@ public class PressureSwitch : ActivatorObject {
 			DecrementActivator();
 		}
 	}
-
-    /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="T:PressureSwitch"/> is activated.
-    /// </summary>
-    /// <value><c>true</c> if is activated; otherwise, <c>false</c>.</value>
-    public override bool IsActivated
-    {
-        get
-        {
-            return base.IsActivated;
-        }
-        protected set
-        {
-            base.IsActivated = value;
-            myAnimator.SetBool("isActivated", value);
-        }
-    }
-
 }

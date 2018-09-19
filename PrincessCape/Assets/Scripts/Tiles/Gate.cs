@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Gate : ActivatedObject {
-    Animator myAnimator;
     /// <summary>
     /// Opens the gate.
     /// </summary>
     public override void Activate()
     {
         IsActivated = true;
-        myAnimator.SetBool("IsActivated", true);
     }
 
     /// <summary>
@@ -20,7 +18,6 @@ public class Gate : ActivatedObject {
     public override void Deactivate()
     {
         IsActivated = false;
-        myAnimator.SetBool("IsActivated", false);
     }
 
     // Use this for initialization
@@ -34,7 +31,6 @@ public class Gate : ActivatedObject {
     /// Initializes the gate
     /// </summary>
     public override void Init() {
-        myAnimator = GetComponent<Animator>();
         if (startActive) {
             Activate();
         }

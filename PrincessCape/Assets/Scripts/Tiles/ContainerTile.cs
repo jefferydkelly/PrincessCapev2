@@ -18,6 +18,10 @@ public class ContainerTile : MapTile
         return data;
     }
 
+    /// <summary>
+    /// Creates a Container Tile from the given tile struct
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public override void FromData(TileStruct tile)
     {
         base.FromData(tile);
@@ -33,6 +37,9 @@ public class ContainerTile : MapTile
         }
     }
 
+    /// <summary>
+    /// Validates the contents of the container
+    /// </summary>
     private void OnValidate()
     {
         if (gameObject.activeInHierarchy)
@@ -41,6 +48,10 @@ public class ContainerTile : MapTile
         }
     }
 
+    /// <summary>
+    /// Checks the contents of the container
+    /// </summary>
+    /// <returns>The contents.</returns>
     IEnumerator CheckContents()
     {
         if (insideTheContainer == null && transform.childCount > 0)
@@ -64,6 +75,9 @@ public class ContainerTile : MapTile
         yield return null;
     }
 
+    /// <summary>
+    /// Spawns the contents of the container
+    /// </summary>
     void SpawnContents()
     {
         GameObject contents = Instantiate(insideTheContainer);
@@ -74,6 +88,9 @@ public class ContainerTile : MapTile
         MakeContentsClear();
     }
 
+    /// <summary>
+    /// Makes the contents clear.
+    /// </summary>
     void MakeContentsClear() 
     {
         if (transform.childCount > 0)
@@ -84,6 +101,9 @@ public class ContainerTile : MapTile
         }    
     }
 
+    /// <summary>
+    /// Initializes the container
+    /// </summary>
     public override void Init()
     {
         base.Init();
@@ -100,6 +120,9 @@ public class ContainerTile : MapTile
         }
     }
 #if UNITY_EDITOR
+    /// <summary>
+    /// Renders the lines when in the Unity Editor
+    /// </summary>
     public override void RenderInEditor()
     {
         if (transform.childCount > 0)

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BackAndForthPlatform : MovingPlatform {
-    Animator myAnimator;
 
     public override void Init()
     {
         base.Init();
-        myAnimator = GetComponent<Animator>();
 
         moveTimer = new Timer(travelTime, true);
         moveTimer.OnTick.AddListener(() =>
@@ -18,17 +16,6 @@ public class BackAndForthPlatform : MovingPlatform {
 
     }
 
-    public override void Activate()
-    {
-        base.Activate();
-        myAnimator.SetBool("IsActive", true);
-    }
-
-    public override void Deactivate()
-    {
-        base.Deactivate();
-        myAnimator.SetBool("IsActive", false);
-    }
     /// <summary>
     /// Update this instance.
     /// </summary>

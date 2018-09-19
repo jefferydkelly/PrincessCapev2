@@ -31,6 +31,7 @@ public class MovingPlatform : ActivatedObject {
     /// </summary>
 	public override void Activate()
 	{
+        IsActivated = true;
 		if (moveTimer.IsPaused) {
 			moveTimer.Unpause();
 		} else {
@@ -46,6 +47,7 @@ public class MovingPlatform : ActivatedObject {
 	public override void Deactivate()
 	{
 		moveTimer.Pause();
+        IsActivated = false;
 	}
 
     /// <summary>
