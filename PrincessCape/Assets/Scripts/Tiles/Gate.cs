@@ -28,15 +28,6 @@ public class Gate : ActivatedObject {
 	}
 
     /// <summary>
-    /// Initializes the gate
-    /// </summary>
-    public override void Init() {
-        if (startActive) {
-            Activate();
-        }
-    }
-
-    /// <summary>
     /// Increases or decreases the height of the gate
     /// </summary>
     /// <param name="up">If set to <c>true</c> increase the height.  Decreases it otherwise.</param>
