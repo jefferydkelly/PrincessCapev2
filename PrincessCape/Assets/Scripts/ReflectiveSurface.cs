@@ -26,7 +26,6 @@ public class ReflectiveSurface : MonoBehaviour {
 		{
             reflection.gameObject.SetActive(true);
             reflection.Activate();
-            collision.GetComponent<LightField>().OnFade.RemoveListener(EndReflection);
 		}
 
 	
@@ -36,6 +35,7 @@ public class ReflectiveSurface : MonoBehaviour {
     {
 		if (collision.CompareTag("Light") && collision.transform.parent != transform)
 		{
+            collision.GetComponent<LightField>().OnFade.RemoveListener(EndReflection);
 			EndReflection();
 		}
     }

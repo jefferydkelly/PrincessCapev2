@@ -23,6 +23,7 @@ public class LightEmitter : ActivatedObject
     /// </summary>
     public override void Init()
     {
+        emission.Init();
         if (startActive) {
             Activate();
         } else {
@@ -38,6 +39,7 @@ public class LightEmitter : ActivatedObject
     {
         IsActivated = true;
         emission.gameObject.SetActive(true);
+        emission.Activate();
     }
 
     /// <summary>
@@ -46,6 +48,7 @@ public class LightEmitter : ActivatedObject
     public override void Deactivate()
     {
         IsActivated = false;
+        emission.Deactivate();
         emission.gameObject.SetActive(false);
     }
 }

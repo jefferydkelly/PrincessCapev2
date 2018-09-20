@@ -61,7 +61,6 @@ public class Controller:Manager {
     public virtual float Horizontal {
         get {
             return (Input.GetKey(keys["Forward"]) ? 1 : 0) - (Input.GetKey(keys["Backward"]) ? 1 : 0);
-            //return Input.GetAxis("Horizontal");
         }
     }
 
@@ -236,7 +235,7 @@ public class Controller:Manager {
         {
             if (IsKeyDown("Inventory"))
             {
-                UIManager.Instance.ShowInventory = !UIManager.Instance.ShowInventory;
+                Game.Instance.IsInInventory = !Game.Instance.IsInInventory;
             }
         }
 

@@ -272,9 +272,11 @@
 "Prefab": "LightField",
 "Instance Name": "LightField",
 "ID": "30",
-"Position": "(4.0, -16.5, 0.0)",
+"Position": "(4.0, -19.5, 0.0)",
 "Rotation": "(0.0, 0.0, 0.0)",
 "Scale": "(1.0, 6.0, 1.0)",
+"Starts Active": "True",
+"Required Activators": "1",
 },
 {
 "Prefab": "Spike",

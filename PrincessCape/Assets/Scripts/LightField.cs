@@ -47,6 +47,7 @@ public class LightField : ActivatedObject {
         if (!startActive && expandTimer.IsRunning && !Game.isClosing)
         {
             expandTimer.Stop();
+            onFade.Invoke();
         }
     }
 
@@ -78,7 +79,8 @@ public class LightField : ActivatedObject {
         
         if (!CanPassThrough(collision))
         {
-            Deactivate();
+            //Deactivate();
+            expandTimer.Stop();
             SetYScale(collision.gameObject);
         }
     }

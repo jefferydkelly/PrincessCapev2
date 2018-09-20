@@ -52,7 +52,8 @@ public class Player : MonoBehaviour {
             }
         });
         Cutscene.Instance.OnEnd.AddListener(EndCutscene);
-       
+
+        shieldField.Init();
         shieldField.gameObject.SetActive(false);
         //DontDestroyOnLoad(gameObject);
 
@@ -399,6 +400,9 @@ public class Player : MonoBehaviour {
         if (collision.CompareTag("Light") && collision.gameObject != shieldField.gameObject)
 		{
 			shieldField.gameObject.SetActive(IsUsingShield);
+            if (IsUsingShield) {
+                shieldField.Activate();
+            }
 			shieldField.transform.localRotation = Quaternion.AngleAxis(Controller.Instance.Aim.Angle().ToDegrees() - 90, Vector3.forward);
 		}
     }
@@ -421,7 +425,9 @@ public class Player : MonoBehaviour {
 		{
             if (collision.gameObject != shieldField.gameObject)
             {
+                shieldField.Deactivate();
                 shieldField.gameObject.SetActive(false);
+
             }
 		}
 	}

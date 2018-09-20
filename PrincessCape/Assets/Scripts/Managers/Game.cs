@@ -335,6 +335,7 @@ public class Game : MonoBehaviour {
         if (newScene.name == "Test")
         {
             screenState = ScreenState.Level;
+            gameState = GameState.Playing;
             player = FindObjectOfType<Player>();
             player.Init();
             map = FindObjectOfType<Map>();
@@ -428,6 +429,11 @@ public class Game : MonoBehaviour {
         get {
             return gameState == GameState.Inventory;
         }
+
+        set {
+            gameState = value ? GameState.Inventory : GameState.Playing;
+            UIManager.Instance.ShowInventory = value;
+        }
     }
 
     /// <summary>
@@ -447,6 +453,12 @@ public class Game : MonoBehaviour {
     public bool IsInLevelEditor {
         get {
             return screenState == ScreenState.Editor;
+        }
+    }
+
+    public GameState State {
+        get {
+            return gameState;
         }
     }
 

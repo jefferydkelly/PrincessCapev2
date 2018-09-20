@@ -32,6 +32,12 @@ public class Ladder : SegmentedTile
         AdjustSize(NumSegments + 1);
     }
 
+    protected override void RevealSegment()
+    {
+        base.RevealSegment();
+        AdjustSize(NumSegments + 1);
+    }
+
     /// <summary>
     /// Adjusts the size of the collider.
     /// </summary>

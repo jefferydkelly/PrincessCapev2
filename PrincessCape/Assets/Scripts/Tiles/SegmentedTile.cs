@@ -15,6 +15,7 @@ public class SegmentedTile : ActivatedObject
 
     protected Timer revealTimer;
     protected float revealTime = 0.25f;
+    protected int maxSegments = 0;
 
     /// <summary>
     /// Initializes this instance of SegmentedTile.
@@ -22,7 +23,7 @@ public class SegmentedTile : ActivatedObject
     public override void Init()
     {
         initialized = false;
-        revealTimer = new Timer(revealTime, NumSegments);
+        revealTimer = new Timer(revealTime, maxSegments);
         revealTimer.OnTick.AddListener(RevealSegment);
 
         base.Init();
@@ -153,8 +154,8 @@ public class SegmentedTile : ActivatedObject
         initialized = false;
         base.FromData(tile);
 
-        int numLinks = PCLParser.ParseInt(tile.NextLine);
-        for (int i = 0; i < numLinks; i++)
+        maxSegments = PCLParser.ParseInt(tile.NextLine);
+        for (int i = 0; i < maxSegments; i++)
         {
             SpawnSegment();
         }
@@ -168,7 +169,7 @@ public class SegmentedTile : ActivatedObject
             Deactivate();
         }
 
-        revealTimer = new Timer(revealTime, numLinks);
+        revealTimer = new Timer(revealTime, maxSegments);
         revealTimer.OnTick.AddListener(RevealSegment);
         initialized = true;
 
@@ -240,7 +241,14 @@ public class SegmentedTile : ActivatedObject
     {
         if (revealTimer.IsRunning)
         {
-            transform.GetChild(revealTimer.TicksCompleted + segmentStart).gameObject.SetActive(true);
+            if (NumSegments >= MaxSegments)
+            {
+                revealTimer.Stop();
+            }
+            else
+            {
+                transform.GetChild(revealTimer.TicksCompleted + segmentStart).gameObject.SetActive(true);
+            }
         }
     }
 
@@ -261,7 +269,19 @@ public class SegmentedTile : ActivatedObject
     /// <value>The number of segments.</value>
     protected int NumSegments {
         get {
-            return transform.childCount - segmentStart;
+            int i = 0;
+            for (i = 0; i < MaxSegments; i++) {
+                if (!transform.GetChild(segmentStart + i).gameObject.activeSelf) {
+                    break;
+                }
+            }
+            return i;//transform.childCount - segmentStart;
+        }
+    }
+
+    protected int MaxSegments {
+        get {
+            return maxSegments;
         }
     }
 

@@ -24,8 +24,9 @@ public class StarShield : MagicItem
 	/// </summary>
 	public override void Activate()
 	{
-        if (Game.Instance.IsPlaying)
+        if (Game.Instance.IsPlaying && !Game.Instance.IsInInventory)
 		{
+            Debug.Log(Game.Instance.IsInInventory);
 			if (state == MagicItemState.Ready)
 			{
 				if (slot == MagicItemSlot.First)
