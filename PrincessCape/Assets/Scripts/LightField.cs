@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class LightField : ActivatedObject {
     Timer expandTimer;
     float expandTime = 0.25f;
-    float maxHeight = 1.0f;
+
     BoxCollider2D myCollider;
 	UnityEvent onFade;
 

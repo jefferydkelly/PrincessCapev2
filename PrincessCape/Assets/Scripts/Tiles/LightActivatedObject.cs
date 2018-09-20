@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LightActivatedObject : ActivatorObject {
-	GameObject lightSource;
 
     /// <summary>
     /// Initializes the Light Activated Object
@@ -34,7 +33,6 @@ public class LightActivatedObject : ActivatorObject {
 		if (collision.CompareTag("Light"))
 		{
 			Deactivate();
-			lightSource = null;
             collision.GetComponent<LightField>().OnFade.RemoveListener(Deactivate);
 		}
     }

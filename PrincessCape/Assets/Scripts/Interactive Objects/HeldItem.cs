@@ -8,7 +8,7 @@ public class HeldItem : InteractiveObject
     protected Rigidbody2D myRigidbody;
     protected Collider2D myCollider;
     protected bool isHeld = false;
-    int hitMasks;
+    //int hitMasks;
 	Vector3 startPosition;
 
     void Awake()
@@ -26,7 +26,7 @@ public class HeldItem : InteractiveObject
         myRigidbody = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
         myRenderer = GetComponent<SpriteRenderer>();
-        hitMasks = ~(1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("UI"));
+        //hitMasks = ~(1 << LayerMask.NameToLayer("Background") | 1 << LayerMask.NameToLayer("UI"));
 
         if (Game.Instance.IsInLevelEditor) {
             myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
