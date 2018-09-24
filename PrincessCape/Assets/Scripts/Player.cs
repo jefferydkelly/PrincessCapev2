@@ -168,8 +168,7 @@ public class Player : MonoBehaviour {
 
                     if (!(IsHoldingItem && heldItem.IsHeavy))
                     {
-                        fwd *= -1;
-                        myRenderer.flipX = !myRenderer.flipX;
+                        Forward *= -1;
                     }
                 }
                 if (IsHoldingItem)
@@ -463,6 +462,11 @@ public class Player : MonoBehaviour {
         get {
             return new Vector3(fwd, 0);
         }
+
+        set {
+            fwd = (int)value.x;
+            myRenderer.flipX = fwd < 0;
+        }
     }
 
     /// <summary>
@@ -697,6 +701,15 @@ public class Player : MonoBehaviour {
 
         set {
             heldItem = value;
+            if (heldItem)
+            {
+                Vector3 dif = heldItem.transform.position - transform.position;
+
+                if (dif.x / fwd < 0)
+                {
+                    Forward *= -1;
+                }
+            }
         }
     }
 
