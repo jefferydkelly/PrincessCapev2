@@ -404,7 +404,9 @@ public class Player : MonoBehaviour {
             if (IsUsingShield) {
                 shieldField.Activate();
             }
-			shieldField.transform.localRotation = Quaternion.AngleAxis(Controller.Instance.Aim.Angle().ToDegrees() - 90, Vector3.forward);
+
+            Vector2 dif = Controller.Instance.MousePosition - shieldField.transform.position;
+            shieldField.transform.localRotation = Quaternion.AngleAxis(dif.Angle().ToDegrees() - 90, Vector3.forward);
 		}
     }
 
