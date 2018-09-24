@@ -6,6 +6,7 @@ public class AimArrow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        /*
         UIManager.Instance.OnAimStatusChange.AddListener((bool show) =>
         {
             gameObject.SetActive(show);
@@ -13,7 +14,7 @@ public class AimArrow : MonoBehaviour {
             if (show) {
                 Rotate();
             }
-        });
+        });*/
         gameObject.SetActive(false);
 	}
 	

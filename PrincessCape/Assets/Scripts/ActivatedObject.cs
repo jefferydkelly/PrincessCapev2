@@ -12,8 +12,7 @@ public abstract class ActivatedObject : MapTile
     [SerializeField]
     protected bool startActive = false;
     protected bool isActivated = false;
-	[SerializeField]
-	protected bool isConnected = false;
+	
 	[SerializeField]
 	protected int requiredActivators = 1;
 	protected int currentActivators = 0;
@@ -139,11 +138,12 @@ public abstract class ActivatedObject : MapTile
     /// <value><c>true</c> if is connected; otherwise, <c>false</c>.</value>
 	public bool IsConnected {
 		get {
-			return isConnected;
-		}
-
-		set {
-			isConnected = value;
+            foreach (ActivatorConnection ac in Map.Instance.Connections) {
+                if (ac.ActivatedID == ID || ac.ActivatorID == ID) {
+                    return true;
+                }
+            }
+            return false;
 		}
 	}
 

@@ -86,7 +86,7 @@ public class ActivatorObject : ActivatedObject {
 		if (ao && !HasConnection(ao))
 		{
 			ao.StartsActive = startActive;
-			ao.IsConnected = true;
+			//ao.IsConnected = true;
 			
             if (Game.Instance.IsInLevelEditor)
 			{
@@ -136,7 +136,7 @@ public class ActivatorObject : ActivatedObject {
 		}
         
 		if (index > -1) {
-			ao.IsConnected = false;
+			//ao.IsConnected = false;
             ActivatorConnection activator = Connections[index];
             DeregisterConnection(activator);
             LevelEditor.Instance.OnConnectionRemoved.Invoke(activator);

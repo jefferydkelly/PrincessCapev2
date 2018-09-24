@@ -44,7 +44,7 @@ public class SpikePlatform : ActivatedObject {
     /// <param name="collision">Collision.</param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-		if (!isConnected && collision.rigidbody.mass > 0.5f)
+		if (!IsConnected && collision.rigidbody.mass > 0.5f)
 		{
 			IncrementActivator();
 		}
@@ -56,7 +56,7 @@ public class SpikePlatform : ActivatedObject {
     /// <param name="collision">Collision.</param>
     private void OnCollisionExit2D(Collision2D collision)
     {
-		if (!isConnected && collision.rigidbody.mass > 0.5f)
+		if (!IsConnected && collision.rigidbody.mass > 0.5f)
 		{
 			DecrementActivator();
 		}
