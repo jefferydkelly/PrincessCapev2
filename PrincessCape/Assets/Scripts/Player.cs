@@ -368,7 +368,8 @@ public class Player : MonoBehaviour {
             theLadder = collision.gameObject.GetComponentInParent<Ladder>();
         } else if (collision.collider.CompareTag("Projectile")) {
             if (IsUsingShield) {
-				collision.gameObject.GetComponent<Projectile>().Fwd = Controller.Instance.Aim;
+                
+                collision.gameObject.GetComponent<Projectile>().Fwd = (Controller.Instance.MousePosition - collision.transform.position).normalized;
             } else {
                 TakeDamage();
             }
