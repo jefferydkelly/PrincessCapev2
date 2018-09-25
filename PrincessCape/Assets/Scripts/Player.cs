@@ -36,6 +36,9 @@ public class Player : MonoBehaviour {
 	UnityEvent onRespawn;
 	UnityEvent onLand;
 	UnityEvent onDie;
+
+    [SerializeField]
+    AudioClip jumpSound;
     private void Awake()
     {
         inventory = new List<MagicItem>();
@@ -243,6 +246,7 @@ public class Player : MonoBehaviour {
         state = PlayerState.Jumping;
         myRigidbody.gravityScale = 1.0f;
         myRigidbody.velocity = myRigidbody.velocity.SetY(7.0f);
+        SoundManager.Instance.PlaySound(jumpSound);
         //myRigidbody.AddForce(Vector2.up * 7.0f, ForceMode2D.Impulse);
     }
     /// <summary>
