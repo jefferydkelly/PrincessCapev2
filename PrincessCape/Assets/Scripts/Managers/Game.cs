@@ -60,16 +60,16 @@ public class Game : MonoBehaviour {
             
          
             Cutscene.Instance.OnStart.AddListener(()=> {
-                gameState = GameState.Cutscene;
+                State = GameState.Cutscene;
             });
 
 			Cutscene.Instance.OnEnd.AddListener(EndCutscene);
 
             EventManager.StartListening("Inventory", ()=> {
                 if (gameState == GameState.Playing) {
-                    gameState = GameState.Inventory;
+                    State = GameState.Inventory;
                 } else if (gameState == GameState.Inventory) {
-                    gameState = GameState.Playing;
+                    State = GameState.Playing;
                 }
             });
             if (canvas)
@@ -79,7 +79,7 @@ public class Game : MonoBehaviour {
 
 			if (SceneManager.GetActiveScene().name == "Test")
 			{
-                gameState = GameState.Playing;
+                State = GameState.Playing;
                 map = FindObjectOfType<Map>();
 				map.OnLevelLoaded.AddListener(() =>
 				{
@@ -87,7 +87,7 @@ public class Game : MonoBehaviour {
 					UIManager.Instance.OnMessageStart.AddListener(() => {
                         if (!IsInCutscene)
                         {
-                            gameState = GameState.Message;
+                            State = GameState.Message;
                         }
                     });
 
@@ -95,10 +95,10 @@ public class Game : MonoBehaviour {
                     UIManager.Instance.OnMessageEnd.AddListener(() => {
                         if (!IsInCutscene)
                         {
-                            gameState = GameState.Playing;
+                            State = GameState.Playing;
                         }
                     });
-                    gameState = GameState.Playing;
+                    State = GameState.Playing;
 					AddItems();
 				});
             }
@@ -142,12 +142,14 @@ public class Game : MonoBehaviour {
                 PauseInEditor();
             } else if (!IsPlaying)
             {
-                gameState = GameState.Playing;
+                
                 Map.Instance.PlayInEditor();
                 UIManager.Instance.IsHidden = false;
                 LevelEditor.Instance.IsHidden = true;
                 OnEditorPlay.Invoke();
-                onGameStateChanged.Invoke(gameState);
+                State = GameState.Playing;
+                //gameState = GameState.Playing;
+                //onGameStateChanged.Invoke(gameState);
                 player.ClearItems();
                 AddItems();
 
@@ -164,7 +166,7 @@ public class Game : MonoBehaviour {
     /// </summary>
     public void StopInEditor() {
         player.Rigidbody.velocity = Vector2.zero;
-        gameState = GameState.None;
+        State = GameState.None;
         LevelEditor.Instance.IsHidden = false;
         UIManager.Instance.IsHidden = true;
         OnEditorStop.Invoke();
@@ -180,18 +182,18 @@ public class Game : MonoBehaviour {
         if (IsInLevelEditor) {
             if (IsPlaying)
             {
-                gameState = GameState.Paused;
+                State = GameState.Paused;
                 LevelEditor.Instance.IsHidden = false;
                 UIManager.Instance.IsHidden = true;
                 OnEditorPause.Invoke();
-                onGameStateChanged.Invoke(gameState);
+                //onGameStateChanged.Invoke(gameState);
 
             } else {
-                gameState = GameState.Playing;
+                State = GameState.Playing;
                 LevelEditor.Instance.IsHidden = true;
                 UIManager.Instance.IsHidden = false;
                 OnEditorPlay.Invoke();
-                onGameStateChanged.Invoke(gameState);
+                //onGameStateChanged.Invoke(gameState);
             }
             if (!alreadyPaused)
             {
@@ -282,7 +284,7 @@ public class Game : MonoBehaviour {
 
                 onReady.Invoke();
 				onReady.RemoveAllListeners();
-                gameState = GameState.Playing;
+                State = GameState.Playing;
             }
 
         }
@@ -335,7 +337,7 @@ public class Game : MonoBehaviour {
         if (newScene.name == "Test")
         {
             screenState = ScreenState.Level;
-            gameState = GameState.Playing;
+            State = GameState.Playing;
             player = FindObjectOfType<Player>();
             player.Init();
             map = FindObjectOfType<Map>();
@@ -404,9 +406,9 @@ public class Game : MonoBehaviour {
 
         set {
             if (value && gameState == GameState.Playing) {
-                gameState = GameState.Paused;
+                State = GameState.Paused;
             } else if (!value && gameState == GameState.Paused) {
-                gameState = GameState.Playing;
+                State = GameState.Playing;
             }
         }
     }
@@ -431,7 +433,7 @@ public class Game : MonoBehaviour {
         }
 
         set {
-            gameState = value ? GameState.Inventory : GameState.Playing;
+            State = value ? GameState.Inventory : GameState.Playing;
             UIManager.Instance.ShowInventory = value;
         }
     }
@@ -460,13 +462,18 @@ public class Game : MonoBehaviour {
         get {
             return gameState;
         }
+
+        private set {
+            onGameStateChanged.Invoke(value);
+            gameState = value;
+        }
     }
 
     /// <summary>
     /// Handles the transition between cutscene and gameplay
     /// </summary>
     void EndCutscene() {
-        gameState = GameState.Playing;
+        State = GameState.Playing;
     }
 
     /// <summary>

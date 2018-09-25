@@ -171,4 +171,17 @@ public abstract class ActivatedObject : MapTile
 			Deactivate();
 		}
 	}
+
+    protected override void OnGameStateChanged(GameState state)
+    {
+        base.OnGameStateChanged(state);
+
+        if (state == GameState.Playing && !(Game.Instance.IsPaused || Game.Instance.IsInInventory)) {
+            if (startActive) {
+                Activate();
+            } else {
+                Deactivate();
+            }
+        }
+    }
 }

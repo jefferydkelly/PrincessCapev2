@@ -34,10 +34,6 @@ public class SegmentedTile : ActivatedObject
             {
                 activationCircle.gameObject.SetActive(Game.Instance.IsInLevelEditor);
             }
-            if (!Game.Instance.IsInLevelEditor)
-            {
-                Game.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-            }
         }
         initialized = true;
     }
@@ -48,7 +44,12 @@ public class SegmentedTile : ActivatedObject
     /// <param name="state">State.</param>
     protected override void OnGameStateChanged(GameState state)
     {
+        base.OnGameStateChanged(state);
         activationCircle.gameObject.SetActive(state != GameState.Playing);
+
+        if (state != GameState.Playing && Game.Instance.IsPlaying && Game.Instance.IsInLevelEditor) {
+            RevealAllSegments();
+        }
     }
 
     /// <summary>
