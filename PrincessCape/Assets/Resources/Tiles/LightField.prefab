@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f00d1ccfb89843e78391ed94e6a873a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: 0
+  layer: 1
   editorTextureRect:
     serializedVersion: 2
     x: 0
@@ -108,7 +108,6 @@ MonoBehaviour:
     height: 128
   instanceName: 
   startActive: 0
-  isConnected: 0
   requiredActivators: 1
 --- !u!212 &212047984288420414
 SpriteRenderer:
