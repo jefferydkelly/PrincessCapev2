@@ -8,9 +8,10 @@
       <File FileName="Assets/Scripts/Player.cs" Line="707" Column="1" />
       <File FileName="Assets/Scripts/Map/MapTile.cs" Line="326" Column="1" />
       <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="16" Column="141" />
-      <File FileName="Assets/Scripts/Tiles/SegmentedTile.cs" Line="50" Column="99" />
+      <File FileName="Assets/Scripts/Tiles/SegmentedTile.cs" Line="44" Column="43" />
       <File FileName="Assets/Scripts/Tiles/Bridge.cs" Line="97" Column="6" />
-      <File FileName="Assets/Scripts/Managers/Game.cs" Line="436" Column="28" />
+      <File FileName="Assets/Scripts/Managers/Game.cs" Line="151" Column="17" />
+      <File FileName="Assets/Scripts/Map/Map.cs" Line="444" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

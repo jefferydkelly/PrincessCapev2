@@ -45,7 +45,10 @@ public class SegmentedTile : ActivatedObject
     protected override void OnGameStateChanged(GameState state)
     {
         base.OnGameStateChanged(state);
-        activationCircle.gameObject.SetActive(state != GameState.Playing);
+        if (activationCircle)
+        {
+            activationCircle.gameObject.SetActive(state != GameState.Playing);
+        }
 
         if (state != GameState.Playing && Game.Instance.IsPlaying && Game.Instance.IsInLevelEditor) {
             RevealAllSegments();
