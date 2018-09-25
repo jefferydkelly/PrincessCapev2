@@ -184,7 +184,6 @@ MonoBehaviour:
     height: 128
   instanceName: 
   startActive: 0
-  isConnected: 0
   requiredActivators: 1
 --- !u!114 &114574924381393994
 MonoBehaviour:
@@ -197,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a92f024b6e3f478586fab51be6daf28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: 0
+  layer: 1
   editorTextureRect:
     serializedVersion: 2
     x: 0
@@ -206,7 +205,6 @@ MonoBehaviour:
     height: 128
   instanceName: 
   startActive: 0
-  isConnected: 0
   requiredActivators: 1
   emission: {fileID: 114054299556349294}
 --- !u!212 &212429725303058972

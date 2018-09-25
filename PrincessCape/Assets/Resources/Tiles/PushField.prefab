@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 582b8ac926f40447b8e701dd9d42489c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: 0
+  layer: 1
   editorTextureRect:
     serializedVersion: 2
     x: 0
