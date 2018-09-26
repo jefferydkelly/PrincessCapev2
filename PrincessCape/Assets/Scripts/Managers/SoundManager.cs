@@ -21,7 +21,7 @@ public class SoundManager : MonoBehaviour {
     /// </summary>
     /// <param name="clip">Clip.</param>
     public void PlaySound(AudioClip clip) {
-        if (Game.Instance.IsPlaying)
+        if (Game.Instance.IsPlaying || Game.Instance.IsInCutscene)
         {
             fxSource.clip = clip;
             fxSource.Play();
@@ -32,7 +32,7 @@ public class SoundManager : MonoBehaviour {
     /// Plays the music.
     /// </summary>
     /// <param name="clip">Clip.</param>
-    public void PlarMusic(AudioClip clip) {
+    public void PlayMusic(AudioClip clip) {
         bgmSource.clip = clip;
         bgmSource.Play();
     }

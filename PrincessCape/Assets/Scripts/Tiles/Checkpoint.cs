@@ -104,6 +104,10 @@ public class Checkpoint : MapTile
         {
             isActive = value;
             myAnimator.SetBool("IsActivated", value);
+
+            if (value) {
+                activeCheckpoint = this;
+            }
         }
     }
 
@@ -114,7 +118,6 @@ public class Checkpoint : MapTile
     {
         if (!IsActive)
         {
-            activeCheckpoint = this;
             IsActive = true;
             onCheckpointActivate.Invoke();
             onCheckpointActivate.AddListener(Deactivate);
@@ -180,7 +183,7 @@ public class Checkpoint : MapTile
         isFirstCheckpoint = PCLParser.ParseBool(tile.NextLine);
 
         if (isFirstCheckpoint && Application.isPlaying) {
-            activeCheckpoint = this;
+            IsActive = true;
         }
     }
 }

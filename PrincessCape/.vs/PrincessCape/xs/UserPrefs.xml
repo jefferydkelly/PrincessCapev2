@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/SoundManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Tiles/Checkpoint.cs">
     <Files>
       <File FileName="Assets/Scripts/Tiles/PressureSwitch.cs" Line="31" Column="3" />
       <File FileName="Assets/Scripts/ActivatedObject.cs" Line="185" Column="10" />
@@ -12,8 +12,11 @@
       <File FileName="Assets/Scripts/Tiles/Bridge.cs" Line="97" Column="6" />
       <File FileName="Assets/Scripts/Managers/Game.cs" Line="151" Column="17" />
       <File FileName="Assets/Scripts/Map/Map.cs" Line="444" Column="23" />
-      <File FileName="Assets/Scripts/Tiles/Checkpoint.cs" Line="121" Column="58" />
-      <File FileName="Assets/Scripts/Managers/SoundManager.cs" Line="28" Column="10" />
+      <File FileName="Assets/Scripts/Tiles/Checkpoint.cs" Line="120" Column="10" />
+      <File FileName="Assets/Scripts/Managers/SoundManager.cs" Line="24" Column="66" />
+      <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="199" Column="11" />
+      <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePlay.cs" Line="14" Column="39" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

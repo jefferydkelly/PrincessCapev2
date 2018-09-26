@@ -1576,6 +1576,7 @@ MonoBehaviour:
     height: 128
   instanceName: Checkpoint
   isFirstCheckpoint: 1
+  soundEffect: {fileID: 0}
 --- !u!61 &219623510
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1959,7 +1960,6 @@ MonoBehaviour:
     height: 256
   instanceName: Gate
   startActive: 1
-  isConnected: 0
   requiredActivators: 1
 --- !u!95 &259698856
 Animator:
@@ -3926,6 +3926,7 @@ MonoBehaviour:
     height: 128
   instanceName: Checkpoint
   isFirstCheckpoint: 0
+  soundEffect: {fileID: 0}
 --- !u!61 &640504034
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5243,7 +5244,6 @@ MonoBehaviour:
     height: 256
   instanceName: Gate
   startActive: 0
-  isConnected: 0
   requiredActivators: 1
 --- !u!95 &909117521
 Animator:
@@ -5760,7 +5760,6 @@ MonoBehaviour:
     height: 128
   instanceName: Ladder
   startActive: 1
-  isConnected: 0
   requiredActivators: 1
   segment: {fileID: 0}
   spawnDirection: 3
@@ -5789,7 +5788,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 12}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &1002894194
 SpriteRenderer:
@@ -6303,6 +6302,7 @@ MonoBehaviour:
     height: 128
   instanceName: Checkpoint
   isFirstCheckpoint: 0
+  soundEffect: {fileID: 0}
 --- !u!61 &1157192621
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7379,6 +7379,7 @@ MonoBehaviour:
     height: 128
   instanceName: Checkpoint
   isFirstCheckpoint: 0
+  soundEffect: {fileID: 0}
 --- !u!61 &1388050742
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7520,6 +7521,7 @@ MonoBehaviour:
     height: 128
   instanceName: Checkpoint
   isFirstCheckpoint: 0
+  soundEffect: {fileID: 0}
 --- !u!61 &1390915022
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9231,6 +9233,48 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1621743742}
   m_CullTransparentMesh: 0
+--- !u!1001 &1629471305
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4980135008133546, guid: 929729413cc014dc0935836528a899bd, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980135008133546, guid: 929729413cc014dc0935836528a899bd, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980135008133546, guid: 929729413cc014dc0935836528a899bd, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980135008133546, guid: 929729413cc014dc0935836528a899bd, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980135008133546, guid: 929729413cc014dc0935836528a899bd, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980135008133546, guid: 929729413cc014dc0935836528a899bd, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980135008133546, guid: 929729413cc014dc0935836528a899bd, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980135008133546, guid: 929729413cc014dc0935836528a899bd, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 929729413cc014dc0935836528a899bd, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1640959433
 GameObject:
   m_ObjectHideFlags: 0
@@ -11014,7 +11058,6 @@ MonoBehaviour:
     height: 128
   instanceName: Ladder
   startActive: 1
-  isConnected: 0
   requiredActivators: 1
   segment: {fileID: 0}
   spawnDirection: 3
@@ -11043,7 +11086,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 7}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &2039019406
 SpriteRenderer:

@@ -196,7 +196,7 @@ public class Cutscene:Manager
 		}
 		else if (p == "play")
 		{
-			//c = new CutscenePlay(parts[1].Trim());
+			return new CutscenePlay(parts[1].Trim());
 		}
 		else if (p == "follow")
 		{
