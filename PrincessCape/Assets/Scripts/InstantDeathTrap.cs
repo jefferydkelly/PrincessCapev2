@@ -12,6 +12,7 @@ public class InstantDeathTrap : MapTile {
     {
         if (collision.CompareTag("Player")) {
             Game.Instance.Player.TakeDamage(true);
+            SoundManager.Instance.PlaySound("splat");
         }
     }
 
@@ -19,6 +20,7 @@ public class InstantDeathTrap : MapTile {
     {
         if (collision.collider.CompareTag("Player")) {
             Game.Instance.Player.TakeDamage(true);
+            SoundManager.Instance.PlaySound("splat");
         }
     }
 }

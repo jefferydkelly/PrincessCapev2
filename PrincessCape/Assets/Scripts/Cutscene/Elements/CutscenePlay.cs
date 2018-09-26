@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CutscenePlay : CutsceneElement {
-    AudioClip clip;
+    string clipName;
 
-    public CutscenePlay(string clipPath) {
-        clip = Resources.Load<AudioClip>("Sound Effects/" + clipPath);
+    public CutscenePlay(string clip) {
+        clipName = clip;
     }
     public override Timer Run()
     {
-        SoundManager.Instance.PlaySound(clip);
-        return new Timer(clip.length);
+        float length = SoundManager.Instance.PlaySound(clipName);
+        return new Timer(length);
     }
 }

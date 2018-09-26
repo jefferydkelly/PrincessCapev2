@@ -34,6 +34,7 @@ public class SpikePlatform : ActivatedObject {
     public void OnTriggerEnter2D(Collider2D collision) {
        
         if (collision.CompareTag("Player")) {
+            SoundManager.Instance.PlaySound("splat");
             Game.Instance.Player.TakeDamage(true);
         }
     }

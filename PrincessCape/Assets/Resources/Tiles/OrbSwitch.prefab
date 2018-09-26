@@ -96,8 +96,8 @@ MonoBehaviour:
     height: 128
   instanceName: 
   startActive: 0
-  isConnected: 0
   requiredActivators: 1
+  switchSound: {fileID: 8300000, guid: b3bdd4fa6a8704d2e8bed59973f46771, type: 3}
 --- !u!212 &212360359314852264
 SpriteRenderer:
   m_ObjectHideFlags: 1

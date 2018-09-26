@@ -14,8 +14,6 @@ public class Checkpoint : MapTile
     Animator myAnimator;
     [SerializeField]
     bool isFirstCheckpoint;
-    [SerializeField]
-    AudioClip soundEffect;
 
     /// <summary>
     /// Awake this instance.
@@ -121,7 +119,7 @@ public class Checkpoint : MapTile
             IsActive = true;
             onCheckpointActivate.Invoke();
             onCheckpointActivate.AddListener(Deactivate);
-            SoundManager.Instance.PlaySound(soundEffect);
+            SoundManager.Instance.PlaySound("checkpoint");
         }
     }
 

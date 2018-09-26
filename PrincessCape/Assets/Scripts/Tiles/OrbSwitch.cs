@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class OrbSwitch : ActivatorObject
 {
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Projectile"))
@@ -25,5 +26,17 @@ public class OrbSwitch : ActivatorObject
             }
 
         }
-    } 
+    }
+
+    public override void Activate()
+    {
+        base.Activate();
+        SoundManager.Instance.PlaySound("switchactivate");
+    }
+
+    public override void Deactivate()
+    {
+        base.Deactivate();
+        SoundManager.Instance.PlaySound("switchactivate");
+    }
 }

@@ -243,3 +243,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e48081cf8b774d14a6a058416c050dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEffects:
+  - {fileID: 8300000, guid: 7782fe87c00474261bdb918cb345ce74, type: 3}
+  - {fileID: 8300000, guid: b82ef08e5c70f40c0a01e73bb4103de1, type: 3}
+  - {fileID: 8300000, guid: 9781da78c086747308a7c38cb39d2d4a, type: 3}
+  - {fileID: 8300000, guid: 2aabc4407f12d4dc39c1f84d27ec3c17, type: 3}
+  - {fileID: 8300000, guid: 57131df341bdb4f4086ff910478a3bfe, type: 3}
+  - {fileID: 8300000, guid: b3bdd4fa6a8704d2e8bed59973f46771, type: 3}

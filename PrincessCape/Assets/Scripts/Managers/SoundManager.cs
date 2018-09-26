@@ -7,6 +7,9 @@ public class SoundManager : MonoBehaviour {
 	static SoundManager instance;
     AudioSource fxSource;
     AudioSource bgmSource;
+    [SerializeField]
+    List<AudioClip> soundEffects;
+    Dictionary<string, AudioClip> clips;
 	// Use this for initialization
 	void Awake () {
         instance = this;
@@ -14,6 +17,11 @@ public class SoundManager : MonoBehaviour {
         fxSource = sources[0];
         bgmSource = sources[1];
         Game.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
+        clips = new Dictionary<string, AudioClip>();
+        foreach(AudioClip ac in soundEffects) {
+            clips.Add(ac.name, ac);
+        }
+        soundEffects.Clear();
 	}
 
     /// <summary>
@@ -26,6 +34,16 @@ public class SoundManager : MonoBehaviour {
             fxSource.clip = clip;
             fxSource.Play();
         }
+    }
+
+    public float PlaySound(string clipName) {
+        if (clips.ContainsKey(clipName)) {
+            AudioClip clip = clips[clipName];
+            PlaySound(clip);
+            return clip.length;
+        }
+
+        return 0.0f;
     }
 
     /// <summary>

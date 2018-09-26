@@ -38,7 +38,8 @@ Sir Matthew: Fear not, Princess!  I will protect you from this monstrosity.
 move-x Matthew -13 1 and
 Sir Matthew: Have at me, foul beast!
 wait 1
-create DragonFire -3 5 0
+create DragonFire -3 5 0 and
+play dragonfire
 animate Matthew Fire
 wait 1
 destroy DragonFire and
