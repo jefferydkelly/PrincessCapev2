@@ -109,7 +109,7 @@ MonoBehaviour:
   m_MinSize: {x: 681, y: 492}
   m_MaxSize: {x: 14004, y: 14042}
   vertical: 0
-  controlID: 2618
+  controlID: 997
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_MinSize: {x: 404, y: 492}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 2619
+  controlID: 998
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_MinSize: {x: 404, y: 221}
   m_MaxSize: {x: 8004, y: 4021}
   vertical: 0
-  controlID: 2620
+  controlID: 999
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -368,7 +368,7 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 2e2f0000
+    m_SelectedIDs: 2e2b0000
     m_LastClickedID: 0
     m_ExpandedIDs: e6fbffff00000000
     m_RenameOverlay:
@@ -425,9 +425,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -9.947146, y: -20.788597, z: -0.18926172}
+    m_Target: {x: -9.929091, y: -20.75631, z: -0.19052376}
     speed: 2
-    m_Value: {x: -9.947146, y: -20.788597, z: -0.18926172}
+    m_Value: {x: -9.929091, y: -20.75631, z: -0.19052376}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -459,9 +459,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 7.9250307
+    m_Target: 8.051057
     speed: 2
-    m_Value: 7.9250307
+    m_Value: 8.051057
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -972,20 +972,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Resources/Sounds
   m_ViewMode: 1
   m_StartGridSize: 67
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Resources/Sounds
   m_LastFoldersGridSize: 67
   m_LastProjectPath: /Users/jefferykelly/PrincessCapev2/PrincessCape
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 303.59283}
-    m_SelectedIDs: 6c2e0000
-    m_LastClickedID: 11884
-    m_ExpandedIDs: 00000000a02a0000d42c0000fe2c0000c22d0000f02d00003a2e00006c2e0000ee2e0000e42f000000ca9a3b
+    scrollPos: {x: 0, y: 187}
+    m_SelectedIDs: 7e300000
+    m_LastClickedID: 12414
+    m_ExpandedIDs: 00000000a02a0000fe2c0000f02d00003a2e00006c2e0000ee2e0000e42f00006233000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1013,7 +1013,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a02a0000d42c0000fe2c0000c22d0000f02d00003a2e00006c2e0000ee2e0000e42f000000ca9a3b
+    m_ExpandedIDs: 00000000a02a0000fe2c0000f02d00003a2e00006c2e0000ee2e0000e42f00006233000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
