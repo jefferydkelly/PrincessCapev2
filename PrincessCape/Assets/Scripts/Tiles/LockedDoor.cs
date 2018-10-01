@@ -34,6 +34,7 @@ public class LockedDoor : MapTile {
             myAnimator.SetTrigger("Open");
 			if (Game.Instance.IsInCutscene)
 			{
+                SoundManager.Instance.PlaySound("unlock");
 				Destroy(collision.gameObject);
 			} else {
 				collision.gameObject.SetActive(false);

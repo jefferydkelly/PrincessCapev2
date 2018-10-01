@@ -28,16 +28,9 @@ public class StarShield : MagicItem
 		{
 			if (state == MagicItemState.Ready)
 			{
-				if (slot == MagicItemSlot.First)
-				{
-					EventManager.TriggerEvent("ItemOneActivatedSuccessfully");
-				}
-				else
-				{
-					EventManager.TriggerEvent("ItemTwoActivatedSuccessfully");
-				}
+				
                 UIManager.Instance.OnAimStatusChange.Invoke(true);
-				state = MagicItemState.Activated;
+				State = MagicItemState.Activated;
                 Game.Instance.Player.IsUsingShield = true;
 			}
 		}
@@ -52,18 +45,10 @@ public class StarShield : MagicItem
 		{
 			if (state == MagicItemState.Activated)
 			{
-				if (slot == MagicItemSlot.First)
-				{
-					EventManager.TriggerEvent("ItemOneDeactivatedSuccessfully");
-				}
-				else if (slot == MagicItemSlot.Second)
-				{
-					EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
-				}
                 UIManager.Instance.OnAimStatusChange.Invoke(false);
                 Game.Instance.Player.IsUsingShield = false;
 				cooldownTimer.Start();
-				state = MagicItemState.OnCooldown;
+				State = MagicItemState.OnCooldown;
 			}
 		}
 	}

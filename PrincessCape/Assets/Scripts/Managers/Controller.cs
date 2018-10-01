@@ -207,28 +207,51 @@ public class Controller:Manager {
 		}
         else if (IsKeyDown("ItemOne"))
 		{
-			EventManager.TriggerEvent("ItemOneActivated");
+            MagicItem item = UIManager.Instance.ItemOne.Item;
+            if (item)
+            {
+                item.Activate();
+            }
 		}
         else if (IsKeyHeld("ItemOne"))
 		{
-			EventManager.TriggerEvent("ItemOneHeld");
+            MagicItem item = UIManager.Instance.ItemOne.Item;
+            if (item)
+            {
+                item.Use();
+            }
 		}
         else if (IsKeyReleased("ItemOne"))
 		{
-			EventManager.TriggerEvent("ItemOneDeactivated");
+            MagicItem item = UIManager.Instance.ItemOne.Item;
+            if (item)
+            {
+                item.Deactivate();
+            }
 		}
 
 		if (IsKeyDown("ItemTwo"))
 		{
-			EventManager.TriggerEvent("ItemTwoActivated");
+            MagicItem item = UIManager.Instance.ItemTwo.Item;
+            if (item)
+            {
+                item.Activate();
+            }
 		}
 		else if (IsKeyHeld("ItemTwo"))
 		{
-			EventManager.TriggerEvent("ItemTwoHeld");
+            MagicItem item = UIManager.Instance.ItemTwo.Item;
+            if (item)
+            {
+                item.Use();
+            }
 		}
 		else if (IsKeyReleased("ItemTwo"))
 		{
-			EventManager.TriggerEvent("ItemTwoDeactivated");
+            MagicItem item = UIManager.Instance.ItemTwo.Item;
+            if (item) {
+                item.Deactivate();
+            }
 		}
 
         if (Game.Instance.IsPlaying || Game.Instance.IsInInventory)

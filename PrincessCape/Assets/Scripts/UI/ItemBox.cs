@@ -7,8 +7,9 @@ public class ItemBox : MonoBehaviour {
     Image background;
     Image itemImage;
     Text keyBox;
+    MagicItem item;
     [SerializeField]
-    bool isFirstItem = true;
+    MagicItemSlot slot;
 	// Use this for initialization
 	void Awake () {
         background = GetComponent<Image>();
@@ -19,10 +20,29 @@ public class ItemBox : MonoBehaviour {
 
 	}
 
+    public MagicItem Item {
+        get {
+            return item;
+        }
+
+        set {
+
+            if (IsHidden) {
+                IsHidden = false;
+            }
+            if (item) {
+                item.OnActivationStateChange.RemoveListener(OnItemActivationStateChanged);
+                item.Slot = MagicItemSlot.None;
+            }
+
+            item = value;
+            item.Slot = slot;
+            item.OnActivationStateChange.AddListener(OnItemActivationStateChanged);
+            itemImage.sprite = item.Sprite;
+        }
+    }
     private void OnEnable()
     {
-        StartListening();
-
 		if (Game.Instance && Game.Instance.Player && Game.Instance.Player.Inventory.Count == 0)
 		{
 			IsHidden = true;
@@ -31,54 +51,24 @@ public class ItemBox : MonoBehaviour {
 
     private void OnDisable()
     {
-        StopListening();
-    }
-
-    public void StartListening() {
-		string itemName = "Item" + (isFirstItem ? "One" : "Two");
-		EventManager.StartListening(itemName + "Equipped", UpdateItemInfo);
-		EventManager.StartListening(itemName + "ActivatedSuccessfully", BlueOut);
-		EventManager.StartListening(itemName + "DeactivatedSuccessfully", GrayOut);
-		EventManager.StartListening(itemName + "Cooldown", WhiteOut);
-		EventManager.StartListening("Unequip" + itemName, Clear);
-    }
-
-    public void StopListening() {
-		string itemName = "Item" + (isFirstItem ? "One" : "Two");
-		EventManager.StopListening(itemName + "Equipped", UpdateItemInfo);
-		EventManager.StopListening(itemName + "ActivatedSuccessfully", BlueOut);
-		EventManager.StopListening(itemName + "DeactivatedSuccessfully", GrayOut);
-		EventManager.StopListening(itemName + "Cooldown", WhiteOut);
-		EventManager.StopListening("Unequip" + itemName, Clear);
-    }
-    void GrayOut() {
-        background.color = Color.gray;
-    }
-
-    void WhiteOut() {
-        background.color = Color.white;
-    }
-
-    void BlueOut() {
-        background.color = Color.blue;
-    }
-
-    void UpdateItemInfo() {
-
-        if (IsHidden) {
-            IsHidden = false;
+        if (item) {
+            item.OnActivationStateChange.RemoveListener(OnItemActivationStateChanged);
         }
-        foreach(MagicItem mi in Game.Instance.Player.Inventory) {
-            if ((isFirstItem && mi.Slot == MagicItemSlot.First) || (!isFirstItem && mi.Slot == MagicItemSlot.Second)) {
-                itemImage.sprite = mi.Sprite;
-                return;
-            }
+    }
+
+    void OnItemActivationStateChanged(MagicItemState state) {
+        if (state == MagicItemState.Activated) {
+            background.color = Color.blue;
+        } else if (state == MagicItemState.OnCooldown) {
+            background.color = Color.gray;
+        } else if (state == MagicItemState.Ready) {
+            background.color = Color.white;
         }
     }
 
     void Clear() {
         itemImage.sprite = null;
-        WhiteOut();
+        background.color = Color.white;
     }
 
 	public bool IsHidden

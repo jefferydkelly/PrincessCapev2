@@ -1576,7 +1576,6 @@ MonoBehaviour:
     height: 128
   instanceName: Checkpoint
   isFirstCheckpoint: 1
-  soundEffect: {fileID: 0}
 --- !u!61 &219623510
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3117,6 +3116,11 @@ Prefab:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114920916779455512, guid: e6ab0f94da34b443caecaa7470a6443c,
+        type: 2}
+      propertyPath: slot
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6ab0f94da34b443caecaa7470a6443c, type: 2}
   m_IsPrefabAsset: 0
@@ -3926,7 +3930,6 @@ MonoBehaviour:
     height: 128
   instanceName: Checkpoint
   isFirstCheckpoint: 0
-  soundEffect: {fileID: 0}
 --- !u!61 &640504034
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6302,7 +6305,6 @@ MonoBehaviour:
     height: 128
   instanceName: Checkpoint
   isFirstCheckpoint: 0
-  soundEffect: {fileID: 0}
 --- !u!61 &1157192621
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7379,7 +7381,6 @@ MonoBehaviour:
     height: 128
   instanceName: Checkpoint
   isFirstCheckpoint: 0
-  soundEffect: {fileID: 0}
 --- !u!61 &1388050742
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7521,7 +7522,6 @@ MonoBehaviour:
     height: 128
   instanceName: Checkpoint
   isFirstCheckpoint: 0
-  soundEffect: {fileID: 0}
 --- !u!61 &1390915022
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -46,15 +46,12 @@ public class UIManager : MonoBehaviour
         });
 		OnLineEnd.AddListener(showTimer.Start);
 
-		OnMessageStart.AddListener(itemOneBox.StopListening);
-		OnMessageStart.AddListener(itemTwoBox.StopListening);
-
+        /*
 		OnMessageEnd.AddListener(() =>
 		{
 
-		});
-		OnMessageEnd.AddListener(itemOneBox.StartListening);
-		OnMessageEnd.AddListener(itemTwoBox.StartListening);
+		});*/
+        
         
         Controller.Instance.AnyKey.AddListener(HideText);
         //EventManager.StartListening("AnyKey", );
@@ -335,6 +332,18 @@ public class UIManager : MonoBehaviour
             inventory.gameObject.SetActive(value);
             mainText.gameObject.SetActive(value);
             SetMainText("");
+        }
+    }
+
+    public ItemBox ItemOne {
+        get {
+            return itemOneBox;
+        }
+    }
+
+    public ItemBox ItemTwo {
+        get {
+            return itemTwoBox;
         }
     }
 }

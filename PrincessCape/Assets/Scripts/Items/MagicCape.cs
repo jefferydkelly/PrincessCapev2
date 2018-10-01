@@ -34,15 +34,7 @@ public class MagicCape : MagicItem
         {
             if (state == MagicItemState.Ready)
             {
-                if (slot == MagicItemSlot.First)
-                {
-                    EventManager.TriggerEvent("ItemOneActivatedSuccessfully");
-                }
-                else
-                {
-                    EventManager.TriggerEvent("ItemTwoActivatedSuccessfully");
-                }
-                state = MagicItemState.Activated;
+                State = MagicItemState.Activated;
                 Game.Instance.Player.IsFloating = true;
                 Game.Instance.Player.Rigidbody.gravityScale = 0.15f;
                 Game.Instance.Player.Rigidbody.velocity = Game.Instance.Player.Velocity.SetY(0);
@@ -58,18 +50,10 @@ public class MagicCape : MagicItem
         {
             if (state == MagicItemState.Activated)
             {
-                if (slot == MagicItemSlot.First)
-                {
-                    EventManager.TriggerEvent("ItemOneDeactivatedSuccessfully");
-                }
-                else if (slot == MagicItemSlot.Second)
-                {
-                    EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
-                }
                 Game.Instance.Player.Rigidbody.gravityScale = 1.0f;
 
                 cooldownTimer.Start();
-                state = MagicItemState.OnCooldown;
+                State = MagicItemState.OnCooldown;
                 Game.Instance.Player.IsFloating = false;
             }
         }

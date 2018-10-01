@@ -57,15 +57,7 @@ public abstract class MagneticGlove : MagicItem {
         {
             if (state == MagicItemState.Ready)
             {
-                if (slot == MagicItemSlot.First)
-                {
-                    EventManager.TriggerEvent("ItemOneActivatedSuccessfully");
-                }
-                else
-                {
-                    EventManager.TriggerEvent("ItemTwoActivatedSuccessfully");
-                }
-                state = MagicItemState.Activated;
+                State = MagicItemState.Activated;
                 FindTarget();
             }
         }

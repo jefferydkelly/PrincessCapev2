@@ -71,17 +71,9 @@ public class PushGauntlet : MagneticGlove {
         {
             if (state == MagicItemState.Activated)
             {
-                if (slot == MagicItemSlot.First)
-                {
-                    EventManager.TriggerEvent("ItemOneDeactivatedSuccessfully");
-                }
-                else if (slot == MagicItemSlot.Second)
-                {
-                    EventManager.TriggerEvent("ItemTwoDeactivatedSuccessfully");
-                }
                 ClearTarget();
                 Game.Instance.Player.IsPulling = false;
-                state = MagicItemState.OnCooldown;
+                State = MagicItemState.OnCooldown;
                 cooldownTimer.Start();
             }
         }

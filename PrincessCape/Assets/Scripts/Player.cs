@@ -651,12 +651,12 @@ public class Player : MonoBehaviour {
         inventory.Add(mi);
 
         if (Inventory.Count == 1) {
-            mi.RegisterItemOne();
+            UIManager.Instance.ItemOne.Item = mi;
         } else if (Inventory.Count == 2) {
             if (inventory[0].Slot == MagicItemSlot.First) {
-                mi.RegisterItemTwo();
+                UIManager.Instance.ItemTwo.Item = mi;
             } else {
-                mi.RegisterItemOne();
+                UIManager.Instance.ItemOne.Item = mi;
             }
         }
         items = (ItemLevel)System.Enum.Parse(typeof(ItemLevel), mi.ItemName.Replace(" ", string.Empty));

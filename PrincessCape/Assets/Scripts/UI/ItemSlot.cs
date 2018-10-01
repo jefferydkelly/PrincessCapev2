@@ -28,22 +28,28 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             
             if (item.Slot == MagicItemSlot.Second)
             {
-                EventManager.TriggerEvent("SwapItems");
+                SwapItems();
             }
             else
             {
-                item.RegisterItemOne();
+                UIManager.Instance.ItemOne.Item = item;
             }
         } else if (eventData.button == PointerEventData.InputButton.Right){
             if (item.Slot == MagicItemSlot.First)
             {
-                EventManager.TriggerEvent("SwapItems");
+                SwapItems();
             }
             else
             {
-                item.RegisterItemTwo();
+                UIManager.Instance.ItemTwo.Item = item;
             }
         }
+    }
+
+    void SwapItems() {
+        MagicItem temp = UIManager.Instance.ItemOne.Item;
+        UIManager.Instance.ItemOne.Item = UIManager.Instance.ItemTwo.Item;
+        UIManager.Instance.ItemTwo.Item = temp;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
