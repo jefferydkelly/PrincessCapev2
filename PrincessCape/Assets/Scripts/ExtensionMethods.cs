@@ -28,6 +28,11 @@ public static class ExtensionMethods {
 		}
 	}
 
+    /// <summary>
+    /// Clamps the velocity to the max speed.
+    /// </summary>
+    /// <param name="rb">Rb.</param>
+    /// <param name="maxSpeed">Max speed.</param>
     public static void ClampVelocity(this Rigidbody2D rb, float maxSpeed) {
         if (rb.velocity.sqrMagnitude > maxSpeed * maxSpeed) {
             rb.velocity = rb.velocity.normalized * maxSpeed;

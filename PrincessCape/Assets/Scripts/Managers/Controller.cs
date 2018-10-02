@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Controller:Manager {
+public class Controller : Manager
+{
     static Controller instance;
     protected Dictionary<string, KeyCode> keys;
     UnityEvent anyKey;
@@ -13,7 +14,8 @@ public class Controller:Manager {
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Controller"/> class.
     /// </summary>
-    protected Controller() {
+    protected Controller()
+    {
         instance = this;
         keys = new Dictionary<string, KeyCode>();
         keys.Add("Forward", KeyCode.D);
@@ -30,15 +32,18 @@ public class Controller:Manager {
         onPause = new UnityEvent();
     }
 
-    public void SetKeys(Dictionary<string, KeyCode> keyDict) {
+    public void SetKeys(Dictionary<string, KeyCode> keyDict)
+    {
         keys = keyDict;
     }
     /// <summary>
     /// Gets the instance.
     /// </summary>
     /// <value>The instance.</value>
-    public static Controller Instance {
-        get {
+    public static Controller Instance
+    {
+        get
+        {
             if (!Game.isClosing)
             {
                 if (instance == null)
@@ -58,8 +63,10 @@ public class Controller:Manager {
     /// Gets the horizontal input.
     /// </summary>
     /// <value>The horizontal input.</value>
-    public virtual float Horizontal {
-        get {
+    public virtual float Horizontal
+    {
+        get
+        {
             return (Input.GetKey(keys["Forward"]) ? 1 : 0) - (Input.GetKey(keys["Backward"]) ? 1 : 0);
         }
     }
@@ -68,8 +75,10 @@ public class Controller:Manager {
     /// Gets the vertical input.
     /// </summary>
     /// <value>The vertical input.</value>
-    public virtual float Vertical {
-        get {
+    public virtual float Vertical
+    {
+        get
+        {
             return (Input.GetKey(keys["Up"]) ? 1 : 0) - (Input.GetKey(keys["Down"]) ? 1 : 0);
         }
     }
@@ -78,8 +87,10 @@ public class Controller:Manager {
     /// Gets the directional input.
     /// </summary>
     /// <value>The directional input.</value>
-    public Vector2 DirectionalInput {
-        get {
+    public Vector2 DirectionalInput
+    {
+        get
+        {
             return new Vector2(Horizontal, Vertical);
         }
     }
@@ -88,18 +99,22 @@ public class Controller:Manager {
     /// Gets a value indicating whether the item one key has been pressed down on the last frame.
     /// </summary>
     /// <value><c>true</c> if the item one has been pressed in the last frame; otherwise, <c>false</c>.</value>
-    bool IsItemOneDown {
-        get {
+    bool IsItemOneDown
+    {
+        get
+        {
             return Input.GetKeyDown(keys["ItemOne"]);
         }
     }
 
-	/// <summary>
-	/// Gets a value indicating whether the item one key is being held down.
-	/// </summary>
-	/// <value><c>true</c> if the item one is being held down; otherwise, <c>false</c>.</value>
-	bool IsItemOneHeld {
-        get {
+    /// <summary>
+    /// Gets a value indicating whether the item one key is being held down.
+    /// </summary>
+    /// <value><c>true</c> if the item one is being held down; otherwise, <c>false</c>.</value>
+    bool IsItemOneHeld
+    {
+        get
+        {
             return Input.GetKey(keys["ItemOne"]);
         }
     }
@@ -109,53 +124,57 @@ public class Controller:Manager {
     /// </summary>
     /// <value><c>true</c> if the item one key was released in the last frame; otherwise, <c>false</c>.</value>
 	bool IsItemOneUp
-	{
-		get
-		{
+    {
+        get
+        {
             return Input.GetKeyUp(keys["ItemOne"]);
-		}
-	}
+        }
+    }
 
-	/// <summary>
-	/// Gets a value indicating whether the item two key has been pressed down on the last frame.
-	/// </summary>
-	/// <value><c>true</c> if the item two has been pressed in the last frame; otherwise, <c>false</c>.</value>
-	bool IsItemTwoDown {
-        get {
+    /// <summary>
+    /// Gets a value indicating whether the item two key has been pressed down on the last frame.
+    /// </summary>
+    /// <value><c>true</c> if the item two has been pressed in the last frame; otherwise, <c>false</c>.</value>
+    bool IsItemTwoDown
+    {
+        get
+        {
             return Input.GetKeyDown(keys["ItemTwo"]);
         }
     }
 
-	/// <summary>
-	/// Gets a value indicating whether the item two key is being held down.
-	/// </summary>
-	/// <value><c>true</c> if the item two is being held down; otherwise, <c>false</c>.</value>
-	bool IsItemTwoHeld
-	{
-		get
-		{
+    /// <summary>
+    /// Gets a value indicating whether the item two key is being held down.
+    /// </summary>
+    /// <value><c>true</c> if the item two is being held down; otherwise, <c>false</c>.</value>
+    bool IsItemTwoHeld
+    {
+        get
+        {
             return Input.GetKey(keys["ItemTwo"]);
-		}
-	}
+        }
+    }
 
-	/// <summary>
-	/// Gets a value indicating whether the item two key was released in the last frame.
-	/// </summary>
-	/// <value><c>true</c> if the item two key was released in the last frame; otherwise, <c>false</c>.</value>
-	bool IsItemTwoUp
-	{
-		get
-		{
+    /// <summary>
+    /// Gets a value indicating whether the item two key was released in the last frame.
+    /// </summary>
+    /// <value><c>true</c> if the item two key was released in the last frame; otherwise, <c>false</c>.</value>
+    bool IsItemTwoUp
+    {
+        get
+        {
             return Input.GetKeyUp(keys["ItemTwo"]);
-		}
-	}
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether the Jump key has been pressed within the last frame.
     /// </summary>
     /// <value><c>true</c> if the Jump has been pressed; otherwise, <c>false</c>.</value>
-    public virtual bool Jump {
-        get {
+    public virtual bool Jump
+    {
+        get
+        {
             return Input.GetKeyDown(keys["Jump"]) || (!Game.Instance.Player.IsOnLadder && Input.GetKeyDown(keys["Up"]));
 
         }
@@ -165,8 +184,10 @@ public class Controller:Manager {
     /// Gets a value indicating whether the Pause key has been pressed within the last frame.
     /// </summary>
     /// <value><c>true</c> if the Pause key has been pressed; otherwise, <c>false</c>.</value>
-    public bool Pause {
-        get {
+    public bool Pause
+    {
+        get
+        {
             return Input.GetKeyDown(keys["Pause"]) || Input.GetKeyDown(KeyCode.Escape);
         }
     }
@@ -175,21 +196,26 @@ public class Controller:Manager {
     /// Gets a value indicating whether the interact key has been pressed since the last frame.
     /// </summary>
     /// <value><c>true</c> if interact; otherwise, <c>false</c>.</value>
-    public bool Interact {
-        get {
+    public bool Interact
+    {
+        get
+        {
             return Input.GetKeyDown(keys["Interact"]);
         }
     }
 
-    bool IsKeyDown(string keyName) {
+    bool IsKeyDown(string keyName)
+    {
         return Input.GetKeyDown(keys[keyName]);
     }
 
-    bool IsKeyHeld (string keyName) {
+    bool IsKeyHeld(string keyName)
+    {
         return Input.GetKey(keys[keyName]);
     }
 
-    bool IsKeyReleased (string keyName) {
+    bool IsKeyReleased(string keyName)
+    {
         return Input.GetKeyUp(keys[keyName]);
     }
     /// <summary>
@@ -198,61 +224,67 @@ public class Controller:Manager {
     /// <param name="dt">The time since the last update.</param>
     public virtual void Update(float dt)
     {
-        if (Input.anyKeyDown) {
+        if (Input.anyKeyDown)
+        {
             anyKey.Invoke();
         }
-		if (Pause)
-		{
+        if (Pause)
+        {
             onPause.Invoke();
-		}
-        else if (IsKeyDown("ItemOne"))
-		{
-            MagicItem item = UIManager.Instance.ItemOne.Item;
-            if (item)
+        }
+        else if (!(Game.Instance.IsPaused || Game.Instance.IsInInventory || Game.Instance.IsInCutscene || UIManager.Instance.IsRevealingMessage))
+        {
+            if (IsKeyDown("ItemOne"))
             {
-                item.Activate();
+                MagicItem item = UIManager.Instance.ItemOne.Item;
+                if (item)
+                {
+                    item.Activate();
+                }
             }
-		}
-        else if (IsKeyHeld("ItemOne"))
-		{
-            MagicItem item = UIManager.Instance.ItemOne.Item;
-            if (item)
+            else if (IsKeyHeld("ItemOne"))
             {
-                item.Use();
+                MagicItem item = UIManager.Instance.ItemOne.Item;
+                if (item)
+                {
+                    item.Use();
+                }
             }
-		}
-        else if (IsKeyReleased("ItemOne"))
-		{
-            MagicItem item = UIManager.Instance.ItemOne.Item;
-            if (item)
+            else if (IsKeyReleased("ItemOne"))
             {
-                item.Deactivate();
+                MagicItem item = UIManager.Instance.ItemOne.Item;
+                if (item)
+                {
+                    item.Deactivate();
+                }
             }
-		}
 
-		if (IsKeyDown("ItemTwo"))
-		{
-            MagicItem item = UIManager.Instance.ItemTwo.Item;
-            if (item)
+            if (IsKeyDown("ItemTwo"))
             {
-                item.Activate();
+                MagicItem item = UIManager.Instance.ItemTwo.Item;
+                if (item)
+                {
+                    item.Activate();
+                }
             }
-		}
-		else if (IsKeyHeld("ItemTwo"))
-		{
-            MagicItem item = UIManager.Instance.ItemTwo.Item;
-            if (item)
+            else if (IsKeyHeld("ItemTwo"))
             {
-                item.Use();
+                MagicItem item = UIManager.Instance.ItemTwo.Item;
+                if (item)
+                {
+                    item.Use();
+                }
             }
-		}
-		else if (IsKeyReleased("ItemTwo"))
-		{
-            MagicItem item = UIManager.Instance.ItemTwo.Item;
-            if (item) {
-                item.Deactivate();
+            else if (IsKeyReleased("ItemTwo"))
+            {
+                MagicItem item = UIManager.Instance.ItemTwo.Item;
+                if (item)
+                {
+                    item.Deactivate();
+                }
             }
-		}
+        }
+
 
         if (Game.Instance.IsPlaying || Game.Instance.IsInInventory)
         {
@@ -262,7 +294,8 @@ public class Controller:Manager {
             }
         }
 
-        if(Game.Instance.IsPlaying) {
+        if (Game.Instance.IsPlaying)
+        {
 
             if (IsKeyDown("Interact"))
             {
@@ -271,16 +304,19 @@ public class Controller:Manager {
         }
 
 
-	}
+    }
 
     /// <summary>
     /// Creates a json file of 
     /// </summary>
     /// <value>The info.</value>
-    public string Info {
-        get {
+    public string Info
+    {
+        get
+        {
             string info = PCLParser.StructStart;
-            foreach(KeyValuePair<string, KeyCode> kvp in keys) {
+            foreach (KeyValuePair<string, KeyCode> kvp in keys)
+            {
                 info += PCLParser.CreateAttribute(kvp.Key, kvp.Value);
             }
             info += PCLParser.StructEnd;
@@ -292,8 +328,10 @@ public class Controller:Manager {
     /// Gets the dictionary mapping keys to in game actions.
     /// </summary>
     /// <value>The dictionary.</value>
-    public Dictionary<string, KeyCode> KeyDict {
-        get {
+    public Dictionary<string, KeyCode> KeyDict
+    {
+        get
+        {
             return keys;
         }
     }
@@ -303,22 +341,34 @@ public class Controller:Manager {
     /// </summary>
     /// <returns>The key.</returns>
     /// <param name="key">Key.</param>
-    public virtual string GetKey(string key, bool fullName = false) {
+    public virtual string GetKey(string key, bool fullName = false)
+    {
         KeyCode keycode = KeyCode.None;
 
-        if (keys.TryGetValue(key, out keycode)) {
-            if (keycode == KeyCode.Mouse0) {
+        if (keys.TryGetValue(key, out keycode))
+        {
+            if (keycode == KeyCode.Mouse0)
+            {
                 return fullName ? "Left Mouse Button" : "LMB";
-            } else if (keycode == KeyCode.Mouse1) {
+            }
+            else if (keycode == KeyCode.Mouse1)
+            {
                 return fullName ? "Right Mouse Button" : "RMB";
-            } else if (keycode == KeyCode.LeftArrow) {
+            }
+            else if (keycode == KeyCode.LeftArrow)
+            {
                 return fullName ? "Left Arrow Key" : "Left";
-			} else if (keycode == KeyCode.RightArrow)
-			{
-				return fullName ? "Right Arrow Key" : "Right";
-            } else if (keycode == KeyCode.UpArrow) {
+            }
+            else if (keycode == KeyCode.RightArrow)
+            {
+                return fullName ? "Right Arrow Key" : "Right";
+            }
+            else if (keycode == KeyCode.UpArrow)
+            {
                 return fullName ? "Up Arrow Key" : "Up";
-            } else if (keycode == KeyCode.DownArrow) {
+            }
+            else if (keycode == KeyCode.DownArrow)
+            {
                 return fullName ? "Down Arrow Key" : "Down";
             }
 
@@ -331,8 +381,10 @@ public class Controller:Manager {
     /// Gets an event triggered when AnyKey is pressed.
     /// </summary>
     /// <value>An event triggered when AnyKey is pressed.</value>
-    public UnityEvent AnyKey {
-        get {
+    public UnityEvent AnyKey
+    {
+        get
+        {
             return anyKey;
         }
     }
@@ -341,8 +393,10 @@ public class Controller:Manager {
     /// Gets the on pause event.
     /// </summary>
     /// <value>The on pause event.</value>
-    public UnityEvent OnPause {
-        get {
+    public UnityEvent OnPause
+    {
+        get
+        {
             return onPause;
         }
     }
@@ -351,19 +405,23 @@ public class Controller:Manager {
     /// Gets the mouse position in the world coordinate systems.
     /// </summary>
     /// <value>The mouse position.</value>
-	public Vector3 MousePosition {
-		get {
-			return Camera.main.ScreenToWorldPoint(Input.mousePosition.SetZ(-Camera.main.transform.position.z));
-		}
-	}
+	public Vector3 MousePosition
+    {
+        get
+        {
+            return Camera.main.ScreenToWorldPoint(Input.mousePosition.SetZ(-Camera.main.transform.position.z));
+        }
+    }
 
     /// <summary>
     /// Gets the aim vector between the player and the mouse position.
     /// </summary>
     /// <value>The aim.</value>
-	public Vector2 Aim {
-		get {
-			return (MousePosition - Game.Instance.Player.transform.position).normalized;
-		}
-	}
+	public Vector2 Aim
+    {
+        get
+        {
+            return (MousePosition - Game.Instance.Player.transform.position).normalized;
+        }
+    }
 }

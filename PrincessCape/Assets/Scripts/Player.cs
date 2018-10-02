@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
     int platformLayers = -1;
     int fwd = 1;
@@ -16,7 +17,7 @@ public class Player : MonoBehaviour {
     bool aboveLadder = false;
     Ladder theLadder;
     PlayerState state = PlayerState.Normal;
-
+    ItemLevel itemState = ItemLevel.None;
     Vector2 storedVelocity;
 
     List<MagicItem> inventory;
@@ -32,23 +33,27 @@ public class Player : MonoBehaviour {
 
     [SerializeField]
     LightField shieldField;
-    
-	UnityEvent onRespawn;
-	UnityEvent onLand;
-	UnityEvent onDie;
+
+    UnityEvent onRespawn;
+    UnityEvent onLand;
+    UnityEvent onDie;
 
     private void Awake()
     {
         inventory = new List<MagicItem>();
         Game.Instance.Map.OnLevelLoaded.AddListener(Reset);
-		Game.Instance.OnReady.AddListener(Init);
+        Game.Instance.OnReady.AddListener(Init);
         //EventManager.StartListening("LevelLoaded", Reset);
 
 
-        UIManager.Instance.OnAimStatusChange.AddListener((bool show) => { 
-            if (show) {
+        UIManager.Instance.OnAimStatusChange.AddListener((bool show) =>
+        {
+            if (show)
+            {
                 shieldField.transform.localScale = Vector3.one;
-            } else {
+            }
+            else
+            {
                 shieldField.gameObject.SetActive(false);
             }
         });
@@ -58,10 +63,10 @@ public class Player : MonoBehaviour {
         shieldField.gameObject.SetActive(false);
         //DontDestroyOnLoad(gameObject);
 
-		//Initialize events
-		onRespawn = new UnityEvent();
-		onLand = new UnityEvent();
-		onDie = new UnityEvent();
+        //Initialize events
+        onRespawn = new UnityEvent();
+        onLand = new UnityEvent();
+        onDie = new UnityEvent();
 
         Game.Instance.OnEditorPlay.AddListener(HealToFull);
 
@@ -71,7 +76,8 @@ public class Player : MonoBehaviour {
     /// <summary>
     /// Initializes the player and the basic components
     /// </summary>
-    public void Init() {
+    public void Init()
+    {
         if (!initialized)
         {
             myRigidbody = GetComponent<Rigidbody2D>();
@@ -88,20 +94,23 @@ public class Player : MonoBehaviour {
             //Updates the health bar in the UI
             //EventManager.TriggerEvent("IncreaseHealth");
             invincibilityTimer = new Timer(0.5f);
-            invincibilityTimer.OnComplete.AddListener(()=> {
+            invincibilityTimer.OnComplete.AddListener(() =>
+            {
                 isInvincible = false;
                 myRenderer.color = myRenderer.color.SetAlpha(1.0f);
             });
             initialized = true;
-		
-			MaxHealth = 3;
 
-			UIManager.Instance.OnMessageStart.AddListener(() => {
+            MaxHealth = 3;
+
+            UIManager.Instance.OnMessageStart.AddListener(() =>
+            {
                 IsFrozen = true;
                 state = PlayerState.ReadingMessage;
             });
 
-            UIManager.Instance.OnMessageEnd.AddListener(() => {
+            UIManager.Instance.OnMessageEnd.AddListener(() =>
+            {
 
                 if (!Game.Instance.IsInCutscene)
                 {
@@ -111,7 +120,8 @@ public class Player : MonoBehaviour {
 
             });
 
-            if(Game.Instance.IsInLevelEditor) {
+            if (Game.Instance.IsInLevelEditor)
+            {
                 myRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
             }
         }
@@ -124,27 +134,28 @@ public class Player : MonoBehaviour {
         //EventManager.StartListening("Pause", Pause);
     }
 
-	private void OnDisable()
-	{
+    private void OnDisable()
+    {
         if (!Game.isClosing)
         {
             Controller.Instance.OnPause.RemoveListener(Pause);
             Game.Instance.OnEditorPlay.RemoveListener(HealToFull);
         }
-		//EventManager.StopListening("Pause", Pause);
-	}
+        //EventManager.StopListening("Pause", Pause);
+    }
 
     /// <summary>
     /// Pause this instance.
     /// </summary>
-    void Pause() {
+    void Pause()
+    {
         if (myRigidbody.constraints == RigidbodyConstraints2D.FreezeAll)
         {
-			if (state != PlayerState.ReadingMessage)
-			{
-				myRigidbody.velocity = storedVelocity;
-				myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-			}
+            if (state != PlayerState.ReadingMessage)
+            {
+                myRigidbody.velocity = storedVelocity;
+                myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
         }
         else
         {
@@ -153,16 +164,20 @@ public class Player : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update()
+    {
         if (initialized)
         {
 
             if (Game.Instance.IsPlaying && !isFrozen && !IsPulling)
             {
-                float xForce = Controller.Instance.Horizontal * 5;
-                myRigidbody.AddForce(new Vector2(xForce, 0));
-                myRigidbody.ClampXVelocity(maxSpeed);
+                if (!IsDashing)
+                {
+                    float xForce = Controller.Instance.Horizontal * 5;
+                    myRigidbody.AddForce(new Vector2(xForce, 0));
+                    myRigidbody.ClampXVelocity(maxSpeed);
+                }
 
                 if (myRigidbody.velocity.x / fwd < 0)
                 {
@@ -190,7 +205,7 @@ public class Player : MonoBehaviour {
                 }
                 bool onGround = IsOnGround;
 
-                if (onLadder)
+                if (onLadder && !IsDashing)
                 {
                     //myRigidbody.AddForce(new Vector2(0, Controller.Instance.Vertical * 5));
 
@@ -215,18 +230,20 @@ public class Player : MonoBehaviour {
                         transform.position += Vector3.down * 2;
                     }
 
-					if (!aboveLadder)
+                    if (!aboveLadder)
                     {
-						
-						Vector2 input = Controller.Instance.DirectionalInput;
-						if (!onGround)
-						{
-							input = input.SetY(input.y * maxSpeed / 1.5f);
-							myRigidbody.velocity = input;
 
-						} else {
-							myRigidbody.velocity = myRigidbody.velocity.SetY(Controller.Instance.Vertical * maxSpeed / 1.5f);
-						}
+                        Vector2 input = Controller.Instance.DirectionalInput;
+                        if (!onGround)
+                        {
+                            input = input.SetY(input.y * maxSpeed / 1.5f);
+                            myRigidbody.velocity = input;
+
+                        }
+                        else
+                        {
+                            myRigidbody.velocity = myRigidbody.velocity.SetY(Controller.Instance.Vertical * maxSpeed / 1.5f);
+                        }
                     }
                 }
                 else if (CanJump && Controller.Instance.Jump)
@@ -235,12 +252,13 @@ public class Player : MonoBehaviour {
                 }
             }
         }
-	}
+    }
 
     /// <summary>
     /// Makes the Player jump.
     /// </summary>
-    void Jump() {
+    void Jump()
+    {
         state = PlayerState.Jumping;
         myRigidbody.gravityScale = 1.0f;
         myRigidbody.velocity = myRigidbody.velocity.SetY(7.0f);
@@ -251,7 +269,8 @@ public class Player : MonoBehaviour {
     /// Gets a value indicating whether this <see cref="T:Player"/> is on ground.
     /// </summary>
     /// <value><c>true</c> If the player is on ground; otherwise, <c>false</c>.</value>
-    bool IsOnGround {
+    public bool IsOnGround
+    {
         get
         {
             return Physics2D.BoxCast(transform.position, new Vector2(0.9f, 0.1f), 0, Vector2.down, 1.0f, platformLayers);
@@ -262,8 +281,10 @@ public class Player : MonoBehaviour {
     /// Gets a value indicating whether this <see cref="T:Player"/> can jump.
     /// </summary>
     /// <value><c>true</c> if can jump; otherwise, <c>false</c>.</value>
-    bool CanJump {
-        get {
+    bool CanJump
+    {
+        get
+        {
             return IsOnGround && !IsUsingMagneticGloves && !(IsHoldingItem && heldItem.IsHeavy);
         }
     }
@@ -271,14 +292,17 @@ public class Player : MonoBehaviour {
     /// <summary>
     /// Kill the player and reset the game.
     /// </summary>
-    public void Die() {
-        
-		OnDie.Invoke();
+    public void Die()
+    {
+
+        OnDie.Invoke();
         if (!Game.Instance.IsInLevelEditor)
         {
             state = PlayerState.Dead;
             BeginReset();
-        } else {
+        }
+        else
+        {
             Game.Instance.StopInEditor();
         }
     }
@@ -287,11 +311,12 @@ public class Player : MonoBehaviour {
     /// Deals damage to the player and causes the player to die if the currentHealth == 0
     /// </summary>
     /// <param name="autoReset">If set to <c>true</c>, the player will reset to the last checkpoint automatically.</param>
-    public void TakeDamage(bool autoReset = false) {
+    public void TakeDamage(bool autoReset = false)
+    {
         if (!isInvincible)
         {
             CurrentHealth--;
-            
+
             isInvincible = true;
             if (currentHealth == 0)
             {
@@ -300,9 +325,11 @@ public class Player : MonoBehaviour {
             else if (autoReset)
             {
                 BeginReset();
-            } else {
+            }
+            else
+            {
                 myRenderer.color = myRenderer.color.SetAlpha(0.5f);
-                invincibilityTimer.Start();;
+                invincibilityTimer.Start(); ;
             }
         }
     }
@@ -310,56 +337,68 @@ public class Player : MonoBehaviour {
     /// <summary>
     /// Starts resetting the player.
     /// </summary>
-    void BeginReset() {
-		isFrozen = true;
-		EventManager.TriggerEvent("ItemOneDeactivated");
-		EventManager.TriggerEvent("ItemTwoDeactivated");
-        if (IsHoldingItem) {
+    void BeginReset()
+    {
+        isFrozen = true;
+        EventManager.TriggerEvent("ItemOneDeactivated");
+        EventManager.TriggerEvent("ItemTwoDeactivated");
+        if (IsHoldingItem)
+        {
             heldItem.Drop();
         }
         resetTimer.Start();
     }
 
-    void HealToFull() {
+    void HealToFull()
+    {
         CurrentHealth = maxHealth;
     }
 
     /// <summary>
     /// Reset the player to the last checkpoint.
     /// </summary>
-    public void Reset() {
+    public void Reset()
+    {
         if (IsDead)
         {
             HealToFull();
         }
 
-		OnRespawn.Invoke();
+        OnRespawn.Invoke();
         transform.position = Checkpoint.ResetPosition + Vector3.up;
         isFrozen = false;
         myRigidbody.velocity = Vector2.zero;
         myRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         state = PlayerState.Normal;
-		myRenderer.color = myRenderer.color.SetAlpha(0.5f);
-		invincibilityTimer.Start(); ;
+        myRenderer.color = myRenderer.color.SetAlpha(0.5f);
+        invincibilityTimer.Start(); ;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.relativeVelocity.y > 0) {
-			if (collision.GetClosestDirection() == Direction.Up)
+        Direction colDir = collision.GetClosestDirection();
+        if (/*collision.relativeVelocity.y > 0 && */colDir == Direction.Up)
+        {
+            
+            myRigidbody.gravityScale = 1;
+
+
+            if (collision.IsOnLayer("Hazard"))
             {
-                myRigidbody.gravityScale = 1;
+                state = PlayerState.Dead;
 
-
-                if (collision.IsOnLayer("Hazard"))
-                {
-                    state = PlayerState.Dead;
-
-                } else {
-                    IsXFrozen = false;
-					OnLand.Invoke();
-                }
             }
+            else
+            {
+                IsXFrozen = false;
+                OnLand.Invoke();
+            }
+
+        }
+        else if (IsDashing && (colDir == Direction.Left || colDir == Direction.Right)) {
+            IsDashing = false;
+            DashBoots boots = (UIManager.Instance.ItemOne.Item is DashBoots ? UIManager.Instance.ItemOne.Item : UIManager.Instance.ItemTwo.Item) as DashBoots;
+            boots.Deactivate();
         }
 
 		if (collision.collider.CompareTag("Ladder Top"))
@@ -520,14 +559,16 @@ public class Player : MonoBehaviour {
     /// <value><c>true</c> if is floating; otherwise, <c>false</c>.</value>
     public bool IsFloating {
         get {
-            return state == PlayerState.Floating && !IsOnGround;
+            return itemState == ItemLevel.MagicCape && !IsOnGround;
         }
 
         set {
             if (value && (!IsDead || IsFrozen)) {
-                state = PlayerState.Floating;
+                //state = PlayerState.Floating;
+                itemState = ItemLevel.MagicCape;
             } else if (!value && IsFloating) {
-                state = PlayerState.Normal;
+                //state = PlayerState.Normal;
+                itemState = ItemLevel.None;
             }
         }
     }
@@ -538,15 +579,18 @@ public class Player : MonoBehaviour {
     /// <value><c>true</c> if is using shield; otherwise, <c>false</c>.</value>
     public bool IsUsingShield {
         get {
-            return state == PlayerState.UsingShield;
+            //return state == PlayerState.UsingShield;
+            return itemState == ItemLevel.StarShield;
         }
 
         set {
             if (value && !(IsDead || IsFrozen)) {
-                state = PlayerState.UsingShield;
+                //state = PlayerState.UsingShield;
+                itemState = ItemLevel.StarShield;
                 IsFrozen = true;
             } else if (!value && IsUsingShield) {
-                state = PlayerState.Normal;
+                //state = PlayerState.Normal;
+                itemState = ItemLevel.None;
                 IsFrozen = false;
             }
         }
@@ -569,20 +613,23 @@ public class Player : MonoBehaviour {
 	{
 		get
 		{
-            return state == PlayerState.Pulling;
+            //return state == PlayerState.Pulling;
+            return itemState == ItemLevel.PullGauntlet;
 		}
 
 		set
 		{
 			if (value && (!IsDead || IsFrozen))
 			{
-                state = PlayerState.Pulling;
+                //state = PlayerState.Pulling;
+                itemState = ItemLevel.PullGauntlet;
 				onLadder = false;
 				aboveLadder = false;
 			}
             else if (!value && IsPulling)
 			{
-				state = PlayerState.Normal;
+                //state = PlayerState.Normal;
+                itemState = ItemLevel.None;
 			}
 		}
 	}
@@ -595,20 +642,22 @@ public class Player : MonoBehaviour {
 	{
 		get
 		{
-            return state == PlayerState.Pushing;
+            //return state == PlayerState.Pushing;
+            return itemState == ItemLevel.PushGauntlet;
 		}
 
 		set
 		{
 			if (value && (!IsDead || IsFrozen))
 			{
-				state = PlayerState.Pushing;
+                //state = PlayerState.Pushing;
+                itemState = ItemLevel.PushGauntlet;
                 onLadder = false;
                 aboveLadder = false;
 			}
 			else if (!value && IsPushing)
 			{
-				state = PlayerState.Normal;
+                itemState = ItemLevel.None;
 			}
 		}
 	}
@@ -619,7 +668,7 @@ public class Player : MonoBehaviour {
     /// <value><c>true</c> if is using magnetic gloves; otherwise, <c>false</c>.</value>
     public bool IsUsingMagneticGloves {
         get {
-            return state == PlayerState.Pulling || state == PlayerState.Pushing;
+            return IsPulling || IsPushing;
         }
     }
 
@@ -630,6 +679,19 @@ public class Player : MonoBehaviour {
     public bool IsJumping {
         get {
             return state == PlayerState.Jumping;
+        }
+    }
+
+    public bool IsDashing {
+        get {
+            return itemState == ItemLevel.DashBoots;
+            //return state == PlayerState.Dashing;
+        }
+
+        set {
+            itemState = value ? ItemLevel.DashBoots : ItemLevel.None;
+
+            //state = value ? PlayerState.Dashing : PlayerState.Normal;
         }
     }
 
@@ -809,10 +871,6 @@ public enum PlayerState {
     Normal,
     Dead,
     Jumping,
-    Floating,
-    Pushing,
-    Pulling,
-    UsingShield,
     Frozen,
     ReadingMessage
 }

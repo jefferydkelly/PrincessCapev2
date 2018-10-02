@@ -203,7 +203,7 @@ public class MessageBox : MonoBehaviour {
 
 	public bool IsRevealing {
 		get {
-			return revealTimer.IsRunning;
+            return revealTimer.IsRunning || (message != null && curLine < message.Count);
 		}
 	}
     public bool IsComplete {
