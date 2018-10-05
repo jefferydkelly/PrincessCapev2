@@ -53,25 +53,3 @@ public class CutsceneElement
         
     }
 }
-
-/*
-public class CutscenePlay : CutsceneElement
-{
-	AudioClip soundEffect;
-	public CutscenePlay(string s)
-	{
-		soundEffect = Resources.Load<AudioClip>("Sounds/" + s);
-		autoAdvance = true;
-		canSkip = true;
-	}
-
-	public override void Run()
-	{
-		AudioManager.Instance.PlaySound(soundEffect);
-	}
-}*/
-
-public enum CutsceneElements
-{
-	Dialog, Move, Effect, SpriteChange
-}
