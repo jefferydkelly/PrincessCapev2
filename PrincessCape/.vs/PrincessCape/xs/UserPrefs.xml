@@ -2,31 +2,17 @@
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/CutsceneEditor.cs">
     <Files>
-      <File FileName="Assets/Scripts/Tiles/PressureSwitch.cs" Line="31" Column="3" />
-      <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="55" Column="2" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePan.cs" Line="10" Column="4" />
+      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="834" Column="38" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePlay.cs" Line="11" Column="32" />
-      <File FileName="Assets/Scripts/Tiles/Spike.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Tiles/SpikePlatform.cs" Line="37" Column="51" />
-      <File FileName="Assets/Scripts/Tiles/OrbSwitch.cs" Line="40" Column="57" />
-      <File FileName="Assets/Scripts/InstantDeathTrap.cs" Line="23" Column="54" />
-      <File FileName="Assets/Scripts/Tiles/LockedDoor.cs" Line="37" Column="59" />
-      <File FileName="Assets/Scripts/Items/MagicItem.cs" Line="38" Column="30" />
-      <File FileName="Assets/Scripts/Items/MagicCape.cs" Line="56" Column="51" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="288" Column="21" />
-      <File FileName="Assets/Scripts/UI/ItemBox.cs" Line="31" Column="34" />
-      <File FileName="Assets/Scripts/Items/MagneticGlove.cs" Line="80" Column="23" />
-      <File FileName="Assets/Scripts/Items/PullGauntlet.cs" Line="73" Column="10" />
-      <File FileName="Assets/Scripts/Items/PushGauntlet.cs" Line="76" Column="18" />
-      <File FileName="Assets/Scripts/Items/StarShield.cs" Line="8" Column="5" />
-      <File FileName="Assets/Scripts/UI/ItemSlot.cs" Line="31" Column="29" />
-      <File FileName="Assets/Scripts/Player.cs" Line="562" Column="52" />
-      <File FileName="Assets/Scripts/Items/DashBoots.cs" Line="28" Column="37" />
-      <File FileName="Assets/Scripts/Map/Map.cs" Line="560" Column="14" />
-      <File FileName="Assets/Scripts/UI/MessageBox.cs" Line="206" Column="61" />
-      <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="32" Column="45" />
-      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="243" Column="73" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAdd.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneActivate.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneMovement.cs" Line="16" Column="5" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEffect.cs" Line="8" Column="5" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneScale.cs" Line="11" Column="22" />
+      <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="23" Column="6" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneFade.cs" Line="9" Column="17" />
+      <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="55" Column="2" />
+      <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="176" Column="42" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEnable.cs" Line="7" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
