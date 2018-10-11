@@ -53,3 +53,27 @@ public class CutsceneElement
         
     }
 }
+
+public enum CutsceneElements
+{
+    Activate,
+    Add,
+    Align,
+    Animation,
+    Creation,
+    Destroy,
+    Dialog,
+    Enable,
+    Fade,
+    Flip,
+    Follow,
+    Hide,
+    Movement,
+    Pan,
+    Play,
+    Rotate,
+    Scale,
+    Show,
+    Wait,
+    Change
+}

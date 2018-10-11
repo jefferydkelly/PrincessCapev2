@@ -162,6 +162,44 @@ public class PCLParser {
 		return new MapFile(tiles, connections);
 	}
 
+    public static List<CutsceneStepStruct> ParseSteps(string json) {
+        List<CutsceneStepStruct> steps = new List<CutsceneStepStruct>();
+        string[] lines = json.Split('\n');
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line = lines[i];
+            if (IsLine(line))
+            {
+                if (ParsePropertyName(line) == "Step Number")
+                {
+                    CutsceneStepStruct step = new CutsceneStepStruct();
+                    string pass = "";
+                    while (i < lines.Length - 1)
+                    {
+                        i++;
+                        pass += lines[i] + "\n";
+                        if (lines[i] == PCLParser.ArrayEnding) {
+                            break;
+                        }
+
+                    }
+                   
+                    step.elements = ParseElements(pass);
+                    steps.Add(step);
+                }
+            }
+        }
+        return steps;
+    }
+    public static CutsceneFile ParseCutsceneFile (string json) {
+        string[] lines = json.Split('\n');
+        CutsceneFile file = new CutsceneFile();
+        file.cutsceneName = ParseLine(lines[1]);
+        file.characters = ParseLine(lines[2]).Split(' ');
+        file.steps = ParseSteps(json);
+        return file;
+    }
+
     /// <summary>
     /// Finds the end of array.
     /// </summary>
@@ -292,6 +330,45 @@ public class PCLParser {
         return new ActivatorConnection(tor, ted, inv);
 	}
 
+    public static List<CutsceneElementStruct> ParseElements(string json) {
+        List<CutsceneElementStruct> elements = new List<CutsceneElementStruct>();
+
+        int ind = json.IndexOf('[');
+        int lastInd = FindEndOfArray(json, ind);
+        int nextInd = lastInd + 1;
+        ind += 2;
+        json = json.Substring(ind, lastInd - ind);
+
+        string[] tilesList = json.Split('\n');
+
+        for (int i = 0; i < tilesList.Length; i++)
+        {
+            if (tilesList[i] == "{")
+            {
+                List<string> toParse = new List<string>();
+                int j = i + 1;
+
+                while (j < tilesList.Length && !tilesList[j].Contains("}"))
+                {
+
+                    toParse.Add(tilesList[j]);
+                    j++;
+                }
+                elements.Add(ParseCutsceneElementStruct(toParse));
+                i = j;
+            }
+        }
+
+        return elements;
+    }
+    public static CutsceneElementStruct ParseCutsceneElementStruct(List<string> json) {
+        CutsceneElementStruct element = new CutsceneElementStruct();
+        element.type = ParseEnum<CutsceneElements>(json[0]);
+        json.RemoveAt(0);
+        element.info = json;
+        return element;
+    }
+
 
     /// <summary>
     /// Parses the value of a JSON line.
@@ -302,6 +379,13 @@ public class PCLParser {
         string tName = line.Substring(line.IndexOf(':') + 3);
 		tName = tName.Substring(0, tName.Length - 2);
         return tName;
+    }
+
+    public static string ParsePropertyName(string line) {
+        if (line.Contains(":")) {
+            return line.Substring(1, line.IndexOf(':') - 2).Trim();
+        }
+        return "";
     }
 
     /// <summary>
@@ -447,5 +531,19 @@ public class MapFile {
 			return connections;
 		}
 	}
+}
+
+public class CutsceneFile {
+    public string cutsceneName;
+    public string[] characters;
+    public List<CutsceneStepStruct> steps;
+}
+
+public struct CutsceneStepStruct {
+    public List<CutsceneElementStruct> elements;
+}
+public struct CutsceneElementStruct {
+    public CutsceneElements type;
+    public List<string> info;
 }
 

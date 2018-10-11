@@ -210,14 +210,10 @@ public class Cutscene:Manager
         }
 		else if (p == "character")
 		{
-			if (parts.Length == 2)
-			{
-				CreateCharacter(parts[1].Trim());
-			}
-			else
-			{
-				CreateCharacter(parts[1].Trim(), parts[2]);
-			}
+            for (int i = 1; i < parts.Length; i++) {
+                CreateCharacter(parts[i].Trim());
+            }
+
         } else {
             parts = line.Split(':');
        
@@ -358,40 +354,21 @@ public class Cutscene:Manager
 
         characters.Clear();
 	}
-	/// <summary>
-	/// Creates a character dynamically from the sprite in Resources with the same name.
-	/// </summary>
-	/// <param name="charName">The name of the character and the sprite.</param>
-	public void CreateCharacter(string charName)
-	{
+    /// <summary>
+    /// Creates a character dynamically from the sprite in Resources with the same name.
+    /// </summary>
+    /// <param name="charName">The name of the character and the sprite.</param>
+    public void CreateCharacter(string charName)
+    {
         GameObject character = Resources.Load<GameObject>("Characters/" + charName);
         if (character)
-		{
-			CutsceneActor actor = GameObject.Instantiate(character).GetComponent<CutsceneActor>();
-			actor.name = character.name;
-			actor.Init();
-			actor.CharacterName = charName;
-			characters.Add(actor);
-		}
-	}
-
-	/// <summary>
-	/// Creates the character.
-	/// </summary>
-	/// <param name="charName">Char name.</param>
-	/// <param name="spriteName">Sprite name.</param>
-	public void CreateCharacter(string charName, string spriteName)
-	{
-        GameObject character = Resources.Load<GameObject>("Characters/" + charName);
-		if (character)
-		{
+        {
             CutsceneActor actor = GameObject.Instantiate(character).GetComponent<CutsceneActor>();
-			actor.name = character.name;
+            actor.name = character.name;
             actor.Init();
-            actor.CharacterName = spriteName;
             characters.Add(actor);
-		}
-	}
+        }
+    }
 
 	/// <summary>
 	/// Finds the actor with the given name.

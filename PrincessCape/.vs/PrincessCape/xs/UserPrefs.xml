@@ -3,16 +3,18 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/CutsceneEditor.cs">
     <Files>
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePan.cs" Line="10" Column="4" />
-      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="834" Column="38" />
+      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="172" Column="9" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePlay.cs" Line="11" Column="32" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneMovement.cs" Line="16" Column="5" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEffect.cs" Line="8" Column="5" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneScale.cs" Line="11" Column="22" />
-      <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="23" Column="6" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneFade.cs" Line="9" Column="17" />
-      <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="55" Column="2" />
-      <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="176" Column="42" />
+      <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="10" Column="20" />
+      <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="78" Column="2" />
+      <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="213" Column="53" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEnable.cs" Line="7" Column="5" />
+      <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="72" Column="3" />
+      <File FileName="Assets/Editor/MapEditor.cs" Line="735" Column="9" />
+      <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="356" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

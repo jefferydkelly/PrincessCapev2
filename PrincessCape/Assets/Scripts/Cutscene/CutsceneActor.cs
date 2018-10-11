@@ -7,6 +7,7 @@ public class CutsceneActor : MonoBehaviour
 	SpriteRenderer mySpriteRenderer;
     Animator myAnimator;
 	bool isHidden = true;
+    [SerializeField]
     string characterName = "Character";
 
 	// Use this for initialization

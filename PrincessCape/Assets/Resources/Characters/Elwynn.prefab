@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25e336ddbd1f24d2fb54b2827a510620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterName: Elwynn
 --- !u!212 &212029154347855532
 SpriteRenderer:
   m_ObjectHideFlags: 1

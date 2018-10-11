@@ -1,6 +1,4 @@
-character SirMatthew Matthew
-character Elwynn Elwynn
-character DragonHead Slog
+character SirMatthew Elwynn DragonHead
 wait 0.05
 disable Player and
 disable Remains and

@@ -71,6 +71,13 @@ public static class ExtensionMethods {
 		return list[Random.Range(0, list.Count - 1)];
 	}
 
+    public static void Copy<T,K>(this Dictionary<T,K> original, Dictionary<T,K> copy) {
+        copy = new Dictionary<T, K>();
+        foreach(KeyValuePair<T,K> tk in original) {
+            copy.Add(tk.Key, tk.Value);
+        }
+    }
+
     /// <summary>
     /// Determines if the float is between min and max.  (Exclusive)
     /// </summary>
