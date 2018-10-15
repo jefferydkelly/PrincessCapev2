@@ -335,7 +335,6 @@ public class PCLParser {
 
         int ind = json.IndexOf('[');
         int lastInd = FindEndOfArray(json, ind);
-        int nextInd = lastInd + 1;
         ind += 2;
         json = json.Substring(ind, lastInd - ind);
 

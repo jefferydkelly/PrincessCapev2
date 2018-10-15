@@ -394,6 +394,7 @@ public class AnimationEditor : CutsceneElementEditor
 {
     GameObject gameObject;
     Animator animator;
+    string objectName;
     string animation;
 
     public AnimationEditor() {
@@ -403,29 +404,40 @@ public class AnimationEditor : CutsceneElementEditor
 
     protected override void DrawGUI()
     {
+        objectName = EditorGUILayout.TextField("Animated Object", objectName);
+        animation = EditorGUILayout.TextField("Trigger Name", animation);
+        /*
         GameObject oldObject = gameObject;
         gameObject = EditorGUILayout.ObjectField("Game Object", gameObject, typeof(GameObject), true) as GameObject;
         if (oldObject != gameObject) {
-            animator = gameObject.GetComponent<Animator>();
+            if (gameObject.activeInHierarchy)
+            {
+                animator = gameObject.GetComponent<Animator>();
+            }
         }
 
 
         if (animator) {
             //Make a list of the animations and list them to be selected
+            Debug.Log(animator.parameterCount);
+            foreach(AnimatorControllerParameter acp in animator.parameters) {
+                Debug.Log(acp.name);
+            }
         } else {
             EditorGUILayout.LabelField("This does not have an animator");
-        }
+        }*/
 
     }
 
     public override void GenerateFromData(string[] data)
     {
-        throw new System.NotImplementedException();
+        objectName = PCLParser.ParseLine(data[0]);
+        animation = PCLParser.ParseLine(data[1]);
     }
 
     public override string GenerateSaveData()
     {
-        throw new System.NotImplementedException();
+        return PCLParser.CreateAttribute("Name", objectName) + PCLParser.CreateAttribute("Trigger", animation);
     }
 
 
