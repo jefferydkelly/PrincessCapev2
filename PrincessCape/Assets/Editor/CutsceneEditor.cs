@@ -8,6 +8,8 @@ public class CutsceneEditor : EditorWindow {
     private static CutsceneEditor instance;
     List<CutsceneStep> steps;
     CutsceneInfo info;
+    GameObject cutsceneGO;
+    List<CutsceneActor> actors;
 
     [MenuItem("My Game/Cutscene Editor")]
     public static void ShowWindow() {
@@ -15,6 +17,16 @@ public class CutsceneEditor : EditorWindow {
         instance.steps = new List<CutsceneStep>();
         instance.steps.Add(new CutsceneStep());
         instance.info = new CutsceneInfo();
+        instance.cutsceneGO = new GameObject("Cutscene");
+        instance.actors = new List<CutsceneActor>();
+    }
+
+    private void OnDestroy()
+    {
+        if (instance)
+        {
+            DestroyImmediate(instance.cutsceneGO);
+        }
     }
 
     private void OnGUI()
@@ -82,19 +94,67 @@ public class CutsceneEditor : EditorWindow {
         }
     }
 
+    public static CutsceneEditor Instance {
+        get {
+            return instance;
+        }
+    }
+
+    public bool HasCharacter(string name) {
+        foreach(CutsceneActor actor in actors) {
+            if (actor.name == name) {
+                return true;
+            }
+        }
+
+       return false;
+    }
+
+    public void AddActor(string name) {
+        if (!HasCharacter(name)) {
+            GameObject baseActor = Resources.Load<GameObject>("Characters/" + name);
+            CutsceneActor actor = Instantiate(baseActor).GetComponent<CutsceneActor>();
+            actor.name = actor.name.Remove(actor.name.IndexOf('('));
+            actor.transform.parent = cutsceneGO.transform;
+            actors.Add(actor);
+        }
+    }
+
+    CutsceneActor GetActor(string actorName) {
+        foreach(CutsceneActor actor in actors) {
+            if (actor.CharacterName == actorName) {
+                return actor;
+            }
+        }
+
+        return null;
+    }
+
+    public void RemoveActor(string name) {
+        if (HasCharacter(name)) {
+            CutsceneActor actor = GetActor(name);
+            actors.Remove(actor);
+            DestroyImmediate(actor);
+        }
+    }
+
 }
 
 public class CutsceneInfo
 {
     string cutsceneName = "Cutscene";
-    Dictionary<string, bool> charactersInScene;
+    List<CharacterInScene> charactersInScene;
 
     public CutsceneInfo()
     {
-        charactersInScene = new Dictionary<string, bool>();
+        charactersInScene = new List<CharacterInScene>();
         foreach (CutsceneActor actor in Resources.LoadAll<CutsceneActor>("Characters"))
         {
-            charactersInScene.Add(actor.CharacterName, false);
+            CharacterInScene character = new CharacterInScene();
+            character.characterName = actor.CharacterName;
+            character.objectName = actor.name;
+            character.isInScene = false;
+            charactersInScene.Add(character);
         }
 
     }
@@ -102,13 +162,17 @@ public class CutsceneInfo
     {
         cutsceneName = EditorGUILayout.TextField("Scene Name", cutsceneName);
         EditorGUILayout.LabelField("Characters In Scene");
-        Dictionary<string, bool> copy = new Dictionary<string, bool>();
-        charactersInScene.Copy(copy);
-        foreach (string name in charactersInScene.Keys)
+      
+        foreach (CharacterInScene character in charactersInScene)
         {
-            copy[name] = EditorGUILayout.Toggle(name, charactersInScene[name]);
+            character.isInScene = EditorGUILayout.Toggle(character.characterName, character.isInScene);
+
+            if (character.isInScene) {
+                CutsceneEditor.Instance.AddActor(character.objectName);
+            } else {
+                CutsceneEditor.Instance.RemoveActor(character.objectName);
+            }
         }
-        charactersInScene = copy;
     }
 
     public string CutsceneName {
@@ -125,14 +189,25 @@ public class CutsceneInfo
 
     public string[] Characters {
         set {
-            foreach(string character in value) {
-                if (charactersInScene.ContainsKey(character)) {
-                    charactersInScene[character] = true;
+            foreach(string name in value) {
+                CharacterInScene character = GetCharacter(name);
+                if (character != null) {
+                    character.isInScene = true;
                 }
             }
         }
     }
 
+
+    CharacterInScene GetCharacter(string name) {
+        foreach(CharacterInScene character in charactersInScene) {
+            if (character.objectName == name || character.characterName == name) {
+                return character;
+            }
+        }
+
+        return null;
+    }
     public string SaveData
     {
         get
@@ -141,11 +216,12 @@ public class CutsceneInfo
             data += PCLParser.CreateAttribute("Cutscene Name", cutsceneName);
 
             string characters = "";
-            foreach(KeyValuePair<string, bool> kvp in charactersInScene) {
-                if (kvp.Value) {
-                    characters += kvp.Key + " ";
+            foreach(CharacterInScene character in charactersInScene) {
+                if (character.isInScene) {
+                    characters += character.characterName + " ";
                 }
             }
+          
             data += PCLParser.CreateAttribute("Characters In Scene", characters);
             return data;
         }
@@ -988,4 +1064,10 @@ public class WaitEditor: CutsceneElementEditor {
             time = t;
         }
     }
+}
+
+public class CharacterInScene {
+    public string objectName;
+    public string characterName;
+    public bool isInScene = false;
 }

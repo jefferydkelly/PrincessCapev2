@@ -3,7 +3,7 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/CutsceneEditor.cs">
     <Files>
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePan.cs" Line="10" Column="4" />
-      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="435" Column="50" />
+      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="125" Column="52" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePlay.cs" Line="11" Column="32" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneMovement.cs" Line="16" Column="5" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEffect.cs" Line="8" Column="5" />
