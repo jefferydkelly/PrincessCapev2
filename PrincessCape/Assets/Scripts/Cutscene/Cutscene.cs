@@ -47,11 +47,16 @@ public class Cutscene:Manager
       
 		if (p == "show")
 		{
-			return new CutsceneEffect(parts[1], EffectType.Show, float.Parse(parts[2]), float.Parse(parts[3]));
+            if (parts.Length == 2)
+            {
+                return new CutsceneShow(parts[1], true);
+            } else {
+                return new CutsceneShow(parts[1], true, new Vector3(float.Parse(parts[2]), float.Parse(parts[3])));
+            }
 		}
 		else if (p == "hide")
 		{
-			return new CutsceneEffect(parts[1], EffectType.Hide);
+            return new CutsceneShow(parts[1], false);
 		}
 		else if (p == "fade-in")
 		{
@@ -71,11 +76,11 @@ public class Cutscene:Manager
 		}
 		else if (p == "flip-x")
 		{
-			return new CutsceneEffect(parts[1], EffectType.FlipHorizontal);
+            return new CutsceneFlip(parts[1], true);
 		}
 		else if (p == "flip-y")
 		{
-			return new CutsceneEffect(parts[1], EffectType.FlipVertical);
+            return new CutsceneFlip(parts[1], false);
 		}
 		else if (p == "scale")
 		{
@@ -95,19 +100,19 @@ public class Cutscene:Manager
 		}
 		else if (p == "rotate")
 		{
-			return new CutsceneMovement(parts[1], MoveTypes.Rotate, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
+            return new CutsceneRotation(parts[1], float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
 		}
 		else if (p == "move")
 		{
-			return new CutsceneMovement(parts[1], MoveTypes.XY, float.Parse(parts[2]), float.Parse(parts[3]), parts.Length == 5 ? float.Parse(parts[4]) : 0);
+			return new CutsceneMovement(parts[1], float.Parse(parts[2]), float.Parse(parts[3]), parts.Length == 5 ? float.Parse(parts[4]) : 0);
 		}
 		else if (p == "move-x")
 		{
-			return new CutsceneMovement(parts[1], MoveTypes.X, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
+            return new CutsceneMovement(parts[1], float.Parse(parts[2]), float.PositiveInfinity, parts.Length == 4 ? float.Parse(parts[3]) : 0);
 		}
 		else if (p == "move-y")
 		{
-            return new CutsceneMovement(parts[1], MoveTypes.Y, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
+            return new CutsceneMovement(parts[1], float.PositiveInfinity, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
 		}
 		else if (p == "pan")
 		{

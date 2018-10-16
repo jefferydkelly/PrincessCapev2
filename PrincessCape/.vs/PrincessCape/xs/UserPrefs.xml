@@ -1,20 +1,23 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/CutsceneEditor.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Cutscene/Elements/CutsceneFade.cs">
     <Files>
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePan.cs" Line="10" Column="4" />
-      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="125" Column="52" />
+      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="458" Column="23" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePlay.cs" Line="11" Column="32" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneMovement.cs" Line="16" Column="5" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEffect.cs" Line="8" Column="5" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneMovement.cs" Line="45" Column="17" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneScale.cs" Line="11" Column="22" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="10" Column="20" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="78" Column="2" />
-      <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="213" Column="53" />
+      <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="115" Column="73" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEnable.cs" Line="7" Column="5" />
       <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="72" Column="3" />
       <File FileName="Assets/Editor/MapEditor.cs" Line="735" Column="9" />
       <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="339" Column="43" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneRotation.cs" Line="23" Column="10" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneFlip.cs" Line="20" Column="29" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneShow.cs" Line="31" Column="21" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneFade.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

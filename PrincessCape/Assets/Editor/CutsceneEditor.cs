@@ -138,13 +138,25 @@ public class CutsceneEditor : EditorWindow {
         }
     }
 
+    public CutsceneInfo Info {
+        get {
+            return info;
+        }
+    }
+
 }
 
+/// <summary>
+/// Cutscene info.
+/// </summary>
 public class CutsceneInfo
 {
     string cutsceneName = "Cutscene";
     List<CharacterInScene> charactersInScene;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:CutsceneInfo"/> class.
+    /// </summary>
     public CutsceneInfo()
     {
         charactersInScene = new List<CharacterInScene>();
@@ -158,6 +170,10 @@ public class CutsceneInfo
         }
 
     }
+
+    /// <summary>
+    /// Creates and handles the GUI for the Cutscene Info
+    /// </summary>
     public void Render()
     {
         cutsceneName = EditorGUILayout.TextField("Scene Name", cutsceneName);
@@ -175,6 +191,10 @@ public class CutsceneInfo
         }
     }
 
+    /// <summary>
+    /// Gets or sets the name of the cutscene.
+    /// </summary>
+    /// <value>The name of the cutscene.</value>
     public string CutsceneName {
         get {
             return cutsceneName;
@@ -187,6 +207,10 @@ public class CutsceneInfo
         }
     }
 
+    /// <summary>
+    /// Gets or sets the characters in the cutscene.
+    /// </summary>
+    /// <value>The characters.</value>
     public string[] Characters {
         set {
             foreach(string name in value) {
@@ -196,9 +220,23 @@ public class CutsceneInfo
                 }
             }
         }
+
+        get {
+            List<string> names = new List<string>();
+            foreach(CharacterInScene character in charactersInScene) {
+                if (character.isInScene) {
+                    names.Add(character.characterName);
+                }
+            }
+            return names.ToArray();
+        }
     }
 
-
+    /// <summary>
+    /// Gets the character with the given name.
+    /// </summary>
+    /// <returns>The character with that name.</returns>
+    /// <param name="name">The name of the character.</param>
     CharacterInScene GetCharacter(string name) {
         foreach(CharacterInScene character in charactersInScene) {
             if (character.objectName == name || character.characterName == name) {
@@ -208,6 +246,10 @@ public class CutsceneInfo
 
         return null;
     }
+    /// <summary>
+    /// Gets the save data.
+    /// </summary>
+    /// <value>The save data.</value>
     public string SaveData
     {
         get
@@ -228,6 +270,10 @@ public class CutsceneInfo
     }
 
 }
+
+/// <summary>
+/// A representation of one step of the cutscene which can have multiple elements
+/// </summary>
 public class CutsceneStep {
     bool show = true;
     List<CutsceneElementEditor> elements = new List<CutsceneElementEditor>();
@@ -236,6 +282,10 @@ public class CutsceneStep {
         
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:CutsceneStep"/> class.
+    /// </summary>
+    /// <param name="els">The elements already in the step.</param>
     public CutsceneStep(List<CutsceneElementStruct> els) {
         foreach(CutsceneElementStruct ces in els) {
             CutsceneElementEditor cee = ParseElement(ces.type);
@@ -243,6 +293,10 @@ public class CutsceneStep {
             elements.Add(cee);
         }
     }
+
+    /// <summary>
+    /// Draws the GUI for this step.
+    /// </summary>
     public void DrawGUI() {
         EditorGUILayout.BeginVertical();
 
@@ -265,6 +319,10 @@ public class CutsceneStep {
         EditorGUILayout.EndVertical();
     }
 
+    /// <summary>
+    /// Adds a new element to the step.
+    /// </summary>
+    /// <param name="type">The Cutscene Element type.</param>
     void AddElement(object type)
     {
         CutsceneElements eType = (CutsceneElements)System.Enum.Parse(typeof(CutsceneElements), (string)type);
@@ -275,11 +333,14 @@ public class CutsceneStep {
        
     }
 
+    /// <summary>
+    /// Parses the element tpye and creates the corresponding cutscene element.
+    /// </summary>
+    /// <returns>A new Cutscene Element Editor of the given type.</returns>
+    /// <param name="ce">The type of CutsceneElement.</param>
     public CutsceneElementEditor ParseElement(CutsceneElements ce) {
         switch (ce)
         {
-            
-                
             case CutsceneElements.Activate:
                 return new ActivateEditor();
             case CutsceneElements.Add:
@@ -324,6 +385,10 @@ public class CutsceneStep {
         return null;
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="T:CutsceneStep"/> is shown.
+    /// </summary>
+    /// <value><c>true</c> if shown; otherwise, <c>false</c>.</value>
     public bool Show {
         get {
             return show;
@@ -334,6 +399,10 @@ public class CutsceneStep {
         }
     }
 
+    /// <summary>
+    /// Gets the save data for the step and all of its elements.
+    /// </summary>
+    /// <value>The save data.</value>
     public string SaveData {
         get {
             string data = "";
@@ -347,11 +416,18 @@ public class CutsceneStep {
     }
 }
 
+/// <summary>
+/// Cutscene element editor.
+/// </summary>
 public abstract class CutsceneElementEditor {
   
     bool show = true;
     protected string editorType = "Element";
     protected CutsceneElements type;
+
+    /// <summary>
+    /// Render the GUI for this instance.
+    /// </summary>
     public void Render() {
         EditorGUILayout.BeginVertical();
         show = EditorGUILayout.Foldout(show, editorType, true);
@@ -363,19 +439,28 @@ public abstract class CutsceneElementEditor {
         }
         EditorGUILayout.EndVertical();
     }
-
+    /// <summary>
+    /// Gets the save data.
+    /// </summary>
+    /// <value>The save data.</value>
     public string SaveData {
         get {
             string data = PCLParser.StructStart;
             data += PCLParser.CreateAttribute("Element Type", type);
-            data += GenerateSaveData();
+            data += GenerateSaveData(true);
             data += PCLParser.StructEnd;
             return data;
         }
     }
 
+    public string HumanReadable {
+        get {
+            return "";
+        }
+    }
+
     protected abstract void DrawGUI();
-    public abstract string GenerateSaveData();
+    public abstract string GenerateSaveData(bool json=true);
     public abstract void GenerateFromData(string[] data);
 }
 
@@ -385,31 +470,40 @@ public class ActivateEditor : CutsceneElementEditor
     ActivatedObject activated;
     bool isActivated = false;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:ActivateEditor"/> class.
+    /// </summary>
     public ActivateEditor()
     {
         editorType = "Activation";
         type = CutsceneElements.Activate;
     }
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Activated Object");
-        activated = EditorGUILayout.ObjectField(activated, typeof(ActivatedObject), true) as ActivatedObject;
-        EditorGUILayout.EndHorizontal();
-
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Is Activated");
-        isActivated = EditorGUILayout.Toggle(isActivated);
-        EditorGUILayout.EndHorizontal();
+      
+        activated = EditorGUILayout.ObjectField("Activated Object", activated, typeof(ActivatedObject), true) as ActivatedObject;
+        isActivated = EditorGUILayout.Toggle("Is Activated", isActivated);
     }
 
+    /// <summary>
+    /// Populates the properties of the class from the given data
+    /// </summary>
+    /// <param name="data">Data.</param>
     public override void GenerateFromData(string[] data)
     {
         activated = GameObject.Find(PCLParser.ParseLine(data[0])).GetComponent<ActivatedObject>();
         isActivated = PCLParser.ParseBool(data[1]);
     }
 
-    public override string GenerateSaveData()
+    /// <summary>
+    /// Generates the save data.
+    /// </summary>
+    /// <returns>The save data.</returns>
+    /// <param name="json">If set to <c>true</c> json.  Human readable otherwise</param>
+    public override string GenerateSaveData(bool json)
     {
         string data = "";
         data += PCLParser.CreateAttribute<string>("Object", activated.InstanceName);
@@ -418,13 +512,24 @@ public class ActivateEditor : CutsceneElementEditor
     }
 }
 
+/// <summary>
+/// An editor for adding an object to the players inventory
+/// </summary>
 public class AddEditor : CutsceneElementEditor
 {
     ItemLevel item;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:AddEditor"/> class.
+    /// </summary>
     public AddEditor() {
         editorType = "Add Magic Item";
         type = CutsceneElements.Add;
     }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         item = (ItemLevel)EditorGUILayout.EnumPopup("Magic Item", item);
@@ -435,7 +540,7 @@ public class AddEditor : CutsceneElementEditor
         item = PCLParser.ParseEnum<ItemLevel>(data[0]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         return PCLParser.CreateAttribute("Magic Item", item);
     }
@@ -455,11 +560,14 @@ public class AlignmentEditor : CutsceneElementEditor
         left = PCLParser.ParseBool(data[0]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         return PCLParser.CreateAttribute("Is Left?", left);
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         left = EditorGUILayout.Toggle("Is Left Algined?", left);
@@ -470,50 +578,67 @@ public class AnimationEditor : CutsceneElementEditor
 {
     GameObject gameObject;
     Animator animator;
-    string objectName;
-    string animation;
+    List<string> triggers;
+    int selectedTrigger = 0;
 
     public AnimationEditor() {
         editorType = "Play Animation";
         type = CutsceneElements.Animation;
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
-        objectName = EditorGUILayout.TextField("Animated Object", objectName);
-        animation = EditorGUILayout.TextField("Trigger Name", animation);
-        /*
+        //objectName = EditorGUILayout.TextField("Animated Object", objectName);
+        //animation = EditorGUILayout.TextField("Trigger Name", animation);
+
         GameObject oldObject = gameObject;
         gameObject = EditorGUILayout.ObjectField("Game Object", gameObject, typeof(GameObject), true) as GameObject;
-        if (oldObject != gameObject) {
-            if (gameObject.activeInHierarchy)
-            {
-                animator = gameObject.GetComponent<Animator>();
-            }
+        if (gameObject && gameObject.activeInHierarchy && oldObject != gameObject) {
+            animator = gameObject.GetComponent<Animator>();
+            triggers = new List<string>();
+            selectedTrigger = 0;
+            CreateListOfTriggers();
         }
 
 
         if (animator) {
-            //Make a list of the animations and list them to be selected
-            Debug.Log(animator.parameterCount);
-            foreach(AnimatorControllerParameter acp in animator.parameters) {
-                Debug.Log(acp.name);
-            }
+            selectedTrigger = EditorGUILayout.Popup("Trigger", selectedTrigger, triggers.ToArray());
         } else {
             EditorGUILayout.LabelField("This does not have an animator");
-        }*/
+        }
 
+    }
+
+    void CreateListOfTriggers() {
+        if (animator)
+        {
+            //Make a list of the animations and list them to be selected
+            foreach (AnimatorControllerParameter acp in animator.parameters)
+            {
+                triggers.Add(acp.name);
+            }
+        }
     }
 
     public override void GenerateFromData(string[] data)
     {
-        objectName = PCLParser.ParseLine(data[0]);
-        animation = PCLParser.ParseLine(data[1]);
+        gameObject = GameObject.Find(data[0]);
+        animator = gameObject.GetComponent<Animator>();
+        CreateListOfTriggers();
+        selectedTrigger = triggers.IndexOf(data[1]);
+        //objectName = PCLParser.ParseLine(data[0]);
+        //animation = PCLParser.ParseLine(data[1]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
-        return PCLParser.CreateAttribute("Name", objectName) + PCLParser.CreateAttribute("Trigger", animation);
+        string data = "";
+        data += PCLParser.CreateAttribute("Character", gameObject.name);
+        data += PCLParser.CreateAttribute("Trigger", triggers[selectedTrigger]);
+        return data;
     }
 
 
@@ -530,14 +655,21 @@ public class CreationEditor : CutsceneElementEditor
     }
     public override void GenerateFromData(string[] data)
     {
-        throw new System.NotImplementedException();
+        prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PCLParser.ParseLine(data[0]));
+        position = PCLParser.ParseVector3(data[1]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
-        throw new System.NotImplementedException();
+        string data = "";
+        data += PCLParser.CreateAttribute("Prefab", AssetDatabase.GetAssetPath(prefab));
+        data += PCLParser.CreateAttribute<Vector3>("Position", position);
+        return data;
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         prefab = EditorGUILayout.ObjectField("Prefab", prefab, typeof(GameObject), true) as GameObject;
@@ -547,24 +679,27 @@ public class CreationEditor : CutsceneElementEditor
 
 public class DestructionEditor : CutsceneElementEditor
 {
-    GameObject toBeDestoryed;
+    GameObject toBeDestroyed;
     public DestructionEditor() {
         editorType = "Destroy an object";
         type = CutsceneElements.Destroy;
     }
     public override void GenerateFromData(string[] data)
     {
-        throw new System.NotImplementedException();
+        toBeDestroyed = GameObject.Find(PCLParser.ParseLine(data[0]));
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
-        throw new System.NotImplementedException();
+        return PCLParser.CreateAttribute("Object Name", toBeDestroyed.name);
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
-        toBeDestoryed = EditorGUILayout.ObjectField("Object", toBeDestoryed, typeof(GameObject),true) as GameObject;
+        toBeDestroyed = EditorGUILayout.ObjectField("Object", toBeDestroyed, typeof(GameObject),true) as GameObject;
     }
 }
 public class DialogEditor : CutsceneElementEditor
@@ -577,20 +712,17 @@ public class DialogEditor : CutsceneElementEditor
         editorType = "Dialog";
         type = CutsceneElements.Dialog;
     }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Speaker");
-        speaker = EditorGUILayout.TextArea(speaker);
-        EditorGUILayout.EndHorizontal();
-
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Line");
-        line = EditorGUILayout.TextArea(line);
-        EditorGUILayout.EndHorizontal();
+        speaker = EditorGUILayout.TextArea("Speaker", speaker);
+        line = EditorGUILayout.TextArea("Line", line);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         string data = PCLParser.CreateAttribute<string>("Speaker", speaker);
         data += PCLParser.CreateAttribute<string>("Line", line);
@@ -633,7 +765,7 @@ public class EnableEditor : CutsceneElementEditor
         }
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         string data = PCLParser.CreateAttribute("Use Game Object?", useObject);
         if (useObject) {
@@ -651,6 +783,9 @@ public class EnableEditor : CutsceneElementEditor
         return data;
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         useObject = EditorGUILayout.Toggle("Use GameObject?", useObject);
@@ -685,7 +820,7 @@ public class FadeEditor : CutsceneElementEditor
         time = PCLParser.ParseFloat(data[2]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         string data = PCLParser.CreateAttribute("Actor", actorName);
         data += PCLParser.CreateAttribute("Fade To", alpha);
@@ -693,6 +828,9 @@ public class FadeEditor : CutsceneElementEditor
         return data;
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         actorName = EditorGUILayout.TextField("Actor", actorName);
@@ -718,11 +856,14 @@ public class FlipEditor : CutsceneElementEditor
         horizontal = PCLParser.ParseBool(data[0]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         return PCLParser.CreateAttribute("Horizontal", horizontal);
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         horizontal = EditorGUILayout.Toggle("Flip Horizontal", horizontal);
@@ -741,11 +882,14 @@ public class FollowEditor : CutsceneElementEditor
         followedName = PCLParser.ParseLine(data[0]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         return PCLParser.CreateAttribute("Follow", followedName);
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         followedName = EditorGUILayout.TextField("Follow", followedName);
@@ -765,11 +909,14 @@ public class HideEditor : CutsceneElementEditor
         hideName = PCLParser.ParseLine(data[0]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         return PCLParser.CreateAttribute("To Be Hidden", hideName);
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         hideName = EditorGUILayout.TextArea("To Be Hidden", hideName);
@@ -801,7 +948,7 @@ public class MovementEditor : CutsceneElementEditor
         time = PCLParser.ParseFloat(data[3]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         string data = "";
         data += PCLParser.CreateAttribute("Use Object", useObject);
@@ -811,6 +958,9 @@ public class MovementEditor : CutsceneElementEditor
         return data;
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         useObject = EditorGUILayout.Toggle("Use GameObject?", useObject);
@@ -857,7 +1007,7 @@ public class PanEditor: CutsceneElementEditor {
 
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         string data = "";
         data += PCLParser.CreateAttribute("Pan Type", pType);
@@ -872,6 +1022,9 @@ public class PanEditor: CutsceneElementEditor {
         return data;
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         pType = (PanType)EditorGUILayout.EnumPopup("Pan Type", pType);
@@ -910,11 +1063,14 @@ public class PlayEditor : CutsceneElementEditor {
         selectedFX = ArrayUtility.IndexOf(soundEffects, PCLParser.ParseLine(data[0]));
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         return PCLParser.CreateAttribute("Sound Effect", soundEffects[selectedFX]);
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         selectedFX = EditorGUILayout.Popup("Sound Effect", selectedFX, soundEffects);
@@ -931,6 +1087,10 @@ public class RotationEditor : CutsceneElementEditor
         editorType = "Rotate Object";
         type = CutsceneElements.Rotate;
     }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         mover = EditorGUILayout.TextField("Character", mover);
@@ -941,7 +1101,7 @@ public class RotationEditor : CutsceneElementEditor
         }
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         string data = "";
         data += PCLParser.CreateAttribute("Character", mover);
@@ -978,7 +1138,7 @@ public class ScaleEditor: CutsceneElementEditor {
         time = PCLParser.ParseFloat(data[3]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         string data = "";
         data += PCLParser.CreateAttribute("Name", name);
@@ -988,6 +1148,9 @@ public class ScaleEditor: CutsceneElementEditor {
         return data;
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         name = EditorGUILayout.TextArea("Name", name);
@@ -1025,7 +1188,7 @@ public class ShowEditor:CutsceneElementEditor {
         pos = PCLParser.ParseVector2(data[1]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         string data = "";
         data += PCLParser.CreateAttribute("Name", name);
@@ -1033,6 +1196,9 @@ public class ShowEditor:CutsceneElementEditor {
         return data;
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         name = EditorGUILayout.TextField("Name", name);
@@ -1052,11 +1218,14 @@ public class WaitEditor: CutsceneElementEditor {
         time = PCLParser.ParseFloat(data[0]);
     }
 
-    public override string GenerateSaveData()
+    public override string GenerateSaveData(bool json)
     {
         return PCLParser.CreateAttribute("Time", time);
     }
 
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
     protected override void DrawGUI()
     {
         float t = EditorGUILayout.FloatField("Time", time);

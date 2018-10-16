@@ -1,14 +1,14 @@
 {
 "Cutscene Name": "Cutscene",
-"Characters In Scene": "Slog ",
+"Characters In Scene": "",
 "Steps": [
 {
 "Step Number": "1",
 "Elements": [
 {
-"Element Type": "Dialog",
-"Speaker": "Yo",
-"Line": "Yo",
+"Element Type": "Creation",
+"Prefab": "Assets/Resources/Tiles/Cannon.prefab",
+"Position": "(0.0, 0.0, 0.0)",
 },
 ],
 },
