@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class CutsceneCreation : CutsceneElement
 {
@@ -45,3 +48,65 @@ public class CutsceneCreation : CutsceneElement
     }
 }
 
+#if UNITY_EDITOR
+public class CreationEditor : CutsceneElementEditor
+{
+    GameObject prefab;
+    Vector3 position;
+
+    public CreationEditor()
+    {
+        editorType = "Create Object";
+        type = CutsceneElements.Creation;
+    }
+    public override void GenerateFromData(string[] data)
+    {
+        prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PCLParser.ParseLine(data[0]));
+        position = PCLParser.ParseVector3(data[1]);
+    }
+
+    public override string GenerateSaveData(bool json)
+    {
+        string data = "";
+        data += PCLParser.CreateAttribute("Prefab", AssetDatabase.GetAssetPath(prefab));
+        data += PCLParser.CreateAttribute<Vector3>("Position", position);
+        return data;
+    }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
+    protected override void DrawGUI()
+    {
+        prefab = EditorGUILayout.ObjectField("Prefab", prefab, typeof(GameObject), true) as GameObject;
+        position = EditorGUILayout.Vector3Field("Position", position);
+    }
+}
+
+public class DestructionEditor : CutsceneElementEditor
+{
+    GameObject toBeDestroyed;
+    public DestructionEditor()
+    {
+        editorType = "Destroy an object";
+        type = CutsceneElements.Destroy;
+    }
+    public override void GenerateFromData(string[] data)
+    {
+        toBeDestroyed = GameObject.Find(PCLParser.ParseLine(data[0]));
+    }
+
+    public override string GenerateSaveData(bool json)
+    {
+        return PCLParser.CreateAttribute("Object Name", toBeDestroyed.name);
+    }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
+    protected override void DrawGUI()
+    {
+        toBeDestroyed = EditorGUILayout.ObjectField("Object", toBeDestroyed, typeof(GameObject), true) as GameObject;
+    }
+}
+#endif

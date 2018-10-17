@@ -1,29 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
-public class CutsceneShow : CutsceneElement {
+public class CutsceneShow : CutsceneElement
+{
 
     string target;
     Vector3 position = Vector3.negativeInfinity;
     bool show;
-	
-    public CutsceneShow(string name, bool isShown) {
+
+    public CutsceneShow(string name, bool isShown)
+    {
         target = name;
         show = isShown;
 
     }
 
-    public CutsceneShow(string name, bool isShown, Vector3 pos):this(name, isShown) {
+    public CutsceneShow(string name, bool isShown, Vector3 pos) : this(name, isShown)
+    {
         position = pos;
     }
 
     public override Timer Run()
     {
         CutsceneActor myActor = Cutscene.Instance.FindActor(target);
-        if (myActor) {
+        if (myActor)
+        {
             myActor.IsHidden = !show;
-            if (show && position.x > float.NegativeInfinity) {
+            if (show && position.x > float.NegativeInfinity)
+            {
                 myActor.Position = position;
             }
         }
@@ -31,3 +39,69 @@ public class CutsceneShow : CutsceneElement {
         return null;
     }
 }
+
+#if UNITY_EDITOR
+public class HideEditor : CutsceneElementEditor
+{
+    string hideName;
+
+    public HideEditor()
+    {
+        editorType = "Hide Object";
+        type = CutsceneElements.Hide;
+    }
+    public override void GenerateFromData(string[] data)
+    {
+        hideName = PCLParser.ParseLine(data[0]);
+    }
+
+    public override string GenerateSaveData(bool json)
+    {
+        return PCLParser.CreateAttribute("To Be Hidden", hideName);
+    }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
+    protected override void DrawGUI()
+    {
+        hideName = EditorGUILayout.TextArea("To Be Hidden", hideName);
+    }
+}
+
+
+public class ShowEditor : CutsceneElementEditor
+{
+    string name;
+    Vector2 pos;
+
+    public ShowEditor()
+    {
+        editorType = "Show Object";
+        type = CutsceneElements.Show;
+    }
+
+    public override void GenerateFromData(string[] data)
+    {
+        name = PCLParser.ParseLine(data[0]);
+        pos = PCLParser.ParseVector2(data[1]);
+    }
+
+    public override string GenerateSaveData(bool json)
+    {
+        string data = "";
+        data += PCLParser.CreateAttribute("Name", name);
+        data += PCLParser.CreateAttribute("Location", pos);
+        return data;
+    }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
+    protected override void DrawGUI()
+    {
+        name = EditorGUILayout.TextField("Name", name);
+        pos = EditorGUILayout.Vector2Field("Location", pos);
+    }
+}
+#endif

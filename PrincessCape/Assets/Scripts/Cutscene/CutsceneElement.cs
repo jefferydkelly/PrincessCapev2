@@ -1,56 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// Cutscene element.
 /// </summary>
 public class CutsceneElement
 {
-	public CutsceneElement nextElement = null;
-	public CutsceneElement prevElement = null;
-	protected bool canSkip = false;
+    public CutsceneElement nextElement = null;
+    public CutsceneElement prevElement = null;
+    protected bool canSkip = false;
 
-	protected bool autoAdvance = false;
-	protected Timer runTimer;
+    protected bool autoAdvance = false;
+    protected Timer runTimer;
 
     /// <summary>
     /// Gets a value indicating whether this <see cref="T:CutsceneElement"/> advances automatically.
     /// </summary>
     /// <value><c>true</c> if auto advance; otherwise, <c>false</c>.</value>
 	public bool AutoAdvance
-	{
-		get
-		{
-			return autoAdvance;
-		}
-	}
+    {
+        get
+        {
+            return autoAdvance;
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether this <see cref="T:CutsceneElement"/> can be skipped.
     /// </summary>
     /// <value><c>true</c> if can be skipped; otherwise, <c>false</c>.</value>
 	public bool CanSkip
-	{
-		get
-		{
-			return canSkip;
-		}
-	}
+    {
+        get
+        {
+            return canSkip;
+        }
+    }
 
     /// <summary>
     /// Run this instance.
     /// </summary>
 	public virtual Timer Run()
-	{
-		return null;
-	}
+    {
+        return null;
+    }
 
     /// <summary>
     /// Skip this instance.
     /// </summary>
-    public virtual void Skip() {
-        
+    public virtual void Skip()
+    {
+
     }
 }
 
@@ -77,3 +81,59 @@ public enum CutsceneElements
     Wait,
     Change
 }
+
+#if UNITY_EDITOR
+/// <summary>
+/// Cutscene element editor.
+/// </summary>
+public abstract class CutsceneElementEditor
+{
+
+    bool show = true;
+    protected string editorType = "Element";
+    protected CutsceneElements type;
+
+    /// <summary>
+    /// Render the GUI for this instance.
+    /// </summary>
+    public void Render()
+    {
+        EditorGUILayout.BeginVertical();
+        show = EditorGUILayout.Foldout(show, editorType, true);
+        if (show)
+        {
+            EditorGUI.indentLevel = 2;
+            DrawGUI();
+
+        }
+        EditorGUILayout.EndVertical();
+    }
+    /// <summary>
+    /// Gets the save data.
+    /// </summary>
+    /// <value>The save data.</value>
+    public string SaveData
+    {
+        get
+        {
+            string data = PCLParser.StructStart;
+            data += PCLParser.CreateAttribute("Element Type", type);
+            data += GenerateSaveData(true);
+            data += PCLParser.StructEnd;
+            return data;
+        }
+    }
+
+    public string HumanReadable
+    {
+        get
+        {
+            return "";
+        }
+    }
+
+    protected abstract void DrawGUI();
+    public abstract string GenerateSaveData(bool json = true);
+    public abstract void GenerateFromData(string[] data);
+}
+#endif

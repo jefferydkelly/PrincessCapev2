@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class CutsceneEnable : CutsceneElement
 {
@@ -13,7 +16,7 @@ public class CutsceneEnable : CutsceneElement
     public CutsceneEnable(GameObject go, bool en)
     {
         hideObject = go;
-		objectName = go.name;
+        objectName = go.name;
         enable = en;
         autoAdvance = true;
         canSkip = false;
@@ -23,7 +26,7 @@ public class CutsceneEnable : CutsceneElement
     {
         move = true;
         pos = new Vector2(x, y);
-		objectName = go.name;
+        objectName = go.name;
     }
 
     public CutsceneEnable(string oName, bool en)
@@ -42,7 +45,7 @@ public class CutsceneEnable : CutsceneElement
         if (hideObject)
         {
             hideObject.SetActive(enable);
-           
+
             if (move)
             {
                 hideObject.transform.position = pos;
@@ -55,3 +58,84 @@ public class CutsceneEnable : CutsceneElement
     }
 }
 
+#if UNITY_EDITOR
+public class EnableEditor : CutsceneElementEditor
+{
+    bool useObject = true;
+    bool move = false;
+    GameObject hideObject;
+    bool enable = true;
+    Vector2 pos;
+    string objectName = "";
+    public EnableEditor()
+    {
+        editorType = "Enable Object";
+        type = CutsceneElements.Enable;
+    }
+
+    public override void GenerateFromData(string[] data)
+    {
+        useObject = PCLParser.ParseBool(data[0]);
+        if (useObject)
+        {
+            string objName = PCLParser.ParseLine(data[1]);
+            hideObject = GameObject.Find(objName);
+        }
+        else
+        {
+            objectName = PCLParser.ParseLine(data[1]);
+        }
+        enable = PCLParser.ParseBool(data[2]);
+        move = PCLParser.ParseBool(data[3]);
+        if (move)
+        {
+            pos = PCLParser.ParseVector2(data[2]);
+        }
+    }
+
+    public override string GenerateSaveData(bool json)
+    {
+        string data = PCLParser.CreateAttribute("Use Game Object?", useObject);
+        if (useObject)
+        {
+            data += PCLParser.CreateAttribute("Object Name", hideObject.name);
+        }
+        else
+        {
+            data += PCLParser.CreateAttribute("Object Name", objectName);
+        }
+
+        data += PCLParser.CreateAttribute("Enable Object", enable);
+        data += PCLParser.CreateAttribute("Move Object?", move);
+        if (move)
+        {
+            data += PCLParser.CreateAttribute("Move To", pos);
+        }
+
+        return data;
+    }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
+    protected override void DrawGUI()
+    {
+        useObject = EditorGUILayout.Toggle("Use GameObject?", useObject);
+        if (useObject)
+        {
+            hideObject = EditorGUILayout.ObjectField("Object", hideObject, typeof(GameObject), true) as GameObject;
+        }
+        else
+        {
+            objectName = EditorGUILayout.TextField("Name", objectName);
+        }
+        enable = EditorGUILayout.Toggle("Enable", enable);
+        move = EditorGUILayout.Toggle("Move Object", move);
+        if (move)
+        {
+            pos = EditorGUILayout.Vector2Field("Move To", pos);
+        }
+
+    }
+}
+#endif

@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// A container for cutscene dialog
@@ -20,7 +23,7 @@ public class CutsceneDialog : CutsceneElement
         speaker = spk;
         dialog = dia.Replace("\\n", "\n").Trim();
         canSkip = true;
-		autoAdvance = false;
+        autoAdvance = false;
     }
 
     /// <summary>
@@ -31,7 +34,7 @@ public class CutsceneDialog : CutsceneElement
     {
         speaker = null;
         dialog = dia.Replace("\\n", "\n").Trim();
-		autoAdvance = false;
+        autoAdvance = false;
     }
 
     /// <summary>
@@ -42,3 +45,39 @@ public class CutsceneDialog : CutsceneElement
         return UIManager.Instance.ShowMessage(dialog, speaker);
     }
 }
+
+#if UNITY_EDITOR
+public class DialogEditor : CutsceneElementEditor
+{
+    string speaker = "";
+    string line = "";
+
+    public DialogEditor()
+    {
+        editorType = "Dialog";
+        type = CutsceneElements.Dialog;
+    }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
+    protected override void DrawGUI()
+    {
+        speaker = EditorGUILayout.TextArea("Speaker", speaker);
+        line = EditorGUILayout.TextArea("Line", line);
+    }
+
+    public override string GenerateSaveData(bool json)
+    {
+        string data = PCLParser.CreateAttribute<string>("Speaker", speaker);
+        data += PCLParser.CreateAttribute<string>("Line", line);
+        return data;
+    }
+
+    public override void GenerateFromData(string[] data)
+    {
+        speaker = PCLParser.ParseLine(data[0]);
+        line = PCLParser.ParseLine(data[1]);
+    }
+}
+#endif

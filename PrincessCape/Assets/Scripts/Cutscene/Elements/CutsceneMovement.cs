@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class CutsceneMovement : CutsceneElement
 {
     string mover = "Character";
     float x = 0;
     float y = 0;
-    float ang = 0;
     float time = 0;
 
     public CutsceneMovement(string target, float dx = 0, float dy = 0, float dt = 0)
@@ -17,7 +19,7 @@ public class CutsceneMovement : CutsceneElement
         y = dy;
         time = dt;
         canSkip = true;
-		autoAdvance = true;
+        autoAdvance = true;
     }
 
     public override Timer Run()
@@ -34,7 +36,8 @@ public class CutsceneMovement : CutsceneElement
 
                 Vector3 startPosition = gameObject.transform.position;
 
-                if (float.IsPositiveInfinity(x)) {
+                if (float.IsPositiveInfinity(x))
+                {
                     x = startPosition.x;
                 }
 
@@ -47,21 +50,23 @@ public class CutsceneMovement : CutsceneElement
 
                 runTimer.OnTick.AddListener(() =>
                 {
-					if (gameObject)
-					{
-						gameObject.transform.position = startPosition + dist * runTimer.RunPercent;
-					} else {
-						runTimer.Stop();
-						runTimer.OnComplete.Invoke();
-					}
+                    if (gameObject)
+                    {
+                        gameObject.transform.position = startPosition + dist * runTimer.RunPercent;
+                    }
+                    else
+                    {
+                        runTimer.Stop();
+                        runTimer.OnComplete.Invoke();
+                    }
                 });
 
                 runTimer.OnComplete.AddListener(() =>
                 {
-					if (gameObject)
-					{
-						gameObject.transform.position = new Vector3(x, y, gameObject.transform.position.z);
-					}
+                    if (gameObject)
+                    {
+                        gameObject.transform.position = new Vector3(x, y, gameObject.transform.position.z);
+                    }
                 });
 
 
@@ -69,7 +74,7 @@ public class CutsceneMovement : CutsceneElement
 
             }
             else
-			{
+            {
                 gameObject.transform.position = new Vector3(x, y, gameObject.transform.position.z);
             }
         }
@@ -77,3 +82,65 @@ public class CutsceneMovement : CutsceneElement
     }
 }
 
+#if UNITY_EDITOR
+public class MovementEditor : CutsceneElementEditor
+{
+    bool useObject = true;
+    GameObject gameObject;
+    string name;
+    Vector3 moveTo;
+    float time;
+    public MovementEditor()
+    {
+        editorType = "Move Object";
+        type = CutsceneElements.Movement;
+    }
+
+    public override void GenerateFromData(string[] data)
+    {
+        useObject = PCLParser.ParseBool(data[0]);
+        if (useObject)
+        {
+            gameObject = GameObject.Find(PCLParser.ParseLine(data[1]));
+        }
+        else
+        {
+            name = PCLParser.ParseLine(data[1]);
+        }
+        moveTo = PCLParser.ParseVector3(data[2]);
+        time = PCLParser.ParseFloat(data[3]);
+    }
+
+    public override string GenerateSaveData(bool json)
+    {
+        string data = "";
+        data += PCLParser.CreateAttribute("Use Object", useObject);
+        data += PCLParser.CreateAttribute("Object Name", useObject ? gameObject.name : name);
+        data += PCLParser.CreateAttribute("Move To", moveTo);
+        data += PCLParser.CreateAttribute("Over", time);
+        return data;
+    }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
+    protected override void DrawGUI()
+    {
+        useObject = EditorGUILayout.Toggle("Use GameObject?", useObject);
+        if (useObject)
+        {
+            gameObject = EditorGUILayout.ObjectField("Object", gameObject, typeof(GameObject), true) as GameObject;
+        }
+        else
+        {
+            name = EditorGUILayout.TextField("Name", name);
+        }
+        moveTo = EditorGUILayout.Vector3Field("Move To", moveTo);
+        float newTime = EditorGUILayout.FloatField("Over", time);
+        if (newTime > 0)
+        {
+            time = newTime;
+        }
+    }
+}
+#endif

@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class CutsceneAlign : CutsceneElement
 {
@@ -16,14 +19,44 @@ public class CutsceneAlign : CutsceneElement
     public override Timer Run()
     {
         if (left)
-		{
-			UIManager.Instance.Alignment = TextAnchor.UpperLeft;
-		}
+        {
+            UIManager.Instance.Alignment = TextAnchor.UpperLeft;
+        }
         else
         {
-			UIManager.Instance.Alignment = TextAnchor.UpperRight;
+            UIManager.Instance.Alignment = TextAnchor.UpperRight;
         }
 
         return null;
     }
 }
+#if UNITY_EDITOR
+public class AlignmentEditor : CutsceneElementEditor
+{
+    bool left = true;
+
+    public AlignmentEditor()
+    {
+        editorType = "Set Text Alignment";
+        type = CutsceneElements.Align;
+    }
+
+    public override void GenerateFromData(string[] data)
+    {
+        left = PCLParser.ParseBool(data[0]);
+    }
+
+    public override string GenerateSaveData(bool json)
+    {
+        return PCLParser.CreateAttribute("Is Left?", left);
+    }
+
+    /// <summary>
+    /// Draws the GUI for the properties of this object and handles any changes
+    /// </summary>
+    protected override void DrawGUI()
+    {
+        left = EditorGUILayout.Toggle("Is Left Algined?", left);
+    }
+}
+#endif
