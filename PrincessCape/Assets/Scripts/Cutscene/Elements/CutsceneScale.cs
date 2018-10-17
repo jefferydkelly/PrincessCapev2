@@ -206,5 +206,13 @@ public class ScaleEditor: CutsceneElementEditor {
         }
 
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("scale {0} {1} {2} {3}", name, xScale, yScale, time);
+        }
+    }
 }
 #endif

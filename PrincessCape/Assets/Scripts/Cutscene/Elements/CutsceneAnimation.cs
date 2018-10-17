@@ -117,6 +117,13 @@ public class AnimationEditor : CutsceneElementEditor
         return data;
     }
 
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("animate {0} {1}", gameObject.name, triggers[selectedTrigger]);
+        }
+    }
 
 }
 #endif

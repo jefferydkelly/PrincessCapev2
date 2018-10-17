@@ -81,6 +81,14 @@ public class CreationEditor : CutsceneElementEditor
         prefab = EditorGUILayout.ObjectField("Prefab", prefab, typeof(GameObject), true) as GameObject;
         position = EditorGUILayout.Vector3Field("Position", position);
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("create {0} {1} {2} {3}", prefab.name, position.x, position.y, position.z);
+        }
+    }
 }
 
 public class DestructionEditor : CutsceneElementEditor
@@ -107,6 +115,14 @@ public class DestructionEditor : CutsceneElementEditor
     protected override void DrawGUI()
     {
         toBeDestroyed = EditorGUILayout.ObjectField("Object", toBeDestroyed, typeof(GameObject), true) as GameObject;
+    }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("destroy {0}", toBeDestroyed.name);
+        }
     }
 }
 #endif

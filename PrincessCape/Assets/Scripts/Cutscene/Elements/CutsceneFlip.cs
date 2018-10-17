@@ -35,7 +35,7 @@ public class CutsceneFlip : CutsceneElement
 public class FlipEditor : CutsceneElementEditor
 {
     bool horizontal = true;
-
+    string character;
     public FlipEditor()
     {
         editorType = "Flip Sprite";
@@ -43,12 +43,16 @@ public class FlipEditor : CutsceneElementEditor
     }
     public override void GenerateFromData(string[] data)
     {
-        horizontal = PCLParser.ParseBool(data[0]);
+        character = PCLParser.ParseLine(data[0]);
+        horizontal = PCLParser.ParseBool(data[1]);
     }
 
     public override string GenerateSaveData(bool json)
     {
-        return PCLParser.CreateAttribute("Horizontal", horizontal);
+        string data = "";
+        data += PCLParser.CreateAttribute("Character", character);
+        data += PCLParser.CreateAttribute("Horizontal", horizontal);
+        return data;
     }
 
     /// <summary>
@@ -57,6 +61,14 @@ public class FlipEditor : CutsceneElementEditor
     protected override void DrawGUI()
     {
         horizontal = EditorGUILayout.Toggle("Flip Horizontal", horizontal);
+    }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("flip-{0} {1}", horizontal ? "x" : "y", character);
+        }
     }
 }
 #endif

@@ -58,5 +58,13 @@ public class AlignmentEditor : CutsceneElementEditor
     {
         left = EditorGUILayout.Toggle("Is Left Algined?", left);
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("align {0}", left ? "left" : "right");
+        }
+    }
 }
 #endif

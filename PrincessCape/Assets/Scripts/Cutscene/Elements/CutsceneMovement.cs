@@ -88,7 +88,7 @@ public class MovementEditor : CutsceneElementEditor
     bool useObject = true;
     GameObject gameObject;
     string name;
-    Vector3 moveTo;
+    Vector2 moveTo;
     float time;
     public MovementEditor()
     {
@@ -107,7 +107,7 @@ public class MovementEditor : CutsceneElementEditor
         {
             name = PCLParser.ParseLine(data[1]);
         }
-        moveTo = PCLParser.ParseVector3(data[2]);
+        moveTo = PCLParser.ParseVector2(data[2]);
         time = PCLParser.ParseFloat(data[3]);
     }
 
@@ -135,11 +135,19 @@ public class MovementEditor : CutsceneElementEditor
         {
             name = EditorGUILayout.TextField("Name", name);
         }
-        moveTo = EditorGUILayout.Vector3Field("Move To", moveTo);
+        moveTo = EditorGUILayout.Vector2Field("Move To", moveTo);
         float newTime = EditorGUILayout.FloatField("Over", time);
         if (newTime > 0)
         {
             time = newTime;
+        }
+    }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("move {0} {1} {2} {3}", useObject ? gameObject.name : name, moveTo.x, moveTo.y, time);
         }
     }
 }

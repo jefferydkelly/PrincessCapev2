@@ -93,6 +93,14 @@ public class RotationEditor : CutsceneElementEditor
         ang = PCLParser.ParseFloat(data[1]);
         time = PCLParser.ParseFloat(data[2]);
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("rotate {0} {1} {2}", mover, ang, time);
+        }
+    }
 }
 
 #endif

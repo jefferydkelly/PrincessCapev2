@@ -61,7 +61,7 @@ public class CutsceneFade : CutsceneElement
 public class FadeEditor : CutsceneElementEditor
 {
     string actorName;
-    float alpha;
+    bool fadeIn = true;
     float time;
 
     public FadeEditor()
@@ -72,14 +72,14 @@ public class FadeEditor : CutsceneElementEditor
     public override void GenerateFromData(string[] data)
     {
         actorName = PCLParser.ParseLine(data[0]);
-        alpha = PCLParser.ParseFloat(data[1]);
+        fadeIn = PCLParser.ParseBool(data[1]);
         time = PCLParser.ParseFloat(data[2]);
     }
 
     public override string GenerateSaveData(bool json)
     {
         string data = PCLParser.CreateAttribute("Actor", actorName);
-        data += PCLParser.CreateAttribute("Fade To", alpha);
+        data += PCLParser.CreateAttribute("Fade-In?", fadeIn);
         data += PCLParser.CreateAttribute("Over", time);
         return data;
     }
@@ -90,12 +90,19 @@ public class FadeEditor : CutsceneElementEditor
     protected override void DrawGUI()
     {
         actorName = EditorGUILayout.TextField("Actor", actorName);
-        alpha = EditorGUILayout.FloatField("Fade To Alpha", alpha);
-        alpha = Mathf.Clamp01(alpha);
+        fadeIn = EditorGUILayout.Toggle("Fade-In?", fadeIn);
         float newTime = EditorGUILayout.FloatField("Time (in seconds)", time);
         if (newTime > 0)
         {
             time = newTime;
+        }
+    }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("Fade-{0} {1} {2}", fadeIn ? "in" : "out", actorName, time);
         }
     }
 }

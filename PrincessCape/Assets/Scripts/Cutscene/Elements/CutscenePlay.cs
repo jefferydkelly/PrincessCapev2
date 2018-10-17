@@ -53,5 +53,13 @@ public class PlayEditor : CutsceneElementEditor {
     {
         selectedFX = EditorGUILayout.Popup("Sound Effect", selectedFX, soundEffects);
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("play {0}", soundEffects[selectedFX]);
+        }
+    }
 }
 #endif

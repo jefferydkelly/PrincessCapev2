@@ -79,5 +79,13 @@ public class DialogEditor : CutsceneElementEditor
         speaker = PCLParser.ParseLine(data[0]);
         line = PCLParser.ParseLine(data[1]);
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("{0}: {1}", speaker, line);
+        }
+    }
 }
 #endif

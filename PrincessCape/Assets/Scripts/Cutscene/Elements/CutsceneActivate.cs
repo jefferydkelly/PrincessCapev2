@@ -94,5 +94,13 @@ public class ActivateEditor : CutsceneElementEditor
         data += PCLParser.CreateAttribute<bool>("Is Activated", isActivated);
         return data;
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("activate {0} {1}", activated.InstanceName, isActivated);
+        }
+    }
 }
 #endif

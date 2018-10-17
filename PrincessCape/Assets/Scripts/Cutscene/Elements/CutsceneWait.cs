@@ -58,5 +58,13 @@ public class WaitEditor : CutsceneElementEditor
             time = t;
         }
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("wait {0}", time);
+        }
+    }
 }
 #endif

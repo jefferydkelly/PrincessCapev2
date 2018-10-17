@@ -67,6 +67,14 @@ public class HideEditor : CutsceneElementEditor
     {
         hideName = EditorGUILayout.TextArea("To Be Hidden", hideName);
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("hide {0}", hideName);
+        }
+    }
 }
 
 
@@ -102,6 +110,14 @@ public class ShowEditor : CutsceneElementEditor
     {
         name = EditorGUILayout.TextField("Name", name);
         pos = EditorGUILayout.Vector2Field("Location", pos);
+    }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("show {0} {1} {2}", name, pos.x, pos.y);
+        }
     }
 }
 #endif

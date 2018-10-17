@@ -50,5 +50,13 @@ public class FollowEditor : CutsceneElementEditor
     {
         followedName = EditorGUILayout.TextField("Follow", followedName);
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("follow {0}", followedName);
+        }
+    }
 }
 #endif

@@ -124,13 +124,7 @@ public abstract class CutsceneElementEditor
         }
     }
 
-    public string HumanReadable
-    {
-        get
-        {
-            return "";
-        }
-    }
+    public abstract string HumanReadable { get; }
 
     protected abstract void DrawGUI();
     public abstract string GenerateSaveData(bool json = true);

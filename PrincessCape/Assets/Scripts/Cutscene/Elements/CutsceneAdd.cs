@@ -57,5 +57,13 @@ public class AddEditor : CutsceneElementEditor
     {
         return PCLParser.CreateAttribute("Magic Item", item);
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            return string.Format("add {0}", type);
+        }
+    }
 }
 #endif

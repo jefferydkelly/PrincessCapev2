@@ -137,5 +137,17 @@ public class EnableEditor : CutsceneElementEditor
         }
 
     }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            if (move) {
+                return string.Format("{0} {1} {2} {3}", enable ? "enable" : "disable", objectName, pos.x, pos.y);
+            }
+            
+            return string.Format("{0} {1}", enable ? "enable" : "disable", objectName);
+        }
+    }
 }
 #endif

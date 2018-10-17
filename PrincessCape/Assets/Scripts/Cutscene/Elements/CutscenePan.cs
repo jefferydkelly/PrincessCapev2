@@ -84,7 +84,6 @@ public class PanEditor : CutsceneElementEditor
 {
     PanType pType = PanType.ToPosition;
     Vector2 panDistance = Vector2.zero;
-    Vector3 panEnding;
     string panToName = "";
     float panTime = 1.0f;
 
@@ -97,17 +96,12 @@ public class PanEditor : CutsceneElementEditor
     public override void GenerateFromData(string[] data)
     {
         pType = PCLParser.ParseEnum<PanType>(data[0]);
-        if (pType == PanType.ByAmount)
-        {
-            panDistance = PCLParser.ParseVector2(data[1]);
-        }
-        else if (pType == PanType.ToPosition)
-        {
-            panEnding = PCLParser.ParseVector3(data[1]);
-        }
-        else
+
+        if (pType == PanType.ToCharacter)
         {
             panToName = PCLParser.ParseLine(data[1]);
+        } else {
+            panDistance = PCLParser.ParseVector2(data[1]);
         }
 
         panTime = PCLParser.ParseFloat(data[2]);
@@ -118,17 +112,12 @@ public class PanEditor : CutsceneElementEditor
     {
         string data = "";
         data += PCLParser.CreateAttribute("Pan Type", pType);
-        if (pType == PanType.ByAmount)
-        {
-            data += PCLParser.CreateAttribute("Distance", panDistance);
-        }
-        else if (pType == PanType.ToPosition)
-        {
-            data += PCLParser.CreateAttribute("To", panEnding);
-        }
-        else
+       
+        if (pType == PanType.ToCharacter)
         {
             data += PCLParser.CreateAttribute("To", panToName);
+        } else {
+            data += PCLParser.CreateAttribute(pType == PanType.ByAmount ? "Distance" : "To", panDistance);
         }
         data += PCLParser.CreateAttribute("Over", panTime);
         return data;
@@ -141,22 +130,30 @@ public class PanEditor : CutsceneElementEditor
     {
         pType = (PanType)EditorGUILayout.EnumPopup("Pan Type", pType);
 
-        if (pType == PanType.ByAmount)
-        {
-            panDistance = EditorGUILayout.Vector2Field("By Amount", panDistance);
-        }
-        else if (pType == PanType.ToPosition)
-        {
-            panEnding = EditorGUILayout.Vector3Field("To", panEnding);
-        }
-        else
+        if (pType == PanType.ToCharacter)
         {
             panToName = EditorGUILayout.TextField("To Character", panToName);
+        } else {
+            panDistance = EditorGUILayout.Vector2Field(pType == PanType.ByAmount ? "By Amount" : "To", panDistance);
         }
         float time = EditorGUILayout.FloatField("Time", panTime);
         if (time > 0)
         {
             panTime = time;
+        }
+    }
+
+    public override string HumanReadable
+    {
+        get
+        {
+            if (pType == PanType.ByAmount) {
+                return string.Format("pan {0} {1} {2}", panDistance.x, panDistance.y, panTime);
+            } else if (pType == PanType.ToPosition) {
+                return string.Format("pan to {0} {1} {2}", panDistance.x, panDistance.y, panTime);
+            } else {
+                return string.Format("pan to {0} {1}", panToName, panTime);
+            }
         }
     }
 }
