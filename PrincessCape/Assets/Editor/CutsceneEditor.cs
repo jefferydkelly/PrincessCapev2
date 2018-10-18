@@ -13,6 +13,11 @@ public class CutsceneEditor : EditorWindow {
 
     [MenuItem("My Game/Cutscene Editor")]
     public static void ShowWindow() {
+        GetWindow<CutsceneEditor>(false, "Cutscene Editor", true);
+    }
+
+    private void OnEnable()
+    {
         instance = GetWindow<CutsceneEditor>(false, "Cutscene Editor", true);
         instance.steps = new List<CutsceneStep>();
         instance.steps.Add(new CutsceneStep());
@@ -20,7 +25,6 @@ public class CutsceneEditor : EditorWindow {
         instance.cutsceneGO = new GameObject("Cutscene");
         instance.actors = new List<CutsceneActor>();
     }
-
     private void OnDestroy()
     {
         if (instance)
@@ -34,7 +38,7 @@ public class CutsceneEditor : EditorWindow {
         if (instance != null)
         {
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Save")) {
+            if (GUILayout.Button("Save as JSON")) {
                 //Save the cutscene
                 string path = EditorUtility.SaveFilePanel("Save Cutscene To File", "Assets/Resources/Cutscenes", instance.info.CutsceneName, "json");
 
@@ -56,7 +60,27 @@ public class CutsceneEditor : EditorWindow {
                     data += PCLParser.StructEnd;
                     File.WriteAllText(path, data);
                 }
-            } else if (GUILayout.Button("Load")) {
+            } else if (GUILayout.Button("Save as Text"))
+            {
+                //Save the cutscene
+                string path = EditorUtility.SaveFilePanel("Save Cutscene To File", "Assets/Resources/Cutscenes", instance.info.CutsceneName, "txt");
+
+                if (path.Length > 0)
+                {
+                    string data = instance.info.HumanReadable;
+
+                    foreach (CutsceneStep step in instance.steps)
+                    {
+                        data += step.HumanReadable;
+                    }
+                  
+                    File.WriteAllText(path, data);
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Load JSON"))
+            {
                 string path = EditorUtility.OpenFilePanel("Open A Level File", "Assets/Resources/Cutscenes", "json");
                 if (path.Length > 0)
                 {
@@ -66,12 +90,34 @@ public class CutsceneEditor : EditorWindow {
                     instance.info.Characters = file.characters;
 
                     instance.steps.Clear();
-                    foreach(CutsceneStepStruct step in file.steps) {
+                    foreach (CutsceneStepStruct step in file.steps)
+                    {
                         instance.steps.Add(new CutsceneStep(step.elements));
                     }
 
                 }
+            } else if (GUILayout.Button("Load Text"))
+            {
+                string path = EditorUtility.OpenFilePanel("Open A Level File", "Assets/Resources/Cutscenes", "txt");
+                /*
+                if (path.Length > 0)
+                {
+
+                    CutsceneFile file = PCLParser.ParseCutsceneFile(File.ReadAllText(path));
+                    instance.info.CutsceneName = file.cutsceneName;
+                    instance.info.Characters = file.characters;
+
+                    instance.steps.Clear();
+                    foreach (CutsceneStepStruct step in file.steps)
+                    {
+                        instance.steps.Add(new CutsceneStep(step.elements));
+                    }
+
+                }
+                */
             }
+
+
             EditorGUILayout.EndHorizontal();
             instance.info.Render();
             for (int i = 0; i < instance.steps.Count; i++)
@@ -269,6 +315,17 @@ public class CutsceneInfo
         }
     }
 
+    public string HumanReadable {
+        get {
+            string info = "character ";
+            foreach(string name in Characters) {
+                info += name + " ";
+            }
+            info += "\n";
+            return info;
+        }
+    }
+
 }
 
 /// <summary>
@@ -411,6 +468,20 @@ public class CutsceneStep {
                 data += ed.SaveData;
             }
             data += PCLParser.ArrayEnding;
+            return data;
+        }
+    }
+
+    public string HumanReadable {
+        get {
+            string data = "";
+            for (int i = 0; i < elements.Count; i++) {
+                data += elements[i].HumanReadable;
+                if (i < elements.Count - 1) {
+                    data += " and";
+                }
+                data += "\n";
+            }
             return data;
         }
     }

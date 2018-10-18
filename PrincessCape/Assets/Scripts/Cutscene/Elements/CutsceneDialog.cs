@@ -63,8 +63,8 @@ public class DialogEditor : CutsceneElementEditor
     /// </summary>
     protected override void DrawGUI()
     {
-        speaker = EditorGUILayout.TextArea("Speaker", speaker);
-        line = EditorGUILayout.TextArea("Line", line);
+        speaker = EditorGUILayout.TextField("Speaker", speaker);
+        line = EditorGUILayout.TextField("Line", line);
     }
 
     public override string GenerateSaveData(bool json)
