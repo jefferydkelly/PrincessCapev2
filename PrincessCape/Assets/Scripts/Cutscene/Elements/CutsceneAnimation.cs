@@ -101,15 +101,15 @@ public class AnimationEditor : CutsceneElementEditor
 
     public override void GenerateFromData(string[] data)
     {
-        gameObject = GameObject.Find(data[0]);
+        gameObject = GameObject.Find(PCLParser.ParseLine(data[0]));
         animator = gameObject.GetComponent<Animator>();
         CreateListOfTriggers();
-        selectedTrigger = triggers.IndexOf(data[1]);
+        selectedTrigger = triggers.IndexOf(PCLParser.ParseLine(data[1]));
         //objectName = PCLParser.ParseLine(data[0]);
         //animation = PCLParser.ParseLine(data[1]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = "";
         data += PCLParser.CreateAttribute("Character", gameObject.name);
@@ -123,6 +123,14 @@ public class AnimationEditor : CutsceneElementEditor
         {
             return string.Format("animate {0} {1}", gameObject.name, triggers[selectedTrigger]);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        gameObject = GameObject.Find(data[1]);
+        animator = gameObject.GetComponent<Animator>();
+        CreateListOfTriggers();
+        selectedTrigger = triggers.IndexOf(data[2]);
     }
 
 }

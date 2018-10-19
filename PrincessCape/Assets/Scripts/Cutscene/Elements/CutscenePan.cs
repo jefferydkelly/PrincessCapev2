@@ -108,7 +108,7 @@ public class PanEditor : CutsceneElementEditor
 
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = "";
         data += PCLParser.CreateAttribute("Pan Type", pType);
@@ -154,6 +154,24 @@ public class PanEditor : CutsceneElementEditor
             } else {
                 return string.Format("pan to {0} {1}", panToName, panTime);
             }
+        }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        panTime = float.Parse(data[data.Length - 1]);
+        if (data[1] == "to") {
+            if (data.Length == 4) {
+                pType = PanType.ToCharacter;
+                panToName = data[2];
+            } else {
+                pType = PanType.ToPosition;
+                panDistance = new Vector2(float.Parse(data[2]), float.Parse(data[3]));
+
+            }
+        } else {
+            pType = PanType.ByAmount;
+            panDistance = new Vector2(float.Parse(data[1]), float.Parse(data[2]));
         }
     }
 }

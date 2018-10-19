@@ -46,7 +46,7 @@ public class AlignmentEditor : CutsceneElementEditor
         left = PCLParser.ParseBool(data[0]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         return PCLParser.CreateAttribute("Is Left?", left);
     }
@@ -65,6 +65,11 @@ public class AlignmentEditor : CutsceneElementEditor
         {
             return string.Format("align {0}", left ? "left" : "right");
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        left = data[1] == "left";
     }
 }
 #endif

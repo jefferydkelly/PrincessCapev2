@@ -93,7 +93,7 @@ public class EnableEditor : CutsceneElementEditor
         }
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = PCLParser.CreateAttribute("Use Game Object?", useObject);
         if (useObject)
@@ -147,6 +147,16 @@ public class EnableEditor : CutsceneElementEditor
             }
             
             return string.Format("{0} {1}", enable ? "enable" : "disable", objectName);
+        }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        enable = data[0] == "enable";
+        objectName = data[1];
+        if (data.Length > 2) {
+            pos = new Vector2(float.Parse(data[2]), float.Parse(data[3]));
+
         }
     }
 }

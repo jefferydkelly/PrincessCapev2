@@ -173,7 +173,7 @@ public class ScaleEditor: CutsceneElementEditor {
         time = PCLParser.ParseFloat(data[3]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = "";
         data += PCLParser.CreateAttribute("Name", name);
@@ -213,6 +213,15 @@ public class ScaleEditor: CutsceneElementEditor {
         {
             return string.Format("scale {0} {1} {2} {3}", name, xScale, yScale, time);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        name = data[1];
+        xScale = float.Parse(data[2]);
+        yScale = float.Parse(data[3]);
+        time = float.Parse(data[4]);
+
     }
 }
 #endif

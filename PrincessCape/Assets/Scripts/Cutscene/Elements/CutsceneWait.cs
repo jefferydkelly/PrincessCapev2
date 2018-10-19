@@ -42,7 +42,7 @@ public class WaitEditor : CutsceneElementEditor
         time = PCLParser.ParseFloat(data[0]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         return PCLParser.CreateAttribute("Time", time);
     }
@@ -65,6 +65,11 @@ public class WaitEditor : CutsceneElementEditor
         {
             return string.Format("wait {0}", time);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        time = float.Parse(data[1]);
     }
 }
 #endif

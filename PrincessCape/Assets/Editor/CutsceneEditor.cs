@@ -99,22 +99,26 @@ public class CutsceneEditor : EditorWindow {
             } else if (GUILayout.Button("Load Text"))
             {
                 string path = EditorUtility.OpenFilePanel("Open A Level File", "Assets/Resources/Cutscenes", "txt");
-                /*
-                if (path.Length > 0)
-                {
+                if (path.Length > 0) {
+                    string[] lines = File.ReadAllLines(path);
+                    string[] chars = lines[0].Substring(lines[0].IndexOf(' ') + 1).Trim().Split(' ');
+                    instance.info.Characters = chars;
 
-                    CutsceneFile file = PCLParser.ParseCutsceneFile(File.ReadAllText(path));
-                    instance.info.CutsceneName = file.cutsceneName;
-                    instance.info.Characters = file.characters;
-
-                    instance.steps.Clear();
-                    foreach (CutsceneStepStruct step in file.steps)
+                    List<string> stepText = new List<string>();
+                    int i = 1;
+                    do
                     {
-                        instance.steps.Add(new CutsceneStep(step.elements));
-                    }
-
+                        stepText.Clear();
+                        string[] parts = { };
+                        do
+                        {
+                            parts = lines[i].Trim().Split(' ');
+                            stepText.Add(lines[i]);
+                            i++;
+                        } while (parts[parts.Length - 1] == "and");
+                        steps.Add(new CutsceneStep(stepText));
+                    } while (i < lines.Length);
                 }
-                */
             }
 
 
@@ -351,6 +355,13 @@ public class CutsceneStep {
         }
     }
 
+    public CutsceneStep(List<string> lines) {
+        elements = new List<CutsceneElementEditor>();
+        foreach(string line in lines) {
+            elements.Add(ParseElement(line));
+        }
+    }
+
     /// <summary>
     /// Draws the GUI for this step.
     /// </summary>
@@ -440,6 +451,93 @@ public class CutsceneStep {
         }
 
         return null;
+    }
+
+    public CutsceneElementEditor ParseElement(string line)
+    {
+        string[] parts = line.Split(' ');
+        string p = parts[0];
+        CutsceneElementEditor editor;
+        if (p == "show")
+        {
+            editor = new ShowEditor();
+        }
+        else if (p == "hide")
+        {
+            editor = new HideEditor();
+        }
+        else if (p.Contains("fade") || p == "alpha")
+        {
+            editor = new FadeEditor();
+        }
+        else if (p.Contains("flip"))
+        {
+            editor = new FlipEditor();
+        }
+        else if (p.Contains("scale")) 
+        {
+            editor = new ScaleEditor();
+        }
+        else if (p == "rotate")
+        {
+            editor = new RotationEditor();
+        }
+        else if (p.Contains("move"))
+        {
+            editor = new MovementEditor();
+        }
+        else if (p == "pan")
+        {
+            editor = new PanEditor();
+        }
+        else if (p == "wait")
+        {
+            editor = new WaitEditor();
+        }
+        else if (p == "create")
+        {
+            editor = new CreationEditor();
+        }
+        else if (p == "destroy")
+        {
+            editor = new DestructionEditor();
+        }
+        else if (p == "add")
+        {
+            editor = new AddEditor();
+        }
+        else if (p.Contains("able"))
+        {
+            editor = new EnableEditor();
+        }
+        else if (p == "activate")
+        {
+            editor = new ActivateEditor();
+        }
+        else if (p == "align")
+        {
+            editor = new AlignmentEditor();
+        }
+        else if (p == "play")
+        {
+            editor = new PlayEditor();
+        }
+        else if (p == "follow")
+        {
+            editor = new FollowEditor();
+        }
+        else if (p == "animate")
+        {
+            editor = new AnimationEditor();
+        }
+        else
+        {
+            parts = line.Split(':');
+            editor = new DialogEditor();
+        }
+
+        editor.GenerateFromText(parts);
+        return editor;
     }
 
     /// <summary>

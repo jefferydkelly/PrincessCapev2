@@ -118,7 +118,7 @@ public abstract class CutsceneElementEditor
         {
             string data = PCLParser.StructStart;
             data += PCLParser.CreateAttribute("Element Type", type);
-            data += GenerateSaveData(true);
+            data += GenerateSaveData();
             data += PCLParser.StructEnd;
             return data;
         }
@@ -127,7 +127,8 @@ public abstract class CutsceneElementEditor
     public abstract string HumanReadable { get; }
 
     protected abstract void DrawGUI();
-    public abstract string GenerateSaveData(bool json = true);
+    public abstract string GenerateSaveData();
     public abstract void GenerateFromData(string[] data);
+    public abstract void GenerateFromText(string[] data);
 }
 #endif

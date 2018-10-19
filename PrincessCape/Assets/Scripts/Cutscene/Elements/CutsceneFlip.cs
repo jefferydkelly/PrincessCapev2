@@ -47,7 +47,7 @@ public class FlipEditor : CutsceneElementEditor
         horizontal = PCLParser.ParseBool(data[1]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = "";
         data += PCLParser.CreateAttribute("Character", character);
@@ -69,6 +69,12 @@ public class FlipEditor : CutsceneElementEditor
         {
             return string.Format("flip-{0} {1}", horizontal ? "x" : "y", character);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        horizontal = data[0].Contains("x");
+        character = data[1];
     }
 }
 #endif

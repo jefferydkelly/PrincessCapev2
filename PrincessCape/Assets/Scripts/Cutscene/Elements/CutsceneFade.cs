@@ -76,7 +76,7 @@ public class FadeEditor : CutsceneElementEditor
         time = PCLParser.ParseFloat(data[2]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = PCLParser.CreateAttribute("Actor", actorName);
         data += PCLParser.CreateAttribute("Fade-In?", fadeIn);
@@ -104,6 +104,13 @@ public class FadeEditor : CutsceneElementEditor
         {
             return string.Format("Fade-{0} {1} {2}", fadeIn ? "in" : "out", actorName, time);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        fadeIn = data[0].Contains("in");
+        actorName = data[1];
+        time = float.Parse(data[2]);
     }
 }
 #endif

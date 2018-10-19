@@ -41,7 +41,7 @@ public class PlayEditor : CutsceneElementEditor {
         selectedFX = ArrayUtility.IndexOf(soundEffects, PCLParser.ParseLine(data[0]));
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         return PCLParser.CreateAttribute("Sound Effect", soundEffects[selectedFX]);
     }
@@ -60,6 +60,11 @@ public class PlayEditor : CutsceneElementEditor {
         {
             return string.Format("play {0}", soundEffects[selectedFX]);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        selectedFX = ArrayUtility.IndexOf(soundEffects, data[1]);
     }
 }
 #endif

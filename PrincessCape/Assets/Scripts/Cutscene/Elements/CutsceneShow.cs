@@ -55,7 +55,12 @@ public class HideEditor : CutsceneElementEditor
         hideName = PCLParser.ParseLine(data[0]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override void GenerateFromText(string[] data)
+    {
+        hideName = data[0];
+    }
+
+    public override string GenerateSaveData()
     {
         return PCLParser.CreateAttribute("To Be Hidden", hideName);
     }
@@ -89,13 +94,20 @@ public class ShowEditor : CutsceneElementEditor
         type = CutsceneElements.Show;
     }
 
+    public override void GenerateFromText(string[] data)
+    {
+        name = data[0];
+        if (data.Length > 1) {
+            pos = new Vector2(float.Parse(data[1]), float.Parse(data[2]));
+        }
+    }
     public override void GenerateFromData(string[] data)
     {
         name = PCLParser.ParseLine(data[0]);
         pos = PCLParser.ParseVector2(data[1]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = "";
         data += PCLParser.CreateAttribute("Name", name);

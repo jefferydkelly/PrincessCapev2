@@ -65,7 +65,7 @@ public class CreationEditor : CutsceneElementEditor
         position = PCLParser.ParseVector3(data[1]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = "";
         data += PCLParser.CreateAttribute("Prefab", AssetDatabase.GetAssetPath(prefab));
@@ -89,6 +89,12 @@ public class CreationEditor : CutsceneElementEditor
             return string.Format("create {0} {1} {2} {3}", prefab.name, position.x, position.y, position.z);
         }
     }
+
+    public override void GenerateFromText(string[] data)
+    {
+        prefab = AssetDatabase.LoadAssetAtPath<GameObject>(data[1]);
+        position = new Vector3(float.Parse(data[2]), float.Parse(data[3]), float.Parse(data[4]));
+    }
 }
 
 public class DestructionEditor : CutsceneElementEditor
@@ -104,7 +110,7 @@ public class DestructionEditor : CutsceneElementEditor
         toBeDestroyed = GameObject.Find(PCLParser.ParseLine(data[0]));
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         return PCLParser.CreateAttribute("Object Name", toBeDestroyed.name);
     }
@@ -123,6 +129,11 @@ public class DestructionEditor : CutsceneElementEditor
         {
             return string.Format("destroy {0}", toBeDestroyed.name);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        toBeDestroyed = GameObject.Find(data[1]);
     }
 }
 #endif

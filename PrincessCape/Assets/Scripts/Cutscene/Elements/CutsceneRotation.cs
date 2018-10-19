@@ -78,7 +78,7 @@ public class RotationEditor : CutsceneElementEditor
         }
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = "";
         data += PCLParser.CreateAttribute("Character", mover);
@@ -100,6 +100,13 @@ public class RotationEditor : CutsceneElementEditor
         {
             return string.Format("rotate {0} {1} {2}", mover, ang, time);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        mover = data[1];
+        ang = float.Parse(data[2]);
+        time = float.Parse(data[3]);
     }
 }
 

@@ -67,7 +67,7 @@ public class DialogEditor : CutsceneElementEditor
         line = EditorGUILayout.TextField("Line", line);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = PCLParser.CreateAttribute<string>("Speaker", speaker);
         data += PCLParser.CreateAttribute<string>("Line", line);
@@ -86,6 +86,12 @@ public class DialogEditor : CutsceneElementEditor
         {
             return string.Format("{0}: {1}", speaker, line);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        speaker = data[0].Trim();
+        line = data[1].Trim();
     }
 }
 #endif

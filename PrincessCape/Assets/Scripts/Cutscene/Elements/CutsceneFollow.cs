@@ -38,7 +38,7 @@ public class FollowEditor : CutsceneElementEditor
         followedName = PCLParser.ParseLine(data[0]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         return PCLParser.CreateAttribute("Follow", followedName);
     }
@@ -57,6 +57,11 @@ public class FollowEditor : CutsceneElementEditor
         {
             return string.Format("follow {0}", followedName);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        followedName = data[1];
     }
 }
 #endif

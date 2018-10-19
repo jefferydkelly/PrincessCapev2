@@ -111,7 +111,7 @@ public class MovementEditor : CutsceneElementEditor
         time = PCLParser.ParseFloat(data[3]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = "";
         data += PCLParser.CreateAttribute("Use Object", useObject);
@@ -148,6 +148,20 @@ public class MovementEditor : CutsceneElementEditor
         get
         {
             return string.Format("move {0} {1} {2} {3}", useObject ? gameObject.name : name, moveTo.x, moveTo.y, time);
+        }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        useObject = false;
+        name = data[1];
+        time = float.Parse(data[data.Length - 1]);
+        if (data[0] == "move") {
+            moveTo = new Vector2(float.Parse(data[2]), float.Parse(data[3]));
+        } else if (data[0] == "move-x") {
+            moveTo = new Vector2(float.Parse(data[2]), 0);
+        } else if (data[0] == "move-in") {
+            moveTo = new Vector2(0, float.Parse(data[2]));
         }
     }
 }

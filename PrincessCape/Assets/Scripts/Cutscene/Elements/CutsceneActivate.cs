@@ -87,7 +87,7 @@ public class ActivateEditor : CutsceneElementEditor
     /// </summary>
     /// <returns>The save data.</returns>
     /// <param name="json">If set to <c>true</c> json.  Human readable otherwise</param>
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         string data = "";
         data += PCLParser.CreateAttribute<string>("Object", activated.InstanceName);
@@ -101,6 +101,12 @@ public class ActivateEditor : CutsceneElementEditor
         {
             return string.Format("activate {0} {1}", activated.InstanceName, isActivated);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        activated = GameObject.Find(data[1]).GetComponent<ActivatedObject>();
+        isActivated = bool.Parse(data[2]);
     }
 }
 #endif

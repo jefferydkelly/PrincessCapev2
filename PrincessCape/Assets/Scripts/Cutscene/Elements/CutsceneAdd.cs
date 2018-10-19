@@ -53,7 +53,7 @@ public class AddEditor : CutsceneElementEditor
         item = PCLParser.ParseEnum<ItemLevel>(data[0]);
     }
 
-    public override string GenerateSaveData(bool json)
+    public override string GenerateSaveData()
     {
         return PCLParser.CreateAttribute("Magic Item", item);
     }
@@ -62,8 +62,13 @@ public class AddEditor : CutsceneElementEditor
     {
         get
         {
-            return string.Format("add {0}", type);
+            return string.Format("add {0}", item);
         }
+    }
+
+    public override void GenerateFromText(string[] data)
+    {
+        item = (ItemLevel)System.Enum.Parse(typeof(ItemLevel), data[1]);
     }
 }
 #endif
