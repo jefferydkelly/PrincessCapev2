@@ -105,7 +105,11 @@ public class ActivateEditor : CutsceneElementEditor
 
     public override void GenerateFromText(string[] data)
     {
-        activated = GameObject.Find(data[1]).GetComponent<ActivatedObject>();
+        GameObject gameObject = GameObject.Find(data[1]);
+        if (gameObject)
+        {
+            activated = gameObject.GetComponent<ActivatedObject>();
+        } 
         isActivated = bool.Parse(data[2]);
     }
 }

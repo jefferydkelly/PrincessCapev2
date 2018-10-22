@@ -154,7 +154,7 @@ public class EnableEditor : CutsceneElementEditor
     {
         enable = data[0] == "enable";
         objectName = data[1];
-        if (data.Length > 2) {
+        if (data.Length > 2 && data[data.Length - 1] != "and") {
             pos = new Vector2(float.Parse(data[2]), float.Parse(data[3]));
 
         }

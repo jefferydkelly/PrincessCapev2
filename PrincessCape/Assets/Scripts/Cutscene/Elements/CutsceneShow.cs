@@ -70,7 +70,7 @@ public class HideEditor : CutsceneElementEditor
     /// </summary>
     protected override void DrawGUI()
     {
-        hideName = EditorGUILayout.TextArea("To Be Hidden", hideName);
+        hideName = EditorGUILayout.TextField("To Be Hidden", hideName);
     }
 
     public override string HumanReadable
@@ -96,9 +96,9 @@ public class ShowEditor : CutsceneElementEditor
 
     public override void GenerateFromText(string[] data)
     {
-        name = data[0];
-        if (data.Length > 1) {
-            pos = new Vector2(float.Parse(data[1]), float.Parse(data[2]));
+        name = data[1];
+        if (data.Length > 2) {
+            pos = new Vector2(float.Parse(data[2]), float.Parse(data[3]));
         }
     }
     public override void GenerateFromData(string[] data)

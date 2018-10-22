@@ -2,7 +2,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
-
 public class CutsceneEditor : EditorWindow {
 
     private static CutsceneEditor instance;
@@ -10,6 +9,7 @@ public class CutsceneEditor : EditorWindow {
     CutsceneInfo info;
     GameObject cutsceneGO;
     List<CutsceneActor> actors;
+    Vector2 scrollPos;
 
     [MenuItem("My Game/Cutscene Editor")]
     public static void ShowWindow() {
@@ -24,6 +24,7 @@ public class CutsceneEditor : EditorWindow {
         instance.info = new CutsceneInfo();
         instance.cutsceneGO = new GameObject("Cutscene");
         instance.actors = new List<CutsceneActor>();
+        scrollPos = Vector2.zero;
     }
     private void OnDestroy()
     {
@@ -125,6 +126,7 @@ public class CutsceneEditor : EditorWindow {
 
             EditorGUILayout.EndHorizontal();
             instance.info.Render();
+            scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
             for (int i = 0; i < instance.steps.Count; i++)
             {
                 EditorGUI.indentLevel = 0;
@@ -137,6 +139,7 @@ public class CutsceneEditor : EditorWindow {
                 }
                 EditorGUILayout.Separator();
             }
+            EditorGUILayout.EndScrollView();
 
             if (GUILayout.Button("Add Step"))
             {
@@ -472,9 +475,10 @@ public class CutsceneStep {
     public CutsceneElementEditor ParseElement(string line)
     {
         string[] parts = line.Split(' ');
+
         string p = parts[0];
         CutsceneElementEditor editor;
-     
+
         if (p == "show")
         {
             editor = new ShowEditor();

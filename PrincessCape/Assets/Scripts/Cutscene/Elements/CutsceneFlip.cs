@@ -60,6 +60,7 @@ public class FlipEditor : CutsceneElementEditor
     /// </summary>
     protected override void DrawGUI()
     {
+        character = EditorGUILayout.TextField("Character", character);
         horizontal = EditorGUILayout.Toggle("Flip Horizontal", horizontal);
     }
 

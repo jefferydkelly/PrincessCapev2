@@ -1,28 +1,28 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/CutsceneEditor.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Cutscene/Elements/CutsceneShow.cs">
     <Files>
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePan.cs" Line="174" Column="79" />
-      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="477" Column="6" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePan.cs" Line="155" Column="76" />
+      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="142" Column="45" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePlay.cs" Line="67" Column="66" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneMovement.cs" Line="156" Column="27" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneScale.cs" Line="224" Column="1" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneScale.cs" Line="191" Column="31" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="10" Column="20" />
       <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="8" Column="31" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneDialog.cs" Line="94" Column="20" />
       <File FileName="Assets/Editor/MapEditor.cs" Line="735" Column="9" />
-      <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="234" Column="1" />
+      <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="478" Column="2" />
       <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneShow.cs" Line="82" Column="6" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneShow.cs" Line="87" Column="2" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="132" Column="58" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneActivate.cs" Line="109" Column="40" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneActivate.cs" Line="112" Column="11" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAdd.cs" Line="71" Column="70" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAlign.cs" Line="72" Column="22" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAnimation.cs" Line="133" Column="50" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAnimation.cs" Line="136" Column="10" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneCreation.cs" Line="96" Column="94" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEnable.cs" Line="158" Column="74" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEnable.cs" Line="157" Column="61" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneFade.cs" Line="113" Column="37" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneFlip.cs" Line="76" Column="41" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneFlip.cs" Line="63" Column="71" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneFollow.cs" Line="41" Column="45" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneRotation.cs" Line="109" Column="37" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneWait.cs" Line="72" Column="37" />

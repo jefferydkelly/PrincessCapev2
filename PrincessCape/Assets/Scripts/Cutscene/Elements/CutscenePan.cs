@@ -159,7 +159,12 @@ public class PanEditor : CutsceneElementEditor
 
     public override void GenerateFromText(string[] data)
     {
-        panTime = float.Parse(data[data.Length - 1]);
+        if (data[data.Length - 1] != "and") {
+            panTime = float.Parse(data[data.Length - 1]);
+        } else {
+            panTime = float.Parse(data[data.Length - 2]);
+        }
+
         if (data[1] == "to") {
             if (data.Length == 4) {
                 pType = PanType.ToCharacter;

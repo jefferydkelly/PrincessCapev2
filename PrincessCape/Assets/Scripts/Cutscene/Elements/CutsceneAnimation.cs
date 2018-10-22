@@ -128,9 +128,12 @@ public class AnimationEditor : CutsceneElementEditor
     public override void GenerateFromText(string[] data)
     {
         gameObject = GameObject.Find(data[1]);
-        animator = gameObject.GetComponent<Animator>();
-        CreateListOfTriggers();
-        selectedTrigger = triggers.IndexOf(data[2]);
+        if (gameObject)
+        {
+            animator = gameObject.GetComponent<Animator>();
+            CreateListOfTriggers();
+            selectedTrigger = triggers.IndexOf(data[2]);
+        }
     }
 
 }
