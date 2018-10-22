@@ -155,7 +155,12 @@ public class MovementEditor : CutsceneElementEditor
     {
         useObject = false;
         name = data[1];
-        time = float.Parse(data[data.Length - 1]);
+        if (data[data.Length - 1] != "and")
+        {
+            time = float.Parse(data[data.Length - 1]);
+        } else {
+            time = float.Parse(data[data.Length - 2]);
+        }
         if (data[0] == "move") {
             moveTo = new Vector2(float.Parse(data[2]), float.Parse(data[3]));
         } else if (data[0] == "move-x") {

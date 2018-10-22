@@ -3,10 +3,10 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/CutsceneEditor.cs">
     <Files>
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePan.cs" Line="174" Column="79" />
-      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="110" Column="22" />
+      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="477" Column="6" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePlay.cs" Line="67" Column="66" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneMovement.cs" Line="158" Column="51" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneScale.cs" Line="224" Column="9" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneMovement.cs" Line="156" Column="27" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneScale.cs" Line="224" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="10" Column="20" />
       <File FileName="Assets/Scripts/Map/PCLParser.cs" Line="8" Column="31" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneDialog.cs" Line="94" Column="20" />

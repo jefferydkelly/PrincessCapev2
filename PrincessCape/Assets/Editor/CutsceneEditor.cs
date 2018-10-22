@@ -100,6 +100,7 @@ public class CutsceneEditor : EditorWindow {
             {
                 string path = EditorUtility.OpenFilePanel("Open A Level File", "Assets/Resources/Cutscenes", "txt");
                 if (path.Length > 0) {
+                    instance.steps.Clear();
                     string[] lines = File.ReadAllLines(path);
                     string[] chars = lines[0].Substring(lines[0].IndexOf(' ') + 1).Trim().Split(' ');
                     instance.info.Characters = chars;
@@ -338,6 +339,7 @@ public class CutsceneInfo
 public class CutsceneStep {
     bool show = true;
     List<CutsceneElementEditor> elements = new List<CutsceneElementEditor>();
+    DialogEditor dialog;
 
     public CutsceneStep() {
         
@@ -394,9 +396,23 @@ public class CutsceneStep {
     void AddElement(object type)
     {
         CutsceneElements eType = (CutsceneElements)System.Enum.Parse(typeof(CutsceneElements), (string)type);
+       
         CutsceneElementEditor ed = ParseElement(eType);
         if (ed != null) {
             elements.Add(ed);
+            if (eType == CutsceneElements.Dialog)
+            {
+                if (dialog != null)
+                {
+                    return;
+                }
+                dialog = (DialogEditor)ed;
+            } else if (dialog != null) {
+                elements.Remove(dialog);
+                elements.Add(dialog);
+            }
+          
+
         }
        
     }
@@ -458,6 +474,7 @@ public class CutsceneStep {
         string[] parts = line.Split(' ');
         string p = parts[0];
         CutsceneElementEditor editor;
+     
         if (p == "show")
         {
             editor = new ShowEditor();
