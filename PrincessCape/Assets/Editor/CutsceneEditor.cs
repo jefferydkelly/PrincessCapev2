@@ -206,7 +206,9 @@ public class CutsceneEditor : EditorWindow {
 public class CutsceneInfo
 {
     string cutsceneName = "Cutscene";
+    int level = 0;
     List<CharacterInScene> charactersInScene;
+    string[] sceneNames;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:CutsceneInfo"/> class.
@@ -223,6 +225,14 @@ public class CutsceneInfo
             charactersInScene.Add(character);
         }
 
+        List<string> names = new List<string>();
+        TextAsset[] levels = Resources.LoadAll<TextAsset>("Levels");
+        foreach(TextAsset ta in levels) {
+            string name = PCLParser.ParseLine(ta.text.Split('\n')[1]);
+            names.Add(name);
+        }
+        sceneNames = names.ToArray();
+
     }
 
     /// <summary>
@@ -230,7 +240,8 @@ public class CutsceneInfo
     /// </summary>
     public void Render()
     {
-        cutsceneName = EditorGUILayout.TextField("Scene Name", cutsceneName);
+        cutsceneName = EditorGUILayout.TextField("Cutscene Name", cutsceneName);
+        level = EditorGUILayout.Popup("Level", level, sceneNames);
         EditorGUILayout.LabelField("Characters In Scene");
       
         foreach (CharacterInScene character in charactersInScene)
