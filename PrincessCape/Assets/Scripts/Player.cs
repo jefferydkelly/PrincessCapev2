@@ -377,7 +377,7 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Direction colDir = collision.GetClosestDirection();
-        if (/*collision.relativeVelocity.y > 0 && */colDir == Direction.Up)
+        if (colDir == Direction.Up)
         {
             
             myRigidbody.gravityScale = 1;
@@ -388,7 +388,7 @@ public class Player : MonoBehaviour
                 state = PlayerState.Dead;
 
             }
-            else
+            else if (!Game.Instance.IsInCutscene)
             {
                 IsXFrozen = false;
                 OnLand.Invoke();

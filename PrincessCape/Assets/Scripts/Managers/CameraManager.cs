@@ -144,6 +144,15 @@ public class CameraManager : Manager
         }
     }
 
+    void SetPanTimer(float time) {
+        int ticks = Mathf.FloorToInt(time / 0.03f);
+        if (panTimer != null && panTimer.IsRunning)
+        {
+            panTimer.OnComplete.Invoke();
+            panTimer.Stop();
+        }
+        panTimer = new Timer(0.03f, ticks);
+    }
     /// <summary>
     /// Pans the camera by the specified amount over the given time
     /// </summary>
@@ -153,11 +162,7 @@ public class CameraManager : Manager
     public Timer Pan(Vector2 tar, float time) {
         state = CameraState.Panning;
         Vector3 startPos = Position;
-		int ticks = Mathf.FloorToInt(time / 0.03f);
-        if (panTimer != null) {
-            panTimer.Stop();
-        }
-		panTimer = new Timer(0.03f, ticks);
+        SetPanTimer(time);
 		panTimer.OnTick.AddListener(() => {
             Position = startPos + (Vector3)tar * panTimer.RunPercent;
 		});
@@ -182,13 +187,8 @@ public class CameraManager : Manager
         state = CameraState.Panning;
 		Vector3 startPos = Position;
         Vector3 dif = targetPos - Position;
-       
-		int ticks = Mathf.FloorToInt(time / 0.03f);
-		if (panTimer != null)
-		{
-			panTimer.Stop();
-		} 
-        panTimer = new Timer(0.03f, ticks);
+
+        SetPanTimer(time);
 		panTimer.OnTick.AddListener(() => {
 			Position = startPos + dif * panTimer.RunPercent;
 		});
@@ -212,13 +212,8 @@ public class CameraManager : Manager
         
         Vector3 startPos = Position;
         Vector3 dif = (go.transform.position - Position).SetZ(0);
-	
-        int ticks = Mathf.FloorToInt(time / 0.03f);
-		if (panTimer != null)
-		{
-			panTimer.Stop();
-		}
-        panTimer = new Timer(0.03f, ticks);
+
+        SetPanTimer(time);
         panTimer.OnTick.AddListener(()=> {
             Position = startPos + dif * panTimer.RunPercent;
         });

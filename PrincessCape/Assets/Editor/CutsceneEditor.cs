@@ -5,7 +5,7 @@ using System.IO;
 public class CutsceneEditor : EditorWindow {
 
     private static CutsceneEditor instance;
-    List<CutsceneStep> steps;
+    List<CutsceneStepEditor> steps;
     CutsceneInfo info;
     GameObject cutsceneGO;
     List<CutsceneActor> actors;
@@ -19,8 +19,8 @@ public class CutsceneEditor : EditorWindow {
     private void OnEnable()
     {
         instance = GetWindow<CutsceneEditor>(false, "Cutscene Editor", true);
-        instance.steps = new List<CutsceneStep>();
-        instance.steps.Add(new CutsceneStep());
+        instance.steps = new List<CutsceneStepEditor>();
+        instance.steps.Add(new CutsceneStepEditor());
         instance.info = new CutsceneInfo();
         GameObject cutscene = GameObject.Find("Cutscene");
         if (cutscene == null) {
@@ -53,7 +53,7 @@ public class CutsceneEditor : EditorWindow {
                     data += instance.info.SaveData;
                     int i = 1;
                     data += PCLParser.CreateArray("Steps");
-                    foreach (CutsceneStep step in instance.steps)
+                    foreach (CutsceneStepEditor step in instance.steps)
                     {
                         data += PCLParser.StructStart;
                         data += PCLParser.CreateAttribute("Step Number", i);
@@ -74,7 +74,7 @@ public class CutsceneEditor : EditorWindow {
                 {
                     string data = instance.info.HumanReadable;
 
-                    foreach (CutsceneStep step in instance.steps)
+                    foreach (CutsceneStepEditor step in instance.steps)
                     {
                         data += step.HumanReadable;
                     }
@@ -97,7 +97,7 @@ public class CutsceneEditor : EditorWindow {
                     instance.steps.Clear();
                     foreach (CutsceneStepStruct step in file.steps)
                     {
-                        instance.steps.Add(new CutsceneStep(step.elements));
+                        instance.steps.Add(new CutsceneStepEditor(step.elements));
                     }
 
                 }
@@ -128,7 +128,7 @@ public class CutsceneEditor : EditorWindow {
                             stepText.Add(lines[i]);
                             i++;
                         } while (parts[parts.Length - 1] == "and");
-                        steps.Add(new CutsceneStep(stepText));
+                        steps.Add(new CutsceneStepEditor(stepText));
                     } while (i < lines.Length);
                 }
             }
@@ -140,7 +140,7 @@ public class CutsceneEditor : EditorWindow {
             for (int i = 0; i < instance.steps.Count; i++)
             {
                 EditorGUI.indentLevel = 0;
-                CutsceneStep step = instance.steps[i];
+                CutsceneStepEditor step = instance.steps[i];
                 step.Show = EditorGUILayout.Foldout(step.Show, string.Format("Step {0}", i + 1), true);
                 if (step.Show)
                 {
@@ -153,7 +153,7 @@ public class CutsceneEditor : EditorWindow {
 
             if (GUILayout.Button("Add Step"))
             {
-                instance.steps.Add(new CutsceneStep());
+                instance.steps.Add(new CutsceneStepEditor());
             }
         }
     }
@@ -374,12 +374,12 @@ public class CutsceneInfo
 /// <summary>
 /// A representation of one step of the cutscene which can have multiple elements
 /// </summary>
-public class CutsceneStep {
+public class CutsceneStepEditor {
     bool show = true;
     List<CutsceneElementEditor> elements = new List<CutsceneElementEditor>();
     DialogEditor dialog;
 
-    public CutsceneStep() {
+    public CutsceneStepEditor() {
         
     }
 
@@ -387,18 +387,18 @@ public class CutsceneStep {
     /// Initializes a new instance of the <see cref="T:CutsceneStep"/> class.
     /// </summary>
     /// <param name="els">The elements already in the step.</param>
-    public CutsceneStep(List<CutsceneElementStruct> els) {
+    public CutsceneStepEditor(List<CutsceneElementStruct> els) {
         foreach(CutsceneElementStruct ces in els) {
-            CutsceneElementEditor cee = ParseElement(ces.type);
+            CutsceneElementEditor cee = CutsceneParser.ParseElement(ces.type);
             cee.GenerateFromData(ces.info.ToArray());
             elements.Add(cee);
         }
     }
 
-    public CutsceneStep(List<string> lines) {
+    public CutsceneStepEditor(List<string> lines) {
         elements = new List<CutsceneElementEditor>();
         foreach(string line in lines) {
-            elements.Add(ParseElement(line));
+            elements.Add(CutsceneParser.ParseElement(line));
         }
     }
 
@@ -435,7 +435,7 @@ public class CutsceneStep {
     {
         CutsceneElements eType = (CutsceneElements)System.Enum.Parse(typeof(CutsceneElements), (string)type);
        
-        CutsceneElementEditor ed = ParseElement(eType);
+        CutsceneElementEditor ed = CutsceneParser.ParseElement(eType);
         if (ed != null) {
             elements.Add(ed);
             if (eType == CutsceneElements.Dialog)
@@ -455,146 +455,6 @@ public class CutsceneStep {
        
     }
 
-    /// <summary>
-    /// Parses the element tpye and creates the corresponding cutscene element.
-    /// </summary>
-    /// <returns>A new Cutscene Element Editor of the given type.</returns>
-    /// <param name="ce">The type of CutsceneElement.</param>
-    public CutsceneElementEditor ParseElement(CutsceneElements ce) {
-        switch (ce)
-        {
-            case CutsceneElements.Activate:
-                return new ActivateEditor();
-            case CutsceneElements.Add:
-                return new AddEditor();
-            case CutsceneElements.Align:
-                return new AlignmentEditor();
-            case CutsceneElements.Animation:
-                return new AnimationEditor();
-            case CutsceneElements.Creation:
-                return new CreationEditor();
-            case CutsceneElements.Destroy:
-                return new DestructionEditor();
-            case CutsceneElements.Dialog:
-                return new DialogEditor();
-            case CutsceneElements.Fade:
-                return new FadeEditor();
-            case CutsceneElements.Flip:
-                return new FlipEditor();
-            case CutsceneElements.Follow:
-                return new FollowEditor();
-            case CutsceneElements.Hide:
-                return new HideEditor();
-            case CutsceneElements.Movement:
-                return new MovementEditor();
-            case CutsceneElements.Pan:
-                return new PanEditor();
-            case CutsceneElements.Play:
-                return new PlayEditor();
-            case CutsceneElements.Rotate:
-                return new RotationEditor();
-            case CutsceneElements.Scale:
-                return new ScaleEditor();
-            case CutsceneElements.Show:
-                return new ScaleEditor();
-            case CutsceneElements.Wait:
-                return new WaitEditor();
-            default:
-                break;
-
-        }
-
-        return null;
-    }
-
-    public CutsceneElementEditor ParseElement(string line)
-    {
-        string[] parts = line.Split(' ');
-
-        string p = parts[0];
-        CutsceneElementEditor editor;
-
-        if (p == "show")
-        {
-            editor = new ShowEditor();
-        }
-        else if (p == "hide")
-        {
-            editor = new HideEditor();
-        }
-        else if (p.Contains("fade") || p == "alpha")
-        {
-            editor = new FadeEditor();
-        }
-        else if (p.Contains("flip"))
-        {
-            editor = new FlipEditor();
-        }
-        else if (p.Contains("scale")) 
-        {
-            editor = new ScaleEditor();
-        }
-        else if (p == "rotate")
-        {
-            editor = new RotationEditor();
-        }
-        else if (p.Contains("move"))
-        {
-            editor = new MovementEditor();
-        }
-        else if (p == "pan")
-        {
-            editor = new PanEditor();
-        }
-        else if (p == "wait")
-        {
-            editor = new WaitEditor();
-        }
-        else if (p == "create")
-        {
-            editor = new CreationEditor();
-        }
-        else if (p == "destroy")
-        {
-            editor = new DestructionEditor();
-        }
-        else if (p == "add")
-        {
-            editor = new AddEditor();
-        }
-        else if (p.Contains("able"))
-        {
-            editor = new EnableEditor();
-        }
-        else if (p == "activate")
-        {
-            editor = new ActivateEditor();
-        }
-        else if (p == "align")
-        {
-            editor = new AlignmentEditor();
-        }
-        else if (p == "play")
-        {
-            editor = new PlayEditor();
-        }
-        else if (p == "follow")
-        {
-            editor = new FollowEditor();
-        }
-        else if (p == "animate")
-        {
-            editor = new AnimationEditor();
-        }
-        else
-        {
-            parts = line.Split(':');
-            editor = new DialogEditor();
-        }
-
-        editor.GenerateFromText(parts);
-        return editor;
-    }
 
     /// <summary>
     /// Gets or sets a value indicating whether this <see cref="T:CutsceneStep"/> is shown.

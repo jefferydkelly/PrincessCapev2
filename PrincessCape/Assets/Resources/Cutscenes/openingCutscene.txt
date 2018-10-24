@@ -5,7 +5,7 @@ disable Player and
 disable Remains and
 align right and
 show Elwynn -5 0.5
-pan to -5 2 0.25
+pan to -5 2 1
 move-x Elwynn -2 1.5 and
 Elwynn: Kidnapped by another dragon?
 Elwynn: How many times does that make it this year?
@@ -76,6 +76,6 @@ animate Elwynn Idle
 wait 0.5
 hide Elwynn
 enable Player -5 0.5
-pan 0 0.5 0.25
+pan 0 0.5 1
 wait 1.75
 follow Player
