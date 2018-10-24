@@ -90,8 +90,13 @@ public class DialogEditor : CutsceneElementEditor
 
     public override void GenerateFromText(string[] data)
     {
-        speaker = data[0].Trim();
-        line = data[1].Trim();
+        if (data.Length == 2)
+        {
+            speaker = data[0].Trim();
+            line = data[1].Trim();
+        } else {
+            line = data[0].Trim();
+        }
     }
 }
 #endif

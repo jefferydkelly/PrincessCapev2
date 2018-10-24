@@ -309,7 +309,16 @@ public static class ExtensionMethods {
                 spacesAdded++;
             }
         }
+        cpy = cpy.Remove(0, 1);
+        cpy = cpy.Insert(0, s.Substring(0, 1).ToUpper());
         return cpy;
+    }
+
+    public static string JoinCamelCase(this string s) {
+        string[] parts = s.Split(' ');
+        parts[0] = parts[0].ToLower();
+       
+        return string.Join("", parts);
     }
 
     /// <summary>

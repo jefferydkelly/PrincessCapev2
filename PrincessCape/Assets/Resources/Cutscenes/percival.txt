@@ -1,3 +1,5 @@
+scene Classic Level Three
+character
 Princess?  Gods shield you.  You're alive.
 I am Sir Percival the Star of House Bailey.
 With my guiding Star Shield, I could reflect any projectile back at my opponents.

@@ -1,3 +1,4 @@
+scene Classic Level One
 character SirMatthew Elwynn DragonHead
 wait 0.05
 disable Player and
@@ -24,10 +25,10 @@ pan 8.5 0 1 and
 Elwynn: Sir Matthew?
 Sir Matthew: I'm here to save you from that dragon.
 show Slog 3 5.5 0
-Slog: Raaaaaaaaaaaaaaaw! and
 activate DragonGate true and
 play roar and
-move-x Slog -2 2.5
+move-x Slog -2 2.5 and
+Slog: Raaaaaaaaaaaaaaaw!
 flip-x Elwynn
 animate Elwynn Scared and
 move-x Elwynn -5 1 and

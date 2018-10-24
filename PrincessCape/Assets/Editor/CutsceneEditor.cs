@@ -22,7 +22,11 @@ public class CutsceneEditor : EditorWindow {
         instance.steps = new List<CutsceneStep>();
         instance.steps.Add(new CutsceneStep());
         instance.info = new CutsceneInfo();
-        instance.cutsceneGO = new GameObject("Cutscene");
+        GameObject cutscene = GameObject.Find("Cutscene");
+        if (cutscene == null) {
+            cutscene = new GameObject("Cutscene");
+        }
+        instance.cutsceneGO = cutscene;
         instance.actors = new List<CutsceneActor>();
         scrollPos = Vector2.zero;
     }
@@ -41,7 +45,7 @@ public class CutsceneEditor : EditorWindow {
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Save as JSON")) {
                 //Save the cutscene
-                string path = EditorUtility.SaveFilePanel("Save Cutscene To File", "Assets/Resources/Cutscenes", instance.info.CutsceneName, "json");
+                string path = EditorUtility.SaveFilePanel("Save Cutscene To File", "Assets/Resources/Cutscenes", instance.info.CutsceneName.JoinCamelCase(), "json");
 
                 if (path.Length > 0)
                 {
@@ -64,7 +68,7 @@ public class CutsceneEditor : EditorWindow {
             } else if (GUILayout.Button("Save as Text"))
             {
                 //Save the cutscene
-                string path = EditorUtility.SaveFilePanel("Save Cutscene To File", "Assets/Resources/Cutscenes", instance.info.CutsceneName, "txt");
+                string path = EditorUtility.SaveFilePanel("Save Cutscene To File", "Assets/Resources/Cutscenes", instance.info.CutsceneName.JoinCamelCase(), "txt");
 
                 if (path.Length > 0)
                 {
@@ -103,11 +107,17 @@ public class CutsceneEditor : EditorWindow {
                 if (path.Length > 0) {
                     instance.steps.Clear();
                     string[] lines = File.ReadAllLines(path);
-                    string[] chars = lines[0].Substring(lines[0].IndexOf(' ') + 1).Trim().Split(' ');
+
+                    string[] pathParts = path.Split('/');
+                    string sceneName = pathParts[pathParts.Length - 1].Split('.')[0].SplitCamelCase();
+
+                    instance.info.CutsceneName = sceneName;
+                    instance.info.Scene = lines[0].Substring(lines[0].IndexOf(' ') + 1).Trim();
+                    string[] chars = lines[2].Substring(lines[2].IndexOf(' ') + 1).Trim().Split(' ');
                     instance.info.Characters = chars;
 
                     List<string> stepText = new List<string>();
-                    int i = 1;
+                    int i = 3;
                     do
                     {
                         stepText.Clear();
@@ -336,12 +346,26 @@ public class CutsceneInfo
 
     public string HumanReadable {
         get {
-            string info = "character ";
+            string info = string.Format("name {0}\n", cutsceneName);
+            info += string.Format("scene {0}\n", sceneNames[level]);
+            info += "character ";
             foreach(string name in Characters) {
                 info += name + " ";
             }
             info += "\n";
             return info;
+        }
+    }
+
+    public string Scene {
+        set {
+         
+            for (int i = 0; i < sceneNames.Length; i++) {
+                if (sceneNames[i] == value) {
+                    level = i;
+                }
+            }
+            level = 0;
         }
     }
 

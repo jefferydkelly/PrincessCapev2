@@ -2,7 +2,9 @@
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/CutsceneEditor.cs">
     <Files>
-      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="281" Column="44" />
+      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="17" Column="6" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneDialog.cs" Line="94" Column="1" />
+      <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="321" Column="38" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
