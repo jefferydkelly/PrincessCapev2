@@ -57,7 +57,7 @@ public class HideEditor : CutsceneElementEditor
 
     public override void GenerateFromText(string[] data)
     {
-        hideName = data[0];
+        hideName = data[1];
     }
 
     public override string GenerateSaveData()

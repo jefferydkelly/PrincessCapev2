@@ -5245,7 +5245,7 @@ MonoBehaviour:
     y: 256
     width: 128
     height: 256
-  instanceName: Gate
+  instanceName: DragonGate
   startActive: 0
   requiredActivators: 1
 --- !u!95 &909117521

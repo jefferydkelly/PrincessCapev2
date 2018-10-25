@@ -104,7 +104,7 @@ public class Map : MonoBehaviour
                 }
 			}
         }
-        else
+        else if (tiles != null)
         {
             foreach (MapTile tile in tiles)
             {

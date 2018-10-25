@@ -154,6 +154,11 @@ public class EnableEditor : CutsceneElementEditor
     {
         enable = data[0] == "enable";
         objectName = data[1];
+        GameObject found = GameObject.Find(objectName);
+        if (found) {
+            hideObject = found;
+            useObject = true;
+        }
         if (data.Length > 2 && data[data.Length - 1] != "and") {
             pos = new Vector2(float.Parse(data[2]), float.Parse(data[3]));
 

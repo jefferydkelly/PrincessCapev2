@@ -122,8 +122,10 @@ public class CutsceneEditor : EditorWindow {
                     string sceneName = pathParts[pathParts.Length - 1].Split('.')[0].SplitCamelCase();
 
                     instance.info.CutsceneName = sceneName;
-                    instance.info.Scene = lines[0].Substring(lines[0].IndexOf(' ') + 1).Trim();
-                    string[] chars = lines[2].Substring(lines[2].IndexOf(' ') + 1).Trim().Split(' ');
+                    sceneName = lines[0].Substring(lines[0].IndexOf(' ') + 1).Trim();
+                    instance.info.Scene = sceneName;
+
+                    string[] chars = lines[1].Substring(lines[1].IndexOf(' ') + 1).Trim().Split(' ');
                     instance.info.Characters = chars;
 
                     List<string> stepText = new List<string>();
@@ -267,6 +269,7 @@ public class CutsceneInfo
 
         if (newLevel != level) {
             level = newLevel;
+         
             map.Load(sceneNames[level].JoinCamelCase() + ".json");
         }
         EditorGUILayout.LabelField("Characters In Scene");
@@ -309,6 +312,7 @@ public class CutsceneInfo
                 CharacterInScene character = GetCharacter(name);
                 if (character != null) {
                     character.isInScene = true;
+                    CutsceneEditor.Instance.AddActor(character.objectName);
                 }
             }
         }
@@ -380,7 +384,7 @@ public class CutsceneInfo
             for (int i = 0; i < sceneNames.Length; i++) {
                 if (sceneNames[i] == value) {
                     level = i;
-                    map.Load(value + ".json");
+                    map.Load(sceneNames[level].JoinCamelCase() + ".json");
                 }
             }
             level = 0;

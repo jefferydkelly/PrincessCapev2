@@ -92,7 +92,7 @@ public class CreationEditor : CutsceneElementEditor
 
     public override void GenerateFromText(string[] data)
     {
-        prefab = AssetDatabase.LoadAssetAtPath<GameObject>(data[1]);
+        prefab = Resources.Load<GameObject>("Prefabs/" + data[1]);
         position = new Vector3(float.Parse(data[2]), float.Parse(data[3]), float.Parse(data[4]));
     }
 }

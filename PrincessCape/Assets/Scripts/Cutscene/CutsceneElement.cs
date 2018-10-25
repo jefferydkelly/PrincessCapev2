@@ -130,5 +130,25 @@ public abstract class CutsceneElementEditor
     public abstract string GenerateSaveData();
     public abstract void GenerateFromData(string[] data);
     public abstract void GenerateFromText(string[] data);
+
+    public GameObject FindActor(string name) {
+        foreach(CutsceneActor actor in GameObject.FindObjectsOfType<CutsceneActor>()) {
+            if (actor.CharacterName == name || actor.name == name) {
+                return actor.gameObject;
+            }
+        }
+
+        return null;
+    }
+
+    public GameObject FindTile(string name) {
+        foreach(MapTile mt in GameObject.FindObjectsOfType<MapTile>()) {
+            if (mt.name == name || mt.InstanceName == name) {
+                return mt.gameObject;
+            }
+        }
+
+        return null;
+    }
 }
 #endif

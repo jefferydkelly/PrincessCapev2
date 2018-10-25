@@ -61,8 +61,10 @@ public class CutsceneFade : CutsceneElement
 public class FadeEditor : CutsceneElementEditor
 {
     string actorName;
+    GameObject actor;
     bool fadeIn = true;
     float time;
+    bool useObject = false;
 
     public FadeEditor()
     {
@@ -71,14 +73,24 @@ public class FadeEditor : CutsceneElementEditor
     }
     public override void GenerateFromData(string[] data)
     {
-        actorName = PCLParser.ParseLine(data[0]);
-        fadeIn = PCLParser.ParseBool(data[1]);
-        time = PCLParser.ParseFloat(data[2]);
+        useObject = PCLParser.ParseBool(data[0]);
+        if (useObject)
+        {
+            actor = FindActor(data[1]);
+        }
+        else
+        {
+            actorName = PCLParser.ParseLine(data[1]);
+        }
+        fadeIn = PCLParser.ParseBool(data[2]);
+        time = PCLParser.ParseFloat(data[3]);
     }
 
     public override string GenerateSaveData()
     {
-        string data = PCLParser.CreateAttribute("Actor", actorName);
+        string data = "";
+        data += PCLParser.CreateAttribute("Use Object?", useObject);
+        data += PCLParser.CreateAttribute("Actor", useObject ? actor.name : actorName);
         data += PCLParser.CreateAttribute("Fade-In?", fadeIn);
         data += PCLParser.CreateAttribute("Over", time);
         return data;
@@ -89,7 +101,14 @@ public class FadeEditor : CutsceneElementEditor
     /// </summary>
     protected override void DrawGUI()
     {
-        actorName = EditorGUILayout.TextField("Actor", actorName);
+        if (useObject)
+        {
+            actor = EditorGUILayout.ObjectField("Actor", actor, typeof(GameObject), true) as GameObject;
+        }
+        else
+        {
+            actorName = EditorGUILayout.TextField("Actor", actorName);
+        }
         fadeIn = EditorGUILayout.Toggle("Fade-In?", fadeIn);
         float newTime = EditorGUILayout.FloatField("Time (in seconds)", time);
         if (newTime > 0)
@@ -102,14 +121,29 @@ public class FadeEditor : CutsceneElementEditor
     {
         get
         {
-            return string.Format("Fade-{0} {1} {2}", fadeIn ? "in" : "out", actorName, time);
+            return string.Format("Fade-{0} {1} {2}", fadeIn ? "in" : "out", useObject ? actor.name : actorName, time);
         }
     }
 
     public override void GenerateFromText(string[] data)
     {
         fadeIn = data[0].Contains("in");
-        actorName = data[1];
+        GameObject found = GameObject.Find(data[1]);
+        if (found == null)
+        {
+            found = FindActor(data[1]);
+        }
+        if (found)
+        {
+            useObject = true;
+            actor = found;
+            actorName = actor.name;
+        }
+        else
+        {
+            useObject = false;
+            actorName = data[1];
+        }
         time = float.Parse(data[2]);
     }
 }

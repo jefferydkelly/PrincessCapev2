@@ -91,6 +91,7 @@ public class AnimationEditor : CutsceneElementEditor
     {
         if (animator)
         {
+            triggers = new List<string>();
             //Make a list of the animations and list them to be selected
             foreach (AnimatorControllerParameter acp in animator.parameters)
             {
@@ -128,11 +129,18 @@ public class AnimationEditor : CutsceneElementEditor
     public override void GenerateFromText(string[] data)
     {
         gameObject = GameObject.Find(data[1]);
+        if (gameObject == null) {
+            gameObject = FindActor(data[1]);
+        }
+
         if (gameObject)
         {
             animator = gameObject.GetComponent<Animator>();
-            CreateListOfTriggers();
-            selectedTrigger = triggers.IndexOf(data[2]);
+            if (animator != null)
+            {
+                CreateListOfTriggers();
+                selectedTrigger = triggers.IndexOf(data[2]);
+            }
         }
     }
 

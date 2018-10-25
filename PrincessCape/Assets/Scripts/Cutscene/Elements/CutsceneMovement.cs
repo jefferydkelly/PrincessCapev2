@@ -153,8 +153,17 @@ public class MovementEditor : CutsceneElementEditor
 
     public override void GenerateFromText(string[] data)
     {
-        useObject = false;
-        name = data[1];
+        GameObject found = FindActor(data[1]);
+        if (found)
+        {
+            useObject = true;
+            gameObject = found;
+        }
+        else
+        {
+            useObject = false;
+            name = data[1];
+        }
         if (data[data.Length - 1] != "and")
         {
             time = float.Parse(data[data.Length - 1]);
