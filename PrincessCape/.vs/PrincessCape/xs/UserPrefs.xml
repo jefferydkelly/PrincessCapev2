@@ -1,8 +1,8 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/CameraManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/CutsceneEditor.cs">
     <Files>
-      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="392" Column="68" />
+      <File FileName="Assets/Editor/CutsceneEditor.cs" Line="269" Column="30" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneDialog.cs" Line="94" Column="1" />
       <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="321" Column="38" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneParser.cs" Line="155" Column="46" />
@@ -12,6 +12,9 @@
       <File FileName="Assets/Scripts/Managers/CameraManager.cs" Line="150" Column="10" />
       <File FileName="Assets/Scripts/Managers/TimerManager.cs" Line="284" Column="49" />
       <File FileName="Assets/Scripts/Player.cs" Line="391" Column="23" />
+      <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="477" Column="21" />
+      <File FileName="Assets/Editor/MapEditor.cs" Line="44" Column="6" />
+      <File FileName="Assets/Scripts/Map/Map.cs" Line="361" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />

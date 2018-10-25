@@ -358,6 +358,7 @@ public class Map : MonoBehaviour
             {
                 fileName = file.Split('/').Last();
                 string scenePath = "Levels/" + fileName.Substring(0, fileName.Length - 5);
+             
                 TextAsset text = Resources.Load<TextAsset>(scenePath);
 
                 if (text)

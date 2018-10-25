@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor.SceneManagement;
 public class CutsceneEditor : EditorWindow {
 
     private static CutsceneEditor instance;
@@ -14,21 +15,30 @@ public class CutsceneEditor : EditorWindow {
     [MenuItem("My Game/Cutscene Editor")]
     public static void ShowWindow() {
         GetWindow<CutsceneEditor>(false, "Cutscene Editor", true);
+       
     }
 
     private void OnEnable()
     {
-        instance = GetWindow<CutsceneEditor>(false, "Cutscene Editor", true);
-        instance.steps = new List<CutsceneStepEditor>();
-        instance.steps.Add(new CutsceneStepEditor());
-        instance.info = new CutsceneInfo();
+        if (EditorSceneManager.GetActiveScene().name != "Test")
+        {
+            EditorSceneManager.OpenScene("Assets/Scenes/Test.unity");
+        }
+        instance = this;//GetWindow<CutsceneEditor>(false, "Cutscene Editor", true);
+        steps = new List<CutsceneStepEditor>();
+        steps.Add(new CutsceneStepEditor());
+        info = new CutsceneInfo();
         GameObject cutscene = GameObject.Find("Cutscene");
         if (cutscene == null) {
             cutscene = new GameObject("Cutscene");
         }
-        instance.cutsceneGO = cutscene;
-        instance.actors = new List<CutsceneActor>();
+        cutsceneGO = cutscene;
+        actors = new List<CutsceneActor>();
         scrollPos = Vector2.zero;
+       
+
+
+
     }
     private void OnDestroy()
     {
@@ -219,6 +229,7 @@ public class CutsceneInfo
     int level = 0;
     List<CharacterInScene> charactersInScene;
     string[] sceneNames;
+    Map map;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:CutsceneInfo"/> class.
@@ -242,7 +253,7 @@ public class CutsceneInfo
             names.Add(name);
         }
         sceneNames = names.ToArray();
-
+        map = GameObject.Find("Map").GetComponent<Map>();
     }
 
     /// <summary>
@@ -251,7 +262,13 @@ public class CutsceneInfo
     public void Render()
     {
         cutsceneName = EditorGUILayout.TextField("Cutscene Name", cutsceneName);
-        level = EditorGUILayout.Popup("Level", level, sceneNames);
+
+        int newLevel = EditorGUILayout.Popup("Level", level, sceneNames);
+
+        if (newLevel != level) {
+            level = newLevel;
+            map.Load(sceneNames[level].JoinCamelCase() + ".json");
+        }
         EditorGUILayout.LabelField("Characters In Scene");
       
         foreach (CharacterInScene character in charactersInScene)
@@ -363,6 +380,7 @@ public class CutsceneInfo
             for (int i = 0; i < sceneNames.Length; i++) {
                 if (sceneNames[i] == value) {
                     level = i;
+                    map.Load(value + ".json");
                 }
             }
             level = 0;
