@@ -123,6 +123,7 @@ public class CutsceneEditor : EditorWindow {
 
                     instance.info.CutsceneName = sceneName;
                     sceneName = lines[0].Substring(lines[0].IndexOf(' ') + 1).Trim();
+
                     instance.info.Scene = sceneName;
 
                     string[] chars = lines[1].Substring(lines[1].IndexOf(' ') + 1).Trim().Split(' ');
@@ -385,6 +386,7 @@ public class CutsceneInfo
                 if (sceneNames[i] == value) {
                     level = i;
                     map.Load(sceneNames[level].JoinCamelCase() + ".json");
+                    return;
                 }
             }
             level = 0;
