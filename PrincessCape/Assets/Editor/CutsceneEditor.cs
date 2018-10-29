@@ -100,8 +100,9 @@ public class CutsceneEditor : EditorWindow {
                 if (path.Length > 0)
                 {
 
-                    CutsceneFile file = PCLParser.ParseCutsceneFile(File.ReadAllText(path));
+                    CutsceneFile file = CutsceneParser.ParseCutsceneFile(File.ReadAllText(path));
                     instance.info.CutsceneName = file.cutsceneName;
+                    instance.info.Scene = file.sceneName;
                     instance.info.Characters = file.characters;
 
                     instance.steps.Clear();
@@ -353,7 +354,7 @@ public class CutsceneInfo
         {
             string data = "";
             data += PCLParser.CreateAttribute("Cutscene Name", cutsceneName);
-
+            data += PCLParser.CreateAttribute("Cutscene Level", sceneNames[level]);
             string characters = "";
             foreach(CharacterInScene character in charactersInScene) {
                 if (character.isInScene) {
@@ -368,7 +369,7 @@ public class CutsceneInfo
 
     public string HumanReadable {
         get {
-            string info = string.Format("name {0}\n", cutsceneName);
+            string info = "";
             info += string.Format("scene {0}\n", sceneNames[level]);
             info += "character ";
             foreach(string name in Characters) {

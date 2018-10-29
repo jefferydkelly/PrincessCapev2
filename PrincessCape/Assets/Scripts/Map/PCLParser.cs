@@ -162,43 +162,7 @@ public class PCLParser {
 		return new MapFile(tiles, connections);
 	}
 
-    public static List<CutsceneStepStruct> ParseSteps(string json) {
-        List<CutsceneStepStruct> steps = new List<CutsceneStepStruct>();
-        string[] lines = json.Split('\n');
-        for (int i = 0; i < lines.Length; i++)
-        {
-            string line = lines[i];
-            if (IsLine(line))
-            {
-                if (ParsePropertyName(line) == "Step Number")
-                {
-                    CutsceneStepStruct step = new CutsceneStepStruct();
-                    string pass = "";
-                    while (i < lines.Length - 1)
-                    {
-                        i++;
-                        pass += lines[i] + "\n";
-                        if (lines[i] == PCLParser.ArrayEnding) {
-                            break;
-                        }
 
-                    }
-                   
-                    step.elements = ParseElements(pass);
-                    steps.Add(step);
-                }
-            }
-        }
-        return steps;
-    }
-    public static CutsceneFile ParseCutsceneFile (string json) {
-        string[] lines = json.Split('\n');
-        CutsceneFile file = new CutsceneFile();
-        file.cutsceneName = ParseLine(lines[1]);
-        file.characters = ParseLine(lines[2]).Split(' ');
-        file.steps = ParseSteps(json);
-        return file;
-    }
 
     /// <summary>
     /// Finds the end of array.
@@ -206,7 +170,7 @@ public class PCLParser {
     /// <returns>The index of the end of array.</returns>
     /// <param name="s">The json string to be searched for the end of the array.</param>
     /// <param name="startInd">The start index of the search.</param>
-	static int FindEndOfArray(string s, int startInd) {
+	public static int FindEndOfArray(string s, int startInd) {
 		int numOpens = 0;
 		int numCloses = 0;
 		for (int i = startInd; i < s.Length; i++) {
@@ -330,44 +294,6 @@ public class PCLParser {
         return new ActivatorConnection(tor, ted, inv);
 	}
 
-    public static List<CutsceneElementStruct> ParseElements(string json) {
-        List<CutsceneElementStruct> elements = new List<CutsceneElementStruct>();
-
-        int ind = json.IndexOf('[');
-        int lastInd = FindEndOfArray(json, ind);
-        ind += 2;
-        json = json.Substring(ind, lastInd - ind);
-
-        string[] tilesList = json.Split('\n');
-
-        for (int i = 0; i < tilesList.Length; i++)
-        {
-            if (tilesList[i] == "{")
-            {
-                List<string> toParse = new List<string>();
-                int j = i + 1;
-
-                while (j < tilesList.Length && !tilesList[j].Contains("}"))
-                {
-
-                    toParse.Add(tilesList[j]);
-                    j++;
-                }
-                elements.Add(ParseCutsceneElementStruct(toParse));
-                i = j;
-            }
-        }
-
-        return elements;
-    }
-    public static CutsceneElementStruct ParseCutsceneElementStruct(List<string> json) {
-        CutsceneElementStruct element = new CutsceneElementStruct();
-        element.type = ParseEnum<CutsceneElements>(json[0]);
-        json.RemoveAt(0);
-        element.info = json;
-        return element;
-    }
-
 
     /// <summary>
     /// Parses the value of a JSON line.
@@ -392,7 +318,7 @@ public class PCLParser {
     /// </summary>
     /// <returns><c>true</c>, if the string is a line of JSON, <c>false</c> otherwise.</returns>
     /// <param name="s">S.</param>
-    static bool IsLine(string s) {
+    public static bool IsLine(string s) {
         return !(s.Contains("{") || s.Contains("}"));
     }
 
@@ -534,6 +460,7 @@ public class MapFile {
 
 public class CutsceneFile {
     public string cutsceneName;
+    public string sceneName;
     public string[] characters;
     public List<CutsceneStepStruct> steps;
 }
