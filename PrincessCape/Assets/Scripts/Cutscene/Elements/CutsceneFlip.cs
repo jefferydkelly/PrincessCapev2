@@ -77,5 +77,19 @@ public class FlipEditor : CutsceneElementEditor
         horizontal = data[0].Contains("x");
         character = data[1];
     }
+
+    public override void Skip()
+    {
+        GameObject gameObject = FindActor(character);
+        if (gameObject) {
+            SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+            if (horizontal)
+            {
+                spriteRenderer.flipX = !spriteRenderer.flipX;
+            } else {
+                spriteRenderer.flipY = !spriteRenderer.flipY; 
+            }            
+        }
+    }
 }
 #endif

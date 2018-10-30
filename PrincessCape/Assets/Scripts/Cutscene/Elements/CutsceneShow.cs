@@ -80,6 +80,12 @@ public class HideEditor : CutsceneElementEditor
             return string.Format("hide {0}", hideName);
         }
     }
+
+    public override void Skip()
+    {
+        CutsceneActor actor = FindActor(hideName).GetComponent<CutsceneActor>();
+        actor.IsHidden = true;
+    }
 }
 
 
@@ -130,6 +136,13 @@ public class ShowEditor : CutsceneElementEditor
         {
             return string.Format("show {0} {1} {2}", name, pos.x, pos.y);
         }
+    }
+
+    public override void Skip()
+    {
+        CutsceneActor actor = FindActor(name).GetComponent<CutsceneActor>();
+        actor.IsHidden = false;
+        actor.transform.position = pos;
     }
 }
 #endif

@@ -108,6 +108,14 @@ public class RotationEditor : CutsceneElementEditor
         ang = float.Parse(data[2]);
         time = float.Parse(data[3]);
     }
+
+    public override void Skip()
+    {
+        GameObject found = FindActor(mover);
+        if (found) {
+            found.transform.rotation *= Quaternion.AngleAxis(ang, Vector3.forward);
+        }
+    }
 }
 
 #endif

@@ -181,5 +181,17 @@ public class PanEditor : CutsceneElementEditor
             panDistance = new Vector2(float.Parse(data[1]), float.Parse(data[2]));
         }
     }
+
+    public override void Skip()
+    {
+        if (pType == PanType.ToCharacter) {
+            GameObject gameObject = FindActor(panToName);
+            Camera.main.transform.position = gameObject.transform.position.SetZ(Camera.main.transform.position.z);
+        } else if (pType == PanType.ToPosition){
+            Camera.main.transform.position = new Vector3(panDistance.x, panDistance.y, Camera.main.transform.position.z);
+        } else {
+            Camera.main.transform.position += (Vector3)panDistance;
+        }
+    }
 }
 #endif

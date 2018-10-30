@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
+[ExecuteInEditMode]
 public class MessageBox : MonoBehaviour {
 
     List<string> message;
@@ -20,6 +21,7 @@ public class MessageBox : MonoBehaviour {
     {
 		gameObject.SetActive(false);
         textbox = GetComponentInChildren<Text>();
+        Debug.Log(textbox == null);
 		revealTimer = new Timer(0);
 		onLineEnd = new UnityEvent();
 		onMessageEnd = new UnityEvent();

@@ -90,10 +90,12 @@ public class MovementEditor : CutsceneElementEditor
     string name;
     Vector2 moveTo;
     float time;
+    MoveType moveType;
     public MovementEditor()
     {
         editorType = "Move Object";
         type = CutsceneElements.Movement;
+        moveType = MoveType.Regular;
     }
 
     public override void GenerateFromData(string[] data)
@@ -174,9 +176,36 @@ public class MovementEditor : CutsceneElementEditor
             moveTo = new Vector2(float.Parse(data[2]), float.Parse(data[3]));
         } else if (data[0] == "move-x") {
             moveTo = new Vector2(float.Parse(data[2]), 0);
+            moveType = MoveType.X;
         } else if (data[0] == "move-in") {
             moveTo = new Vector2(0, float.Parse(data[2]));
+            moveType = MoveType.Y;
         }
     }
+
+    public override void Skip()
+    {
+        GameObject found = gameObject;
+        if (!useObject) {
+            found = FindActor(name);
+        }
+
+        if (found) {
+            if (moveType == MoveType.Regular)
+            {
+                found.transform.position = moveTo;
+            } else if (moveType == MoveType.X) {
+                found.transform.position = found.transform.position.SetX(moveTo.x);
+            } else if (moveType == MoveType.Y) {
+                found.transform.position = found.transform.position.SetY(moveTo.y);
+            }
+        }
+    }
+}
+
+public enum MoveType {
+    Regular,
+    X,
+    Y
 }
 #endif

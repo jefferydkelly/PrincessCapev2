@@ -26,7 +26,7 @@ public class CutsceneEditor : EditorWindow {
         }
         instance = this;//GetWindow<CutsceneEditor>(false, "Cutscene Editor", true);
         steps = new List<CutsceneStepEditor>();
-        steps.Add(new CutsceneStepEditor());
+        steps.Add(new CutsceneStepEditor(1));
         info = new CutsceneInfo();
         GameObject cutscene = GameObject.Find("Cutscene");
         if (cutscene == null) {
@@ -108,7 +108,7 @@ public class CutsceneEditor : EditorWindow {
                     instance.steps.Clear();
                     foreach (CutsceneStepStruct step in file.steps)
                     {
-                        instance.steps.Add(new CutsceneStepEditor(step.elements));
+                        instance.steps.Add(new CutsceneStepEditor(step.elements, steps.Count + 1));
                     }
 
                 }
@@ -142,7 +142,7 @@ public class CutsceneEditor : EditorWindow {
                             stepText.Add(lines[i]);
                             i++;
                         } while (parts[parts.Length - 1] == "and");
-                        steps.Add(new CutsceneStepEditor(stepText));
+                        steps.Add(new CutsceneStepEditor(stepText, steps.Count + 1));
                     } while (i < lines.Length);
                 }
             }
@@ -151,6 +151,7 @@ public class CutsceneEditor : EditorWindow {
             EditorGUILayout.EndHorizontal();
             instance.info.Render();
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
+            /*
             for (int i = 0; i < instance.steps.Count; i++)
             {
                 EditorGUI.indentLevel = 0;
@@ -162,12 +163,15 @@ public class CutsceneEditor : EditorWindow {
                     instance.steps[i].DrawGUI();
                 }
                 EditorGUILayout.Separator();
+            }*/
+            foreach(CutsceneStepEditor cse in steps) {
+                cse.DrawGUI();
             }
             EditorGUILayout.EndScrollView();
 
             if (GUILayout.Button("Add Step"))
             {
-                instance.steps.Add(new CutsceneStepEditor());
+                instance.steps.Add(new CutsceneStepEditor(steps.Count - 1));
             }
         }
     }
@@ -219,6 +223,12 @@ public class CutsceneEditor : EditorWindow {
     public CutsceneInfo Info {
         get {
             return info;
+        }
+    }
+
+    public void PreviewStep(int stepNumber) {
+        for (int i = 0; i < stepNumber - 1; i++) {
+            steps[i].Skip();
         }
     }
 
@@ -403,16 +413,17 @@ public class CutsceneStepEditor {
     bool show = true;
     List<CutsceneElementEditor> elements = new List<CutsceneElementEditor>();
     DialogEditor dialog;
+    int stepNumber = -1;
 
-    public CutsceneStepEditor() {
-        
+    public CutsceneStepEditor(int num) {
+        stepNumber = num;
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:CutsceneStep"/> class.
     /// </summary>
     /// <param name="els">The elements already in the step.</param>
-    public CutsceneStepEditor(List<CutsceneElementStruct> els) {
+    public CutsceneStepEditor(List<CutsceneElementStruct> els, int num):this(num) {
         foreach(CutsceneElementStruct ces in els) {
             CutsceneElementEditor cee = CutsceneParser.ParseElement(ces.type);
             cee.GenerateFromData(ces.info.ToArray());
@@ -420,7 +431,7 @@ public class CutsceneStepEditor {
         }
     }
 
-    public CutsceneStepEditor(List<string> lines) {
+    public CutsceneStepEditor(List<string> lines, int num):this(num) {
         elements = new List<CutsceneElementEditor>();
         foreach(string line in lines) {
             elements.Add(CutsceneParser.ParseElement(line));
@@ -431,25 +442,44 @@ public class CutsceneStepEditor {
     /// Draws the GUI for this step.
     /// </summary>
     public void DrawGUI() {
-        EditorGUILayout.BeginVertical();
+        EditorGUI.indentLevel = 0;
 
-        foreach (CutsceneElementEditor cee in elements) {
-            cee.Render();
-            EditorGUILayout.Separator();
-        }
-        if (GUILayout.Button("Add Element"))
+        show = EditorGUILayout.Foldout(show, string.Format("Step {0}", stepNumber), true);
+        if (show)
         {
-            GenericMenu menu = new GenericMenu();
+            EditorGUI.indentLevel = 1;
 
-            string[] types = System.Enum.GetNames(typeof(CutsceneElements));
-
-            foreach(string type in types) {
-                menu.AddItem(new GUIContent(type), false, AddElement, type);
+            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Preview")) {
+                CutsceneEditor.Instance.PreviewStep(stepNumber);
             }
 
-            menu.ShowAsContext();
+            if (GUILayout.Button("Add Element"))
+            {
+                GenericMenu menu = new GenericMenu();
+
+                string[] types = System.Enum.GetNames(typeof(CutsceneElements));
+
+                foreach (string type in types)
+                {
+                    menu.AddItem(new GUIContent(type), false, AddElement, type);
+                }
+
+                menu.ShowAsContext();
+            }
+            EditorGUILayout.EndHorizontal();
+            foreach (CutsceneElementEditor cee in elements)
+            {
+                cee.Render();
+                EditorGUILayout.Separator();
+            }
+           
+            EditorGUILayout.EndVertical();
+
         }
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.Separator();
+       
     }
 
     /// <summary>
@@ -522,6 +552,12 @@ public class CutsceneStepEditor {
                 data += "\n";
             }
             return data;
+        }
+    }
+
+    public void Skip() {
+        foreach(CutsceneElementEditor cee in elements) {
+            cee.Skip();
         }
     }
 }

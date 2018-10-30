@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[ExecuteInEditMode]
 public class CutsceneActor : MonoBehaviour
 {
 	SpriteRenderer mySpriteRenderer;
@@ -10,7 +11,13 @@ public class CutsceneActor : MonoBehaviour
     [SerializeField]
     string characterName = "Character";
 
-	// Use this for initialization
+    // Use this for initialization
+    private void Awake()
+    {
+        if (Application.isEditor) {
+            Init();
+        } 
+    }
     public void Init() {
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         myAnimator = GetComponent<Animator>();
@@ -92,5 +99,30 @@ public class CutsceneActor : MonoBehaviour
 	{
 		Destroy(gameObject);
 	}
+
+    public void Fade(bool fadeIn, float time) {
+        Timer fadeTimer = CreateTimer(time);
+        if (fadeIn) {
+            fadeTimer.OnTick.AddListener(() =>
+            {
+                mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(fadeTimer.RunPercent);
+            });
+
+            fadeTimer.OnComplete.AddListener(() =>
+            {
+                mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(1.0f);
+            });
+        } else {
+            fadeTimer.OnTick.AddListener(() =>
+            {
+                mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(1.0f - fadeTimer.RunPercent);
+            });
+
+            fadeTimer.OnComplete.AddListener(() =>
+            {
+                mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(0.0f);
+            });
+        }
+    } 
 }
 

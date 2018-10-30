@@ -95,6 +95,11 @@ public class CreationEditor : CutsceneElementEditor
         prefab = Resources.Load<GameObject>("Prefabs/" + data[1]);
         position = new Vector3(float.Parse(data[2]), float.Parse(data[3]), float.Parse(data[4]));
     }
+
+    public override void Skip()
+    {
+        GameObject.Instantiate(prefab).transform.position = position;
+    }
 }
 
 public class DestructionEditor : CutsceneElementEditor
@@ -134,6 +139,10 @@ public class DestructionEditor : CutsceneElementEditor
     public override void GenerateFromText(string[] data)
     {
         toBeDestroyed = GameObject.Find(data[1]);
+    }
+
+    public override void Skip() {
+        toBeDestroyed.SetActive(false);
     }
 }
 #endif

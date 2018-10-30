@@ -223,5 +223,13 @@ public class ScaleEditor: CutsceneElementEditor {
         time = float.Parse(data[4]);
 
     }
+
+    public override void Skip()
+    {
+        GameObject scaler = FindActor(name);
+        if (scaler) {
+            scaler.transform.localScale = new Vector3(xScale, yScale, 0);
+        }
+    }
 }
 #endif

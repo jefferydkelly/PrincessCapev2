@@ -63,5 +63,11 @@ public class FollowEditor : CutsceneElementEditor
     {
         followedName = data[1];
     }
+
+    public override void Skip()
+    {
+        CameraManager.Instance.Target = GameObject.Find(followedName);
+        CameraManager.Instance.IsFollowing = true;
+    }
 }
 #endif

@@ -146,5 +146,17 @@ public class FadeEditor : CutsceneElementEditor
         }
         time = float.Parse(data[2]);
     }
+
+    public override void Skip()
+    {
+        if (!useObject) {
+            actor = FindActor(actorName);
+        }
+
+        if (actor) {
+            SpriteRenderer asr = actor.GetComponent<SpriteRenderer>();
+            asr.color = asr.color.SetAlpha(fadeIn ? 1 : 0);
+        }
+    }
 }
 #endif

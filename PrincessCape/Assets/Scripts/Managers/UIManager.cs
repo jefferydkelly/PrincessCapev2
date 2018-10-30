@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+
+[ExecuteInEditMode]
 public class UIManager : MonoBehaviour
 {
     static UIManager instance;

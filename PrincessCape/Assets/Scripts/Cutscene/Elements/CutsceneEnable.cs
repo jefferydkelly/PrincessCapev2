@@ -164,5 +164,17 @@ public class EnableEditor : CutsceneElementEditor
 
         }
     }
+
+    public override void Skip()
+    {
+        if (!hideObject) {
+            hideObject = GameObject.Find(objectName);
+        }
+
+        if (hideObject) {
+            hideObject.SetActive(enable);
+            hideObject.transform.position = pos;
+        }
+    }
 }
 #endif

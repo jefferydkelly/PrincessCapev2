@@ -150,5 +150,9 @@ public abstract class CutsceneElementEditor
 
         return null;
     }
+
+    public virtual void Skip() {
+        
+    }
 }
 #endif

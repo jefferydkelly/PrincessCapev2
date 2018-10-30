@@ -116,5 +116,16 @@ public class ActivateEditor : CutsceneElementEditor
         } 
         isActivated = bool.Parse(data[2]);
     }
+
+    public override void Skip()
+    {
+        if (activated) {
+            if (isActivated) {
+                activated.Activate();
+            } else {
+                activated.Deactivate();
+            }
+        }
+    }
 }
 #endif

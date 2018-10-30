@@ -71,5 +71,10 @@ public class AlignmentEditor : CutsceneElementEditor
     {
         left = data[1] == "left";
     }
+
+    public override void Skip()
+    {
+        UIManager.Instance.Alignment = left ? TextAnchor.MiddleLeft : TextAnchor.MiddleRight;
+    }
 }
 #endif
