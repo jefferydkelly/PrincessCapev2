@@ -154,5 +154,7 @@ public abstract class CutsceneElementEditor
     public virtual void Skip() {
         
     }
+
+    public virtual void Run(){}
 }
 #endif

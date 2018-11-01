@@ -98,5 +98,11 @@ public class DialogEditor : CutsceneElementEditor
             line = data[0].Trim();
         }
     }
+
+    public override void Run()
+    {
+        UIManager.Instance.ShowMessage(line, speaker);
+        //UIManager.Instance.ShowMessageInEditor(line, speaker);
+    }
 }
 #endif

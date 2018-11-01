@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor.SceneManagement;
+using UnityEngine.Events;
 public class CutsceneEditor : EditorWindow {
 
     private static CutsceneEditor instance;
@@ -11,6 +12,8 @@ public class CutsceneEditor : EditorWindow {
     GameObject cutsceneGO;
     List<CutsceneActor> actors;
     Vector2 scrollPos;
+
+    UnityEvent onClearPreview;
 
     [MenuItem("My Game/Cutscene Editor")]
     public static void ShowWindow() {
@@ -25,12 +28,14 @@ public class CutsceneEditor : EditorWindow {
             EditorSceneManager.OpenScene("Assets/Scenes/Test.unity");
         }
         instance = this;//GetWindow<CutsceneEditor>(false, "Cutscene Editor", true);
+        //onClearPreview = new UnityEvent();
         steps = new List<CutsceneStepEditor>();
         steps.Add(new CutsceneStepEditor(1));
         info = new CutsceneInfo();
         GameObject cutscene = GameObject.Find("Cutscene");
         if (cutscene == null) {
             cutscene = new GameObject("Cutscene");
+            cutscene.AddComponent<EditorTimerManager>().Init();
         }
         cutsceneGO = cutscene;
         actors = new List<CutsceneActor>();
@@ -44,6 +49,7 @@ public class CutsceneEditor : EditorWindow {
     {
         if (instance)
         {
+            UIManager.Instance.Clear();
             DestroyImmediate(instance.cutsceneGO);
         }
     }
@@ -227,9 +233,13 @@ public class CutsceneEditor : EditorWindow {
     }
 
     public void PreviewStep(int stepNumber) {
+        //onClearPreview.Invoke();
+        UIManager.Instance.Clear();
         for (int i = 0; i < stepNumber - 1; i++) {
             steps[i].Skip();
         }
+
+        steps[stepNumber - 1].Run();
     }
 
 }
@@ -558,6 +568,12 @@ public class CutsceneStepEditor {
     public void Skip() {
         foreach(CutsceneElementEditor cee in elements) {
             cee.Skip();
+        }
+    }
+
+    public void Run() {
+        foreach(CutsceneElementEditor cee in elements) {
+            cee.Run();
         }
     }
 }

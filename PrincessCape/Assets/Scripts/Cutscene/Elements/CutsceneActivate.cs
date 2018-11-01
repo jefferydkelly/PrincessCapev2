@@ -119,13 +119,26 @@ public class ActivateEditor : CutsceneElementEditor
 
     public override void Skip()
     {
-        if (activated) {
-            if (isActivated) {
+        Activate();
+    }
+
+    void Activate() {
+        if (activated)
+        {
+            if (isActivated)
+            {
                 activated.Activate();
-            } else {
+            }
+            else
+            {
                 activated.Deactivate();
             }
         }
+    }
+
+    public override void Run()
+    {
+        Activate();
     }
 }
 #endif

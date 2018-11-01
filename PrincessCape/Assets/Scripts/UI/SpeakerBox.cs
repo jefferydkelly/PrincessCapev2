@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class SpeakerBox : MonoBehaviour {
 	Text text;
 	// Use this for initialization
@@ -28,7 +29,10 @@ public class SpeakerBox : MonoBehaviour {
 	public string Speaker {
 		set
 		{
-			text.text = value;
+            if (text)
+            {
+                text.text = value;
+            }
 		}
     }
 }

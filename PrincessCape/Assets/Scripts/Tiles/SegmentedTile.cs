@@ -64,7 +64,7 @@ public class SegmentedTile : ActivatedObject
         set
         {
             base.StartsActive = value;
-            if (Game.Instance.IsInLevelEditor)
+            if (Application.isPlaying && Game.Instance.IsInLevelEditor)
             {
                 activationCircle.color = startActive ? Color.green : Color.red;
             }

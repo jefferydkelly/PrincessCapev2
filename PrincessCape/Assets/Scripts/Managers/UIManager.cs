@@ -62,19 +62,23 @@ public class UIManager : MonoBehaviour
         minorText.gameObject.SetActive(false);
         ToggleLoadingScreen();
 
-        loadFadeoutTimer = new Timer(1.0f / 30.0f, 30);
-        loadFadeoutTimer.OnTick.AddListener(()=> {
-            loadingScreen.color = loadingScreen.color.SetAlpha(1 - loadFadeoutTimer.RunPercent);
-        });
 
-        loadFadeoutTimer.OnComplete.AddListener(()=> {
-            loadingScreen.color = loadingScreen.color.SetAlpha(0);
-        });
+        if (!Application.isEditor) {
+            loadFadeoutTimer = new Timer(1.0f / 30.0f, 30);
+            loadFadeoutTimer.OnTick.AddListener(() => {
+                loadingScreen.color = loadingScreen.color.SetAlpha(1 - loadFadeoutTimer.RunPercent);
+            });
 
-		Map.Instance.OnLevelLoaded.AddListener(loadFadeoutTimer.Start);
+            loadFadeoutTimer.OnComplete.AddListener(() => {
+                loadingScreen.color = loadingScreen.color.SetAlpha(0);
+            });
 
-        EventManager.StartListening("LevelOver", ToggleLoadingScreen);
-        UpdateKeys();
+            Map.Instance.OnLevelLoaded.AddListener(loadFadeoutTimer.Start);
+
+            EventManager.StartListening("LevelOver", ToggleLoadingScreen);
+            UpdateKeys();
+        }
+
 
     }
 
@@ -124,8 +128,10 @@ public class UIManager : MonoBehaviour
     /// <param name="line">Line.</param>
     public void SetMainText(string line)
     {
-        //
-        if (Game.Instance.IsInCutscene)
+        if (!mainText.gameObject.activeSelf) {
+            mainText.gameObject.SetActive(true);
+        }
+        if (Game.Instance.IsInCutscene || (Application.isEditor && !Application.isPlaying))
         {
             mainText.Message = new List<string>() { line };
         }
@@ -169,6 +175,14 @@ public class UIManager : MonoBehaviour
 		return mainText.StartReveal();
 	}
 
+    public void ShowMessageInEditor(string line, string speaker = "") {
+        SetMainText(line);
+        if (speaker != null && speaker.Length > 0)
+        {
+            speakerText.Speaker = speaker;
+            speakerText.Show();
+        }
+    }
     /// <summary>
     /// Shows the message.
     /// </summary>
@@ -347,6 +361,15 @@ public class UIManager : MonoBehaviour
         get {
             return itemTwoBox;
         }
+    }
+
+    public void Clear() {
+        mainText.Text = "";
+        minorText.text = "";
+        speakerText.Speaker = "";
+        mainText.gameObject.SetActive(false);
+        minorText.gameObject.SetActive(false);
+        speakerText.gameObject.SetActive(false);
     }
 }
 

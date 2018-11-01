@@ -76,5 +76,10 @@ public class AlignmentEditor : CutsceneElementEditor
     {
         UIManager.Instance.Alignment = left ? TextAnchor.MiddleLeft : TextAnchor.MiddleRight;
     }
+
+    public override void Run()
+    {
+        UIManager.Instance.Alignment = left ? TextAnchor.MiddleLeft : TextAnchor.MiddleRight;
+    }
 }
 #endif

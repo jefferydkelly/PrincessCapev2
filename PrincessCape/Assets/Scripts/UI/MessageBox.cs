@@ -21,7 +21,6 @@ public class MessageBox : MonoBehaviour {
     {
 		gameObject.SetActive(false);
         textbox = GetComponentInChildren<Text>();
-        Debug.Log(textbox == null);
 		revealTimer = new Timer(0);
 		onLineEnd = new UnityEvent();
 		onMessageEnd = new UnityEvent();
@@ -34,7 +33,10 @@ public class MessageBox : MonoBehaviour {
         }
 
         set {
-            textbox.text = value;
+            if (textbox)
+            {
+                textbox.text = value;
+            }
         }
     }
 
@@ -223,7 +225,10 @@ public class MessageBox : MonoBehaviour {
 		}
 
 		set {
-			textbox.alignment = value;
+            if (textbox)
+            {
+                textbox.alignment = value;
+            }
 		}
 	}
 

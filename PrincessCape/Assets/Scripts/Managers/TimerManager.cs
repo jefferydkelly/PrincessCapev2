@@ -108,6 +108,8 @@ public class Timer
 		infinite = false;
 		OnTick = new UnityEvent();
 		OnComplete = new UnityEvent();
+
+        runWhilePaused = Application.isEditor;
 	}
 
 	/// <summary>
@@ -130,15 +132,25 @@ public class Timer
 	/// </summary>
 	public void Start()
 	{
-        if (Application.isPlaying && !Game.isClosing)
+        if (Application.isPlaying)
         {
-            if (state == TimerState.NotStarted || state == TimerState.Done || state == TimerState.Stopped)
+            if (!Game.isClosing)
             {
-                state = TimerState.Running;
-                curTime = 0;
-                timesRun = 0;
-                TimerManager.Instance.AddTimer(this);
+                if (state == TimerState.NotStarted || state == TimerState.Done || state == TimerState.Stopped)
+                {
+                    state = TimerState.Running;
+                    curTime = 0;
+                    timesRun = 0;
+                    TimerManager.Instance.AddTimer(this);
+                }
             }
+        } else {
+           
+            state = TimerState.Running;
+            curTime = 0;
+            timesRun = 0;
+            EditorTimerManager.Instance.AddTimer(this);
+
         }
 
 	}
@@ -171,9 +183,11 @@ public class Timer
 	public void Stop()
 	{
 		state = TimerState.Stopped;
-        if (!Game.isClosing)
+        if (Application.isPlaying  && !Game.isClosing)
         {
             TimerManager.Instance.RemoveTimer(this);
+        } else if (!Application.isPlaying) {
+            EditorTimerManager.Instance.RemoveTimer(this);
         }
 	}
 

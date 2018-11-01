@@ -146,10 +146,19 @@ public class AnimationEditor : CutsceneElementEditor
 
     public override void Skip()
     {
+        Animate();
+    }
+
+    void Animate() {
         if (animator != null)
         {
             animator.SetTrigger(triggers[selectedTrigger]);
         }
+    }
+
+    public override void Run()
+    {
+        Animate();
     }
 }
 #endif

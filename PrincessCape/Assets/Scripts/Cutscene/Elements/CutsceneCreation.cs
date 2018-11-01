@@ -100,6 +100,11 @@ public class CreationEditor : CutsceneElementEditor
     {
         GameObject.Instantiate(prefab).transform.position = position;
     }
+
+    public override void Run()
+    {
+        GameObject.Instantiate(prefab).transform.position = position;
+    }
 }
 
 public class DestructionEditor : CutsceneElementEditor
@@ -142,6 +147,11 @@ public class DestructionEditor : CutsceneElementEditor
     }
 
     public override void Skip() {
+        toBeDestroyed.SetActive(false);
+    }
+
+    public override void Run()
+    {
         toBeDestroyed.SetActive(false);
     }
 }
