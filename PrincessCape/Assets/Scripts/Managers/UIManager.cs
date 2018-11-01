@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
 
     //Player UI Boxes
     [SerializeField]
+    GameObject gameUI;
+    [SerializeField]
     ItemBox itemOneBox;
 	[SerializeField]
 	ItemBox itemTwoBox;
@@ -37,6 +39,8 @@ public class UIManager : MonoBehaviour
 
     BoolEvent onAimStatusChange = new BoolEvent();
 
+    PauseMenu pauseMenu;
+
     private void Awake()
     {
         instance = this;
@@ -46,15 +50,17 @@ public class UIManager : MonoBehaviour
             minorText.gameObject.SetActive(true);
             SetMinorText("Press Any Key To Continue");
         });
+
+
+        mainText.gameObject.SetActive(true);
 		OnLineEnd.AddListener(showTimer.Start);
+        mainText.gameObject.SetActive(Application.isPlaying);
+        minorText.gameObject.SetActive(Application.isPlaying);
+        speakerText.gameObject.SetActive(Application.isPlaying);
+      
 
-        /*
-		OnMessageEnd.AddListener(() =>
-		{
-
-		});*/
-        
-        
+        pauseMenu = GetComponentInChildren<PauseMenu>();
+       
         Controller.Instance.AnyKey.AddListener(HideText);
         //EventManager.StartListening("AnyKey", );
 
@@ -63,7 +69,7 @@ public class UIManager : MonoBehaviour
         ToggleLoadingScreen();
 
 
-        if (!Application.isEditor) {
+        if (Application.isPlaying) {
             loadFadeoutTimer = new Timer(1.0f / 30.0f, 30);
             loadFadeoutTimer.OnTick.AddListener(() => {
                 loadingScreen.color = loadingScreen.color.SetAlpha(1 - loadFadeoutTimer.RunPercent);
@@ -77,6 +83,11 @@ public class UIManager : MonoBehaviour
 
             EventManager.StartListening("LevelOver", ToggleLoadingScreen);
             UpdateKeys();
+        } else {
+            
+            pauseMenu.gameObject.SetActive(false);
+            inventory.gameObject.SetActive(false);
+            gameUI.SetActive(false);
         }
 
 

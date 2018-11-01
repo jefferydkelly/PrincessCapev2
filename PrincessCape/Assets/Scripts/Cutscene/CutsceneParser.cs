@@ -158,7 +158,6 @@ public class CutsceneParser
             {
                 Vector2 dif = new Vector2(float.Parse(parts[1]), float.Parse(parts[2]));
                 float time = float.Parse(parts[3]);
-                Debug.Log(string.Format("Panning {0} over {1}", dif, time));
                 return new CutscenePan(dif,time);
             }
         }
