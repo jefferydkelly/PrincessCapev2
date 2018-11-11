@@ -7,76 +7,67 @@ using UnityEditor;
 
 public class CutsceneFade : CutsceneElement
 {
-    string actorName;
-    GameObject target;
-    float alpha;
-    float time;
-    public CutsceneFade(string actor, float toAlpha, float dt)
-    {
-        actorName = actor;
-        target = Cutscene.Instance.FindGameObject(actor);
-        alpha = toAlpha;
-        time = dt;
-        canSkip = true;
-    }
-
-    public override Timer Run()
-    {
-        if (!target)
-        {
-            target = Cutscene.Instance.FindGameObject(actorName);
-        }
-
-        if (target)
-        {
-            runTimer = new Timer(1.0f / 30.0f, (int)(time * 30));
-            SpriteRenderer mySpriteRenderer = target.GetComponent<SpriteRenderer>();
-            if (!target.activeSelf)
-            {
-                target.SetActive(true);
-                mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(0);
-            }
-
-            Color col = mySpriteRenderer.color;
-            float startAlpha = col.a;
-            float alphaDelta = alpha - startAlpha;
-            runTimer.OnTick.AddListener(() =>
-            {
-                mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(startAlpha + alphaDelta * runTimer.RunPercent);
-            });
-
-            runTimer.OnComplete.AddListener(() =>
-            {
-                mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(alpha);
-            });
-
-            return runTimer;
-        }
-
-        return null;
-    }
-}
-
-#if UNITY_EDITOR
-public class FadeEditor : CutsceneElementEditor
-{
+    bool useObject = false;
     string actorName;
     GameObject actor;
-    bool fadeIn = true;
+    bool fadeIn = false;
     float time;
-    bool useObject = false;
 
-    public FadeEditor()
-    {
-        editorType = "Fade In/Out";
+
+    public CutsceneFade() {
+        autoAdvance = true;
+        canSkip = true;
         type = CutsceneElements.Fade;
     }
-    public override void GenerateFromData(string[] data)
+
+    public override string SaveData
+    {
+        get
+        {
+            string data = "";
+            data += PCLParser.CreateAttribute("Use Object?", useObject);
+            data += PCLParser.CreateAttribute("Actor", useObject ? actor.name : actorName);
+            data += PCLParser.CreateAttribute("Fade-In?", fadeIn);
+            data += PCLParser.CreateAttribute("Over", time);
+            return data;
+        }
+    }
+
+    public override string ToText {
+        get
+        {
+            return string.Format("Fade-{0} {1} {2}", fadeIn ? "in" : "out", useObject ? actor.name : actorName, time);
+        }
+    }
+
+    public override void CreateFromText(string[] data)
+    {
+        fadeIn = data[0].Contains("in");
+        GameObject found = GameObject.Find(data[1]);
+        if (found == null)
+        {
+            //found = FindActor(data[1]);
+        }
+        if (found)
+        {
+            useObject = true;
+            actor = found;
+            actorName = actor.name;
+        }
+        else
+        {
+            useObject = false;
+            actorName = data[1];
+        }
+        time = float.Parse(data[2]);
+    }
+
+    public override void CreateFromJSON(string[] data)
     {
         useObject = PCLParser.ParseBool(data[0]);
         if (useObject)
         {
-            actor = FindActor(data[1]);
+            //actor = FindActor(data[1]);
         }
         else
         {
@@ -86,20 +77,8 @@ public class FadeEditor : CutsceneElementEditor
         time = PCLParser.ParseFloat(data[3]);
     }
 
-    public override string GenerateSaveData()
-    {
-        string data = "";
-        data += PCLParser.CreateAttribute("Use Object?", useObject);
-        data += PCLParser.CreateAttribute("Actor", useObject ? actor.name : actorName);
-        data += PCLParser.CreateAttribute("Fade-In?", fadeIn);
-        data += PCLParser.CreateAttribute("Over", time);
-        return data;
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
+#if UNITY_EDITOR
+    public override void RenderEditor()
     {
         if (useObject)
         {
@@ -116,47 +95,54 @@ public class FadeEditor : CutsceneElementEditor
             time = newTime;
         }
     }
+#endif
 
-    public override string HumanReadable
+    public override Timer Run()
     {
-        get
+        if (!actor)
         {
-            return string.Format("Fade-{0} {1} {2}", fadeIn ? "in" : "out", useObject ? actor.name : actorName, time);
+            actor = Cutscene.Instance.FindGameObject(actorName);
         }
-    }
 
-    public override void GenerateFromText(string[] data)
-    {
-        fadeIn = data[0].Contains("in");
-        GameObject found = GameObject.Find(data[1]);
-        if (found == null)
+        if (actor)
         {
-            found = FindActor(data[1]);
+            runTimer = new Timer(1.0f / 30.0f, (int)(time * 30));
+            SpriteRenderer mySpriteRenderer = actor.GetComponent<SpriteRenderer>();
+            if (!actor.activeSelf)
+            {
+                actor.SetActive(true);
+                mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(0);
+            }
+
+            Color col = mySpriteRenderer.color;
+            float startAlpha = col.a;
+            float alphaDelta = fadeIn ? 1 : 0 - startAlpha;
+            runTimer.OnTick.AddListener(() =>
+            {
+                mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(startAlpha + alphaDelta * runTimer.RunPercent);
+            });
+
+            runTimer.OnComplete.AddListener(() =>
+            {
+                mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(fadeIn ? 1 : 0);
+            });
+
+            return runTimer;
         }
-        if (found)
-        {
-            useObject = true;
-            actor = found;
-            actorName = actor.name;
-        }
-        else
-        {
-            useObject = false;
-            actorName = data[1];
-        }
-        time = float.Parse(data[2]);
+
+        return null;
     }
 
     public override void Skip()
     {
-        if (!useObject) {
-            actor = FindActor(actorName);
-        }
-
         if (actor) {
-            SpriteRenderer asr = actor.GetComponent<SpriteRenderer>();
-            asr.color = asr.color.SetAlpha(fadeIn ? 1 : 0);
+            SpriteRenderer mySpriteRenderer = actor.GetComponent<SpriteRenderer>();
+            if (!actor.activeSelf)
+            {
+                actor.SetActive(true);
+            }
+
+            mySpriteRenderer.color = mySpriteRenderer.color.SetAlpha(fadeIn ? 1 : 0);
         }
     }
 }
-#endif

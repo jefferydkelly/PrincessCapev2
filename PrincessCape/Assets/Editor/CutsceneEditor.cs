@@ -66,14 +66,14 @@ public class CutsceneEditor : EditorWindow {
                 if (path.Length > 0)
                 {
                     string data = PCLParser.StructStart;
-                    data += instance.info.SaveData;
+                    data += instance.info.ToJSON;
                     int i = 1;
                     data += PCLParser.CreateArray("Steps");
                     foreach (CutsceneStepEditor step in instance.steps)
                     {
                         data += PCLParser.StructStart;
                         data += PCLParser.CreateAttribute("Step Number", i);
-                        data += step.SaveData;
+                        data += step.ToJSON;
                         data += PCLParser.StructEnd;
                         i++;
                     }
@@ -88,11 +88,11 @@ public class CutsceneEditor : EditorWindow {
 
                 if (path.Length > 0)
                 {
-                    string data = instance.info.HumanReadable;
+                    string data = instance.info.ToText;
 
                     foreach (CutsceneStepEditor step in instance.steps)
                     {
-                        data += step.HumanReadable;
+                        data += step.ToText;
                     }
                   
                     File.WriteAllText(path, data);
@@ -261,6 +261,7 @@ public class CutsceneInfo
     public CutsceneInfo()
     {
         charactersInScene = new List<CharacterInScene>();
+
         foreach (CutsceneActor actor in Resources.LoadAll<CutsceneActor>("Characters"))
         {
             CharacterInScene character = new CharacterInScene();
@@ -306,6 +307,7 @@ public class CutsceneInfo
                 CutsceneEditor.Instance.RemoveActor(character.objectName);
             }
         }
+       
     }
 
     /// <summary>
@@ -368,7 +370,7 @@ public class CutsceneInfo
     /// Gets the save data.
     /// </summary>
     /// <value>The save data.</value>
-    public string SaveData
+    public string ToJSON
     {
         get
         {
@@ -387,7 +389,7 @@ public class CutsceneInfo
         }
     }
 
-    public string HumanReadable {
+    public string ToText {
         get {
             string info = "";
             info += string.Format("scene {0}\n", sceneNames[level]);
@@ -421,8 +423,8 @@ public class CutsceneInfo
 /// </summary>
 public class CutsceneStepEditor {
     bool show = true;
-    List<CutsceneElementEditor> elements = new List<CutsceneElementEditor>();
-    DialogEditor dialog;
+    List<CutsceneElement> elements = new List<CutsceneElement>();
+    CutsceneDialog dialog;
     int stepNumber = -1;
 
     public CutsceneStepEditor(int num) {
@@ -435,14 +437,14 @@ public class CutsceneStepEditor {
     /// <param name="els">The elements already in the step.</param>
     public CutsceneStepEditor(List<CutsceneElementStruct> els, int num):this(num) {
         foreach(CutsceneElementStruct ces in els) {
-            CutsceneElementEditor cee = CutsceneParser.ParseElement(ces.type);
-            cee.GenerateFromData(ces.info.ToArray());
+            CutsceneElement cee = CutsceneParser.ParseElement(ces.type);
+            cee.CreateFromJSON(ces.info.ToArray());
             elements.Add(cee);
         }
     }
 
     public CutsceneStepEditor(List<string> lines, int num):this(num) {
-        elements = new List<CutsceneElementEditor>();
+        elements = new List<CutsceneElement>();
         foreach(string line in lines) {
             elements.Add(CutsceneParser.ParseElement(line));
         }
@@ -479,9 +481,9 @@ public class CutsceneStepEditor {
                 menu.ShowAsContext();
             }
             EditorGUILayout.EndHorizontal();
-            foreach (CutsceneElementEditor cee in elements)
+            foreach (CutsceneElement cee in elements)
             {
-                cee.Render();
+                cee.RenderUI();
                 EditorGUILayout.Separator();
             }
            
@@ -500,7 +502,7 @@ public class CutsceneStepEditor {
     {
         CutsceneElements eType = (CutsceneElements)System.Enum.Parse(typeof(CutsceneElements), (string)type);
        
-        CutsceneElementEditor ed = CutsceneParser.ParseElement(eType);
+        CutsceneElement ed = CutsceneParser.ParseElement(eType);
         if (ed != null) {
             elements.Add(ed);
             if (eType == CutsceneElements.Dialog)
@@ -509,7 +511,7 @@ public class CutsceneStepEditor {
                 {
                     return;
                 }
-                dialog = (DialogEditor)ed;
+                dialog = (CutsceneDialog)ed;
             } else if (dialog != null) {
                 elements.Remove(dialog);
                 elements.Add(dialog);
@@ -539,23 +541,23 @@ public class CutsceneStepEditor {
     /// Gets the save data for the step and all of its elements.
     /// </summary>
     /// <value>The save data.</value>
-    public string SaveData {
+    public string ToJSON {
         get {
             string data = "";
             data += PCLParser.CreateArray("Elements");
-            foreach(CutsceneElementEditor ed in elements) {
-                data += ed.SaveData;
+            foreach(CutsceneElement ed in elements) {
+                data += ed.ToJSON;
             }
             data += PCLParser.ArrayEnding;
             return data;
         }
     }
 
-    public string HumanReadable {
+    public string ToText {
         get {
             string data = "";
             for (int i = 0; i < elements.Count; i++) {
-                data += elements[i].HumanReadable;
+                data += elements[i].ToText;
                 if (i < elements.Count - 1) {
                     data += " and";
                 }
@@ -566,14 +568,17 @@ public class CutsceneStepEditor {
     }
 
     public void Skip() {
-        foreach(CutsceneElementEditor cee in elements) {
+        foreach(CutsceneElement cee in elements) {
             cee.Skip();
         }
     }
 
     public void Run() {
-        foreach(CutsceneElementEditor cee in elements) {
-            cee.Run();
+        foreach(CutsceneElement cee in elements) {
+            Timer t = cee.Run();
+            if (t != null) {
+                t.Start();
+            }
         }
     }
 }

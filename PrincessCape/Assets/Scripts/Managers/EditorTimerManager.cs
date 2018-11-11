@@ -45,6 +45,9 @@ public class EditorTimerManager : MonoBehaviour {
     {
         get
         {
+            if (instance == null) {
+                instance = FindObjectOfType<EditorTimerManager>();
+            }
             return instance;
         }
     }

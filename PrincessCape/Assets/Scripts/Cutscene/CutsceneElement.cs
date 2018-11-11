@@ -8,20 +8,22 @@ using UnityEditor;
 /// <summary>
 /// Cutscene element.
 /// </summary>
-public class CutsceneElement
+public abstract class CutsceneElement
 {
+    protected CutsceneElements type;
     public CutsceneElement nextElement = null;
     public CutsceneElement prevElement = null;
     protected bool canSkip = false;
 
     protected bool autoAdvance = false;
     protected Timer runTimer;
+    bool show = true;
 
     /// <summary>
     /// Gets a value indicating whether this <see cref="T:CutsceneElement"/> advances automatically.
     /// </summary>
     /// <value><c>true</c> if auto advance; otherwise, <c>false</c>.</value>
-	public bool AutoAdvance
+    public bool AutoAdvance
     {
         get
         {
@@ -33,7 +35,7 @@ public class CutsceneElement
     /// Gets a value indicating whether this <see cref="T:CutsceneElement"/> can be skipped.
     /// </summary>
     /// <value><c>true</c> if can be skipped; otherwise, <c>false</c>.</value>
-	public bool CanSkip
+    public bool CanSkip
     {
         get
         {
@@ -44,7 +46,7 @@ public class CutsceneElement
     /// <summary>
     /// Run this instance.
     /// </summary>
-	public virtual Timer Run()
+    public virtual Timer Run()
     {
         return null;
     }
@@ -55,6 +57,68 @@ public class CutsceneElement
     public virtual void Skip()
     {
 
+    }
+
+    public string ToJSON {
+        get {
+            string data = PCLParser.StructStart;
+            data += PCLParser.CreateAttribute("Element Type", type);
+            data += SaveData;
+            data += PCLParser.StructEnd;
+            return data;
+        }
+    }
+    public abstract string SaveData {
+        get;
+    }
+
+    public abstract string ToText {
+        get;
+    }
+    #if UNITY_EDITOR
+    public abstract void RenderEditor();
+    public void RenderUI() {
+        show = EditorGUILayout.Foldout(show, type.ToString());
+
+        if (show) {
+            EditorGUI.indentLevel++;
+            RenderEditor();
+            EditorGUI.indentLevel--;
+        }
+
+        
+    }
+    #endif
+    public abstract void CreateFromJSON(string[] data);
+    public abstract void CreateFromText(string[] data);
+
+    protected GameObject FindActor(string actorName) {
+        foreach(CutsceneActor actor in GameObject.FindObjectsOfType<CutsceneActor>()) {
+            if (actor.CharacterName == actorName || actor.name == actorName) {
+                return actor.gameObject;
+            }
+        }
+        return null;
+    }
+
+    protected GameObject FindTile(string tileName) {
+        foreach(MapTile mt in GameObject.FindObjectsOfType<MapTile>()) {
+            if (mt.name == tileName || mt.InstanceName == tileName) {
+                return mt.gameObject;
+            }
+        }
+
+        return null;
+    }
+
+    protected Timer CreateTimer(float time) {
+        return new Timer(1.0f / 30.0f, (int)(time * 30));
+    }
+
+    public CutsceneElements Type {
+        get {
+            return type;
+        }
     }
 }
 
@@ -81,80 +145,3 @@ public enum CutsceneElements
     Wait,
     Change
 }
-
-#if UNITY_EDITOR
-/// <summary>
-/// Cutscene element editor.
-/// </summary>
-public abstract class CutsceneElementEditor
-{
-
-    bool show = true;
-    protected string editorType = "Element";
-    protected CutsceneElements type;
-
-    /// <summary>
-    /// Render the GUI for this instance.
-    /// </summary>
-    public void Render()
-    {
-        EditorGUILayout.BeginVertical();
-        show = EditorGUILayout.Foldout(show, editorType, true);
-        if (show)
-        {
-            EditorGUI.indentLevel = 2;
-            DrawGUI();
-
-        }
-        EditorGUILayout.EndVertical();
-    }
-    /// <summary>
-    /// Gets the save data.
-    /// </summary>
-    /// <value>The save data.</value>
-    public string SaveData
-    {
-        get
-        {
-            string data = PCLParser.StructStart;
-            data += PCLParser.CreateAttribute("Element Type", type);
-            data += GenerateSaveData();
-            data += PCLParser.StructEnd;
-            return data;
-        }
-    }
-
-    public abstract string HumanReadable { get; }
-
-    protected abstract void DrawGUI();
-    public abstract string GenerateSaveData();
-    public abstract void GenerateFromData(string[] data);
-    public abstract void GenerateFromText(string[] data);
-
-    public GameObject FindActor(string name) {
-        foreach(CutsceneActor actor in GameObject.FindObjectsOfType<CutsceneActor>()) {
-            if (actor.CharacterName == name || actor.name == name) {
-                return actor.gameObject;
-            }
-        }
-
-        return null;
-    }
-
-    public GameObject FindTile(string name) {
-        foreach(MapTile mt in GameObject.FindObjectsOfType<MapTile>()) {
-            if (mt.name == name || mt.InstanceName == name) {
-                return mt.gameObject;
-            }
-        }
-
-        return null;
-    }
-
-    public virtual void Skip() {
-        
-    }
-
-    public virtual void Run(){}
-}
-#endif

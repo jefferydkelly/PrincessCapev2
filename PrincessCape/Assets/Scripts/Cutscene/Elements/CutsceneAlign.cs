@@ -9,13 +9,42 @@ public class CutsceneAlign : CutsceneElement
 {
     bool left;
 
-    public CutsceneAlign(bool l)
-    {
-        left = l;
+    public CutsceneAlign() {
         autoAdvance = true;
         canSkip = true;
+        type = CutsceneElements.Align;
     }
 
+    public override string SaveData
+    {
+        get
+        {
+            return PCLParser.CreateAttribute("Is Left?", left);
+        }
+    }
+
+    public override string ToText {
+        get {
+            return string.Format("align {0}", left ? "left" : "right");
+        }
+    }
+
+    public override void CreateFromText(string[] data)
+    {
+        left = data[1] == "left";
+    }
+
+    public override void CreateFromJSON(string[] data)
+    {
+        left = PCLParser.ParseBool(data[0]);
+    }
+
+#if UNITY_EDITOR
+    public override void RenderEditor()
+    {
+        left = EditorGUILayout.Toggle("Is Left Algined?", left);
+    }
+#endif
     public override Timer Run()
     {
         if (left)
@@ -29,57 +58,9 @@ public class CutsceneAlign : CutsceneElement
 
         return null;
     }
-}
-#if UNITY_EDITOR
-public class AlignmentEditor : CutsceneElementEditor
-{
-    bool left = true;
-
-    public AlignmentEditor()
-    {
-        editorType = "Set Text Alignment";
-        type = CutsceneElements.Align;
-    }
-
-    public override void GenerateFromData(string[] data)
-    {
-        left = PCLParser.ParseBool(data[0]);
-    }
-
-    public override string GenerateSaveData()
-    {
-        return PCLParser.CreateAttribute("Is Left?", left);
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
-        left = EditorGUILayout.Toggle("Is Left Algined?", left);
-    }
-
-    public override string HumanReadable
-    {
-        get
-        {
-            return string.Format("align {0}", left ? "left" : "right");
-        }
-    }
-
-    public override void GenerateFromText(string[] data)
-    {
-        left = data[1] == "left";
-    }
 
     public override void Skip()
     {
-        UIManager.Instance.Alignment = left ? TextAnchor.MiddleLeft : TextAnchor.MiddleRight;
-    }
-
-    public override void Run()
-    {
-        UIManager.Instance.Alignment = left ? TextAnchor.MiddleLeft : TextAnchor.MiddleRight;
+        Run();
     }
 }
-#endif

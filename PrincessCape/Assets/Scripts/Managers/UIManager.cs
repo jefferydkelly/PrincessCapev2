@@ -39,7 +39,8 @@ public class UIManager : MonoBehaviour
 
     BoolEvent onAimStatusChange = new BoolEvent();
 
-    PauseMenu pauseMenu;
+    [SerializeField]
+    GameObject pauseMenu;
 
     private void Awake()
     {
@@ -54,15 +55,11 @@ public class UIManager : MonoBehaviour
 
         mainText.gameObject.SetActive(true);
 		OnLineEnd.AddListener(showTimer.Start);
-        mainText.gameObject.SetActive(Application.isPlaying);
-        minorText.gameObject.SetActive(Application.isPlaying);
-        speakerText.gameObject.SetActive(Application.isPlaying);
-      
-
-        pauseMenu = GetComponentInChildren<PauseMenu>();
+        mainText.gameObject.SetActive(false);
+        minorText.gameObject.SetActive(false);
+        speakerText.gameObject.SetActive(false);
        
         Controller.Instance.AnyKey.AddListener(HideText);
-        //EventManager.StartListening("AnyKey", );
 
         interaction.Text = "";
         minorText.gameObject.SetActive(false);
@@ -80,12 +77,10 @@ public class UIManager : MonoBehaviour
             });
 
             Map.Instance.OnLevelLoaded.AddListener(loadFadeoutTimer.Start);
-
-            EventManager.StartListening("LevelOver", ToggleLoadingScreen);
             UpdateKeys();
         } else {
             
-            pauseMenu.gameObject.SetActive(false);
+            pauseMenu.SetActive(false);
             inventory.gameObject.SetActive(false);
             gameUI.SetActive(false);
         }

@@ -7,54 +7,99 @@ using UnityEditor;
 
 public class CutsceneScale : CutsceneElement
 {
-    ScaleType type;
-    float scale = 1.0f;
-    float scale2 = 1.0f;
+    ScaleType scaleType;
+    float xScale = 1.0f;
+    float yScale = 1.0f;
     float time = 0;
-    string actorName;
-    public CutsceneScale(ScaleType st, string actor, float sc, float dt)
-    {
-        actorName = actor;
-        type = st;
-        scale = sc;
-        time = dt;
+    string name;
+
+    public CutsceneScale() {
         canSkip = true;
         autoAdvance = true;
+        type = CutsceneElements.Scale;
     }
 
-    public CutsceneScale(string actor, float sc1, float sc2, float dt)
+    public override string SaveData
     {
-        actorName = actor;
-        type = ScaleType.Ind;
-        scale = sc1;
-        scale2 = sc2;
-        time = dt;
-        canSkip = true;
-        autoAdvance = true;
+        get
+        {
+            string data = "";
+            data += PCLParser.CreateAttribute("Name", name);
+            data += PCLParser.CreateAttribute("X", xScale);
+            data += PCLParser.CreateAttribute("Y", yScale);
+            data += PCLParser.CreateAttribute("Time", time);
+            return data;
+        }
     }
+
+    public override string ToText {
+        get
+        {
+            return string.Format("scale {0} {1} {2} {3}", name, xScale, yScale, time);
+        }
+    }
+
+    public override void CreateFromText(string[] data)
+    {
+        name = data[1];
+        xScale = float.Parse(data[2]);
+        yScale = float.Parse(data[3]);
+        time = float.Parse(data[4]);
+    }
+
+    public override void CreateFromJSON(string[] data)
+    {
+        name = PCLParser.ParseLine(data[0]);
+        xScale = PCLParser.ParseFloat(data[1]);
+        yScale = PCLParser.ParseFloat(data[2]);
+        time = PCLParser.ParseFloat(data[3]);
+    }
+
+#if UNITY_2018
+    public override void RenderEditor()
+    {
+        name = EditorGUILayout.TextArea("Name", name);
+        float scale = EditorGUILayout.FloatField("X Scale", xScale);
+        if (scale > 0)
+        {
+            xScale = scale;
+        }
+        scale = EditorGUILayout.FloatField("Y Scale", yScale);
+        if (scale > 0)
+        {
+            yScale = scale;
+        }
+
+        scale = EditorGUILayout.FloatField("Time", time);
+        if (scale > 0)
+        {
+            time = scale;
+        }
+    }
+#endif
 
     public override Timer Run()
     {
         GameObject gameObject = null;
-        CutsceneActor actor = Cutscene.Instance.FindActor(actorName);
+        CutsceneActor actor = Cutscene.Instance.FindActor(name);
         if (actor)
         {
             gameObject = actor.gameObject;
         }
         else
         {
-            gameObject = GameObject.Find(actorName);
+            gameObject = GameObject.Find(name);
         }
 
         if (gameObject)
         {
             if (time > 0)
             {
-                runTimer = new Timer(1.0f / 30.0f, (int)(time * 30));
-                if (type == ScaleType.All)
+                runTimer = CreateTimer(time);
+                if (scaleType == ScaleType.All)
                 {
                     float startScale = gameObject.transform.localScale.x;
-                    float scaleDif = scale - startScale;
+                    float scaleDif = xScale - startScale;
 
                     runTimer.OnTick.AddListener(() =>
                     {
@@ -64,13 +109,13 @@ public class CutsceneScale : CutsceneElement
 
                     runTimer.OnComplete.AddListener(() =>
                     {
-                        gameObject.transform.localScale = new Vector3(scale, scale, 1);
+                        gameObject.transform.localScale = new Vector3(xScale, xScale, 1);
                     });
                 }
-                else if (type == ScaleType.X)
+                else if (scaleType == ScaleType.X)
                 {
                     float startScale = gameObject.transform.localScale.x;
-                    float scaleDif = scale - startScale;
+                    float scaleDif = xScale - startScale;
 
                     runTimer.OnTick.AddListener(() =>
                     {
@@ -79,14 +124,14 @@ public class CutsceneScale : CutsceneElement
 
                     runTimer.OnComplete.AddListener(() =>
                     {
-                        gameObject.transform.localScale = gameObject.transform.localScale.SetX(scale);
+                        gameObject.transform.localScale = gameObject.transform.localScale.SetX(xScale);
                     });
 
                 }
-                else if (type == ScaleType.Y)
+                else if (scaleType == ScaleType.Y)
                 {
                     float startScale = gameObject.transform.localScale.y;
-                    float scaleDif = scale - startScale;
+                    float scaleDif = xScale - startScale;
 
                     runTimer.OnTick.AddListener(() =>
                     {
@@ -95,13 +140,13 @@ public class CutsceneScale : CutsceneElement
 
                     runTimer.OnComplete.AddListener(() =>
                     {
-                        gameObject.transform.localScale = gameObject.transform.localScale.SetY(scale);
+                        gameObject.transform.localScale = gameObject.transform.localScale.SetY(xScale);
                     });
                 }
-                else if (type == ScaleType.Ind)
+                else if (scaleType == ScaleType.Ind)
                 {
                     Vector3 startScale = gameObject.transform.localScale;
-                    Vector3 endScale = new Vector3(scale, scale2);
+                    Vector3 endScale = new Vector3(xScale, yScale);
                     Vector3 scaleDif = endScale - startScale;
                     scaleDif.z = 0;
 
@@ -123,27 +168,62 @@ public class CutsceneScale : CutsceneElement
             }
             else
             {
-                if (type == ScaleType.X)
+                if (scaleType == ScaleType.X)
                 {
-                    gameObject.transform.localScale = gameObject.transform.localScale.SetX(scale);
+                    gameObject.transform.localScale = gameObject.transform.localScale.SetX(xScale);
                 }
-                else if (type == ScaleType.Y)
+                else if (scaleType == ScaleType.Y)
                 {
-                    gameObject.transform.localScale = gameObject.transform.localScale.SetY(scale);
+                    gameObject.transform.localScale = gameObject.transform.localScale.SetY(xScale);
 
                 }
-                else if (type == ScaleType.All)
+                else if (scaleType == ScaleType.All)
                 {
-                    gameObject.transform.localScale = gameObject.transform.localScale.SetX(scale).SetY(scale);
+                    gameObject.transform.localScale = gameObject.transform.localScale.SetX(xScale).SetY(xScale);
                 }
-                else if (type == ScaleType.Ind)
+                else if (scaleType == ScaleType.Ind)
                 {
-                    gameObject.transform.localScale = gameObject.transform.localScale.SetX(scale).SetY(scale2);
+                    gameObject.transform.localScale = gameObject.transform.localScale.SetX(xScale).SetY(yScale);
                 }
             }
         }
 
         return null;
+    }
+
+    public override void Skip()
+    {
+        GameObject gameObject = null;
+        CutsceneActor actor = Cutscene.Instance.FindActor(name);
+        if (actor)
+        {
+            gameObject = actor.gameObject;
+        }
+        else
+        {
+            gameObject = GameObject.Find(name);
+        }
+
+        if (gameObject)
+        {
+            if (scaleType == ScaleType.X)
+            {
+                gameObject.transform.localScale = gameObject.transform.localScale.SetX(xScale);
+            }
+            else if (scaleType == ScaleType.Y)
+            {
+                gameObject.transform.localScale = gameObject.transform.localScale.SetY(xScale);
+
+            }
+            else if (scaleType == ScaleType.All)
+            {
+                gameObject.transform.localScale = gameObject.transform.localScale.SetX(xScale).SetY(xScale);
+            }
+            else if (scaleType == ScaleType.Ind)
+            {
+                gameObject.transform.localScale = gameObject.transform.localScale.SetX(xScale).SetY(yScale);
+            }
+        }
     }
 }
 
@@ -151,85 +231,3 @@ public enum ScaleType
 {
     All, X, Y, Ind
 }
-
-#if UNITY_EDITOR
-public class ScaleEditor: CutsceneElementEditor {
-
-    float xScale = 1.0f;
-    float yScale = 1.0f;
-    float time = 0;
-    string name;
-
-    public ScaleEditor() {
-        editorType = "Scale Object";
-        type = CutsceneElements.Scale;
-    }
-
-    public override void GenerateFromData(string[] data)
-    {
-        name = PCLParser.ParseLine(data[0]);
-        xScale = PCLParser.ParseFloat(data[1]);
-        yScale = PCLParser.ParseFloat(data[2]);
-        time = PCLParser.ParseFloat(data[3]);
-    }
-
-    public override string GenerateSaveData()
-    {
-        string data = "";
-        data += PCLParser.CreateAttribute("Name", name);
-        data += PCLParser.CreateAttribute("X", xScale);
-        data += PCLParser.CreateAttribute("Y", yScale);
-        data += PCLParser.CreateAttribute("Time", time);
-        return data;
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
-        name = EditorGUILayout.TextArea("Name", name);
-        float scale = EditorGUILayout.FloatField("X Scale", xScale);
-        if (scale > 0) {
-            xScale = scale;
-        }
-        scale = EditorGUILayout.FloatField("Y Scale", yScale);
-        if (scale > 0)
-        {
-            yScale = scale;
-        }
-
-        scale = EditorGUILayout.FloatField("Time", time);
-        if (scale > 0)
-        {
-            time = scale;
-        }
-
-    }
-
-    public override string HumanReadable
-    {
-        get
-        {
-            return string.Format("scale {0} {1} {2} {3}", name, xScale, yScale, time);
-        }
-    }
-
-    public override void GenerateFromText(string[] data)
-    {
-        name = data[1];
-        xScale = float.Parse(data[2]);
-        yScale = float.Parse(data[3]);
-        time = float.Parse(data[4]);
-
-    }
-
-    public override void Skip()
-    {
-        GameObject scaler = FindActor(name);
-        if (scaler) {
-            scaler.transform.localScale = new Vector3(xScale, yScale, 0);
-        }
-    }
-}
-#endif

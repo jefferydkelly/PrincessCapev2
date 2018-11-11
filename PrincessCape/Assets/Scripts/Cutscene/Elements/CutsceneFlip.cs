@@ -9,13 +9,49 @@ public class CutsceneFlip : CutsceneElement
 {
     string affected = "Character";
     bool horizontalFlip = false;
-    public CutsceneFlip(string target, bool horizontal)
-    {
-        affected = target;
-        horizontalFlip = horizontal;
+
+    public CutsceneFlip() {
         autoAdvance = true;
+        canSkip = true;
+        type = CutsceneElements.Flip;
     }
 
+    public override string SaveData
+    {
+        get
+        {
+            string data = "";
+            data += PCLParser.CreateAttribute("Character", affected);
+            data += PCLParser.CreateAttribute("Horizontal", horizontalFlip);
+            return data;
+        }
+    }
+
+    public override string ToText {
+        get
+        {
+            return string.Format("flip-{0} {1}", horizontalFlip ? "x" : "y", affected);
+        }
+    }
+    public override void CreateFromText(string[] data)
+    {
+        horizontalFlip = data[0].Contains("x");
+        affected = data[1];
+    }
+
+    public override void CreateFromJSON(string[] data)
+    {
+        affected = PCLParser.ParseLine(data[0]);
+        horizontalFlip = PCLParser.ParseBool(data[1]);
+    }
+
+#if UNITY_EDITOR
+    public override void RenderEditor()
+    {
+        affected = EditorGUILayout.TextField("Character", affected);
+        horizontalFlip = EditorGUILayout.Toggle("Flip Horizontal", horizontalFlip);
+    }
+#endif
     public override Timer Run()
     {
         CutsceneActor myActor = Cutscene.Instance.FindActor(affected);
@@ -29,67 +65,9 @@ public class CutsceneFlip : CutsceneElement
         }
         return null;
     }
-}
-
-#if UNITY_EDITOR
-public class FlipEditor : CutsceneElementEditor
-{
-    bool horizontal = true;
-    string character;
-    public FlipEditor()
-    {
-        editorType = "Flip Sprite";
-        type = CutsceneElements.Flip;
-    }
-    public override void GenerateFromData(string[] data)
-    {
-        character = PCLParser.ParseLine(data[0]);
-        horizontal = PCLParser.ParseBool(data[1]);
-    }
-
-    public override string GenerateSaveData()
-    {
-        string data = "";
-        data += PCLParser.CreateAttribute("Character", character);
-        data += PCLParser.CreateAttribute("Horizontal", horizontal);
-        return data;
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
-        character = EditorGUILayout.TextField("Character", character);
-        horizontal = EditorGUILayout.Toggle("Flip Horizontal", horizontal);
-    }
-
-    public override string HumanReadable
-    {
-        get
-        {
-            return string.Format("flip-{0} {1}", horizontal ? "x" : "y", character);
-        }
-    }
-
-    public override void GenerateFromText(string[] data)
-    {
-        horizontal = data[0].Contains("x");
-        character = data[1];
-    }
 
     public override void Skip()
     {
-        GameObject gameObject = FindActor(character);
-        if (gameObject) {
-            SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-            if (horizontal)
-            {
-                spriteRenderer.flipX = !spriteRenderer.flipX;
-            } else {
-                spriteRenderer.flipY = !spriteRenderer.flipY; 
-            }            
-        }
+        Run();
     }
 }
-#endif

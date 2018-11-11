@@ -75,7 +75,10 @@ public class InteractionBox : MonoBehaviour
 
         set
         {
-            textbox.text = value;
+            if (textbox)
+            {
+                textbox.text = value;
+            }
         }
     }
 
@@ -85,7 +88,10 @@ public class InteractionBox : MonoBehaviour
         }
 
         set {
-            interactionKey.text = value;
+            if (interactionKey)
+            {
+                interactionKey.text = value;
+            }
         }
     }
 }

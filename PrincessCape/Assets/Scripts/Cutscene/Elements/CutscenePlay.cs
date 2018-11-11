@@ -8,63 +8,60 @@ using UnityEditor;
 public class CutscenePlay : CutsceneElement
 {
     string clipName;
+    static string[] soundEffects;
+    int selectedFX;
 
-    public CutscenePlay(string clip)
-    {
-        clipName = clip;
+    public CutscenePlay() {
+        if (soundEffects == null)
+        {
+            List<string> fx = new List<string>();
+            foreach (AudioClip clip in Resources.LoadAll<AudioClip>("Sounds"))
+            {
+                fx.Add(clip.name);
+            }
+            soundEffects = fx.ToArray();
+        }
+
+        type = CutsceneElements.Play;
     }
+
+    public override string SaveData
+    {
+        get
+        {
+            return PCLParser.CreateAttribute("Sound Effect", soundEffects[selectedFX]);
+        }
+    }
+
+    public override string ToText {
+        get {
+            return string.Format("play {0}", soundEffects[selectedFX]);
+        }
+    }
+
+    public override void CreateFromText(string[] data)
+    {
+        clipName = data[1];
+        selectedFX = ArrayUtility.IndexOf(soundEffects, clipName);
+
+    }
+
+    public override void CreateFromJSON(string[] data)
+    {
+        clipName = data[0];
+        selectedFX = ArrayUtility.IndexOf(soundEffects, PCLParser.ParseLine(clipName));
+    }
+
+#if UNITY_EDITOR
+    public override void RenderEditor()
+    {
+        selectedFX = EditorGUILayout.Popup("Sound Effect", selectedFX, soundEffects);
+    }
+#endif
+
     public override Timer Run()
     {
         float length = SoundManager.Instance.PlaySound(clipName);
         return new Timer(length);
     }
 }
-
-#if UNITY_EDITOR
-public class PlayEditor : CutsceneElementEditor {
-    static string[] soundEffects;
-    int selectedFX;
-    public PlayEditor() {
-        editorType = "Play Sound Effect";
-        type = CutsceneElements.Play;
-        if (soundEffects == null) {
-            List<string> fx = new List<string>();
-            foreach (AudioClip clip in Resources.LoadAll<AudioClip>("Sounds")) {
-                fx.Add(clip.name);
-            }
-            soundEffects = fx.ToArray();
-        }
-    }
-
-    public override void GenerateFromData(string[] data)
-    {
-        selectedFX = ArrayUtility.IndexOf(soundEffects, PCLParser.ParseLine(data[0]));
-    }
-
-    public override string GenerateSaveData()
-    {
-        return PCLParser.CreateAttribute("Sound Effect", soundEffects[selectedFX]);
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
-        selectedFX = EditorGUILayout.Popup("Sound Effect", selectedFX, soundEffects);
-    }
-
-    public override string HumanReadable
-    {
-        get
-        {
-            return string.Format("play {0}", soundEffects[selectedFX]);
-        }
-    }
-
-    public override void GenerateFromText(string[] data)
-    {
-        selectedFX = ArrayUtility.IndexOf(soundEffects, data[1]);
-    }
-}
-#endif

@@ -9,19 +9,108 @@ public class CutsceneAnimation : CutsceneElement
 {
     string triggerName;
     string actorName;
+    GameObject actor;
+    Animator animator;
+    List<string> triggers;
+    int selectedTrigger = 0;
 
-    public CutsceneAnimation(string aName, string tName)
+    public CutsceneAnimation() {
+        canSkip = true;
+        autoAdvance = true;
+        type = CutsceneElements.Animation;
+    }
+
+    public override string SaveData
     {
-        triggerName = tName;
-        actorName = aName;
+        get
+        {
+            string data = "";
+            data += PCLParser.CreateAttribute("Character", actor.name);
+            data += PCLParser.CreateAttribute("Trigger", triggers[selectedTrigger]);
+            return data;
+        }
+    }
+
+    public override string ToText {
+        get {
+            return string.Format("animate {0} {1}", actor.name, triggers[selectedTrigger]);
+        }
+    }
+
+    public override void CreateFromText(string[] data)
+    {
+        //actor = GameObject.Find(data[1]);
+        actorName = data[1];
+        if (actor == null)
+        {
+            actor = FindActor(actorName);
+        }
+
+        if (actor)
+        {
+            animator = actor.GetComponent<Animator>();
+            if (animator != null)
+            {
+                CreateListOfTriggers();
+                selectedTrigger = triggers.IndexOf(data[2]);
+            }
+        }
+        triggerName = data[2];
+    }
+
+    public override void CreateFromJSON(string[] data)
+    {
+        actor = GameObject.Find(PCLParser.ParseLine(data[0]));
+        animator = actor.GetComponent<Animator>();
+        CreateListOfTriggers();
+        selectedTrigger = triggers.IndexOf(PCLParser.ParseLine(data[1]));
+    }
+#if UNITY_EDITOR
+    public override void RenderEditor()
+    {
+        GameObject oldObject =  actor;
+        actor = EditorGUILayout.ObjectField("Game Object", actor, typeof(GameObject), true) as GameObject;
+        if (actor && actor.activeInHierarchy && oldObject != actor)
+        {
+            animator = actor.GetComponent<Animator>();
+            triggers = new List<string>();
+            selectedTrigger = 0;
+            CreateListOfTriggers();
+        }
+
+
+        if (animator)
+        {
+            selectedTrigger = EditorGUILayout.Popup("Trigger", selectedTrigger, triggers.ToArray());
+        }
+        else
+        {
+            EditorGUILayout.LabelField("This does not have an animator");
+        }
+    }
+#endif
+    void CreateListOfTriggers()
+    {
+        if (animator)
+        {
+            triggers = new List<string>();
+            //Make a list of the animations and list them to be selected
+            foreach (AnimatorControllerParameter acp in animator.parameters)
+            {
+                triggers.Add(acp.name);
+            }
+        }
     }
 
     public override Timer Run()
     {
-        GameObject gameObject = GameObject.Find(actorName);
-        if (gameObject)
+        if (actor == null) {
+            actor = FindActor(actorName);
+        }
+
+        if (actor)
         {
-            Animator animator = gameObject.GetComponent<Animator>();
+            animator = actor.GetComponent<Animator>();
             if (animator)
             {
                 animator.SetTrigger(triggerName);
@@ -42,123 +131,3 @@ public class CutsceneAnimation : CutsceneElement
         return null;
     }
 }
-
-#if UNITY_EDITOR
-public class AnimationEditor : CutsceneElementEditor
-{
-    GameObject gameObject;
-    Animator animator;
-    List<string> triggers;
-    int selectedTrigger = 0;
-
-    public AnimationEditor()
-    {
-        editorType = "Play Animation";
-        type = CutsceneElements.Animation;
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
-        //objectName = EditorGUILayout.TextField("Animated Object", objectName);
-        //animation = EditorGUILayout.TextField("Trigger Name", animation);
-
-        GameObject oldObject = gameObject;
-        gameObject = EditorGUILayout.ObjectField("Game Object", gameObject, typeof(GameObject), true) as GameObject;
-        if (gameObject && gameObject.activeInHierarchy && oldObject != gameObject)
-        {
-            animator = gameObject.GetComponent<Animator>();
-            triggers = new List<string>();
-            selectedTrigger = 0;
-            CreateListOfTriggers();
-        }
-
-
-        if (animator)
-        {
-            selectedTrigger = EditorGUILayout.Popup("Trigger", selectedTrigger, triggers.ToArray());
-        }
-        else
-        {
-            EditorGUILayout.LabelField("This does not have an animator");
-        }
-
-    }
-
-    void CreateListOfTriggers()
-    {
-        if (animator)
-        {
-            triggers = new List<string>();
-            //Make a list of the animations and list them to be selected
-            foreach (AnimatorControllerParameter acp in animator.parameters)
-            {
-                triggers.Add(acp.name);
-            }
-        }
-    }
-
-    public override void GenerateFromData(string[] data)
-    {
-        gameObject = GameObject.Find(PCLParser.ParseLine(data[0]));
-        animator = gameObject.GetComponent<Animator>();
-        CreateListOfTriggers();
-        selectedTrigger = triggers.IndexOf(PCLParser.ParseLine(data[1]));
-        //objectName = PCLParser.ParseLine(data[0]);
-        //animation = PCLParser.ParseLine(data[1]);
-    }
-
-    public override string GenerateSaveData()
-    {
-        string data = "";
-        data += PCLParser.CreateAttribute("Character", gameObject.name);
-        data += PCLParser.CreateAttribute("Trigger", triggers[selectedTrigger]);
-        return data;
-    }
-
-    public override string HumanReadable
-    {
-        get
-        {
-            return string.Format("animate {0} {1}", gameObject.name, triggers[selectedTrigger]);
-        }
-    }
-
-    public override void GenerateFromText(string[] data)
-    {
-        gameObject = GameObject.Find(data[1]);
-        if (gameObject == null) {
-            gameObject = FindActor(data[1]);
-        }
-
-        if (gameObject)
-        {
-            animator = gameObject.GetComponent<Animator>();
-            if (animator != null)
-            {
-                CreateListOfTriggers();
-                selectedTrigger = triggers.IndexOf(data[2]);
-            }
-        }
-    }
-
-    public override void Skip()
-    {
-        Animate();
-    }
-
-    void Animate() {
-        if (animator != null)
-        {
-            animator.SetTrigger(triggers[selectedTrigger]);
-        }
-    }
-
-    public override void Run()
-    {
-        Animate();
-    }
-}
-#endif

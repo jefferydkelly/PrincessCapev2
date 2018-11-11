@@ -9,22 +9,41 @@ public class CutsceneCreation : CutsceneElement
 {
     GameObject prefab;
     Vector3 position;
-    string objectName;
     bool destroy = false;
-    public CutsceneCreation(string name, string dx, string dy, string dz)
+    bool useObject = false;
+    string prefabName;
+
+    public override string SaveData
     {
-        prefab = Resources.Load<GameObject>("Prefabs/" + name);
-        position = new Vector3(float.Parse(dx), float.Parse(dy), float.Parse(dz));
-        autoAdvance = true;
-        canSkip = false;
+        get
+        {
+            if (destroy) {
+                return PCLParser.CreateAttribute("Object Name", useObject? prefab.name : prefabName);
+            } else {
+                string data = "";
+                data += PCLParser.CreateAttribute("Prefab", AssetDatabase.GetAssetPath(prefab));
+                data += PCLParser.CreateAttribute<Vector3>("Position", position);
+                return data;
+            }
+        }
     }
 
-    public CutsceneCreation(string name)
-    {
-        objectName = name;
-        destroy = true;
+    public override string ToText {
+        get {
+            if (destroy) {
+                return string.Format("destroy {0}", prefab.name);
+            } else {
+                return string.Format("create {0} {1} {2} {3}", prefab.name, position.x, position.y, position.z);
+            }
+        }
+    }
+
+    public CutsceneCreation(bool dest) {
+        destroy = dest;
         autoAdvance = true;
         canSkip = false;
+
+        type = dest ? CutsceneElements.Destroy : CutsceneElements.Creation;
     }
 
     public override Timer Run()
@@ -37,122 +56,60 @@ public class CutsceneCreation : CutsceneElement
         }
         else
         {
-            GameObject go = GameObject.Find(objectName);
-            if (go)
+            if (!prefab) {
+                prefab = GameObject.Find(prefabName);
+            }
+            if (prefab)
             {
-                Object.Destroy(go);
+                Object.Destroy(prefab);
             }
         }
 
         return null;
     }
-}
-
-#if UNITY_EDITOR
-public class CreationEditor : CutsceneElementEditor
-{
-    GameObject prefab;
-    Vector3 position;
-
-    public CreationEditor()
-    {
-        editorType = "Create Object";
-        type = CutsceneElements.Creation;
-    }
-    public override void GenerateFromData(string[] data)
-    {
-        prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PCLParser.ParseLine(data[0]));
-        position = PCLParser.ParseVector3(data[1]);
-    }
-
-    public override string GenerateSaveData()
-    {
-        string data = "";
-        data += PCLParser.CreateAttribute("Prefab", AssetDatabase.GetAssetPath(prefab));
-        data += PCLParser.CreateAttribute<Vector3>("Position", position);
-        return data;
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
-        prefab = EditorGUILayout.ObjectField("Prefab", prefab, typeof(GameObject), true) as GameObject;
-        position = EditorGUILayout.Vector3Field("Position", position);
-    }
-
-    public override string HumanReadable
-    {
-        get
-        {
-            return string.Format("create {0} {1} {2} {3}", prefab.name, position.x, position.y, position.z);
-        }
-    }
-
-    public override void GenerateFromText(string[] data)
-    {
-        prefab = Resources.Load<GameObject>("Prefabs/" + data[1]);
-        position = new Vector3(float.Parse(data[2]), float.Parse(data[3]), float.Parse(data[4]));
-    }
 
     public override void Skip()
     {
-        GameObject.Instantiate(prefab).transform.position = position;
+        Run();
     }
-
-    public override void Run()
+#if UNITY_EDITOR
+    public override void RenderEditor()
     {
-        GameObject.Instantiate(prefab).transform.position = position;
-    }
-}
-
-public class DestructionEditor : CutsceneElementEditor
-{
-    GameObject toBeDestroyed;
-    public DestructionEditor()
-    {
-        editorType = "Destroy an object";
-        type = CutsceneElements.Destroy;
-    }
-    public override void GenerateFromData(string[] data)
-    {
-        toBeDestroyed = GameObject.Find(PCLParser.ParseLine(data[0]));
-    }
-
-    public override string GenerateSaveData()
-    {
-        return PCLParser.CreateAttribute("Object Name", toBeDestroyed.name);
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
-        toBeDestroyed = EditorGUILayout.ObjectField("Object", toBeDestroyed, typeof(GameObject), true) as GameObject;
-    }
-
-    public override string HumanReadable
-    {
-        get
+        destroy = EditorGUILayout.Toggle("Destroy Object", destroy);
+        useObject = EditorGUILayout.Toggle("Use Object?", useObject);
+        if (useObject)
         {
-            return string.Format("destroy {0}", toBeDestroyed.name);
+            prefab = EditorGUILayout.ObjectField("Prefab", prefab, typeof(GameObject), true) as GameObject;
+        } else {
+            prefabName = EditorGUILayout.TextField("Prefab Name", prefabName);
+        }
+        position = EditorGUILayout.Vector3Field("Position", position);
+    }
+#endif
+
+    public override void CreateFromJSON(string[] data)
+    {
+        if (destroy)
+        {
+            prefab = GameObject.Find(PCLParser.ParseLine(data[1]));
+        } else {
+            prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PCLParser.ParseLine(data[1]));
+            position = PCLParser.ParseVector3(data[2]); 
         }
     }
 
-    public override void GenerateFromText(string[] data)
+    public override void CreateFromText(string[] data)
     {
-        toBeDestroyed = GameObject.Find(data[1]);
-    }
-
-    public override void Skip() {
-        toBeDestroyed.SetActive(false);
-    }
-
-    public override void Run()
-    {
-        toBeDestroyed.SetActive(false);
+        if (destroy)
+        {
+            prefabName = data[1];
+            prefab = GameObject.Find(prefabName);
+            useObject = prefab != null;
+        }
+        else
+        {
+            prefab = Resources.Load<GameObject>("Prefabs/" + data[1]);
+            position = new Vector3(float.Parse(data[2]), float.Parse(data[3]), float.Parse(data[4]));
+        }
     }
 }
-#endif

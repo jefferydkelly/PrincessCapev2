@@ -7,142 +7,107 @@ using UnityEditor;
 
 public class CutsceneShow : CutsceneElement
 {
-
+    
     string target;
-    Vector3 position = Vector3.negativeInfinity;
+    CutsceneActor actor;
+    bool useGameObject = false;
+    Vector2 position = Vector2.negativeInfinity;
     bool show;
 
-    public CutsceneShow(string name, bool isShown)
-    {
-        target = name;
+    public CutsceneShow(bool isShown) {
         show = isShown;
-
+        type = show ? CutsceneElements.Show : CutsceneElements.Hide;
     }
-
-    public CutsceneShow(string name, bool isShown, Vector3 pos) : this(name, isShown)
+    public override string SaveData
     {
-        position = pos;
+        get
+        {
+            string data = PCLParser.CreateAttribute("Target", target);
+            if (show) {
+                data += PCLParser.CreateAttribute("Position", position);
+            }
+            return data;
+        }
     }
+
+    public override string ToText {
+        get
+        {
+            if (show)
+            {
+                return string.Format("hide {0}", target);
+            } else {
+                return string.Format("show {0} {1} {2}", target, position.x, position.y);
+            }       
+        }
+        
+    }
+
+    public override void CreateFromText(string[] data)
+    {
+        target = data[1];
+        GameObject gameObject = FindActor(target);
+        useGameObject = actor != null;
+        if (useGameObject) {
+            actor = gameObject.GetComponent<CutsceneActor>();
+        }
+       
+
+        if (data.Length > 2)
+        {
+            position = new Vector2(float.Parse(data[2]), float.Parse(data[3]));
+        }
+    }
+
+    public override void CreateFromJSON(string[] data)
+    {
+        target = PCLParser.ParseLine(data[0]);
+        actor = FindActor(target).GetComponent<CutsceneActor>();
+        useGameObject = actor != null;
+        if (show) {
+            position = PCLParser.ParseVector2(data[1]);
+        }
+    }
+#if UNITY_EDITOR
+    public override void RenderEditor()
+    {
+        useGameObject = EditorGUILayout.Toggle("Use Game Object?", useGameObject);
+        if (useGameObject)
+        {
+            actor = EditorGUILayout.ObjectField("Game Object", actor, typeof(CutsceneActor), true) as CutsceneActor;
+        }
+        else
+        {
+            target = EditorGUILayout.TextField("Name", target);
+        }
+        show = EditorGUILayout.Toggle("Show Object?", show);
+        if (show)
+        {
+            position = EditorGUILayout.Vector2Field("Position", position);
+        }
+    }
+#endif
 
     public override Timer Run()
     {
-        CutsceneActor myActor = Cutscene.Instance.FindActor(target);
-        if (myActor)
+        if (actor == null)
         {
-            myActor.IsHidden = !show;
+            actor = Cutscene.Instance.FindActor(target);
+        }
+        if (actor)
+        {
+            actor.IsHidden = !show;
             if (show && position.x > float.NegativeInfinity)
             {
-                myActor.Position = position;
+                actor.Position = position;
             }
         }
 
         return null;
     }
-}
-
-#if UNITY_EDITOR
-public class HideEditor : CutsceneElementEditor
-{
-    string hideName;
-
-    public HideEditor()
-    {
-        editorType = "Hide Object";
-        type = CutsceneElements.Hide;
-    }
-    public override void GenerateFromData(string[] data)
-    {
-        hideName = PCLParser.ParseLine(data[0]);
-    }
-
-    public override void GenerateFromText(string[] data)
-    {
-        hideName = data[1];
-    }
-
-    public override string GenerateSaveData()
-    {
-        return PCLParser.CreateAttribute("To Be Hidden", hideName);
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
-        hideName = EditorGUILayout.TextField("To Be Hidden", hideName);
-    }
-
-    public override string HumanReadable
-    {
-        get
-        {
-            return string.Format("hide {0}", hideName);
-        }
-    }
 
     public override void Skip()
     {
-        CutsceneActor actor = FindActor(hideName).GetComponent<CutsceneActor>();
-        actor.IsHidden = true;
+        Run();
     }
 }
-
-
-public class ShowEditor : CutsceneElementEditor
-{
-    string name;
-    Vector2 pos;
-
-    public ShowEditor()
-    {
-        editorType = "Show Object";
-        type = CutsceneElements.Show;
-    }
-
-    public override void GenerateFromText(string[] data)
-    {
-        name = data[1];
-        if (data.Length > 2) {
-            pos = new Vector2(float.Parse(data[2]), float.Parse(data[3]));
-        }
-    }
-    public override void GenerateFromData(string[] data)
-    {
-        name = PCLParser.ParseLine(data[0]);
-        pos = PCLParser.ParseVector2(data[1]);
-    }
-
-    public override string GenerateSaveData()
-    {
-        string data = "";
-        data += PCLParser.CreateAttribute("Name", name);
-        data += PCLParser.CreateAttribute("Location", pos);
-        return data;
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
-        name = EditorGUILayout.TextField("Name", name);
-        pos = EditorGUILayout.Vector2Field("Location", pos);
-    }
-
-    public override string HumanReadable
-    {
-        get
-        {
-            return string.Format("show {0} {1} {2}", name, pos.x, pos.y);
-        }
-    }
-
-    public override void Skip()
-    {
-        CutsceneActor actor = FindActor(name).GetComponent<CutsceneActor>();
-        actor.IsHidden = false;
-        actor.transform.position = pos;
-    }
-}
-#endif

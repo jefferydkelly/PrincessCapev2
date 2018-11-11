@@ -30,6 +30,13 @@ public class CutsceneParser
             do
             {
                 string line = lines[i].Trim();
+                if (line.StartsWith("character", System.StringComparison.Ordinal)) {
+                    string[] parts = line.Split(' ');
+                    for (int j = 1; j < parts.Length; j++) {
+                        Cutscene.Instance.CreateCharacter(parts[j]);
+                    }
+                    continue;
+                }
                 seq = line.Substring(line.Length - 3) == "and";
 
                 if (seq)
@@ -37,7 +44,7 @@ public class CutsceneParser
                     line = line.Substring(0, line.Length - 4);
                 }
 
-                CutsceneElement e = ParseFromText(line);
+                CutsceneElement e = ParseElement(line);
 
 
                 if (e != null)
@@ -61,261 +68,52 @@ public class CutsceneParser
 
         return steps;
     }
-    public static CutsceneElement ParseFromText(string line)
-    {
-        string[] parts = line.Split(' ');
-        string p = parts[0].ToLower();
 
-        if (p == "show")
-        {
-            if (parts.Length == 2)
-            {
-                return new CutsceneShow(parts[1], true);
-            }
-            else
-            {
-                return new CutsceneShow(parts[1], true, new Vector3(float.Parse(parts[2]), float.Parse(parts[3])));
-            }
-        }
-        else if (p == "hide")
-        {
-            return new CutsceneShow(parts[1], false);
-        }
-        else if (p == "fade-in")
-        {
-            return new CutsceneFade(parts[1], 1.0f, float.Parse(parts[2]));
-        }
-        else if (p == "fade-out")
-        {
-            return new CutsceneFade(parts[1], 0.0f, float.Parse(parts[2]));
-        }
-        else if (p == "fade")
-        {
-            return new CutsceneFade(parts[1], float.Parse(parts[2]), float.Parse(parts[3]));
-        }
-        else if (p == "alpha")
-        {
-            return new CutsceneFade(parts[1], float.Parse(parts[2]), 0);
-        }
-        else if (p == "flip-x")
-        {
-            return new CutsceneFlip(parts[1], true);
-        }
-        else if (p == "flip-y")
-        {
-            return new CutsceneFlip(parts[1], false);
-        }
-        else if (p == "scale")
-        {
-            return new CutsceneScale(ScaleType.All, parts[1], float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
-        }
-        else if (p == "scalex")
-        {
-            return new CutsceneScale(ScaleType.X, parts[1], float.Parse(parts[2]), float.Parse(parts[3]));
-        }
-        else if (p == "scaley")
-        {
-            return new CutsceneScale(ScaleType.Y, parts[1], float.Parse(parts[2]), float.Parse(parts[3]));
-        }
-        else if (p == "scalexy")
-        {
-            return new CutsceneScale(parts[1], float.Parse(parts[2]), float.Parse(parts[3]), float.Parse(parts[4]));
-        }
-        else if (p == "rotate")
-        {
-            return new CutsceneRotation(parts[1], float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
-        }
-        else if (p == "move")
-        {
-            return new CutsceneMovement(parts[1], float.Parse(parts[2]), float.Parse(parts[3]), parts.Length == 5 ? float.Parse(parts[4]) : 0);
-        }
-        else if (p == "move-x")
-        {
-            return new CutsceneMovement(parts[1], float.Parse(parts[2]), float.PositiveInfinity, parts.Length == 4 ? float.Parse(parts[3]) : 0);
-        }
-        else if (p == "move-y")
-        {
-            return new CutsceneMovement(parts[1], float.PositiveInfinity, float.Parse(parts[2]), parts.Length == 4 ? float.Parse(parts[3]) : 0);
-        }
-        else if (p == "pan")
-        {
-            if (parts[1] == "to")
-            {
-                if (parts.Length == 4)
-                {
-                    float panTime = float.Parse(parts[3]);
-
-                    return new CutscenePan(parts[2], panTime);
-                }
-                else
-                {
-                    float panTime = float.Parse(parts[4]);
-
-                    return new CutscenePan(new Vector3(float.Parse(parts[2]), float.Parse(parts[3]), Camera.main.transform.position.z), panTime);
-                }
-            }
-            else
-            {
-                Vector2 dif = new Vector2(float.Parse(parts[1]), float.Parse(parts[2]));
-                float time = float.Parse(parts[3]);
-                return new CutscenePan(dif,time);
-            }
-        }
-        else if (p == "wait")
-        {
-            return new CutsceneWait(float.Parse(parts[1]));
-        }
-        else if (p == "create")
-        {
-            return new CutsceneCreation(parts[1], parts[2], parts[3], parts.Length == 5 ? parts[4] : "0");
-        }
-        else if (p == "destroy")
-        {
-            return new CutsceneCreation(parts[1].Trim());
-        }
-        else if (p == "add")
-        {
-            return new CutsceneAdd(parts[1].Trim());
-        }
-        else if (p == "disable")
-        {
-
-            string objectName = parts[1].Trim();
-
-            GameObject go = Cutscene.Instance.FindGameObject(objectName);
-
-            if (go)
-            {
-                return new CutsceneEnable(go, false);
-            }
-            else
-            {
-                return new CutsceneEnable(objectName, false);
-            }
-        }
-        else if (p == "enable")
-        {
-            string objectName = parts[1].Trim();
-
-            GameObject go = Cutscene.Instance.FindGameObject(objectName);
-
-            if (go)
-            {
-                return new CutsceneEnable(go, true);
-            }
-            else
-            {
-                return new CutsceneEnable(objectName, true);
-            }
-        }
-        else if (p == "activate")
-        {
-            GameObject go = GameObject.Find(parts[1].Trim());
-            if (go != null)
-            {
-                ActivatedObject ao = go.GetComponent<ActivatedObject>();
-                if (ao != null)
-                {
-                    return new CutsceneActivate(ao, parts[2].Trim() == "true");
-                }
-            }
-
-            return new CutsceneActivate(parts[1].Trim(), parts[2].Trim() == "true");
-        }
-        else if (p == "align")
-        {
-            return new CutsceneAlign(parts[1].Trim() == "left");
-        }
-        else if (p == "play")
-        {
-            return new CutscenePlay(parts[1].Trim());
-        }
-        else if (p == "follow")
-        {
-            return new CameraFollow(parts[1].Trim());
-        }
-        else if (p == "goto")
-        {
-            return new SceneChange(parts[1].Trim());
-        }
-        else if (p == "animate")
-        {
-            return new CutsceneAnimation(parts[1].Trim(), parts[2].Trim());
-        }
-        else if (p == "character")
-        {
-            for (int i = 1; i < parts.Length; i++)
-            {
-                Cutscene.Instance.CreateCharacter(parts[i].Trim());
-            }
-
-        }
-        else
-        {
-            parts = line.Split(':');
-
-            if (parts.Length == 2)
-            {
-                return new CutsceneDialog(parts[0], parts[1].Trim());
-            }
-            else
-            {
-                return new CutsceneDialog(parts[0].Trim());
-            }
-        }
-
-        return null;
-
-    }
-
-   
-
-#if UNITY_EDITOR
     /// <summary>
     /// Parses the element tpye and creates the corresponding cutscene element.
     /// </summary>
     /// <returns>A new Cutscene Element Editor of the given type.</returns>
     /// <param name="ce">The type of CutsceneElement.</param>
-    public static CutsceneElementEditor ParseElement(CutsceneElements ce)
+    public static CutsceneElement ParseElement(CutsceneElements ce)
     {
         switch (ce)
         {
             case CutsceneElements.Activate:
-                return new ActivateEditor();
+                return new CutsceneActivate();
             case CutsceneElements.Add:
-                return new AddEditor();
+                return new CutsceneAdd();
             case CutsceneElements.Align:
-                return new AlignmentEditor();
+                return new CutsceneAlign();
             case CutsceneElements.Animation:
-                return new AnimationEditor();
+                return new CutsceneAnimation();
             case CutsceneElements.Creation:
-                return new CreationEditor();
+                return new CutsceneCreation(false);
             case CutsceneElements.Destroy:
-                return new DestructionEditor();
+                return new CutsceneCreation(true);
             case CutsceneElements.Dialog:
-                return new DialogEditor();
+                return new CutsceneDialog();
             case CutsceneElements.Fade:
-                return new FadeEditor();
+                return new CutsceneFade();
             case CutsceneElements.Flip:
-                return new FlipEditor();
+                return new CutsceneFlip();
             case CutsceneElements.Follow:
-                return new FollowEditor();
+                return new CutsceneFollow();
             case CutsceneElements.Hide:
-                return new HideEditor();
+                return new CutsceneShow(false);
             case CutsceneElements.Movement:
-                return new MovementEditor();
+                return new CutsceneMovement();
             case CutsceneElements.Pan:
-                return new PanEditor();
+                return new CutscenePan();
             case CutsceneElements.Play:
-                return new PlayEditor();
+                return new CutscenePlay();
             case CutsceneElements.Rotate:
-                return new RotationEditor();
+                return new CutsceneRotation();
             case CutsceneElements.Scale:
-                return new ScaleEditor();
+                return new CutsceneScale();
             case CutsceneElements.Show:
-                return new ScaleEditor();
+                return new CutsceneShow(true);
             case CutsceneElements.Wait:
-                return new WaitEditor();
+                return new CutsceneWait();
             default:
                 break;
 
@@ -329,92 +127,92 @@ public class CutsceneParser
     /// </summary>
     /// <returns>The element.</returns>
     /// <param name="line">Line.</param>
-    public static CutsceneElementEditor ParseElement(string line)
+    public static CutsceneElement ParseElement(string line)
     {
         string[] parts = line.Split(' ');
 
         string p = parts[0];
-        CutsceneElementEditor editor;
+        CutsceneElement editor;
 
         if (p == "show")
         {
-            editor = new ShowEditor();
+            editor = new CutsceneShow(true);
         }
         else if (p == "hide")
         {
-            editor = new HideEditor();
+            editor = new CutsceneShow(false);
         }
         else if (p.Contains("fade") || p == "alpha")
         {
-            editor = new FadeEditor();
+            editor = new CutsceneFade();
         }
         else if (p.Contains("flip"))
         {
-            editor = new FlipEditor();
+            editor = new CutsceneFlip();
         }
         else if (p.Contains("scale"))
         {
-            editor = new ScaleEditor();
+            editor = new CutsceneScale();
         }
         else if (p == "rotate")
         {
-            editor = new RotationEditor();
+            editor = new CutsceneRotation();
         }
         else if (p.Contains("move"))
         {
-            editor = new MovementEditor();
+            editor = new CutsceneMovement();
         }
         else if (p == "pan")
         {
-            editor = new PanEditor();
+            editor = new CutscenePan();
         }
         else if (p == "wait")
         {
-            editor = new WaitEditor();
+            editor = new CutsceneWait();
         }
         else if (p == "create")
         {
-            editor = new CreationEditor();
+            editor = new CutsceneCreation(false);
         }
         else if (p == "destroy")
         {
-            editor = new DestructionEditor();
+            editor = new CutsceneCreation(true);
         }
         else if (p == "add")
         {
-            editor = new AddEditor();
+            editor = new CutsceneAdd();
         }
         else if (p.Contains("able"))
         {
-            editor = new EnableEditor();
+            editor = new CutsceneEnable();
         }
         else if (p == "activate")
         {
-            editor = new ActivateEditor();
+            editor = new CutsceneActivate();
         }
         else if (p == "align")
         {
-            editor = new AlignmentEditor();
+            editor = new CutsceneAlign();
         }
         else if (p == "play")
         {
-            editor = new PlayEditor();
+            editor = new CutscenePlay();
         }
         else if (p == "follow")
         {
-            editor = new FollowEditor();
+            editor = new CutsceneFollow();
         }
         else if (p == "animate")
         {
-            editor = new AnimationEditor();
+            editor = new CutsceneAnimation();
         }
         else
         {
             parts = line.Split(':');
-            editor = new DialogEditor();
+            editor = new CutsceneDialog();
         }
 
-        editor.GenerateFromText(parts);
+        editor.CreateFromText(parts);
         return editor;
     }
 
@@ -427,6 +225,7 @@ public class CutsceneParser
     {
         List<CutsceneStepStruct> steps = new List<CutsceneStepStruct>();
         string[] lines = json.Split('\n');
+
         for (int i = 0; i < lines.Length; i++)
         {
             string line = lines[i];
@@ -522,5 +321,4 @@ public class CutsceneParser
         return element;
     }
 
-#endif
 }

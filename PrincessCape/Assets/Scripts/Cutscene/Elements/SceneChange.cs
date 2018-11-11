@@ -13,6 +13,35 @@ public class SceneChange : CutsceneElement
         autoAdvance = true;
     }
 
+    public override string SaveData
+    {
+        get
+        {
+            return "";
+        }
+    }
+
+    public override string ToText {
+        get {
+            return "";
+        }
+    }
+
+    public override void CreateFromJSON(string[] data)
+    {
+
+    }
+
+    public override void CreateFromText(string[] data)
+    {
+
+    }
+
+    public override void RenderEditor()
+    {
+   
+    }
+
     public override Timer Run()
     {
         Game.Instance.LoadScene(newScene);

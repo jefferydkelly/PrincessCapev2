@@ -13,28 +13,26 @@ public class CutsceneDialog : CutsceneElement
     string speaker = "Character";
     string dialog = "Hi, I'm a character";
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CutsceneDialog"/> class with a speaker and a line.
-    /// </summary>
-    /// <param name="spk">Spk.</param>
-    /// <param name="dia">Dia.</param>
-    public CutsceneDialog(string spk, string dia)
+    public override string SaveData
     {
-        speaker = spk;
-        dialog = dia.Replace("\\n", "\n").Trim();
-        canSkip = true;
-        autoAdvance = false;
+        get
+        {
+            string data = PCLParser.CreateAttribute<string>("Speaker", speaker);
+            data += PCLParser.CreateAttribute<string>("Line", dialog);
+            return data;
+        }
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CutsceneDialog"/> class for duration.
-    /// </summary>
-    /// <param name="dia">Dia.</param>
-    public CutsceneDialog(string dia)
-    {
-        speaker = null;
-        dialog = dia.Replace("\\n", "\n").Trim();
+    public override string ToText {
+        get {
+            return string.Format("{0}: {1}", speaker, dialog);
+        }
+    }
+
+    public CutsceneDialog() {
         autoAdvance = false;
+        canSkip = true;
+        type = CutsceneElements.Dialog;
     }
 
     /// <summary>
@@ -44,65 +42,31 @@ public class CutsceneDialog : CutsceneElement
     {
         return UIManager.Instance.ShowMessage(dialog, speaker);
     }
-}
 
 #if UNITY_EDITOR
-public class DialogEditor : CutsceneElementEditor
-{
-    string speaker = "";
-    string line = "";
-
-    public DialogEditor()
-    {
-        editorType = "Dialog";
-        type = CutsceneElements.Dialog;
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
+    public override void RenderEditor()
     {
         speaker = EditorGUILayout.TextField("Speaker", speaker);
-        line = EditorGUILayout.TextField("Line", line);
+        dialog = EditorGUILayout.TextField("Line", dialog);
     }
-
-    public override string GenerateSaveData()
-    {
-        string data = PCLParser.CreateAttribute<string>("Speaker", speaker);
-        data += PCLParser.CreateAttribute<string>("Line", line);
-        return data;
-    }
-
-    public override void GenerateFromData(string[] data)
+    #endif
+    public override void CreateFromJSON(string[] data)
     {
         speaker = PCLParser.ParseLine(data[0]);
-        line = PCLParser.ParseLine(data[1]);
+        dialog = PCLParser.ParseLine(data[1]);
     }
 
-    public override string HumanReadable
-    {
-        get
-        {
-            return string.Format("{0}: {1}", speaker, line);
-        }
-    }
 
-    public override void GenerateFromText(string[] data)
+    public override void CreateFromText(string[] data)
     {
         if (data.Length == 2)
         {
             speaker = data[0].Trim();
-            line = data[1].Trim();
-        } else {
-            line = data[0].Trim();
+            dialog = data[1].Trim();
+        }
+        else
+        {
+            dialog = data[0].Trim();
         }
     }
-
-    public override void Run()
-    {
-        UIManager.Instance.ShowMessage(line, speaker);
-        //UIManager.Instance.ShowMessageInEditor(line, speaker);
-    }
 }
-#endif

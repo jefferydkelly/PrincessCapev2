@@ -5,69 +5,57 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-public class CameraFollow : CutsceneElement
+public class CutsceneFollow : CutsceneElement
 {
-    public string targetName;
+    public string followedName;
 
-    public CameraFollow(string name)
-    {
-        targetName = name;
+    public CutsceneFollow() {
         canSkip = true;
         autoAdvance = true;
-    }
-
-    public override Timer Run()
-    {
-        CameraManager.Instance.Target = GameObject.Find(targetName);
-        CameraManager.Instance.IsFollowing = true;
-        return null;
-    }
-}
-
-#if UNITY_EDITOR
-public class FollowEditor : CutsceneElementEditor
-{
-    string followedName;
-    public FollowEditor()
-    {
-        editorType = "Follow Character";
         type = CutsceneElements.Follow;
     }
-    public override void GenerateFromData(string[] data)
+
+    public override string SaveData
     {
-        followedName = PCLParser.ParseLine(data[0]);
+        get
+        {
+            return PCLParser.CreateAttribute("Follow", followedName);
+        }
     }
 
-    public override string GenerateSaveData()
-    {
-        return PCLParser.CreateAttribute("Follow", followedName);
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
-        followedName = EditorGUILayout.TextField("Follow", followedName);
-    }
-
-    public override string HumanReadable
-    {
+    public override string ToText {
         get
         {
             return string.Format("follow {0}", followedName);
         }
     }
 
-    public override void GenerateFromText(string[] data)
+    public override void CreateFromText(string[] data)
     {
         followedName = data[1];
     }
 
-    public override void Skip()
+    public override void CreateFromJSON(string[] data)
+    {
+        followedName = PCLParser.ParseLine(data[0]);
+    }
+
+#if UNITY_EDITOR
+    public override void RenderEditor()
+    {
+        followedName = EditorGUILayout.TextField("Follow", followedName);
+    }
+#endif
+
+    public override Timer Run()
     {
         CameraManager.Instance.Target = GameObject.Find(followedName);
         CameraManager.Instance.IsFollowing = true;
+        return null;
+    }
+
+    public override void Skip()
+    {
+        Run();
     }
 }
-#endif

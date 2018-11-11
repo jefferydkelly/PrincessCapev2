@@ -10,47 +10,38 @@ using UnityEditor;
 /// </summary>
 public class CutsceneWait : CutsceneElement
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CutsceneWait"/> class.
-    /// </summary>
-    /// <param name="dt">The duration of the wait.</param>
-    public CutsceneWait(float dt)
-    {
-        canSkip = true;
-        runTimer = new Timer(dt);
-        autoAdvance = true;
-
-    }
-    public override Timer Run()
-    {
-        return runTimer;
-    }
-}
-
-#if UNITY_EDITOR
-public class WaitEditor : CutsceneElementEditor
-{
     float time;
-    public WaitEditor()
-    {
-        editorType = "Wait For";
+ 
+    public CutsceneWait() {
+        autoAdvance = true;
         type = CutsceneElements.Wait;
     }
 
-    public override void GenerateFromData(string[] data)
+    public override string SaveData
+    {
+        get
+        {
+            return PCLParser.CreateAttribute("Time", time);
+        }
+    }
+
+    public override string ToText {
+        get {
+            return string.Format("wait {0}", time);
+        }
+    }
+
+    public override void CreateFromText(string[] data)
+    {
+        time = float.Parse(data[1]);
+    }
+
+    public override void CreateFromJSON(string[] data)
     {
         time = PCLParser.ParseFloat(data[0]);
     }
-
-    public override string GenerateSaveData()
-    {
-        return PCLParser.CreateAttribute("Time", time);
-    }
-
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
+#if UNITY_EDITOR
+    public override void RenderEditor()
     {
         float t = EditorGUILayout.FloatField("Time", time);
         if (t > 0)
@@ -58,18 +49,10 @@ public class WaitEditor : CutsceneElementEditor
             time = t;
         }
     }
+#endif
 
-    public override string HumanReadable
+    public override Timer Run()
     {
-        get
-        {
-            return string.Format("wait {0}", time);
-        }
-    }
-
-    public override void GenerateFromText(string[] data)
-    {
-        time = float.Parse(data[1]);
+        return runTimer;
     }
 }
-#endif

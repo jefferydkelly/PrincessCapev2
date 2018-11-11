@@ -5,140 +5,92 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+[System.Serializable]
 public class CutsceneActivate : CutsceneElement
 {
+    [SerializeField]
     bool activate;
-    ActivatedObject ao;
+    [SerializeField]
+    ActivatedObject activatedObject;
     string objectName;
 
-    public CutsceneActivate(ActivatedObject aObj, bool activated)
-    {
-        ao = aObj;
-        activate = activated;
+    public CutsceneActivate() {
         autoAdvance = true;
         canSkip = false;
-    }
-
-    public CutsceneActivate(string objName, bool activated)
-    {
-        objectName = objName;
-        activate = activated;
-        autoAdvance = true;
-        canSkip = false;
+        type = CutsceneElements.Activate;
     }
 
     public override Timer Run()
     {
 
-        if (ao == null)
+        if (activatedObject == null)
         {
             GameObject gameObject = Cutscene.Instance.FindGameObject(objectName);
-            ao = gameObject.GetComponent<ActivatedObject>();
+            activatedObject = gameObject.GetComponent<ActivatedObject>();
         }
         if (activate)
         {
-            ao.Activate();
+            activatedObject.Activate();
         }
         else
         {
-            ao.Deactivate();
+            activatedObject.Deactivate();
         }
 
         return null;
     }
-}
+
+    public override void Skip()
+    {
+        Run();
+    }
 
 #if UNITY_EDITOR
-public class ActivateEditor : CutsceneElementEditor
-{
-    ActivatedObject activated;
-    bool isActivated = false;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="T:ActivateEditor"/> class.
-    /// </summary>
-    public ActivateEditor()
-    {
-        editorType = "Activation";
-        type = CutsceneElements.Activate;
+    public override void RenderEditor() {
+        activatedObject = EditorGUILayout.ObjectField("Activated Object", activatedObject, typeof(ActivatedObject), true) as ActivatedObject;
+        activate = EditorGUILayout.Toggle("Is Activated", activate);
     }
-    /// <summary>
-    /// Draws the GUI for the properties of this object and handles any changes
-    /// </summary>
-    protected override void DrawGUI()
-    {
+#endif 
 
-        activated = EditorGUILayout.ObjectField("Activated Object", activated, typeof(ActivatedObject), true) as ActivatedObject;
-        isActivated = EditorGUILayout.Toggle("Is Activated", isActivated);
-    }
-
-    /// <summary>
-    /// Populates the properties of the class from the given data
-    /// </summary>
-    /// <param name="data">Data.</param>
-    public override void GenerateFromData(string[] data)
-    {
-        activated = GameObject.Find(PCLParser.ParseLine(data[0])).GetComponent<ActivatedObject>();
-        isActivated = PCLParser.ParseBool(data[1]);
-    }
-
-    /// <summary>
-    /// Generates the save data.
-    /// </summary>
-    /// <returns>The save data.</returns>
-    /// <param name="json">If set to <c>true</c> json.  Human readable otherwise</param>
-    public override string GenerateSaveData()
-    {
-        string data = "";
-        data += PCLParser.CreateAttribute<string>("Object", activated.InstanceName);
-        data += PCLParser.CreateAttribute<bool>("Is Activated", isActivated);
-        return data;
-    }
-
-    public override string HumanReadable
-    {
-        get
-        {
-            return string.Format("activate {0} {1}", activated.InstanceName, isActivated);
-        }
-    }
-
-    public override void GenerateFromText(string[] data)
+    public override void CreateFromText(string[] data)
     {
         GameObject gameObject = GameObject.Find(data[1]);
-        if (!gameObject) {
+        if (!gameObject)
+        {
             gameObject = FindTile(data[1]);
         }
 
         if (gameObject)
         {
-            activated = gameObject.GetComponent<ActivatedObject>();
-        } 
-        isActivated = bool.Parse(data[2]);
+            activatedObject = gameObject.GetComponent<ActivatedObject>();
+        }
+        activate = bool.Parse(data[2]);
+
+       
     }
 
-    public override void Skip()
+    public override void CreateFromJSON(string[] data)
     {
-        Activate();
+        activatedObject = GameObject.Find(PCLParser.ParseLine(data[0])).GetComponent<ActivatedObject>();
+        activate = PCLParser.ParseBool(data[1]);
     }
 
-    void Activate() {
-        if (activated)
+    public override string ToText
+    {
+        get
         {
-            if (isActivated)
-            {
-                activated.Activate();
-            }
-            else
-            {
-                activated.Deactivate();
-            }
+            return string.Format("activate {0} {1}", activatedObject.InstanceName, activate);
         }
     }
 
-    public override void Run()
+    public override string SaveData
     {
-        Activate();
+        get
+        {
+            string data = "";
+            data += PCLParser.CreateAttribute("Activated Object", activatedObject.InstanceName);
+            data += PCLParser.CreateAttribute("Is Activated", activate);
+            return data;
+        }
     }
 }
-#endif

@@ -131,7 +131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6262277
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5148,7 +5148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9685,7 +9685,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1785769904}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a47ee0e845eef4b4a83aa40122ab4e8d, type: 3}
   m_Name: 
@@ -9700,6 +9700,7 @@ MonoBehaviour:
   healthBar: {fileID: 727904906}
   inventory: {fileID: 1474645511}
   loadingScreen: {fileID: 906522743}
+  pauseMenu: {fileID: 274742287}
 --- !u!1 &1797375786
 GameObject:
   m_ObjectHideFlags: 0

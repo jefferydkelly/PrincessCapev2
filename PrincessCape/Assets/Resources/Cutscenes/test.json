@@ -1,0 +1,666 @@
+{
+"Cutscene Name": "Opening Cutscene",
+"Cutscene Level": "Classic Level One",
+"Characters In Scene": "Slog Elwynn Matthew ",
+"Steps": [
+{
+"Step Number": "1",
+"Elements": [
+{
+"Element Type": "Enable",
+"Use Game Object?": "False",
+"Object Name": "Player",
+"Enable Object": "False",
+"Move Object?": "False",
+},
+{
+"Element Type": "Enable",
+"Use Game Object?": "True",
+"Object Name": "Remains",
+"Enable Object": "False",
+"Move Object?": "False",
+},
+{
+"Element Type": "Align",
+"Is Left?": "False",
+},
+{
+"Element Type": "Show",
+"Target": "Elwynn",
+"Position": "(-5.0, 0.5)",
+},
+],
+},
+{
+"Step Number": "2",
+"Elements": [
+{
+"Element Type": "Pan",
+"Pan Type": "ToPosition",
+"To": "(-5.0, 2.0)",
+"Over": "1",
+},
+],
+},
+{
+"Step Number": "3",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "Elwynn",
+"Move To": "(-2.0, 0.0, 0.0)",
+"Over": "1.5",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Elwynn",
+"Line": "Kidnapped by another dragon?",
+},
+],
+},
+{
+"Step Number": "4",
+"Elements": [
+{
+"Element Type": "Dialog",
+"Speaker": "Elwynn",
+"Line": "How many times does that make it this year?",
+},
+],
+},
+{
+"Step Number": "5",
+"Elements": [
+{
+"Element Type": "Flip",
+"Character": "Elwynn",
+"Horizontal": "True",
+},
+],
+},
+{
+"Step Number": "6",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "Elwynn",
+"Move To": "(-8.0, 0.0, 0.0)",
+"Over": "3.5",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Elwynn",
+"Line": "No matter.  I'm sure Father will send some brave knights to rescue me.",
+},
+],
+},
+{
+"Step Number": "7",
+"Elements": [
+{
+"Element Type": "Show",
+"Target": "Matthew",
+"Position": "(-27.0, 1.5)",
+},
+{
+"Element Type": "Pan",
+"Pan Type": "ByAmount",
+"Distance": "(-12.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "SirMatthew",
+"Move To": "(-21.3, 0.5, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Align",
+"Is Left?": "True",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "????",
+"Line": "Princess Elwynn?",
+},
+],
+},
+{
+"Step Number": "8",
+"Elements": [
+{
+"Element Type": "Animation",
+"Character": "SirMatthew",
+"Trigger": "Mask",
+},
+],
+},
+{
+"Step Number": "9",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "SirMatthew",
+"Move To": "(-15.0, 0.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "Elwynn",
+"Move To": "(-7.0, 0.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Animation",
+"Character": "Elwynn",
+"Trigger": "Excited",
+},
+{
+"Element Type": "Pan",
+"Pan Type": "ByAmount",
+"Distance": "(8.5, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Elwynn",
+"Line": "Sir Matthew?",
+},
+],
+},
+{
+"Step Number": "10",
+"Elements": [
+{
+"Element Type": "Dialog",
+"Speaker": "Sir Matthew",
+"Line": "I'm here to save you from that dragon.",
+},
+],
+},
+{
+"Step Number": "11",
+"Elements": [
+{
+"Element Type": "Show",
+"Target": "Slog",
+"Position": "(3.0, 5.5)",
+},
+],
+},
+{
+"Step Number": "12",
+"Elements": [
+{
+"Element Type": "Activate",
+"Activated Object": "DragonGate",
+"Is Activated": "True",
+},
+{
+"Element Type": "Play",
+"Sound Effect": "roar",
+},
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "DragonHead",
+"Move To": "(-2.0, 0.0, 0.0)",
+"Over": "2.5",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Slog",
+"Line": "Raaaaaaaaaaaaaaaw!",
+},
+],
+},
+{
+"Step Number": "13",
+"Elements": [
+{
+"Element Type": "Flip",
+"Character": "Elwynn",
+"Horizontal": "True",
+},
+],
+},
+{
+"Step Number": "14",
+"Elements": [
+{
+"Element Type": "Animation",
+"Character": "Elwynn",
+"Trigger": "Scared",
+},
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "Elwynn",
+"Move To": "(-5.0, 0.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Elwynn",
+"Line": "Aaaah!",
+},
+],
+},
+{
+"Step Number": "15",
+"Elements": [
+{
+"Element Type": "Dialog",
+"Speaker": "Sir Matthew",
+"Line": "Fear not, Princess!  I will protect you from this monstrosity.",
+},
+],
+},
+{
+"Step Number": "16",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "SirMatthew",
+"Move To": "(-13.0, 0.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Sir Matthew",
+"Line": "Have at me, foul beast!",
+},
+],
+},
+{
+"Step Number": "17",
+"Elements": [
+{
+"Element Type": "Wait",
+"Time": "1",
+},
+],
+},
+{
+"Step Number": "18",
+"Elements": [
+{
+"Element Type": "Creation",
+"Prefab": "Assets/Resources/Prefabs/DragonFire.prefab",
+"Position": "(-3.0, 5.0, 0.0)",
+},
+{
+"Element Type": "Play",
+"Sound Effect": "dragonfire",
+},
+],
+},
+{
+"Step Number": "19",
+"Elements": [
+{
+"Element Type": "Animation",
+"Character": "SirMatthew",
+"Trigger": "Fire",
+},
+],
+},
+{
+"Step Number": "20",
+"Elements": [
+{
+"Element Type": "Wait",
+"Time": "1",
+},
+],
+},
+{
+"Step Number": "21",
+"Elements": [
+{
+"Element Type": "Destroy",
+"Object Name": "DragonFire",
+},
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "DragonHead",
+"Move To": "(5.0, 0.0, 0.0)",
+"Over": "2.5",
+},
+{
+"Element Type": "Activate",
+"Activated Object": "DragonGate",
+"Is Activated": "False",
+},
+],
+},
+{
+"Step Number": "22",
+"Elements": [
+{
+"Element Type": "Hide",
+"Target": "Slog",
+},
+],
+},
+{
+"Step Number": "23",
+"Elements": [
+{
+"Element Type": "Flip",
+"Character": "Elwynn",
+"Horizontal": "True",
+},
+],
+},
+{
+"Step Number": "24",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "SirMatthew",
+"Move To": "(-7.0, 0.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Sir Matthew",
+"Line": "Help!  I'm on fire!",
+},
+],
+},
+{
+"Step Number": "25",
+"Elements": [
+{
+"Element Type": "Flip",
+"Character": "Matthew",
+"Horizontal": "True",
+},
+],
+},
+{
+"Step Number": "26",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "SirMatthew",
+"Move To": "(-11.0, 0.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Sir Matthew",
+"Line": "Hot!",
+},
+],
+},
+{
+"Step Number": "27",
+"Elements": [
+{
+"Element Type": "Flip",
+"Character": "Matthew",
+"Horizontal": "True",
+},
+],
+},
+{
+"Step Number": "28",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "SirMatthew",
+"Move To": "(-7.0, 0.0, 0.0)",
+"Over": "1",
+},
+],
+},
+{
+"Step Number": "29",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "SirMatthew",
+"Move To": "(-12.0, 0.0, 0.0)",
+"Over": "0.5",
+},
+],
+},
+{
+"Step Number": "30",
+"Elements": [
+{
+"Element Type": "Rotate",
+"Character": "Matthew",
+"Angle": "-90",
+"Time": "0.5",
+},
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "SirMatthew",
+"Move To": "(-12.0, 0.0, 0.0)",
+"Over": "0.5",
+},
+],
+},
+{
+"Step Number": "31",
+"Elements": [
+{
+"Element Type": "Dialog",
+"Speaker": "Sir Matthew",
+"Line": "I'm....so...sorry!",
+},
+],
+},
+{
+"Step Number": "32",
+"Elements": [
+{
+"Element Type": "Fade",
+"Use Object?": "False",
+"Actor": "Matthew",
+"Fade-In?": "False",
+"Over": "0.5",
+},
+{
+"Element Type": "Fade",
+"Use Object?": "True",
+"Actor": "Remains",
+"Fade-In?": "True",
+"Over": "0.5",
+},
+],
+},
+{
+"Step Number": "33",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "Elwynn",
+"Move To": "(-8.0, 0.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Elwynn",
+"Line": "What do I do now?",
+},
+],
+},
+{
+"Step Number": "34",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "Elwynn",
+"Move To": "(-11.0, 0.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Animation",
+"Character": "Elwynn",
+"Trigger": "Curious",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Elwynn",
+"Line": "What is that?  His cape is still intact.",
+},
+],
+},
+{
+"Step Number": "35",
+"Elements": [
+{
+"Element Type": "Dialog",
+"Speaker": "Elwynn",
+"Line": "If I take that, I just might be able to escape.",
+},
+],
+},
+{
+"Step Number": "36",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "Elwynn",
+"Move To": "(-8.0, 0.0, 0.0)",
+"Over": "1",
+},
+],
+},
+{
+"Step Number": "37",
+"Elements": [
+{
+"Element Type": "Wait",
+"Time": "0.5",
+},
+],
+},
+{
+"Step Number": "38",
+"Elements": [
+{
+"Element Type": "Flip",
+"Character": "Elwynn",
+"Horizontal": "True",
+},
+],
+},
+{
+"Step Number": "39",
+"Elements": [
+{
+"Element Type": "Movement",
+"Use Object": "True",
+"Object Name": "Elwynn",
+"Move To": "(-5.0, 0.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Pan",
+"Pan Type": "ByAmount",
+"Distance": "(5.0, 0.0)",
+"Over": "1",
+},
+{
+"Element Type": "Animation",
+"Character": "Elwynn",
+"Trigger": "Down",
+},
+{
+"Element Type": "Dialog",
+"Speaker": "Elwynn",
+"Line": "Could I really do that?",
+},
+],
+},
+{
+"Step Number": "40",
+"Elements": [
+{
+"Element Type": "Animation",
+"Character": "Elwynn",
+"Trigger": "Idle",
+},
+],
+},
+{
+"Step Number": "41",
+"Elements": [
+{
+"Element Type": "Wait",
+"Time": "0.5",
+},
+],
+},
+{
+"Step Number": "42",
+"Elements": [
+{
+"Element Type": "Hide",
+"Target": "Elwynn",
+},
+],
+},
+{
+"Step Number": "43",
+"Elements": [
+{
+"Element Type": "Enable",
+"Use Game Object?": "False",
+"Object Name": "Player",
+"Enable Object": "True",
+"Move Object?": "False",
+},
+],
+},
+{
+"Step Number": "44",
+"Elements": [
+{
+"Element Type": "Pan",
+"Pan Type": "ByAmount",
+"Distance": "(0.0, 0.5)",
+"Over": "1",
+},
+],
+},
+{
+"Step Number": "45",
+"Elements": [
+{
+"Element Type": "Wait",
+"Time": "1.75",
+},
+],
+},
+{
+"Step Number": "46",
+"Elements": [
+{
+"Element Type": "Follow",
+"Follow": "Player",
+},
+],
+},
+],
+},
