@@ -8,65 +8,45 @@ using UnityEditor;
 public class CutsceneParser
 {
     static int elementsStart = 1;
-
     /// <summary>
-    /// Parses the text file and creates a list of cutscene steps containing the elements of the cutscene
+    /// Parses the cutscene file.
     /// </summary>
-    /// <returns>The list of cutscene steps containing the elements of the cutscene.</returns>
-    /// <param name="text">Text.</param>
-    public static List<CutsceneStep> ParseTextFile(string text)
+    /// <returns>The cutscene file.</returns>
+    /// <param name="json">Json.</param>
+    public static CutsceneFile ParseJSONFile(string json)
     {
-        List<CutsceneStep> steps = new List<CutsceneStep>();
-        string[] lines = text.Split('\n');
+        string[] lines = json.Split('\n');
+        CutsceneFile file = new CutsceneFile();
+        file.cutsceneName = PCLParser.ParseLine(lines[1]);
+        file.sceneName = PCLParser.ParseLine(lines[2]);
+        file.characters = PCLParser.ParseLine(lines[3]).Trim().Split(' ');
+        foreach(string character in file.characters) {
+            Cutscene.Instance.AddActor(character);
+        }
+        file.steps = ParseStepsFromJSON(json);
+        return file;
+    }
 
-        for (int i = elementsStart; i < lines.Length; i++)
-        {
-
-
-            CutsceneStep step = new CutsceneStep();
-            step.elements = new List<CutsceneElement>();
-            bool seq = false;
-
-            do
-            {
-                string line = lines[i].Trim();
-                if (line.StartsWith("character", System.StringComparison.Ordinal)) {
-                    string[] parts = line.Split(' ');
-                    for (int j = 1; j < parts.Length; j++) {
-                        Cutscene.Instance.CreateCharacter(parts[j]);
-                    }
-                    continue;
-                }
-                seq = line.Substring(line.Length - 3) == "and";
-
-                if (seq)
-                {
-                    line = line.Substring(0, line.Length - 4);
-                }
-
-                CutsceneElement e = ParseElement(line);
-
-
-                if (e != null)
-                {
-                    step.AddElement(e);
-                    if (seq)
-                    {
-                        i++;
-                    }
-                }
-
-                //seq = false;
-            } while (seq && i < lines.Length);
-
-
-            if (step.NumElements > 0)
-            {
-                steps.Add(step);
-            }
+    public static CutsceneFile ParseTextFile(TextAsset text)
+    {
+        string[] lines = text.text.Split('\n');
+        CutsceneFile file = new CutsceneFile();
+        file.cutsceneName = text.name.SplitCamelCase();
+        file.sceneName = lines[0];
+        string[] characters = lines[1].Split(' ');
+        file.characters = new string[characters.Length - 1];
+        for (int i = 1; i < characters.Length; i++) {
+            file.characters[i - 1] = characters[i];
+            Cutscene.Instance.AddActor(characters[i]);
         }
 
-        return steps;
+
+        file.steps = ParseStepsFromText(text.text);
+        return file;
+    }
+
+    public static CutsceneFile ParseTextFile(string path) {
+        return ParseTextFile(Resources.Load<TextAsset>(path));
     }
 
     /// <summary>
@@ -92,6 +72,8 @@ public class CutsceneParser
                 return new CutsceneCreation(true);
             case CutsceneElements.Dialog:
                 return new CutsceneDialog();
+            case CutsceneElements.Enable:
+                return new CutsceneEnable();
             case CutsceneElements.Fade:
                 return new CutsceneFade();
             case CutsceneElements.Flip:
@@ -221,9 +203,9 @@ public class CutsceneParser
     /// </summary>
     /// <returns>The steps.</returns>
     /// <param name="json">Json.</param>
-    public static List<CutsceneStepStruct> ParseSteps(string json)
+    public static List<CutsceneStep> ParseStepsFromJSON(string json)
     {
-        List<CutsceneStepStruct> steps = new List<CutsceneStepStruct>();
+        List<CutsceneStep> steps = new List<CutsceneStep>();
         string[] lines = json.Split('\n');
 
         for (int i = 0; i < lines.Length; i++)
@@ -233,14 +215,14 @@ public class CutsceneParser
             {
                 if (PCLParser.ParsePropertyName(line) == "Step Number")
                 {
-                    CutsceneStepStruct step = new CutsceneStepStruct();
+                    CutsceneStep step = new CutsceneStep(PCLParser.ParseInt(line));
                     string pass = "";
                     while (i < lines.Length - 1)
                     {
                         i++;
-                        pass += lines[i] + "\n";
-                        if (lines[i] == PCLParser.ArrayEnding)
-                        {
+                        line = lines[i].Trim() + "\n";;
+                        pass += line;
+                        if (line.Contains(PCLParser.ArrayEnding)) {
                             break;
                         }
 
@@ -254,30 +236,64 @@ public class CutsceneParser
         return steps;
     }
 
-    /// <summary>
-    /// Parses the cutscene file.
-    /// </summary>
-    /// <returns>The cutscene file.</returns>
-    /// <param name="json">Json.</param>
-    public static CutsceneFile ParseCutsceneFile(string json)
-    {
-        string[] lines = json.Split('\n');
-        CutsceneFile file = new CutsceneFile();
-        file.cutsceneName = PCLParser.ParseLine(lines[1]);
-        file.sceneName = PCLParser.ParseLine(lines[2]);
-        file.characters = PCLParser.ParseLine(lines[3]).Split(' ');
-        file.steps = ParseSteps(json);
-        return file;
+    public static List<CutsceneStep> ParseStepsFromText(string text) {
+        List<CutsceneStep> steps = new List<CutsceneStep>();
+        string[] lines = text.Split('\n');
+
+        for (int i = elementsStart; i < lines.Length; i++)
+        {
+
+
+            CutsceneStep step = new CutsceneStep();
+            step.elements = new List<CutsceneElement>();
+            bool seq = false;
+
+            do
+            {
+                string line = lines[i].Trim();
+               
+                seq = line.Substring(line.Length - 3) == "and";
+
+                if (seq)
+                {
+                    line = line.Substring(0, line.Length - 4);
+                }
+
+                CutsceneElement e = ParseElement(line);
+
+
+                if (e != null)
+                {
+                    step.AddElement(e);
+                    if (seq)
+                    {
+                        i++;
+                    }
+                }
+
+                //seq = false;
+            } while (seq && i < lines.Length);
+
+
+            if (step.NumElements > 0)
+            {
+                steps.Add(step);
+            }
+        }
+
+        return steps;
     }
+
+   
 
     /// <summary>
     /// Parses the individual elements
     /// </summary>
     /// <returns>The elements.</returns>
     /// <param name="json">Json.</param>
-    public static List<CutsceneElementStruct> ParseElements(string json)
+    public static List<CutsceneElement> ParseElements(string json)
     {
-        List<CutsceneElementStruct> elements = new List<CutsceneElementStruct>();
+        List<CutsceneElement> elements = new List<CutsceneElement>();
 
         int ind = json.IndexOf('[');
         int lastInd = PCLParser.FindEndOfArray(json, ind);
@@ -291,7 +307,11 @@ public class CutsceneParser
             if (tilesList[i] == "{")
             {
                 List<string> toParse = new List<string>();
-                int j = i + 1;
+
+                int j = i + 2;
+                CutsceneElements type = PCLParser.ParseEnum<CutsceneElements>(tilesList[i + 1]);
+
+                CutsceneElement element = ParseElement(type);
 
                 while (j < tilesList.Length && !tilesList[j].Contains("}"))
                 {
@@ -299,26 +319,14 @@ public class CutsceneParser
                     toParse.Add(tilesList[j]);
                     j++;
                 }
-                elements.Add(ParseCutsceneElementStruct(toParse));
+
+                element.CreateFromJSON(toParse.ToArray());
+                elements.Add(element);
+
                 i = j;
             }
         }
 
         return elements;
     }
-
-    /// <summary>
-    /// Creates a CutsceneElement from the passed in list of strings
-    /// </summary>
-    /// <returns>The cutscene element struct.</returns>
-    /// <param name="json">Json.</param>
-    public static CutsceneElementStruct ParseCutsceneElementStruct(List<string> json)
-    {
-        CutsceneElementStruct element = new CutsceneElementStruct();
-        element.type = PCLParser.ParseEnum<CutsceneElements>(json[0]);
-        json.RemoveAt(0);
-        element.info = json;
-        return element;
-    }
-
 }

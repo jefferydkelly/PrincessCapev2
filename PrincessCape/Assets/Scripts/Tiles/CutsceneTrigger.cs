@@ -15,7 +15,7 @@ public class CutsceneTrigger : MapTile{
     {
         if (collision.CompareTag("Player") && cutscene && Game.Instance.IsPlaying && Map.Instance.IsLoaded && !Game.Instance.IsInLevelEditor) {
             
-            Cutscene.Instance.Load(cutscene, true);
+            Cutscene.Instance.LoadTextFile(cutscene, true);
         }
     }
 

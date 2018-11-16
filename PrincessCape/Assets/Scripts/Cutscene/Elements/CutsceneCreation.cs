@@ -91,10 +91,11 @@ public class CutsceneCreation : CutsceneElement
     {
         if (destroy)
         {
-            prefab = GameObject.Find(PCLParser.ParseLine(data[1]));
+            prefab = GameObject.Find(PCLParser.ParseLine(data[0]));
         } else {
-            prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PCLParser.ParseLine(data[1]));
-            position = PCLParser.ParseVector3(data[2]); 
+           
+            prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PCLParser.ParseLine(data[0]));
+            position = PCLParser.ParseVector3(data[1]); 
         }
     }
 

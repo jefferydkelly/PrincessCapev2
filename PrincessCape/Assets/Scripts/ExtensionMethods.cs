@@ -321,6 +321,21 @@ public static class ExtensionMethods {
         return string.Join("", parts);
     }
 
+    public static string SplitAfter(this string s, string other) {
+        int index = s.IndexOf(other, System.StringComparison.CurrentCulture);
+        return s.Substring(index + other.Length);
+    }
+
+    public static string SplitBefore(this string s, string other) {
+        int index = s.IndexOf(other, System.StringComparison.CurrentCulture);
+        return s.Substring(0, index);
+    }
+
+    public static string GetFileName(this string s) {
+        int ind = s.LastIndexOf('/');
+        return s.Substring(ind).SplitBefore(".");
+    }
+
     /// <summary>
     /// Gets whether or not the game object has the given component
     /// </summary>

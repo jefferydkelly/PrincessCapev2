@@ -9,7 +9,7 @@ public class Sign : InteractiveObject {
 
     public override void Interact()
     {
-        Cutscene.Instance.Load(text);
+        Cutscene.Instance.LoadTextFile(text);
         Cutscene.Instance.StartCutscene();
     }
 

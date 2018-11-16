@@ -462,14 +462,5 @@ public class CutsceneFile {
     public string cutsceneName;
     public string sceneName;
     public string[] characters;
-    public List<CutsceneStepStruct> steps;
+    public List<CutsceneStep> steps;
 }
-
-public struct CutsceneStepStruct {
-    public List<CutsceneElementStruct> elements;
-}
-public struct CutsceneElementStruct {
-    public CutsceneElements type;
-    public List<string> info;
-}
-

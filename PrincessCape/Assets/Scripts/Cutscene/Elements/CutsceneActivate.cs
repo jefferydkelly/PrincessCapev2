@@ -71,7 +71,11 @@ public class CutsceneActivate : CutsceneElement
 
     public override void CreateFromJSON(string[] data)
     {
-        activatedObject = GameObject.Find(PCLParser.ParseLine(data[0])).GetComponent<ActivatedObject>();
+        GameObject found = FindTile(PCLParser.ParseLine(data[0]));
+        if (found)
+        {
+            activatedObject = found.GetComponent<ActivatedObject>();
+        }
         activate = PCLParser.ParseBool(data[1]);
     }
 
