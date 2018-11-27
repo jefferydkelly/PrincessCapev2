@@ -65,7 +65,8 @@ public class UIManager : MonoBehaviour
         minorText.gameObject.SetActive(false);
         ToggleLoadingScreen();
 
-
+        inventory.gameObject.SetActive(Application.isPlaying);
+        gameUI.SetActive(Application.isPlaying);
         if (Application.isPlaying) {
             loadFadeoutTimer = new Timer(1.0f / 30.0f, 30);
             loadFadeoutTimer.OnTick.AddListener(() => {
@@ -81,8 +82,6 @@ public class UIManager : MonoBehaviour
         } else {
             
             pauseMenu.SetActive(false);
-            inventory.gameObject.SetActive(false);
-            gameUI.SetActive(false);
         }
 
 

@@ -38,7 +38,10 @@ public class ItemBox : MonoBehaviour {
             item = value;
             item.Slot = slot;
             item.OnActivationStateChange.AddListener(OnItemActivationStateChanged);
-            itemImage.sprite = item.Sprite;
+            if (item != null)
+            {
+                itemImage.sprite = item.Sprite;
+            }
         }
     }
     private void OnEnable()

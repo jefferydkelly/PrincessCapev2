@@ -7,7 +7,7 @@ using UnityEditor;
 
 public class CutsceneParser
 {
-    static int elementsStart = 1;
+    static int elementsStart = 2;
     /// <summary>
     /// Parses the cutscene file.
     /// </summary>

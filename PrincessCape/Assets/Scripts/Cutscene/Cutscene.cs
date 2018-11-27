@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using System.IO;
-using System.Linq;
-using System;
+
 
 public class Cutscene:Manager
 {
+    void SceneManager_SceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+    }
+
+
     List<CutsceneStep> steps = new List<CutsceneStep>();
 	private List<CutsceneActor> characters;
 
@@ -40,13 +44,12 @@ public class Cutscene:Manager
 			Game.Instance.Map.OnLevelLoaded.AddListener(EndCutscene);
 		}
 
-        GameObject cutsceneObj = GameObject.Find("Cutscene");
-        if (cutsceneObj == null)
+        if (gameObject == null)
         {
-            cutsceneObj = new GameObject("Cutscene");
-            cutsceneObj.AddComponent<EditorTimerManager>().Init();
+            gameObject = new GameObject("Cutscene");
+            gameObject.AddComponent<EditorTimerManager>().Init();
+            GameObject.DontDestroyOnLoad(gameObject);
         }
-        gameObject = cutsceneObj;
 
         charactersInScene = new List<CharacterInScene>();
 
@@ -67,7 +70,36 @@ public class Cutscene:Manager
             names.Add(name);
         }
         sceneNames = names.ToArray();
-        map = GameObject.Find("Map").GetComponent<Map>();
+        LoadMap();
+
+    }
+
+    void LoadMap() {
+        if (map == null)
+        {
+            GameObject mapGO = GameObject.Find("Map");
+            if (mapGO)
+            {
+                map = mapGO.GetComponent<Map>();
+            }
+            else
+            {
+                SceneManager.sceneLoaded += LoadMap;
+            }
+
+        }
+    }
+
+    void LoadMap(Scene scene, LoadSceneMode loadSceneMode) {
+        if (map == null)
+        {
+            GameObject mapGO = GameObject.Find("Map");
+            if (mapGO)
+            {
+                map = mapGO.GetComponent<Map>();
+                SceneManager.sceneLoaded -= LoadMap;
+            }
+        }
     }
 
     public void LoadTextFileAtPath(string cutscenePath) {

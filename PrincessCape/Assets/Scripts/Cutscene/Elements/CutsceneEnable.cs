@@ -56,10 +56,11 @@ public class CutsceneEnable : CutsceneElement
 
     public override Timer Run()
     {
-        if (hideObject == null)
+        if (hideObject == null || !hideObject.activeInHierarchy)
         {
-            hideObject = GameObject.Find(objectName);
+            hideObject = Cutscene.Instance.FindGameObject(objectName);
         }
+       
         if (hideObject)
         {
             hideObject.SetActive(enable);
@@ -71,7 +72,6 @@ public class CutsceneEnable : CutsceneElement
             }
 
         }
-
         return null;
     }
 
@@ -125,7 +125,7 @@ public class CutsceneEnable : CutsceneElement
     {
         enable = data[0] == "enable";
         objectName = data[1];
-        GameObject found = GameObject.Find(objectName);
+        GameObject found = Cutscene.Instance.FindGameObject(objectName);
         if (found)
         {
             hideObject = found;
