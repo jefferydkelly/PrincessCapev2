@@ -172,10 +172,11 @@ public class UIManager : MonoBehaviour
     /// <param name="speaker">Speaker.</param>
 	public Timer ShowMessage(string line, string speaker = "") {
 		SetMainText(line);
+
 		if (speaker != null && speaker.Length > 0)
 		{
+            speakerText.Show();
 			speakerText.Speaker = speaker;
-			speakerText.Show();
 		}
 		return mainText.StartReveal();
 	}

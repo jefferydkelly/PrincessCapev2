@@ -6,16 +6,17 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class SpeakerBox : MonoBehaviour {
 	Text text;
+    string speaker = "";
 	// Use this for initialization
 	void Start () {
-		gameObject.SetActive(false);
+        gameObject.SetActive(Game.Instance.IsInCutscene);
 		text = GetComponentInChildren<Text>();
+        text.text = speaker;
+
 	}
 	
     public void Show() {
-        //EventManager.StopListening("ShowDialog", Show);
         gameObject.SetActive(true);
-
 		UIManager.Instance.OnMessageEnd.AddListener(Hide);
         Cutscene.Instance.OnEnd.AddListener(Hide);
     }
@@ -32,7 +33,18 @@ public class SpeakerBox : MonoBehaviour {
             if (text)
             {
                 text.text = value;
+            } else {
+                speaker = value;
             }
 		}
+
+        get {
+            if (text)
+            {
+                return text.text;
+
+            }
+            return speaker;
+        }
     }
 }
