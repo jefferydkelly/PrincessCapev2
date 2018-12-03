@@ -65,8 +65,7 @@ public class UIManager : MonoBehaviour
         minorText.gameObject.SetActive(false);
         ToggleLoadingScreen();
 
-        inventory.gameObject.SetActive(Application.isPlaying);
-        gameUI.SetActive(Application.isPlaying);
+
         if (Application.isPlaying) {
             loadFadeoutTimer = new Timer(1.0f / 30.0f, 30);
             loadFadeoutTimer.OnTick.AddListener(() => {
@@ -77,11 +76,17 @@ public class UIManager : MonoBehaviour
                 loadingScreen.color = loadingScreen.color.SetAlpha(0);
             });
 
+            //inventory.gameObject.SetActive(Game.Instance.IsPlaying);
+            gameUI.SetActive(Game.Instance.IsPlaying);
+
             Map.Instance.OnLevelLoaded.AddListener(loadFadeoutTimer.Start);
             UpdateKeys();
+
         } else {
             
             pauseMenu.SetActive(false);
+            inventory.gameObject.SetActive(false);
+            gameUI.SetActive(false);
         }
 
         Cutscene.Instance.OnEnd.AddListener(Clear);

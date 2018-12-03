@@ -15,9 +15,12 @@ public class ItemMenu : MonoBehaviour {
 
     private void OnEnable()
     {
-        for (int i = 0; i < Game.Instance.Player.Inventory.Count; i++)
+        if (Game.Instance && Game.Instance.Player)
         {
-            boxes[i].SetItem(Game.Instance.Player.Inventory[i]);
+            for (int i = 0; i < Game.Instance.Player.Inventory.Count; i++)
+            {
+                boxes[i].SetItem(Game.Instance.Player.Inventory[i]);
+            }
         }
     }
 }
