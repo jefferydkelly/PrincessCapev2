@@ -84,6 +84,7 @@ public class UIManager : MonoBehaviour
             pauseMenu.SetActive(false);
         }
 
+        Cutscene.Instance.OnEnd.AddListener(Clear);
 
     }
 
