@@ -38,7 +38,7 @@ public class Metal : MonoBehaviour{
     /// </summary>
     private void OnMouseEnter()
     {
-        if (Application.isPlaying && Game.Instance.IsPlaying)
+        if (Game.IsBeingPlayed)
         {
             myRenderer.color = Color.red;
             highlighted = this;
@@ -47,7 +47,7 @@ public class Metal : MonoBehaviour{
 
     private void OnMouseOver()
     {
-        if (highlighted == null && myRenderer.color == Color.white && Application.isPlaying && Game.Instance.IsPlaying) {
+        if (highlighted == null && myRenderer.color == Color.white && Game.IsBeingPlayed) {
             myRenderer.color = Color.red;
             highlighted = this;
         }

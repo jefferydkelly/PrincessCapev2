@@ -11,6 +11,9 @@ public class CameraManager : Manager
     Vector3 targetPos;
     Vector3 offset = Vector3.up * 2;
     Timer panTimer;
+
+    float minZoom = 2.5f;
+    float maxZoom = 10f;
     /// <summary>
     /// Initializes a new instance of the <see cref="T:CameraManager"/> class.
     /// </summary>
@@ -92,6 +95,10 @@ public class CameraManager : Manager
                     } 
                 }
             }
+        } else if (Game.Instance.IsInLevelEditor) {
+            float size = Camera.main.orthographicSize;
+            size = Mathf.Clamp(size + (Input.GetAxis("Mouse ScrollWheel") / 2), minZoom, maxZoom);
+            Camera.main.orthographicSize = size;
         }
     }
 

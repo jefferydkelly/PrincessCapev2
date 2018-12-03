@@ -326,6 +326,12 @@ public class Game : MonoBehaviour {
         }
     }
 
+    public static bool IsBeingPlayed {
+        get {
+            return Application.isPlaying && instance.IsPlaying;
+        }
+    }
+
     /// <summary>
     /// Event called when a new scene is loaded in.
     /// </summary>

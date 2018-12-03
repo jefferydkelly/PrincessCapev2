@@ -168,7 +168,7 @@ public class SegmentedTile : ActivatedObject
             LastTransform.localScale = PCLParser.ParseVector3(tile.NextLine);
         }
 
-        if (!startActive && Application.isPlaying && Game.Instance.IsPlaying)
+        if (!startActive && Game.IsBeingPlayed)
         {
             Deactivate();
         }

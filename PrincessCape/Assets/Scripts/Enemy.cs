@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
-        if (Application.isPlaying && Game.Instance.IsPlaying)
+        if (Game.IsBeingPlayed)
         {
             if (!Physics2D.Raycast(transform.position + Vector3.right * fwdX / 2.0f, Vector2.down, 1.0f, groundMask))
             {
