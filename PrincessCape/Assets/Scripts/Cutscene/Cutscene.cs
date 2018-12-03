@@ -9,11 +9,6 @@ using UnityEditor;
 
 public class Cutscene:Manager
 {
-    void SceneManager_SceneLoaded(Scene arg0, LoadSceneMode arg1)
-    {
-    }
-
-
     List<CutsceneStep> steps = new List<CutsceneStep>();
 	private List<CutsceneActor> characters;
 
@@ -33,6 +28,9 @@ public class Cutscene:Manager
 
     private static Cutscene instance;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Cutscene"/> class.
+    /// </summary>
     public Cutscene() {
 		characters = new List<CutsceneActor>();
         steps = new List<CutsceneStep>();
@@ -48,7 +46,10 @@ public class Cutscene:Manager
         {
             gameObject = new GameObject("Cutscene");
             gameObject.AddComponent<EditorTimerManager>().Init();
-            GameObject.DontDestroyOnLoad(gameObject);
+            if (Application.isPlaying)
+            {
+                GameObject.DontDestroyOnLoad(gameObject);
+            }
         }
 
         charactersInScene = new List<CharacterInScene>();
@@ -74,6 +75,9 @@ public class Cutscene:Manager
 
     }
 
+    /// <summary>
+    /// Loads a map object if ti exists.  If there isn't one, it waits for a scene change to look again.
+    /// </summary>
     void LoadMap() {
         if (map == null)
         {
@@ -90,6 +94,11 @@ public class Cutscene:Manager
         }
     }
 
+    /// <summary>
+    /// Loads the map if there is one.
+    /// </summary>
+    /// <param name="scene">Scene.</param>
+    /// <param name="loadSceneMode">Load scene mode.</param>
     void LoadMap(Scene scene, LoadSceneMode loadSceneMode) {
         if (map == null)
         {
@@ -102,6 +111,10 @@ public class Cutscene:Manager
         }
     }
 
+    /// <summary>
+    /// Loads a cutscene from the text file at the path.
+    /// </summary>
+    /// <param name="cutscenePath">Cutscene path.</param>
     public void LoadTextFileAtPath(string cutscenePath) {
         TextAsset text = Resources.Load<TextAsset>(cutscenePath);
 
@@ -111,7 +124,11 @@ public class Cutscene:Manager
     }
 
 
-	// Use this for initialization
+	/// <summary>
+    /// Loads a cutscene element from the given text file.
+    /// </summary>
+    /// <param name="text">The text file from which the elements will be loaded.</param>
+    /// <param name="autoStart">If set to <c>true</c> the cutscene start immediately.</param>
 	public void LoadTextFile(TextAsset text, bool autoStart = false)
 	{
         CutsceneFile file = CutsceneParser.ParseTextFile(text);
@@ -126,12 +143,20 @@ public class Cutscene:Manager
 	}
 
 #if UNITY_EDITOR
+    /// <summary>
+    /// Gets the steps.
+    /// </summary>
+    /// <value>The steps.</value>
     public List<CutsceneStep> Steps {
         get {
             return steps;
         }
     }
 
+    /// <summary>
+    /// Sets the information about the cutscene such as name of the cutscene, scene it takes place it, characters in it and steps in it.
+    /// </summary>
+    /// <value>The info.</value>
     public CutsceneFile Info {
         set {
             cutsceneName = value.cutsceneName;
@@ -141,6 +166,10 @@ public class Cutscene:Manager
         }
     }
 
+    /// <summary>
+    /// Gets the name of the cutscene.
+    /// </summary>
+    /// <value>The name.</value>
     public string Name {
         get {
             return cutsceneName;
@@ -151,6 +180,10 @@ public class Cutscene:Manager
         }
     }
 
+    /// <summary>
+    /// Gets the level in which the scene takes place.
+    /// </summary>
+    /// <value>The level in which the scene takes place.</value>
     public string Level {
 
         get {
@@ -257,6 +290,10 @@ public class Cutscene:Manager
         }
     }
 
+    /// <summary>
+    /// Gets the game object.
+    /// </summary>
+    /// <value>The game object.</value>
     public GameObject GameObject
     {
         get
@@ -266,6 +303,9 @@ public class Cutscene:Manager
     }
 #endif
 
+    /// <summary>
+    /// Starts the cutscene.
+    /// </summary>
     public void StartCutscene()
 	{
 		if (!Map.Instance.IsLoaded)
@@ -301,6 +341,9 @@ public class Cutscene:Manager
 
 	}
 
+    /// <summary>
+    /// Ends the cutscene.
+    /// </summary>
 	void EndCutscene()
 	{
         OnEnd.Invoke();
@@ -317,10 +360,6 @@ public class Cutscene:Manager
 
     public void Update(float dt)
     {
-        if (Game.Instance.IsInCutscene)
-        {
-           
-        }
     }
 
     /*
@@ -403,6 +442,11 @@ public class Cutscene:Manager
         return null;
     }
 
+    /// <summary>
+    /// Finds the game object.
+    /// </summary>
+    /// <returns>The game object.</returns>
+    /// <param name="goName">The name of the game object.</param>
     public GameObject FindGameObject(string goName)
     {
         CutsceneActor actor = FindActor(goName);
@@ -420,6 +464,10 @@ public class Cutscene:Manager
         }
     }
 
+    /// <summary>
+    /// Converts the cutscene to a JSON representation
+    /// </summary>
+    /// <value>To json representation of the cutscene.</value>
     public string ToJSON {
         get
         {
@@ -452,6 +500,10 @@ public class Cutscene:Manager
         }
     }
 
+    /// <summary>
+    /// Converst the cutscene to a plain text representation
+    /// </summary>
+    /// <value>A plain text representation of the cutscene.</value>
     public string ToText {
         get {
             string info = "";
@@ -470,6 +522,11 @@ public class Cutscene:Manager
         }
     }
 
+    /// <summary>
+    /// Determines whether or not the character is in the cutscene
+    /// </summary>
+    /// <returns><c>true</c>, if character is in the cutscene, <c>false</c> otherwise.</returns>
+    /// <param name="name">The name of the character.</param>
     public bool HasCharacter(string name)
     {
         foreach (CutsceneActor actor in characters)
@@ -483,6 +540,10 @@ public class Cutscene:Manager
         return false;
     }
 
+    /// <summary>
+    /// Adds the actor.
+    /// </summary>
+    /// <param name="name">The name of the actor.</param>
     public void AddActor(string name)
     {
         if (!HasCharacter(name))
@@ -497,6 +558,11 @@ public class Cutscene:Manager
         }
     }
 
+    /// <summary>
+    /// Gets the actor.
+    /// </summary>
+    /// <returns>The actor.</returns>
+    /// <param name="actorName">The actor's name.</param>
     CutsceneActor GetActor(string actorName)
     {
         foreach (CutsceneActor actor in characters)
@@ -509,7 +575,10 @@ public class Cutscene:Manager
 
         return null;
     }
-
+    /// <summary>
+    /// Removes the actor from the scene.
+    /// </summary>
+    /// <param name="name">The name of the actor.</param>
     public void RemoveActor(string name)
     {
         if (HasCharacter(name))
@@ -520,6 +589,10 @@ public class Cutscene:Manager
         }
     }
 
+    /// <summary>
+    /// Previews the step.
+    /// </summary>
+    /// <param name="stepNumber">Step number.</param>
     public void PreviewStep(int stepNumber)
     {
         //onClearPreview.Invoke();
@@ -543,6 +616,10 @@ public class CutsceneStep
     int stepNumber = -1;
     CutsceneDialog dialog;
 #region Constructors
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:CutsceneStep"/> class.
+    /// </summary>
+    /// <param name="number">The place of the step in the current cutscene.</param>
     public CutsceneStep(int number = 0)
     {
         elements = new List<CutsceneElement>();
@@ -551,7 +628,11 @@ public class CutsceneStep
         stepNumber = number;
     }
 
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:CutsceneStep"/> class.
+    /// </summary>
+    /// <param name="lines">Lines of text to be converted to cutscene elements.</param>
+    /// <param name="num">The place of the step in the current cutscen.</param>
     public CutsceneStep(List<string> lines, int num) : this(num)
     {
         elements = new List<CutsceneElement>();
@@ -562,7 +643,10 @@ public class CutsceneStep
     }
 
 #endregion
-
+    /// <summary>
+    /// Gets the number of elements.
+    /// </summary>
+    /// <value>The number elements.</value>
     public int NumElements
     {
         get
@@ -571,6 +655,10 @@ public class CutsceneStep
         }
     }
 
+    /// <summary>
+    /// Gets the number timers currently running.
+    /// </summary>
+    /// <value>The number timers currently running.</value>
     public int NumTimers
     {
         get
@@ -579,11 +667,18 @@ public class CutsceneStep
         }
     }
 
+    /// <summary>
+    /// Adds the element to the step.
+    /// </summary>
+    /// <param name="element">Element.</param>
     public void AddElement(CutsceneElement element)
     {
         elements.Add(element);
     }
 
+    /// <summary>
+    /// Run all of the elements in the step.
+    /// </summary>
     public void Run()
     {
         foreach (CutsceneElement ce in elements)
@@ -701,9 +796,9 @@ public class CutsceneStep
 #endif
 
     /// <summary>
-    /// Gets the save data for the step and all of its elements.
+    /// Generates a JSON representation of the cutscene step.
     /// </summary>
-    /// <value>The save data.</value>
+    /// <value>A JSON representation of the cutscene step..</value>
     public string ToJSON
     {
         get
@@ -719,6 +814,10 @@ public class CutsceneStep
         }
     }
 
+    /// <summary>
+    /// Generates a plain text representation of the cutscene step.
+    /// </summary>
+    /// <value>A plain text representation of the cutscene step.</value>
     public string ToText
     {
         get
@@ -737,6 +836,9 @@ public class CutsceneStep
         }
     }
 
+    /// <summary>
+    /// Skip this instance.
+    /// </summary>
     public void Skip()
     {
         foreach (CutsceneElement cee in elements)
