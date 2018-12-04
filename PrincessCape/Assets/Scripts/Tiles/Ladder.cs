@@ -108,17 +108,16 @@ public class Ladder : SegmentedTile
 
             transform.position += Vector3.up;
             SpawnSegment();
+            maxSegments++;
         }
         else if (transform.childCount > segmentStart)
         {
             DestroyImmediate(LastChild, false);
             transform.position += Vector3.down;
-
+            maxSegments--;
         }
 
         AdjustSize(NumSegments + 1);
-
-
     }
 
     /// <summary>

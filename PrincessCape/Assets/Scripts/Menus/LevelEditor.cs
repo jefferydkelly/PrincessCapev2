@@ -189,23 +189,47 @@ public class LevelEditor : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Mode = MapEditMode.Translate;
+            if (Mode != MapEditMode.Translate)
+            {
+                Mode = MapEditMode.Translate;
+            } else {
+                Mode = MapEditMode.None;
+            }
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            Mode = MapEditMode.Rotate;
+            if (Mode != MapEditMode.Rotate)
+            {
+                Mode = MapEditMode.Rotate;
+            } else {
+                Mode = MapEditMode.None;
+            }
         }
         else if (Input.GetKeyDown(KeyCode.C))
         {
-            Mode = MapEditMode.Scale;
+            if (Mode != MapEditMode.Scale)
+            {
+                Mode = MapEditMode.Scale;
+            } else {
+                Mode = MapEditMode.None;
+            }
         }
         else if (Input.GetKeyDown(KeyCode.V))
-        {
-            Mode = MapEditMode.Flip;
+        { if (Mode != MapEditMode.Flip)
+            {
+                Mode = MapEditMode.Flip;
+            } else {
+                Mode = MapEditMode.None;
+            }
         }
         else if (Input.GetKey(KeyCode.B))
         {
-            Mode = MapEditMode.Align;
+            if (Mode != MapEditMode.Align)
+            {
+                Mode = MapEditMode.Align;
+            } else {
+                Mode = MapEditMode.None;
+            }
         } else if (Input.GetKeyDown(KeyCode.Space) && ShowConnectButton) {
             ToggleConnection();
         }

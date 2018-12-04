@@ -285,7 +285,7 @@ public class SegmentedTile : ActivatedObject
 
     protected int MaxSegments {
         get {
-            return maxSegments;
+            return transform.childCount - segmentStart;
         }
     }
 
