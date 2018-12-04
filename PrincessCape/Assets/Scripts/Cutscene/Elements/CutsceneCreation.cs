@@ -17,28 +17,44 @@ public class CutsceneCreation : CutsceneElement
     {
         get
         {
-            if (destroy) {
-                return PCLParser.CreateAttribute("Object Name", useObject? prefab.name : prefabName);
-            } else {
+            if (destroy)
+            {
+                return PCLParser.CreateAttribute("Object Name", useObject ? prefab.name : prefabName);
+            }
+            else
+            {
                 string data = "";
-                data += PCLParser.CreateAttribute("Prefab", AssetDatabase.GetAssetPath(prefab));
+                string path = "";
+#if UNITY_EDITOR
+                path = AssetDatabase.GetAssetPath(prefab);
+
+#else
+                path = prefabName;
+#endif
+                data += PCLParser.CreateAttribute("Prefab", path);
                 data += PCLParser.CreateAttribute<Vector3>("Position", position);
                 return data;
             }
         }
     }
 
-    public override string ToText {
-        get {
-            if (destroy) {
+    public override string ToText
+    {
+        get
+        {
+            if (destroy)
+            {
                 return string.Format("destroy {0}", prefab.name);
-            } else {
+            }
+            else
+            {
                 return string.Format("create {0} {1} {2} {3}", prefab.name, position.x, position.y, position.z);
             }
         }
     }
 
-    public CutsceneCreation(bool dest) {
+    public CutsceneCreation(bool dest)
+    {
         destroy = dest;
         autoAdvance = true;
         canSkip = false;
@@ -56,7 +72,8 @@ public class CutsceneCreation : CutsceneElement
         }
         else
         {
-            if (!prefab) {
+            if (!prefab)
+            {
                 prefab = GameObject.Find(prefabName);
             }
             if (prefab)
@@ -80,7 +97,9 @@ public class CutsceneCreation : CutsceneElement
         if (useObject)
         {
             prefab = EditorGUILayout.ObjectField("Prefab", prefab, typeof(GameObject), true) as GameObject;
-        } else {
+        }
+        else
+        {
             prefabName = EditorGUILayout.TextField("Prefab Name", prefabName);
         }
         position = EditorGUILayout.Vector3Field("Position", position);
@@ -92,9 +111,15 @@ public class CutsceneCreation : CutsceneElement
         if (destroy)
         {
             prefab = GameObject.Find(PCLParser.ParseLine(data[0]));
-        } else {
-           
-            prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PCLParser.ParseLine(data[0]));
+        }
+        else
+        {
+            string path = PCLParser.ParseLine(data[0]);
+#if UNITY_EDITOR
+            prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+#else
+            prefab = Resources.Load<GameObject>("Prefabs/" + path);
+#endif
             position = PCLParser.ParseVector3(data[1]); 
         }
     }

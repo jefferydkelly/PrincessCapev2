@@ -48,7 +48,7 @@ public class CutsceneRotation : CutsceneElement
         angle = PCLParser.ParseFloat(data[1]);
         time = PCLParser.ParseFloat(data[2]);
     }
-
+# if UNITY_EDITOR
     public override void RenderEditor()
     {
         mover = EditorGUILayout.TextField("Character", mover);
@@ -59,6 +59,7 @@ public class CutsceneRotation : CutsceneElement
             time = t;
         }
     }
+#endif
 
     public override Timer Run()
     {

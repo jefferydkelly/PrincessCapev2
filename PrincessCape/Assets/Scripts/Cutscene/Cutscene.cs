@@ -142,40 +142,19 @@ public class Cutscene:Manager
         }
 	}
 
-#if UNITY_EDITOR
-    /// <summary>
-    /// Gets the steps.
-    /// </summary>
-    /// <value>The steps.</value>
-    public List<CutsceneStep> Steps {
-        get {
-            return steps;
-        }
-    }
-
-    /// <summary>
-    /// Sets the information about the cutscene such as name of the cutscene, scene it takes place it, characters in it and steps in it.
-    /// </summary>
-    /// <value>The info.</value>
-    public CutsceneFile Info {
-        set {
-            cutsceneName = value.cutsceneName;
-            Level = value.sceneName;
-            Characters = value.characters;
-            steps = value.steps;
-        }
-    }
-
     /// <summary>
     /// Gets the name of the cutscene.
     /// </summary>
     /// <value>The name.</value>
-    public string Name {
-        get {
+    public string Name
+    {
+        get
+        {
             return cutsceneName;
         }
 
-        private set {
+        private set
+        {
             cutsceneName = value;
         }
     }
@@ -184,9 +163,11 @@ public class Cutscene:Manager
     /// Gets the level in which the scene takes place.
     /// </summary>
     /// <value>The level in which the scene takes place.</value>
-    public string Level {
+    public string Level
+    {
 
-        get {
+        get
+        {
             return sceneNames[level];
         }
 
@@ -198,13 +179,43 @@ public class Cutscene:Manager
                 if (sceneNames[i] == value)
                 {
                     level = i;
+#if UNITY_EDITOR
                     map.Load(sceneNames[level].JoinCamelCase() + ".json");
+#endif
                     return;
                 }
             }
             level = 0;
         }
     }
+
+    /// <summary>
+    /// Gets the steps.
+    /// </summary>
+    /// <value>The steps.</value>
+    public List<CutsceneStep> Steps
+    {
+        get
+        {
+            return steps;
+        }
+    }
+
+    /// <summary>
+    /// Sets the information about the cutscene such as name of the cutscene, scene it takes place it, characters in it and steps in it.
+    /// </summary>
+    /// <value>The info.</value>
+    public CutsceneFile Info
+    {
+        set
+        {
+            cutsceneName = value.cutsceneName;
+            Level = value.sceneName;
+            Characters = value.characters;
+            steps = value.steps;
+        }
+    }
+
 
     /// <summary>
     /// Gets or sets the characters in the cutscene.
@@ -256,6 +267,9 @@ public class Cutscene:Manager
 
         return null;
     }
+
+#if UNITY_EDITOR
+
 
     /// <summary>
     /// Creates and handles the GUI for the Cutscene Info

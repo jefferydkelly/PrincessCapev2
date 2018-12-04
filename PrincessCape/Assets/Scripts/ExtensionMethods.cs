@@ -68,7 +68,7 @@ public static class ExtensionMethods {
     /// <typeparam name="T">The 1st type parameter.</typeparam>
 	public static T RandomElement<T>(this List<T> list)
 	{
-		return list[Random.Range(0, list.Count - 1)];
+		return list[Random.Range(0, list.Count)];
 	}
 
     public static void Copy<T,K>(this Dictionary<T,K> original, Dictionary<T,K> copy) {
@@ -76,6 +76,16 @@ public static class ExtensionMethods {
         foreach(KeyValuePair<T,K> tk in original) {
             copy.Add(tk.Key, tk.Value);
         }
+    }
+
+    public static int IndexOf<T>(this T[] arr, T element) {
+        for (int i = 0; i < arr.Length; i++) {
+            if (arr[i].Equals(element)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     /// <summary>

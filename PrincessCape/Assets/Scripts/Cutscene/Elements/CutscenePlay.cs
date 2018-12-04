@@ -42,14 +42,15 @@ public class CutscenePlay : CutsceneElement
     public override void CreateFromText(string[] data)
     {
         clipName = data[1];
-        selectedFX = ArrayUtility.IndexOf(soundEffects, clipName);
-
+        selectedFX = soundEffects.IndexOf(PCLParser.ParseLine(clipName));
+        //selectedFX = ArrayUtility.IndexOf(soundEffects, clipName);
     }
 
     public override void CreateFromJSON(string[] data)
     {
         clipName = data[0];
-        selectedFX = ArrayUtility.IndexOf(soundEffects, PCLParser.ParseLine(clipName));
+        selectedFX = soundEffects.IndexOf(PCLParser.ParseLine(clipName));
+        //selectedFX = ArrayUtility.IndexOf(soundEffects, PCLParser.ParseLine(clipName));
     }
 
 #if UNITY_EDITOR

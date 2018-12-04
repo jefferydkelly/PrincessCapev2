@@ -36,12 +36,12 @@ public class SceneChange : CutsceneElement
     {
 
     }
-
+#if UNITY_EDITOR
     public override void RenderEditor()
     {
    
     }
-
+#endif
     public override Timer Run()
     {
         Game.Instance.LoadScene(newScene);

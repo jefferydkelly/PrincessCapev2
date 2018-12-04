@@ -55,7 +55,7 @@ public class CutsceneScale : CutsceneElement
         time = PCLParser.ParseFloat(data[3]);
     }
 
-#if UNITY_2018
+#if UNITY_EDITOR
     public override void RenderEditor()
     {
         name = EditorGUILayout.TextArea("Name", name);
