@@ -54,7 +54,8 @@ public class CutsceneActivate : CutsceneElement
 
     public override void CreateFromText(string[] data)
     {
-        GameObject gameObject = GameObject.Find(data[1]);
+        objectName = data[1];
+        GameObject gameObject = GameObject.Find(objectName);
         if (!gameObject)
         {
             gameObject = FindTile(data[1]);

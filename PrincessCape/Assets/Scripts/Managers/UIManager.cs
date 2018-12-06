@@ -52,14 +52,16 @@ public class UIManager : MonoBehaviour
             SetMinorText("Press Any Key To Continue");
         });
 
-
         mainText.gameObject.SetActive(true);
 		OnLineEnd.AddListener(showTimer.Start);
         mainText.gameObject.SetActive(false);
         minorText.gameObject.SetActive(false);
         speakerText.gameObject.SetActive(false);
-       
-        Controller.Instance.AnyKey.AddListener(HideText);
+
+        if (!Game.isClosing)
+        {
+            Controller.Instance.AnyKey.AddListener(HideText);
+        }
 
         interaction.Text = "";
         minorText.gameObject.SetActive(false);
@@ -77,7 +79,7 @@ public class UIManager : MonoBehaviour
             });
 
             //inventory.gameObject.SetActive(Game.Instance.IsPlaying);
-            gameUI.SetActive(Game.Instance.IsPlaying);
+            gameUI.SetActive(true);
 
             Map.Instance.OnLevelLoaded.AddListener(loadFadeoutTimer.Start);
             UpdateKeys();
@@ -89,6 +91,10 @@ public class UIManager : MonoBehaviour
             gameUI.SetActive(false);
         }
 
+        Cutscene.Instance.OnStart.AddListener(() =>
+        {
+            gameUI.SetActive(false);
+        });
         Cutscene.Instance.OnEnd.AddListener(Clear);
 
     }
@@ -382,6 +388,7 @@ public class UIManager : MonoBehaviour
         mainText.gameObject.SetActive(false);
         minorText.gameObject.SetActive(false);
         speakerText.gameObject.SetActive(false);
+        gameUI.SetActive(true);
     }
 }
 

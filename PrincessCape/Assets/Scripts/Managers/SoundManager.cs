@@ -41,7 +41,6 @@ public class SoundManager : MonoBehaviour {
             PlaySound(clip);
             return clip.length;
         }
-
         return 0.0f;
     }
 

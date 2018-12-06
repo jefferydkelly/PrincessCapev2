@@ -14,17 +14,20 @@ public class InteractionBox : MonoBehaviour
     {
         textbox = GetComponentInChildren<Text>();
         textbox.text = "";
-
-		Game.Instance.OnReady.AddListener(() => {
-			IsHidden = Game.Instance.Map.Items == ItemLevel.None;
-            textbox.text = "";
-
-			Map.Instance.OnLevelLoaded.AddListener(() =>
+        if (Game.IsBeingPlayed)
+        {
+            Game.Instance.OnReady.AddListener(() =>
             {
                 IsHidden = Game.Instance.Map.Items == ItemLevel.None;
                 textbox.text = "";
+
+                Map.Instance.OnLevelLoaded.AddListener(() =>
+                {
+                    IsHidden = Game.Instance.Map.Items == ItemLevel.None;
+                    textbox.text = "";
+                });
             });
-		});
+        }
 
         /*
         EventManager.StartListening("LevelLoaded", () =>

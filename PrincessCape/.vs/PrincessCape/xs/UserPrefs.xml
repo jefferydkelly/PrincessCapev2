@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ExtensionMethods.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/UIManager.cs">
     <Files>
       <File FileName="Assets/Editor/MapEditor.cs" Line="177" Column="35" />
       <File FileName="Assets/Scripts/Tiles/SegmentedTile.cs" Line="288" Column="20" />
@@ -9,13 +9,28 @@
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="111" Column="27" />
       <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="231" Column="41" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneRotation.cs" Line="62" Column="7" />
-      <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="79" Column="32" />
+      <File FileName="Assets/Scripts/Cutscene/CutsceneElement.cs" Line="22" Column="7" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneScale.cs" Line="58" Column="17" />
       <File FileName="Assets/Scripts/Cutscene/Elements/SceneChange.cs" Line="44" Column="7" />
-      <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="305" Column="6" />
+      <File FileName="Assets/Scripts/Cutscene/Cutscene.cs" Line="147" Column="10" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneCreation.cs" Line="121" Column="62" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePlay.cs" Line="45" Column="1" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePlay.cs" Line="68" Column="1" />
       <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="81" Column="5" />
+      <File FileName="Assets/Scripts/Player.cs" Line="49" Column="1" />
+      <File FileName="Assets/Scripts/UI/ItemBox.cs" Line="108" Column="24" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="85" Column="26" />
+      <File FileName="Assets/Scripts/Managers/SoundManager.cs" Line="39" Column="50" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneShow.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/Controller.cs" Line="43" Column="38" />
+      <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="18" Column="34" />
+      <File FileName="Assets/Scripts/UI/InteractionBox.cs" Line="30" Column="10" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneWait.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEnable.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneActivate.cs" Line="58" Column="59" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAdd.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAlign.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAnimation.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneDialog.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -17,7 +17,9 @@ public abstract class CutsceneElement
 
     protected bool autoAdvance = false;
     protected Timer runTimer;
+#if UNITY_EDITOR
     bool show = true;
+#endif
 
     /// <summary>
     /// Gets a value indicating whether this <see cref="T:CutsceneElement"/> advances automatically.

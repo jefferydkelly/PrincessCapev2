@@ -6,6 +6,7 @@ public class CutsceneTrigger : MapTile{
     [SerializeField]
     TextAsset cutscene;
     SpriteRenderer myRenderer;
+    bool beenActivated = false;
 
     /// <summary>
     /// Starts a Cutscene when the player collides with the trigger
@@ -13,8 +14,8 @@ public class CutsceneTrigger : MapTile{
     /// <param name="collision">Collision.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && cutscene && Game.Instance.IsPlaying && Map.Instance.IsLoaded && !Game.Instance.IsInLevelEditor) {
-            
+        if (collision.CompareTag("Player") && cutscene && Game.Instance.IsPlaying && Map.Instance.IsLoaded && !Game.Instance.IsInLevelEditor && !beenActivated) {
+            beenActivated = true;
             Cutscene.Instance.LoadTextFile(cutscene, true);
         }
     }

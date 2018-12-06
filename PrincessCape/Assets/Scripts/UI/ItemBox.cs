@@ -12,13 +12,15 @@ public class ItemBox : MonoBehaviour {
     MagicItemSlot slot;
 	// Use this for initialization
 	void Awake () {
+        Init();
+	}
+
+    public void Init() {
         background = GetComponent<Image>();
         itemImage = GetComponentsInChildren<Image>()[1];
 
         keyBox = transform.parent.GetComponentInChildren<Text>();
-		//keyBox.text = Controller.Instance.GetKey(isFirstItem ? "ItemOne" : "ItemTwo");
-
-	}
+    }
 
     public MagicItem Item {
         get {
@@ -102,6 +104,9 @@ public class ItemBox : MonoBehaviour {
         }
 
         set {
+            if (keyBox == null) {
+                Init();
+            }
             keyBox.text = value;
         }
     }
