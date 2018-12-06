@@ -17,14 +17,14 @@ public class MessageBox : MonoBehaviour {
 	UnityEvent onMessageStart;
 	UnityEvent onMessageEnd;
 	UnityEvent onLineEnd;
-    private void Awake()
-    {
-		gameObject.SetActive(false);
+
+    public void Init() {
+        gameObject.SetActive(false);
         textbox = GetComponentInChildren<Text>();
-		revealTimer = new Timer(0);
-		onLineEnd = new UnityEvent();
-		onMessageEnd = new UnityEvent();
-		onMessageStart = new UnityEvent();
+        revealTimer = new Timer(0);
+        onLineEnd = new UnityEvent();
+        onMessageEnd = new UnityEvent();
+        onMessageStart = new UnityEvent();
     }
 
     public string Text {

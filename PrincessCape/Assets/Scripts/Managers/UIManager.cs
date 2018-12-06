@@ -51,9 +51,10 @@ public class UIManager : MonoBehaviour
             minorText.gameObject.SetActive(true);
             SetMinorText("Press Any Key To Continue");
         });
-
+        mainText.Init();
         mainText.gameObject.SetActive(true);
-		OnLineEnd.AddListener(showTimer.Start);
+        OnLineEnd.AddListener(showTimer.Start);
+
         mainText.gameObject.SetActive(false);
         minorText.gameObject.SetActive(false);
         speakerText.gameObject.SetActive(false);
@@ -97,6 +98,7 @@ public class UIManager : MonoBehaviour
         });
         Cutscene.Instance.OnEnd.AddListener(Clear);
 
+        JConsole.Instance.Toggle();
     }
 
     /// <summary>
@@ -109,6 +111,7 @@ public class UIManager : MonoBehaviour
 
     private void OnDestroy()
     {
+       
         OnLineEnd.RemoveAllListeners();
         OnMessageStart.RemoveAllListeners();
         OnMessageEnd.RemoveAllListeners();

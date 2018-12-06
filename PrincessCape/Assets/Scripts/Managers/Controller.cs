@@ -28,6 +28,7 @@ public class Controller : Manager
         keys.Add("Interact", KeyCode.F);
         keys.Add("Pause", KeyCode.P);
         keys.Add("Inventory", KeyCode.I);
+        keys.Add("Log", KeyCode.BackQuote);
         anyKey = new UnityEvent();
         onPause = new UnityEvent();
     }
@@ -44,13 +45,14 @@ public class Controller : Manager
     {
         get
         {
-            if (!Game.isClosing)
+            if (!Game.isClosing && Game.Instance)
             {
                 if (instance == null)
                 {
                     instance = new Controller();
                     //UIManager.Instance.UpdateKeys();
                     Game.Instance.AddManager(instance);
+
                 }
                 return instance;
             }
@@ -303,6 +305,9 @@ public class Controller : Manager
             }
         }
 
+        if (IsKeyDown("Log")) {
+            JConsole.Instance.Toggle();
+        }
 
     }
 
@@ -424,4 +429,9 @@ public class Controller : Manager
             return (MousePosition - Game.Instance.Player.transform.position).normalized;
         }
     }
+}
+
+public class KeyEvent : UnityEvent<KeyCode>
+{
+
 }

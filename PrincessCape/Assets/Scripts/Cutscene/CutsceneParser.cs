@@ -37,7 +37,7 @@ public class CutsceneParser
         file.characters = new string[characters.Length - 1];
         for (int i = 1; i < characters.Length; i++) {
             file.characters[i - 1] = characters[i];
-            Cutscene.Instance.AddActor(characters[i]);
+            //Cutscene.Instance.AddActor(characters[i]);
         }
 
 

@@ -131,20 +131,19 @@ public class Cutscene:Manager
     /// <param name="autoStart">If set to <c>true</c> the cutscene start immediately.</param>
 	public void LoadTextFile(TextAsset text, bool autoStart = false)
 	{
-        //EndCutscene();
-
         CutsceneFile file = CutsceneParser.ParseTextFile(text);
-
+       
+        //EndCutscene();
 
         Name = file.cutsceneName;
         Level = file.sceneName;
         Characters = file.characters;
         steps = file.steps;
-
         if (autoStart)
         {
             StartCutscene();
         }
+
 	}
 
     /// <summary>
@@ -230,9 +229,11 @@ public class Cutscene:Manager
     {
         private set
         {
-            foreach (string name in value)
-            {
+            for (int i = 0; i < value.Length; i++) {
+                string name = value[i];
+
                 CharacterInScene character = GetCharacter(name);
+
                 if (character != null)
                 {
                     character.isInScene = true;
@@ -568,8 +569,8 @@ public class Cutscene:Manager
         if (!HasCharacter(name))
         {
             GameObject baseActor = Resources.Load<GameObject>("Characters/" + name);
-
             CutsceneActor actor = GameObject.Instantiate(baseActor).GetComponent<CutsceneActor>();
+            actor.Init();
             actor.transform.SetParent(gameObject.transform);
             actor.name = actor.name.Remove(actor.name.IndexOf('('));
             actor.IsHidden = true;

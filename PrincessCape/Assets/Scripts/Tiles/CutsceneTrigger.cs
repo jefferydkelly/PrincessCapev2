@@ -16,6 +16,7 @@ public class CutsceneTrigger : MapTile{
     {
         if (collision.CompareTag("Player") && cutscene && Game.Instance.IsPlaying && Map.Instance.IsLoaded && !Game.Instance.IsInLevelEditor && !beenActivated) {
             beenActivated = true;
+            JConsole.Instance.Log("It's cutscene time");
             Cutscene.Instance.LoadTextFile(cutscene, true);
         }
     }
