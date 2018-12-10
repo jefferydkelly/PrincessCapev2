@@ -193,6 +193,7 @@ public class UIManager : MonoBehaviour
             speakerText.Show();
 			speakerText.Speaker = speaker;
 		}
+
 		return mainText.StartReveal();
 	}
 
@@ -324,7 +325,7 @@ public class UIManager : MonoBehaviour
     /// <value><c>true</c> if is revealing message; otherwise, <c>false</c>.</value>
 	public bool IsRevealingMessage {
 		get {
-			return mainText.IsRevealing;
+            return mainText.IsRevealing;
 		}
 	}
 

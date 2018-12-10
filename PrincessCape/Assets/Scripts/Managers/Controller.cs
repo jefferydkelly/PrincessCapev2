@@ -234,7 +234,7 @@ public class Controller : Manager
         {
             onPause.Invoke();
         }
-        else if (!(Game.Instance.IsPaused || Game.Instance.IsInInventory || Game.Instance.IsInCutscene || UIManager.Instance.IsRevealingMessage))
+        else if (!(Game.Instance.IsPaused || Game.Instance.IsInInventory || Game.Instance.IsInCutscene || Game.Instance.IsShowingMessage))
         {
             if (IsKeyDown("ItemOne"))
             {

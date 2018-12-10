@@ -177,19 +177,28 @@ public class CutsceneMovement : CutsceneElement
 
     public override void Skip()
     {
-        Vector3 startPosition = gameObject.transform.position;
 
-        if (moveType == MoveType.Y)
+        if (gameObject == null)
         {
-            moveTo = moveTo.SetX(startPosition.x);
+            gameObject = Cutscene.Instance.FindGameObject(name);
         }
 
-        if (moveType == MoveType.X)
+        if (gameObject)
         {
-            moveTo = moveTo.SetY(startPosition.y);
-        }
+            Vector3 startPosition = gameObject.transform.position;
 
-        gameObject.transform.position = moveTo.SetZ(startPosition.z);
+            if (moveType == MoveType.Y)
+            {
+                moveTo = moveTo.SetX(startPosition.x);
+            }
+
+            if (moveType == MoveType.X)
+            {
+                moveTo = moveTo.SetY(startPosition.y);
+            }
+
+            gameObject.transform.position = moveTo.SetZ(startPosition.z);
+        }
     }
 }
 

@@ -710,23 +710,31 @@ public class Player : MonoBehaviour
     /// </summary>
     /// <param name="mi">Mi.</param>
     public void AddItem(MagicItem mi, bool showMessage = false) {
-        inventory.Add(mi);
-
-        if (Inventory.Count == 1) {
-            UIManager.Instance.ItemOne.Item = mi;
-        } else if (Inventory.Count == 2) {
-            if (inventory[0].Slot == MagicItemSlot.First) {
-                UIManager.Instance.ItemTwo.Item = mi;
-            } else {
-                UIManager.Instance.ItemOne.Item = mi;
-            }
-        }
+        
         items = (ItemLevel)System.Enum.Parse(typeof(ItemLevel), mi.ItemName.Replace(" ", string.Empty));
         if (showMessage)
         {
 			UIManager.Instance.ShowMessage(mi.ItemGetMessage);
 
             state = PlayerState.ReadingMessage;
+        }
+
+        inventory.Add(mi);
+
+        if (Inventory.Count == 1)
+        {
+            UIManager.Instance.ItemOne.Item = mi;
+        }
+        else if (Inventory.Count == 2)
+        {
+            if (inventory[0].Slot == MagicItemSlot.First)
+            {
+                UIManager.Instance.ItemTwo.Item = mi;
+            }
+            else
+            {
+                UIManager.Instance.ItemOne.Item = mi;
+            }
         }
     }
 

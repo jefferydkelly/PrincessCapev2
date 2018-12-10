@@ -380,24 +380,23 @@ public class Cutscene:Manager
 
     public void Update(float dt)
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && currentIndex < steps.Count) {
+            SkipCutscene();
+        }
     }
 
-    /*
+
 	/// <summary>
 	/// Skips the cutscene.
 	/// </summary>
 	public void SkipCutscene()
 	{
-		while (currentNode != null)
-		{
-			if (!currentNode.CanSkip)
-			{
-				currentNode.Run();
-			}
-			currentNode = currentNode.nextElement;
-		}
+        for (int i = currentIndex; i < steps.Count; i++) {
+            steps[i].Skip();
+        }
+        currentIndex = steps.Count;
 		EndCutscene();
-	}*/
+	}
 
     /// <summary>
     /// Gets a value indicating whether this instance is being skipped.

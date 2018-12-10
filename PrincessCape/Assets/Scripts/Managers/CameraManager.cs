@@ -11,6 +11,7 @@ public class CameraManager : Manager
     Vector3 targetPos;
     Vector3 offset = Vector3.up * 2;
     Timer panTimer;
+    float panSpeed = 2.0f;
 
     float minZoom = 2.5f;
     float maxZoom = 10f;
@@ -46,10 +47,29 @@ public class CameraManager : Manager
     /// Pans to player.
     /// </summary>
     void PanToPlayer() {
-        if (!Game.Instance.Player.IsDead)
+        if (!Game.Instance.Player.IsDead && state != CameraState.Panning)
         {
+            JConsole.Instance.Log("Panning to player");
             Vector3 panPos = Game.Instance.Player.transform.position.SetZ(Position.z) + offset;
-			PanTo(panPos, 0.25f).Start();
+            //PanTo(panPos, 0.125f).Start();
+            Timer playerPanTimer = new Timer(1.0f / 60.0f, true);
+            state = CameraState.Panning;
+            playerPanTimer.OnTick.AddListener(() =>
+            {
+                Player player = Game.Instance.Player;
+                Vector3 difference = (player.transform.position - Position).SetZ(0);
+
+                if (player.IsDead || state != CameraState.Panning) {
+                    playerPanTimer.Stop();
+                } else if (difference.sqrMagnitude < offset.sqrMagnitude) {
+                    Position = player.transform.position.SetZ(Position.z) + offset;
+                    state = CameraState.Following;
+                    playerPanTimer.Stop();
+                } else {
+                    Position += difference.normalized * panSpeed / 60.0f;
+                }
+            });
+            playerPanTimer.Start();
         }
     }
 
@@ -85,10 +105,19 @@ public class CameraManager : Manager
             {
                 if (!Game.Instance.Player.IsOnScreen) {
 					Position = Game.Instance.Player.transform.position.SetZ(Position.z);
+                    JConsole.Instance.Log("Offscreen");
                 } else {
                     if (Game.Instance.Player.IsOnLadder || (Game.Instance.Player.IsFloating) || (Game.Instance.Player.IsUsingMagneticGloves && Mathf.Abs(Game.Instance.Player.Velocity.y) > 0))
                     {
                         Position = Game.Instance.Player.transform.position.SetZ(Position.z);
+                        if (Game.Instance.Player.IsOnLadder)
+                        {
+                            JConsole.Instance.Log("On Ladder");
+                        } else if (Game.Instance.Player.IsFloating) {
+                            JConsole.Instance.Log("Floating");
+                        } else if (Game.Instance.Player.IsUsingMagneticGloves) {
+                            JConsole.Instance.Log("Gloves");
+                        }
                     } else
                     {
                         Position = Position.SetX(target.transform.position.x);

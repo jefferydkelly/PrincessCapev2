@@ -83,21 +83,6 @@ public class Game : MonoBehaviour {
                 map = FindObjectOfType<Map>();
 				map.OnLevelLoaded.AddListener(() =>
 				{
-
-					UIManager.Instance.OnMessageStart.AddListener(() => {
-                        if (!IsInCutscene)
-                        {
-                            State = GameState.Message;
-                        }
-                    });
-
-
-                    UIManager.Instance.OnMessageEnd.AddListener(() => {
-                        if (!IsInCutscene)
-                        {
-                            State = GameState.Playing;
-                        }
-                    });
                     State = GameState.Playing;
 					AddItems();
 				});
@@ -357,7 +342,32 @@ public class Game : MonoBehaviour {
 				    //gameState = GameState.Playing;
 					AddItems();
 				});*/
-				
+                JConsole.Instance.Log("Adding listeners");
+                UIManager.Instance.OnMessageStart.AddListener(() => {
+                    if (!IsInCutscene)
+                    {
+                        JConsole.Instance.Log("Start");
+                        State = GameState.Message;
+                    }
+                });
+
+
+                UIManager.Instance.OnMessageEnd.AddListener(() => {
+                    if (!IsInCutscene)
+                    {
+                        JConsole.Instance.Log("Done");
+                        Timer clearTimer = new Timer(0.25f);
+                        clearTimer.OnComplete.AddListener(() =>
+                        {
+                            if (!UIManager.Instance.IsRevealingMessage)
+                            {
+                                State = GameState.Playing;
+                            }
+                        });
+                        clearTimer.Start();
+
+                    }
+                });
                 lastScene = SceneManager.GetActiveScene().name;
                 LoadScene(levelToLoad);
                 return;
@@ -426,6 +436,12 @@ public class Game : MonoBehaviour {
     public bool IsInCutscene {
         get {
             return gameState == GameState.Cutscene;
+        }
+    }
+
+    public bool IsShowingMessage {
+        get {
+            return gameState == GameState.Message;
         }
     }
 
