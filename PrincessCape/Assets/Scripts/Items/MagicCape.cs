@@ -46,10 +46,13 @@ public class MagicCape : MagicItem
     /// Deactivates the cape resetting the players gravity scale.
     /// </summary>
     public override void Deactivate() {
+        JConsole.Instance.Log("Try to deactivate");
         if (Game.Instance.IsPlaying)
         {
+            JConsole.Instance.Log("Game is playing");
             if (state == MagicItemState.Activated)
             {
+                JConsole.Instance.Log("Doing it");
                 Game.Instance.Player.Rigidbody.gravityScale = 1.0f;
 
                 cooldownTimer.Start();
@@ -65,7 +68,7 @@ public class MagicCape : MagicItem
     void OnPlayerLanded() {
         if (state == MagicItemState.Activated)
         {
-            
+            JConsole.Instance.Log("Landed");
             Deactivate();
         }
     }

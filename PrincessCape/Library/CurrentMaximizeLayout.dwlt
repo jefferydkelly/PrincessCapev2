@@ -23,7 +23,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 342}
   m_MaxSize: {x: 12008, y: 8042}
   vertical: 0
-  controlID: 5893
+  controlID: 1365
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -44,8 +44,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 276
-    y: 98
+    x: 277
+    y: 95
     width: 917
     height: 524
   m_PersistentViewDataDictionary: {fileID: 0}
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 342}
   m_MaxSize: {x: 8006, y: 8042}
   vertical: 1
-  controlID: 5894
+  controlID: 1366
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 5895
+  controlID: 1367
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -196,8 +196,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: -1
-    y: 98
+    x: 0
+    y: 95
     width: 273
     height: 524
   m_PersistentViewDataDictionary: {fileID: 0}
@@ -205,7 +205,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 1e83ffff70a1ffff74a3ffffa6adffffe4fbffff000000006cac0000
+    m_ExpandedIDs: 70f9ffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -380,8 +380,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: -1
-    y: 643
+    x: 0
+    y: 640
     width: 1194
     height: 322
   m_PersistentViewDataDictionary: {fileID: 0}
@@ -397,20 +397,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Scripts/Managers
   m_ViewMode: 1
   m_StartGridSize: 67
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Scripts/Managers
   m_LastFoldersGridSize: 67
   m_LastProjectPath: /Users/jefferykelly/PrincessCapev2/PrincessCape
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 255.94318}
-    m_SelectedIDs: 9e0f0000
-    m_LastClickedID: 3998
-    m_ExpandedIDs: 000000001c0a00007e0c0000740d0000be0d0000f20d00007a0e0000720f00006a32000000ca9a3b
+    scrollPos: {x: 0, y: 307}
+    m_SelectedIDs: 0c2e0000
+    m_LastClickedID: 11788
+    m_ExpandedIDs: 00000000762b0000d82d0000ce2e0000182f00004c2f0000d42f0000cc3000002e33000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -438,7 +438,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000001c0a00007e0c0000740d0000be0d0000f20d00007a0e0000720f00006a32000000ca9a3b
+    m_ExpandedIDs: 00000000762b0000d82d0000ce2e0000182f00004c2f0000d42f0000cc3000002e33000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -513,8 +513,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: -1
-    y: 643
+    x: 0
+    y: 640
     width: 1194
     height: 322
   m_PersistentViewDataDictionary: {fileID: 0}
@@ -563,8 +563,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1197
-    y: 98
+    x: 1198
+    y: 95
     width: 482
     height: 867
   m_PersistentViewDataDictionary: {fileID: 0}

@@ -58,11 +58,13 @@ public class CameraManager : Manager
             {
                 Player player = Game.Instance.Player;
                 Vector3 difference = (player.transform.position - Position).SetZ(0);
-
                 if (player.IsDead || state != CameraState.Panning) {
+                    JConsole.Instance.Log("Stop");
                     playerPanTimer.Stop();
-                } else if (difference.sqrMagnitude < offset.sqrMagnitude) {
-                    Position = player.transform.position.SetZ(Position.z) + offset;
+                } else if (difference.sqrMagnitude <= offset.sqrMagnitude) {
+                    
+                    JConsole.Instance.Log("Done");
+                    CenterOnPlayer();
                     state = CameraState.Following;
                     playerPanTimer.Stop();
                 } else {
@@ -105,19 +107,10 @@ public class CameraManager : Manager
             {
                 if (!Game.Instance.Player.IsOnScreen) {
 					Position = Game.Instance.Player.transform.position.SetZ(Position.z);
-                    JConsole.Instance.Log("Offscreen");
                 } else {
                     if (Game.Instance.Player.IsOnLadder || (Game.Instance.Player.IsFloating) || (Game.Instance.Player.IsUsingMagneticGloves && Mathf.Abs(Game.Instance.Player.Velocity.y) > 0))
                     {
                         Position = Game.Instance.Player.transform.position.SetZ(Position.z);
-                        if (Game.Instance.Player.IsOnLadder)
-                        {
-                            JConsole.Instance.Log("On Ladder");
-                        } else if (Game.Instance.Player.IsFloating) {
-                            JConsole.Instance.Log("Floating");
-                        } else if (Game.Instance.Player.IsUsingMagneticGloves) {
-                            JConsole.Instance.Log("Gloves");
-                        }
                     } else
                     {
                         Position = Position.SetX(target.transform.position.x);

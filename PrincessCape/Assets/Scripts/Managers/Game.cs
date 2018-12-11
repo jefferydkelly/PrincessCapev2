@@ -342,11 +342,9 @@ public class Game : MonoBehaviour {
 				    //gameState = GameState.Playing;
 					AddItems();
 				});*/
-                JConsole.Instance.Log("Adding listeners");
                 UIManager.Instance.OnMessageStart.AddListener(() => {
                     if (!IsInCutscene)
                     {
-                        JConsole.Instance.Log("Start");
                         State = GameState.Message;
                     }
                 });
@@ -355,7 +353,6 @@ public class Game : MonoBehaviour {
                 UIManager.Instance.OnMessageEnd.AddListener(() => {
                     if (!IsInCutscene)
                     {
-                        JConsole.Instance.Log("Done");
                         Timer clearTimer = new Timer(0.25f);
                         clearTimer.OnComplete.AddListener(() =>
                         {

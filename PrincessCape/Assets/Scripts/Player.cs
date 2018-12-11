@@ -564,11 +564,10 @@ public class Player : MonoBehaviour
 
         set {
             if (value && (!IsDead || IsFrozen)) {
-                //state = PlayerState.Floating;
                 itemState = ItemLevel.MagicCape;
-            } else if (!value && IsFloating) {
-                //state = PlayerState.Normal;
+            } else if (!value && itemState == ItemLevel.MagicCape) {
                 itemState = ItemLevel.None;
+
             }
         }
     }
