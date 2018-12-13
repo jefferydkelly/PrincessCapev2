@@ -57,13 +57,11 @@ public class CameraManager : Manager
             playerPanTimer.OnTick.AddListener(() =>
             {
                 Player player = Game.Instance.Player;
-                Vector3 difference = (player.transform.position - Position).SetZ(0);
+                Vector3 difference = (player.transform.position + offset - Position).SetZ(0);
                 if (player.IsDead || state != CameraState.Panning) {
                     JConsole.Instance.Log("Stop");
                     playerPanTimer.Stop();
-                } else if (difference.sqrMagnitude <= offset.sqrMagnitude) {
-                    
-                    JConsole.Instance.Log("Done");
+                } else if (difference.sqrMagnitude <= 0.01f) {
                     CenterOnPlayer();
                     state = CameraState.Following;
                     playerPanTimer.Stop();

@@ -4,7 +4,7 @@
     <Files>
       <File FileName="Assets/Editor/MapEditor.cs" Line="177" Column="35" />
       <File FileName="Assets/Scripts/Tiles/SegmentedTile.cs" Line="288" Column="20" />
-      <File FileName="Assets/Scripts/Managers/CameraManager.cs" Line="119" Column="61" />
+      <File FileName="Assets/Scripts/Managers/CameraManager.cs" Line="64" Column="59" />
       <File FileName="Assets/Scripts/Map/MapTile.cs" Line="185" Column="3" />
       <File FileName="Assets/Scripts/Tiles/Ladder.cs" Line="111" Column="27" />
       <File FileName="Assets/Scripts/Menus/LevelEditor.cs" Line="231" Column="41" />
@@ -16,13 +16,13 @@
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneCreation.cs" Line="121" Column="62" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutscenePlay.cs" Line="68" Column="1" />
       <File FileName="Assets/Scripts/ExtensionMethods.cs" Line="81" Column="5" />
-      <File FileName="Assets/Scripts/Player.cs" Line="713" Column="9" />
+      <File FileName="Assets/Scripts/Player.cs" Line="568" Column="69" />
       <File FileName="Assets/Scripts/UI/ItemBox.cs" Line="108" Column="24" />
       <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="328" Column="40" />
       <File FileName="Assets/Scripts/Managers/SoundManager.cs" Line="39" Column="50" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneShow.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/Controller.cs" Line="238" Column="10" />
-      <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="19" Column="57" />
+      <File FileName="Assets/Scripts/Tiles/CutsceneTrigger.cs" Line="18" Column="34" />
       <File FileName="Assets/Scripts/UI/InteractionBox.cs" Line="30" Column="10" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneWait.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneEnable.cs" Line="79" Column="6" />
@@ -40,9 +40,9 @@
       <File FileName="Assets/Scripts/Items/MagicItem.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Tiles/Corpse.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Interactive Objects/KnightRemains.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Items/MagicCape.cs" Line="36" Column="14" />
+      <File FileName="Assets/Scripts/Items/MagicCape.cs" Line="55" Column="51" />
       <File FileName="Assets/Scripts/Metal.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/Game.cs" Line="360" Column="64" />
+      <File FileName="Assets/Scripts/Managers/Game.cs" Line="358" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
