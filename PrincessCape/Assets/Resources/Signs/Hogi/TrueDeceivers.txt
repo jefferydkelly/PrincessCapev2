@@ -1,3 +1,5 @@
+scene Classic Level Three
+character
 wait 0.25
 Listen up, True Deceivers,\nIt seems some of our stupider members have died in the spike pit.
 That's why I've added a launcher to this room.

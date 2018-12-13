@@ -1,3 +1,5 @@
+scene Classic Level Six
+character
 wait 0.25
 Head Alchemist's Diary - 6/4/961 AB
 I found some minions in my personal lab.

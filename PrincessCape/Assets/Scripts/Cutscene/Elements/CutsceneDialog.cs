@@ -66,6 +66,7 @@ public class CutsceneDialog : CutsceneElement
         }
         else
         {
+            speaker = "";
             dialog = data[0].Trim();
         }
     }

@@ -1,3 +1,5 @@
+scene Classic Level One
+character
 wait 0.25
 Fellow servants of the Great Dragon Slog.\nIt seems some of the new people who don't know how to get back.
 So, I came up with this little rhyme.\nIf it's red, they're dead.  If it's blue, step on it and count to two.

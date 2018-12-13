@@ -1,3 +1,5 @@
+scene Classic Level Six
+character
 wait 0.25
 Head Alchemist's Diary - 4/16/961 AB
 In my studies, I have found a most singular facet of these gloves that to my knowledge, no one else has noted.

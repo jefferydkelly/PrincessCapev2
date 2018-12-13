@@ -1,3 +1,5 @@
+scene Classic Level Six
+character
 wait 0.25
 Head Alchemist's Diary - 7/3/961 AB
 These gloves still confound me.

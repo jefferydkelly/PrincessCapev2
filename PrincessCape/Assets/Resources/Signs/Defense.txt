@@ -1,3 +1,5 @@
+scene Classic Level Six
+character
 wait 0.25
 Head Alchemist's Diary - 4/1/961 AB
 After the untimely death of my master Chimes, it has fallen on me, the Great Laz, to serve as Master Slog's Head Alchemist.

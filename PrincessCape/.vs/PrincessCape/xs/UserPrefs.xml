@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{4F77BAA0-1F82-C65A-4E18-FCFA8D0532C8}|">
   <MonoDevelop.Ide.ItemProperties.PrincessCape PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/CameraManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Signs/Laz/Pulling.txt">
     <Files>
       <File FileName="Assets/Editor/MapEditor.cs" Line="177" Column="35" />
       <File FileName="Assets/Scripts/Tiles/SegmentedTile.cs" Line="288" Column="20" />
@@ -30,8 +30,8 @@
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAdd.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAlign.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneAnimation.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneDialog.cs" Line="44" Column="6" />
-      <File FileName="Assets/Scripts/Cutscene/CutsceneParser.cs" Line="40" Column="15" />
+      <File FileName="Assets/Scripts/Cutscene/Elements/CutsceneDialog.cs" Line="69" Column="26" />
+      <File FileName="Assets/Scripts/Cutscene/CutsceneParser.cs" Line="194" Column="39" />
       <File FileName="Assets/Scripts/UI/JConsole.cs" Line="23" Column="10" />
       <File FileName="Assets/Scripts/UI/MessageBox.cs" Line="208" Column="25" />
       <File FileName="Assets/Scripts/Cutscene/CutsceneActor.cs" Line="93" Column="21" />
@@ -43,6 +43,26 @@
       <File FileName="Assets/Scripts/Items/MagicCape.cs" Line="55" Column="51" />
       <File FileName="Assets/Scripts/Metal.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/Game.cs" Line="358" Column="25" />
+      <File FileName="Assets/Scripts/Interactive Objects/Sign.cs" Line="15" Column="1" />
+      <File FileName="Assets/Resources/Signs/SafetyLady.txt" Line="2" Column="10" />
+      <File FileName="Assets/Resources/Signs/Bending.txt" Line="2" Column="10" />
+      <File FileName="Assets/Resources/Cutscenes/openingCutscene.txt" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Signs/TrueDeceivers.txt" Line="1" Column="26" />
+      <File FileName="Assets/Resources/Signs/Pulling.txt" Line="1" Column="24" />
+      <File FileName="Assets/Resources/Signs/Physics.txt" Line="1" Column="24" />
+      <File FileName="Assets/Resources/Signs/MatthewProofing.txt" Line="2" Column="10" />
+      <File FileName="Assets/Resources/Signs/IWillFindThem.txt" Line="1" Column="24" />
+      <File FileName="Assets/Resources/Signs/Defense.txt" Line="1" Column="24" />
+      <File FileName="Assets/Resources/Signs/DealWithIt.txt" Line="2" Column="11" />
+      <File FileName="Assets/Resources/Signs/Hogi/DealWithIt.txt" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Signs/Hogi/MatthewProofing.txt" Line="2" Column="10" />
+      <File FileName="Assets/Resources/Signs/Hogi/SafetyLady.txt" Line="2" Column="10" />
+      <File FileName="Assets/Resources/Signs/Hogi/TrueDeceivers.txt" Line="1" Column="26" />
+      <File FileName="Assets/Resources/Signs/Laz/Bending.txt" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Signs/Laz/Defense.txt" Line="2" Column="10" />
+      <File FileName="Assets/Resources/Signs/Laz/IWillFindThem.txt" Line="2" Column="10" />
+      <File FileName="Assets/Resources/Signs/Laz/Physics.txt" Line="2" Column="10" />
+      <File FileName="Assets/Resources/Signs/Laz/Pulling.txt" Line="2" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
